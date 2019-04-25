@@ -1,16 +1,6 @@
 #include "Defaults.h"
 
-#if Defaults_h_DEBUG > 0
-	#include "SerialDebug.h"
-	#define DEFAULTS_PRINT(x) SDBG.println(x);
-	#define DEFAULTS_PRINT(x, args...) SDBG.println(x, args);
-	#define DEFAULTS_DEBUG(x, y, args...) SDBG.debugln(x, y, args);	
-#else
-	#define DEFAULTS_PRINT(x)
-	#define DEFAULTS_PRINT(x, args...)
-	#define DEFAULTS_DEBUG(x, y, args...)
-#endif
-	
+SerialDebug Defaults::_debug;
 constexpr int8_t Defaults::STEPPIN_DEFAULTS[];
 constexpr int8_t Defaults::DIRPIN_DEFAULTS[];
 constexpr int16_t Defaults::MAXPOSITION_DEFAULTS[];
@@ -32,7 +22,7 @@ int16_t Defaults::getMaxPosDefault(uint8_t device)
 
 void Defaults::printStepDefault(uint8_t device)
 {
-	DEFAULTS_PRINT(F("Device %d default step pin: %d"), device, getStepDefault(device))
+	_debug.println(F("Device %d default step pin: %d"), device, getStepDefault(device));
 }
 
 void Defaults::printStepDefaults()
@@ -43,7 +33,7 @@ void Defaults::printStepDefaults()
 
 void Defaults::printDirDefault(uint8_t device)
 {
-	DEFAULTS_PRINT(F("Device %d default direction pin: %d"), device, getDirDefault(device))			
+	// _debug.println(F("Device %d default direction pin: %d"), device, getDirDefault(device));
 }
 
 void Defaults::printDirDefaults()
@@ -54,7 +44,7 @@ void Defaults::printDirDefaults()
 
 void Defaults::printMaxPositionDefault(uint8_t device)
 {
-	DEFAULTS_PRINT(F("Device %d default max position: %d"), device, getMaxPosDefault(device))			
+	// _debug.println(F("Device %d default max position: %d"), device, getMaxPosDefault(device));
 }
 
 void Defaults::printMaxPositionDefaults()

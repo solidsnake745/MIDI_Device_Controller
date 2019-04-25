@@ -1,15 +1,6 @@
 #include "MIDI_Periods.h"
 
-#if MIDI_Periods_h_DEBUG > 0
-	#include "SerialDebug.h"
-	#define PERIODS_PRINT(x) SDBG.println(x);
-	#define PERIODS_PRINT(x, args...) SDBG.println(x, args);
-	#define PERIODS_DEBUG(x, y, args...) SDBG.debugln(x, y, args);	
-#else
-	#define PERIODS_PRINT(x)
-	#define PERIODS_PRINT(x, args...)
-	#define PERIODS_DEBUG(x, y, args...)
-#endif
+SerialDebug MIDI_Periods::_debug;
 
 uint16_t MIDI_Periods::getOriginalPeriod(uint16_t index) 
 { 
@@ -21,9 +12,9 @@ uint16_t MIDI_Periods::getOriginalPeriod(uint16_t index)
 void MIDI_Periods::calculatePeriods(uint16_t resolution)
 {
 	if(resolution < MIN_RESOLUTION || resolution > MAX_RESOLUTION)
-	{			
-		PERIODS_DEBUG(1, F("Invalid resolution set: %d"), resolution)
-		PERIODS_DEBUG(2, F("Defaulting to: %d"), DEFAULT_RESOLUTION)
+	{
+		_debug.debugln(1, F("Invalid resolution set: %d"), resolution);
+		_debug.println(F("Defaulting to: %d"), DEFAULT_RESOLUTION);
 		_currentResolution = DEFAULT_RESOLUTION;
 	}
 	else
@@ -52,14 +43,14 @@ uint32_t MIDI_Periods::getResolution()
 	return _currentResolution;
 }
 
-void MIDI_Periods::setResolution(uint32_t resolution = DEFAULT_RESOLUTION) 
+void MIDI_Periods::setResolution(uint32_t resolution) 
 { 
 	calculatePeriods(resolution);
 }
 
 void MIDI_Periods::printOriginalPeriod(uint8_t note)
 {
-	PERIODS_DEBUG(1, F("Original period for %d: %d"), note, getOriginalPeriod(note))
+	_debug.println(F("Original period for %d: %d"), note, getOriginalPeriod(note));
 }	
 
 void MIDI_Periods::printOriginalPeriods()
@@ -70,7 +61,7 @@ void MIDI_Periods::printOriginalPeriods()
 
 void MIDI_Periods::printCalculatedPeriod(uint8_t note)
 {
-	PERIODS_DEBUG(1, F("Calculated period for %d: %d"), note, calculatedPeriods[note])
+	_debug.println(F("Calculated period for %d: %d"), note, calculatedPeriods[note]);
 }
 
 void MIDI_Periods::printCalculatedPeriods()

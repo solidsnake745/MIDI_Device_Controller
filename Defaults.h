@@ -2,15 +2,16 @@
 	#define Defaults_h
 
 	#include <avr/pgmspace.h>
+	#include "SerialDebug.h"
 	#define MAX_DEFAULTS 12
-
-	#define Defaults_h_DEBUG 0	
 
 	class Defaults
 	{	
 		//Constructor(s)
 		Defaults(); //Disallow creating an instance
-			
+		
+		static SerialDebug _debug;
+		
 		public:
 			//Constants:
 			//Default pins to use for each device

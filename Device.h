@@ -4,8 +4,7 @@
 #include "Defaults.h"
 #include "MIDI_Periods.h"
 #include <Arduino.h>
-
-#define Device_h_DEBUG 0
+#include "SerialDebug.h"
 
 //Forward declaration for compiling
 class MIDI_DeviceController;
@@ -14,6 +13,8 @@ class Device
 {	
 	//Give MIDI_DeviceController access to all private members
 	friend class MIDI_DeviceController;
+	
+	static SerialDebug _debug;
 	
 	//Constructors
 	//_______________________________________________________________________________________________________

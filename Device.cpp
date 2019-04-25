@@ -1,16 +1,7 @@
 #include "Device.h"
 #include "MIDI_DeviceController.h" //Need the definition of noteAssigned()
 
-#if Device_h_DEBUG > 0
-	#include "SerialDebug.h"
-	#define DEVICE_PRINT(x) SDBG.println(x);
-	#define DEVICE_PRINT(x, args...) SDBG.println(x, args);
-	#define DEVICE_DEBUG(x, y, args...) SDBG.debugln(x, y, args);	
-#else
-	#define DEVICE_PRINT(x)
-	#define DEVICE_PRINT(x, args...)
-	#define DEVICE_DEBUG(x, y, args...)
-#endif
+SerialDebug Device::_debug;
 
 //Constructors
 //_______________________________________________________________________________________________________
@@ -19,19 +10,19 @@ Device::Device(bool fromDefaults)
 {
 	_id = _nextId++;
 	if(fromDefaults) setupFromDefaults();	
-	DEVICE_DEBUG(8, F("%d - Device created"), _id);
+	_debug.debugln(8, F("%d - Device created"), _id);
 }
 
 Device::Device(int8_t stepPin, int8_t dirPin, int32_t maxPosition)
 {
 	_id = _nextId++;
 	setup(stepPin, dirPin, maxPosition);	
-	DEVICE_DEBUG(8, F("%d - Device created"), _id);
+	_debug.debugln(8, F("%d - Device created"), _id);
 }
 
 Device::~Device()
 {
-	DEVICE_DEBUG(8, F("%d - Device deleted"), _id);	
+	_debug.debugln(8, F("%d - Device deleted"), _id);	
 }
 
 //Configuration
@@ -46,7 +37,7 @@ void Device::setController(MIDI_DeviceController *controller)
 
 void Device::setup(int8_t stepPin, int8_t dirPin, int32_t maxPosition)
 {
-	DEVICE_DEBUG(7, F("%d - Setting up device"), _id);
+	_debug.debugln(7, F("%d - Setting up device"), _id);
 	
 	//Set properties from inputs
 	setStepPin(stepPin);
@@ -58,7 +49,7 @@ void Device::setup(int8_t stepPin, int8_t dirPin, int32_t maxPosition)
 
 void Device::setupFromDefaults()
 {
-	DEVICE_DEBUG(7, F("%d - Setting up device from defaults"), _id);	
+	_debug.debugln(7, F("%d - Setting up device from defaults"), _id);	
 	
 	//Set properties from defaults
 	setStepPin(Defaults::getStepDefault(_id));
@@ -105,18 +96,18 @@ void Device::setDirPin(int8_t pin) { _dirPinMap = pin; }
 
 void Device::printStatus()
 {
-	DEVICE_PRINT(F("Status for device %d"), _id);
-	DEVICE_PRINT(F("  Enabled: %d"), getEnabled());
-	DEVICE_PRINT(F("  Is Enabled: %d"), isEnabled());
-	DEVICE_PRINT(F("  Step Pin: %d"), getStepPin());
-	DEVICE_PRINT(F("  Step State: %d"), getStepState());
-	DEVICE_PRINT(F("  Actual State: %d"), digitalRead(_stepPinMap));
-	DEVICE_PRINT(F("  Dir Pin: %d"), getDirPin());
-	DEVICE_PRINT(F("  Dir State: %d"), getDirState());
-	DEVICE_PRINT(F("  Actual State: %d"), digitalRead(_dirPinMap));
-	DEVICE_PRINT(F("  Current Position: %d"), getPosition());
-	DEVICE_PRINT(F("  Max Position: %d"), getMaxPosition());
-	DEVICE_PRINT(F("  Current Note: %d"), getCurrentNote());
+	_debug.println(F("Status for device %d"), _id);
+	_debug.println(F("  Enabled: %d"), getEnabled());
+	_debug.println(F("  Is Enabled: %d"), isEnabled());
+	_debug.println(F("  Step Pin: %d"), getStepPin());
+	_debug.println(F("  Step State: %d"), getStepState());
+	_debug.println(F("  Actual State: %d"), digitalRead(_stepPinMap));
+	_debug.println(F("  Dir Pin: %d"), getDirPin());
+	_debug.println(F("  Dir State: %d"), getDirState());
+	_debug.println(F("  Actual State: %d"), digitalRead(_dirPinMap));
+	_debug.println(F("  Current Position: %d"), getPosition());
+	_debug.println(F("  Max Position: %d"), getMaxPosition());
+	_debug.println(F("  Current Note: %d"), getCurrentNote());
 }
 
 uint8_t Device::getID() { return _id; }
@@ -157,7 +148,7 @@ void Device::assignPeriod(uint16_t period, uint8_t channel)
 
 void Device::clearNote()
 {
-	DEVICE_DEBUG(7, F("%d - Clearing note"), _id);
+	_debug.debugln(7, F("%d - Clearing note"), _id);
 	_currentNote = 0;
 }
 
@@ -177,7 +168,7 @@ bool Device::isTrackingPosition() { return _maxPosition > 0; }
 
 void Device::resetProperties(bool includePosition)
 {
-	DEVICE_DEBUG(7, F("%d - Resetting properties"), _id);
+	_debug.debugln(7, F("%d - Resetting properties"), _id);
 
 	//Set given device's step pin low
 	//Used for initially setting up a device during setup
@@ -222,19 +213,19 @@ void Device::setDirection(bool direction)
 		//Set the desired state for the given device
 		_dirState = direction;
 		setDirState(_dirState);
-		DEVICE_DEBUG(7, F("%d - New direction: %d"), _id, direction);
+		_debug.debugln(7, F("%d - New direction: %d"), _id, direction);
 
 		//Update it's current position if device is tracking it
 		if(isTrackingPosition())
 		{
-			DEVICE_DEBUG(7, F("%d - Updating position from: %d"), _id, _currentPosition);
+			_debug.debugln(7, F("%d - Updating position from: %d"), _id, _currentPosition);
 			_currentPosition = (_maxPosition - _currentPosition);
-			DEVICE_DEBUG(7, F("%d - New position: %d"), _id, _currentPosition);
+			_debug.debugln(7, F("%d - New position: %d"), _id, _currentPosition);
 		}
 	}
 	else
 	{
-		DEVICE_DEBUG(7, F("%d - Direction is already: %d"), _id, direction);
+		_debug.debugln(7, F("%d - Direction is already: %d"), _id, direction);
 	}
 }
 
@@ -242,14 +233,14 @@ void Device::assignNote(uint8_t note)
 {
 	if(!isEnabled()) 
 	{
-		DEVICE_DEBUG(7, F("%d - Not enabled"), _id);
+		_debug.debugln(7, F("%d - Not enabled"), _id);
 		return;
 	}
 	
 	_currentNote = note;
 	_currentPeriod = getBasePeriod();
 	
-	DEVICE_DEBUG(7, F("%d - Note %d (%d) assigned"), _id, _currentNote, _currentPeriod);
+	_debug.debugln(7, F("%d - Note %d (%d) assigned"), _id, _currentNote, _currentPeriod);
 		
 	if(belongsTo) belongsTo->noteAssigned();
 }
@@ -261,7 +252,7 @@ void Device::assignPeriod(uint16_t period)
 	_currentNote = 255;	
 	_currentPeriod = period;
 	
-	DEVICE_DEBUG(7, F("%d - Period %d assigned"), _id, _currentPeriod);
+	_debug.debugln(7, F("%d - Period %d assigned"), _id, _currentPeriod);
 
 	if(belongsTo) belongsTo->noteAssigned();
 }
@@ -270,16 +261,16 @@ void Device::pitchBend(uint16_t bend)
 { 
 	if (_currentNote > 0 && _currentNote < 255) 
 	{
-		DEVICE_DEBUG(7, F("%d - Bending: %d"), _id, bend);
+		_debug.debugln(7, F("%d - Bending: %d"), _id, bend);
 		
 		int16_t basePeriod = getBasePeriod();
-		DEVICE_DEBUG(7, F("%d - Base: %d"), _id, basePeriod);		
+		_debug.debugln(7, F("%d - Base: %d"), _id, basePeriod);		
 		
 		float pitchFactor = pow(2.0, (bend - 8192.0) / 8192.0);
-		DEVICE_DEBUG(7, F("%d - Factor: %d"), _id, pitchFactor);
+		_debug.debugln(7, F("%d - Factor: %d"), _id, pitchFactor);
 		
 		int16_t newPeriod = basePeriod / pitchFactor;
-		DEVICE_DEBUG(7, F("%d - New Period: %d"), _id, newPeriod);
+		_debug.debugln(7, F("%d - New Period: %d"), _id, newPeriod);
 
 		_currentPeriod = newPeriod;
 	}
@@ -311,7 +302,7 @@ void Device::toggleStep()
 void Device::toggleDirection()
 {
 	//Toggle state for given device's direction pin
-	DEVICE_DEBUG(7, F("%d - Direction toggle"), _id);
+	_debug.debugln(7, F("%d - Direction toggle"), _id);
 	_dirState = !_dirState;
 	setDirState(_dirState);
 }
@@ -354,7 +345,7 @@ void Device::testMaxDirection()
 	//Nothing to test if no valid max position set
 	if(!isTrackingPosition()) 
 	{
-		DEVICE_DEBUG(7, F("%d - Not tracking position"), _id);
+		_debug.debugln(7, F("%d - Not tracking position"), _id);
 		return;
 	}
 

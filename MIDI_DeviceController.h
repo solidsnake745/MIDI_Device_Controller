@@ -3,6 +3,7 @@
 
 #include "Device.h"
 #include <Arduino.h>
+#include "SerialDebug.h"
 #include <TimerOne.h>
 
 //Max limit of devices that can be managed by the controller
@@ -15,25 +16,12 @@
 //Longest any one device can be playing (must be in microseconds)
 #define MAX_DURATION_DEFAULT 10 * 1000000
 
-#define MDC_h_DEBUG 0
-
-#if MDC_h_DEBUG
-	#include "SerialDebug.h"
-	#define MDC_PRINT(x) SDBG.println(x);
-	#define MDC_PRINTARGS(x, args...) SDBG.println(x, args);
-	#define MDC_DEBUG(x, y) SDBG.debugln(x, y);
-	#define MDC_DEBUGARGS(x, y, args...) SDBG.debugln(x, y, args);
-#else
-	#define MDC_PRINT(x)
-	#define MDC_PRINTARGS(x, args...)
-	#define MDC_DEBUG(x, y)
-	#define MDC_DEBUGARGS(x, y, args...)
-#endif
-
 class MIDI_DeviceController
 {
 	// Give Device access to all private members
 	friend class Device;
+	
+	static SerialDebug _debug;
 	
 	//Constructors and instance management
 	//_______________________________________________________________________________________________________
@@ -76,7 +64,7 @@ class MIDI_DeviceController
 		//Operates devices during interrupt process
 		void processNotes();
 		
-		//Static method and instance for interrupt to attach to
+		//Static method for interrupt to attach to
 		static void lawl();
 	
 		void noteAssigned();

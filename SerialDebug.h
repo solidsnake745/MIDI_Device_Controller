@@ -10,10 +10,7 @@
 // Technical reason: original definition needs to be available for compiler to interpert types
 
 class SerialDebug
-{	
-	SerialDebug();
-	static SerialDebug *_instance;
-	
+{
 #ifndef CORE_TEENSY
 	static FILE serial_out;
 	static int writeChar(char c, FILE *f);
@@ -25,7 +22,8 @@ class SerialDebug
 	void readToBuffer(char *buffer, const __FlashStringHelper *string);
 	
 	public:
-		static SerialDebug &getInstance();
+		SerialDebug();
+		SerialDebug(uint8_t level);
 	
 		void setDebugLevel(uint8_t level);
 		uint8_t getDebugLevel();
@@ -117,8 +115,5 @@ class SerialDebug
 		#endif
 		};
 };
-
-//Defines a single global instance of our class for users to consume
-extern SerialDebug SDBG;
 
 #endif

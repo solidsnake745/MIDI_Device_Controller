@@ -2,12 +2,11 @@
 #define MIDI_Periods_h
 
 #include <avr/pgmspace.h>
+#include "SerialDebug.h"
 
 #define MIN_RESOLUTION 1
 #define MAX_RESOLUTION 200
 #define DEFAULT_RESOLUTION 100
-
-#define MIDI_Periods_h_DEBUG 0
 
 class MIDI_Periods
 {
@@ -16,6 +15,8 @@ class MIDI_Periods
 	
 	//Constructor(s)
 	MIDI_Periods(); //Disallow creating an instance
+	
+	static SerialDebug _debug;
 	
 	// Variables:
 	static uint32_t _currentResolution;

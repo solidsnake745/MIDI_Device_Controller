@@ -1,8 +1,5 @@
 #include "SerialDebug.h"
 
-SerialDebug SDBG = SerialDebug::getInstance();
-SerialDebug *SerialDebug::_instance = NULL;
-
 SerialDebug::SerialDebug()
 {
 #ifndef CORE_TEENSY
@@ -10,13 +7,12 @@ SerialDebug::SerialDebug()
 #endif
 }
 
-//TODO: Consider refactoring to allow for multiple instances
-//	Benefit: allows for further configuration per header/library
-SerialDebug &SerialDebug::getInstance()
+SerialDebug::SerialDebug(uint8_t level)
 {
-	//Single instance check, instantiation, and return
-	if (_instance == NULL) _instance = new SerialDebug();
-	return *_instance;
+#ifndef CORE_TEENSY
+	setup();
+#endif
+	_debugLevel = level;
 }
 
 void SerialDebug::setDebugLevel(uint8_t level)

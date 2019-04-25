@@ -1,5 +1,7 @@
 #include "MIDI_DeviceController.h"
 
+SerialDebug MIDI_DeviceController::_debug;
+
 //Constructors and instance management
 //_______________________________________________________________________________________________________
 
@@ -32,7 +34,7 @@ Device *MIDI_DeviceController::_enabledDevices[MAX_DEVICES];
 
 uint8_t MIDI_DeviceController::reloadEnabledDevices()
 {
-	MDC_DEBUG(1, F("Reloading enabled devices"))
+	_debug.debugln(1, F("Reloading enabled devices"));
 	
 	//Clear out current references
 	for(int i = 0;i < MAX_DEVICES;i++) _enabledDevices[i] = NULL;
@@ -44,16 +46,16 @@ uint8_t MIDI_DeviceController::reloadEnabledDevices()
 		if(!_devices[i]) continue;
 		if(_devices[i]->isEnabled())
 		{
-			MDC_DEBUGARGS(2, "Device %d added", _devices[i]->_id)
+			_debug.debugln(2, "Device %d added", _devices[i]->_id);
 			_enabledDevices[x++] = _devices[i];
 		}
 		else
 		{
-			MDC_DEBUGARGS(2, "Device %d not added", _devices[i]->_id)
+			_debug.debugln(2, "Device %d not added", _devices[i]->_id);
 		}
 	}
 	
-	MDC_DEBUGARGS(1, "%d device(s) loaded", x)
+	_debug.debugln(1, "%d device(s) loaded", x);
 	return x;
 }
 
@@ -62,18 +64,18 @@ void MIDI_DeviceController::printStatus()
 	int i = 0;
 	while(i != MAX_DEVICES)
 	{
-		MDC_PRINTARGS(F("Device Slot %d"), i)
+		_debug.println(F("Device Slot %d"), i);
 		if(_devices[i])
 		{
-			MDC_DEBUG(5, F("Populated"))
+			_debug.debugln(5, F("Populated"));
 			_devices[i]->printStatus();
 		}
 		else
 		{
-			MDC_PRINT(F("Empty"))
+			_debug.println(F("Empty"));
 		}
 		
-		MDC_PRINT("")
+		_debug.println("");
 		delay(10);
 		i++;
 	}
@@ -95,7 +97,7 @@ void MIDI_DeviceController::addDevice(Device *d)
 			i++;
 	}
 	
-	MDC_PRINT(F("Max device limit reached"))
+	_debug.println(F("Max device limit reached"));
 	delete d;
 }
 
@@ -109,7 +111,7 @@ Device *MIDI_DeviceController::getDevice(uint8_t id)
 		i++;
 	}
 	
-	MDC_PRINTARGS(F("Device %d not found"), id)
+	_debug.println(F("Device %d not found"), id);
 	return NULL;
 }
 
@@ -127,7 +129,7 @@ void MIDI_DeviceController::removeDevice(uint8_t id)
 		i++;
 	}
 	
-	MDC_PRINTARGS(F("Device %d not found"), id)
+	_debug.println(F("Device %d not found"), id);
 }
 
 //TODO: Verify logic
@@ -191,8 +193,8 @@ void MIDI_DeviceController::calibratePositions()
 
 void MIDI_DeviceController::assignNote(int8_t id, uint8_t note)
 {
-	MDC_DEBUGARGS(8, F("Is processing: %d"), _isProcessing)
-	MDC_DEBUGARGS(8, F("Auto processing: %d"), _autoProcessing)
+	_debug.debugln(8, F("Is processing: %d"), _isProcessing);
+	_debug.debugln(8, F("Auto processing: %d"), _autoProcessing);
 	
 	Device *d = getDevice(id);
 	if(!d) return;
@@ -235,7 +237,7 @@ void MIDI_DeviceController::noteAssigned()
 {
 	if(_autoProcessing)
 	{
-		MDC_DEBUG(8, F("Auto process"))
+		_debug.debugln(8, F("Auto process"));
 		_lastAssign = millis();
 		if(!_isProcessing) startProcessing();
 	}
@@ -245,7 +247,7 @@ bool MIDI_DeviceController::startProcessing()
 {
 	if(_isProcessing)
 	{
-		MDC_PRINT(F("Already processing"))
+		_debug.println(F("Already processing"));
 		return false;
 	}
 	
@@ -256,8 +258,8 @@ bool MIDI_DeviceController::startProcessing()
 		MIDI_Periods::calculatedPeriods[50] = 3;		
 	#endif
 	
-	MDC_DEBUG(1, F("Starting note processing"));
-	MDC_DEBUGARGS(2, F("Resolution set to %d"), MIDI_Periods::getResolution())
+	_debug.debugln(1, F("Starting note processing"));
+	_debug.debugln(2, F("Resolution set to %d"), MIDI_Periods::getResolution());
 	
 	reloadEnabledDevices();
 	if(_autoProcessing) _lastAssign = millis();
@@ -273,7 +275,7 @@ bool MIDI_DeviceController::startProcessing()
 
 void MIDI_DeviceController::stopProcessing()
 {
-	MDC_PRINT(F("Stopping processing"))
+	_debug.println(F("Stopping processing"));
 	
 	//Silence all channels and reset them to an initial state
 	int i = 0;
@@ -422,7 +424,7 @@ void MIDI_DeviceController::loadTest(uint8_t numDevices)
 	}
 	
 	//Hold here until the test is over (idle timeout of 5 seconds)
-	MDC_PRINT(F("Waiting 5 seconds"))
+	_debug.println(F("Waiting 5 seconds"));
 	while(!resetProcessing()) {;}
 	
 	//Revert back to user settings
@@ -479,7 +481,7 @@ void MIDI_DeviceController::playStartupSequence(uint8_t version)
 			{
 				Device *d = _devices[i++];
 				
-				MDC_PRINTARGS(F("Single device sequence on device %d"), d->_id)
+				_debug.println(F("Single device sequence on device %d"), d->_id);
 				for(uint8_t y = 0; y <= 9; y++) 
 				{
 					d->toggleStep();
@@ -488,7 +490,7 @@ void MIDI_DeviceController::playStartupSequence(uint8_t version)
 				}
 			}
 
-			MDC_PRINT(F("Parallel device sequence"))
+			_debug.println(F("Parallel device sequence"));
 			for(int16_t x = 0; x <= 10; x++) {
 				i = 0;
 				while(i < numEnabled)
@@ -501,7 +503,7 @@ void MIDI_DeviceController::playStartupSequence(uint8_t version)
 					_enabledDevices[i++]->toggleStep();
 			}
 			
-			MDC_PRINT(F("Pause and reset"))
+			_debug.println(F("Pause and reset"));
 			delay(500);	
 			resetPositions();
 		}
