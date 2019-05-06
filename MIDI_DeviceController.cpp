@@ -46,12 +46,12 @@ uint8_t MIDI_DeviceController::reloadEnabledDevices()
 		if(!_devices[i]) continue;
 		if(_devices[i]->isEnabled())
 		{
-			_debug.debugln(2, "Device %d added", _devices[i]->_id);
+			_debug.debugln(2, "Device %d added", i);
 			_enabledDevices[x++] = _devices[i];
 		}
 		else
 		{
-			_debug.debugln(2, "Device %d not added", _devices[i]->_id);
+			_debug.debugln(2, "Device %d not added", i);
 		}
 	}
 	
@@ -81,55 +81,56 @@ void MIDI_DeviceController::printStatus()
 	}
 }
 
-//Adds a device to the first empty space if available
 void MIDI_DeviceController::addDevice(Device *d)
 {
-	int i = 0;
-	while(i != MAX_DEVICES)
+	uint8_t id = d->getID();
+	if(id > MAX_DEVICES - 1)
 	{
-		if(_devices[i] == NULL)
-		{
-			d->setController(this);
-			_devices[i] = d;
-			return;
-		}
-		else
-			i++;
+		_debug.println(F("Can't add device with ID %d"), id);
+		_debug.debugln(5, F("Max device ID is %d"), MAX_DEVICES - 1);
+		return;
+	}
+
+	if(_devices[id] != NULL)
+	{		
+		_debug.println(F("Device slot %d is already populated"), id);
+		return;
 	}
 	
-	_debug.println(F("Max device limit reached"));
-	delete d;
+	d->setController(this);
+	_devices[id] = d;
 }
 
-Device *MIDI_DeviceController::getDevice(uint8_t id)
+Device *MIDI_DeviceController::getDevice(uint8_t index)
 {
-	int i = 0;
-	while(i != MAX_DEVICES)
+	if(index > MAX_DEVICES - 1)
 	{
-		if(_devices[i]->_id == id)
-			return _devices[i];
-		i++;
+		_debug.debugln(3, F("Max index is %d"), MAX_DEVICES - 1);
+		return NULL;
 	}
 	
-	_debug.println(F("Device %d not found"), id);
-	return NULL;
+	return _devices[index];
 }
 
-void MIDI_DeviceController::removeDevice(uint8_t id)
+void MIDI_DeviceController::removeDevice(uint8_t index)
 {
-	int i = 0;
-	while(i != MAX_DEVICES)
+	if(index > MAX_DEVICES - 1)
 	{
-		if(_devices[i]->_id == id)
-		{
-			delete _devices[i];
-			_devices[i] = NULL;
-			return;
-		}
-		i++;
+		_debug.debugln(3, F("Max index is %d"), MAX_DEVICES - 1);
+		return;
 	}
 	
-	_debug.println(F("Device %d not found"), id);
+	if(_devices[index])
+	{
+		_debug.debugln(2, F("Removing device at %d"), index);
+		delete _devices[index];
+		_devices[index] = NULL;
+		return;
+	}
+	else
+	{
+		_debug.debugln(2, F("No device at %d"), index);
+	}
 }
 
 //TODO: Verify logic
@@ -191,26 +192,26 @@ void MIDI_DeviceController::calibratePositions()
 	resetPositions();
 }
 
-void MIDI_DeviceController::assignNote(int8_t id, uint8_t note)
+void MIDI_DeviceController::assignNote(int8_t index, uint8_t note)
 {
 	_debug.debugln(8, F("Is processing: %d"), _isProcessing);
 	_debug.debugln(8, F("Auto processing: %d"), _autoProcessing);
 	
-	Device *d = getDevice(id);
+	Device *d = getDevice(index);
 	if(!d) return;
 	d->assignNote(note);
 }
 
-void MIDI_DeviceController::pitchBend(int8_t id, uint16_t bend)
+void MIDI_DeviceController::pitchBend(int8_t index, uint16_t bend)
 {
-	Device *d = getDevice(id);
+	Device *d = getDevice(index);
 	if(!d) return;
 	d->pitchBend(bend);
 }
 
-void MIDI_DeviceController::clearNote(int8_t id, uint8_t note)
+void MIDI_DeviceController::clearNote(int8_t index, uint8_t note)
 {
-	Device *d = getDevice(id);
+	Device *d = getDevice(index);
 	if(!d) return;
 	if(d->getCurrentNote() == note) d->clearNote();
 }
@@ -364,9 +365,9 @@ void MIDI_DeviceController::setLEDPin(int8_t pin)
 
 //Tests/Debug
 //_______________________________________________________________________________________________________
-void MIDI_DeviceController::testDeviceInterrupt(uint8_t id) 
+void MIDI_DeviceController::testDeviceInterrupt(uint8_t index) 
 {
-	Device *d = getDevice(id);
+	Device *d = getDevice(index);
 	if(!d) return;
 	
 	if(!_isProcessing) startProcessing();
@@ -380,9 +381,9 @@ void MIDI_DeviceController::testDeviceInterrupt(uint8_t id)
 	stopProcessing();
 }
 
-void MIDI_DeviceController::testPitchBend(uint8_t id)
+void MIDI_DeviceController::testPitchBend(uint8_t index)
 {
-	Device *d = getDevice(id);
+	Device *d = getDevice(index);
 	if(!d) return;
 	
 	d->assignNote(50);
