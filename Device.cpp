@@ -6,16 +6,16 @@ SerialDebug Device::_debug;
 //Constructors
 //_______________________________________________________________________________________________________
 
-Device::Device(bool fromDefaults)
+Device::Device(uint8_t id, bool fromDefaults)
 {
-	_id = _nextId++;
+	_id = id;
 	if(fromDefaults) setupFromDefaults();	
 	_debug.debugln(8, F("%d - Device created"), _id);
 }
 
-Device::Device(int8_t stepPin, int8_t dirPin, int32_t maxPosition)
+Device::Device(uint8_t id, int8_t stepPin, int8_t dirPin, int32_t maxPosition)
 {
-	_id = _nextId++;
+	_id = id;
 	setup(stepPin, dirPin, maxPosition);	
 	_debug.debugln(8, F("%d - Device created"), _id);
 }
@@ -27,8 +27,6 @@ Device::~Device()
 
 //Configuration
 //_______________________________________________________________________________________________________
-
-uint8_t Device::_nextId = 0;
 
 void Device::setController(MIDI_DeviceController *controller)
 {
