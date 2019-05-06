@@ -44,15 +44,15 @@ class MIDI_DeviceController
 	public:
 		void printStatus(); //Print each device slot's status
 		void addDevice(Device *d); //Adds a device to the first empty space if available
-		Device *getDevice(uint8_t index); //Retrieves a device by specified index
-		void removeDevice(uint8_t index); //Removes device by specified index if populated
+		Device *getDevice(uint8_t id); //Retrieves a device by specified id or returns null if not found
+		void removeDevice(uint8_t id); //Removes device by specified id if found
 
 		void resetPositions();
 		void calibratePositions();	
 	
-		void assignNote(int8_t index, uint8_t note);
-		void pitchBend(int8_t index, uint16_t bend);
-		void clearNote(int8_t index, uint8_t note);
+		void assignNote(int8_t id, uint8_t note);
+		void pitchBend(int8_t id, uint16_t bend);
+		void clearNote(int8_t id, uint8_t note);
 		void bendChannel(uint8_t channel, uint16_t value);
 		
 	//Note Processing
@@ -114,10 +114,10 @@ class MIDI_DeviceController
 	//it still works is by running all of these test functions
 	public:
 		//Plays a test tone on a given device via our interrupt process a few times
-		void testDeviceInterrupt(uint8_t index);
+		void testDeviceInterrupt(uint8_t id);
 		
 		//Pitch bend test
-		void testPitchBend(uint8_t index);
+		void testPitchBend(uint8_t id);		
 		
 		//Basic load test to ensure we're able to play 
 		void loadTest(uint8_t numDevices);

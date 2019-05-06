@@ -22,16 +22,19 @@ class Device
 		//Nothing here
 		
 	public:
-		Device(uint8_t id, bool fromDefaults = false);
-		Device(uint8_t id, int8_t stepPin, int8_t dirPin = -1, int32_t maxPosition = -1);
+		Device(bool fromDefaults = false);
+		Device(int8_t stepPin, int8_t dirPin = -1, int32_t maxPosition = -1);
 		~Device();
 	
 	//Configuration
 	//_______________________________________________________________________________________________________
 	private:
+		//Tracks the next ID to assign when a new device is created
+		static uint8_t _nextId;
+	
 		uint8_t _id;
 		
-		//Enabled (disabled devices will not play notes)
+		// Enabled (disabled devices will not play notes)
 		bool _enabled = false;
 	
 		//Designated step pin mapping where -1 indicates no pin is assigned
