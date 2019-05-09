@@ -53,7 +53,6 @@ class MIDI_DeviceController
 		void assignNote(int8_t index, uint8_t note);
 		void pitchBend(int8_t index, uint16_t bend);
 		void clearNote(int8_t index, uint8_t note);
-		void bendChannel(uint8_t channel, uint16_t value);
 		
 	//Note Processing
 	//_____________________________________________________________________________________________
@@ -123,7 +122,7 @@ class MIDI_DeviceController
 		void loadTest(uint8_t numDevices);
 		
 		//Test pitch bending an entire channel (all enabled devices per processing)
-		void bendChannelTest();
+		//void bendChannelTest();
 		
 		//Plays a sequence across all devices to test set configuration
 		void playStartupSequence(uint8_t version);

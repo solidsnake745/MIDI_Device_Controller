@@ -216,19 +216,6 @@ void MIDI_DeviceController::clearNote(int8_t index, uint8_t note)
 	if(d->getCurrentNote() == note) d->clearNote();
 }
 
-void MIDI_DeviceController::bendChannel(uint8_t channel, uint16_t value)
-{
-	//Assumption here is that startProcessing was called and enabledDevices has been updated
-	int i = 0;
-	while(_enabledDevices[i])
-	{
-		Device *d = _devices[i++];
-		if(d->_lastNoteSource == channel)
-			d->pitchBend(value);
-	}
-}
-
-
 //Note Processing
 //_____________________________________________________________________________________________	
 void MIDI_DeviceController::lawl() { _instance->processNotes(); };
@@ -277,7 +264,7 @@ void MIDI_DeviceController::stopProcessing()
 {
 	_debug.println(F("Stopping processing"));
 	
-	//Silence all channels and reset them to an initial state
+	//Silence all devices and reset them to an initial state
 	int i = 0;
 	while(i != MAX_DEVICES)
 	{

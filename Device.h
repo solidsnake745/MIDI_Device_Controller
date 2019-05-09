@@ -107,10 +107,6 @@ class Device
 		//Current position value
 		volatile int16_t _currentPosition = 0;
 	
-		//The channel the current note was assigned from 
-		//Used for pitch bending when multiple notes are distributed multiple devices		
-		int8_t _lastNoteSource = -1;		
-	
 		//Sets the state of the associated step pin
 		void setStepState(bool state); 
 		
@@ -134,11 +130,8 @@ class Device
 		
 		bool isEnabled();
 		
-		void assignNote(uint8_t note);
-		void assignNote(uint8_t note, uint8_t channel);
-		
+		void assignNote(uint8_t note);		
 		void assignPeriod(uint16_t period);
-		void assignPeriod(uint16_t period, uint8_t channel);
 		
 		void pitchBend(uint16_t bend);
 		

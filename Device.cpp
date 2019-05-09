@@ -110,18 +110,6 @@ void Device::calibratePosition()
 
 void Device::zeroPosition() { _currentPosition = 0; }
 
-void Device::assignNote(uint8_t note, uint8_t channel)
-{
-	_lastNoteSource = channel;
-	assignNote(note);
-}
-
-void Device::assignPeriod(uint16_t period, uint8_t channel)
-{
-	_lastNoteSource = channel;
-	assignPeriod(period);
-}
-
 void Device::clearNote()
 {
 	_debug.debugln(7, F("%d - Clearing note"), _id);
@@ -156,7 +144,6 @@ void Device::resetProperties(bool includePosition)
 	_currentPeriod = 0;
 	_currentTick = 0;
 	_currentDuration = 0;
-	_lastNoteSource = -1;
 
 	if(!includePosition) return;  
 	setDirState(LOW);
