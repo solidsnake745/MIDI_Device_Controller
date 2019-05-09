@@ -3,7 +3,7 @@
 SerialDebug MIDI_DeviceController::_debug;
 
 //Constructors and instance management
-//_______________________________________________________________________________________________________
+//_____________________________________________________________________________________________
 
 //Global singleton instance
 MIDI_DeviceController MDC = MIDI_DeviceController::getInstance();
@@ -28,7 +28,7 @@ MIDI_DeviceController &MIDI_DeviceController::getInstance()
 
 	
 //Device management
-//_______________________________________________________________________________________________________
+//_____________________________________________________________________________________________
 Device *MIDI_DeviceController::_devices[MAX_DEVICES];
 Device *MIDI_DeviceController::_enabledDevices[MAX_DEVICES];
 
@@ -230,8 +230,7 @@ void MIDI_DeviceController::bendChannel(uint8_t channel, uint16_t value)
 
 
 //Note Processing
-//_______________________________________________________________________________________________________	
-
+//_____________________________________________________________________________________________	
 void MIDI_DeviceController::lawl() { _instance->processNotes(); };
 
 void MIDI_DeviceController::noteAssigned()
@@ -335,7 +334,7 @@ bool MIDI_DeviceController::isProcessing()
 
 
 //Settings
-//_______________________________________________________________________________________________________
+//_____________________________________________________________________________________________
 uint8_t MIDI_DeviceController::getMaxDevices() { return MAX_DEVICES; }
 uint32_t MIDI_DeviceController::getMaxDuration() { return _maxDuration; }
 void MIDI_DeviceController::setMaxDuration(uint32_t value) { _maxDuration = value; }
@@ -345,7 +344,7 @@ void MIDI_DeviceController::setResolution(uint16_t resolution) { MIDI_Periods::s
 
 
 //LED pin functionality
-//_______________________________________________________________________________________________________
+//_____________________________________________________________________________________________
 void MIDI_DeviceController::LEDOn()
 {
 	if(_ledPin > -1) digitalWrite(_ledPin, HIGH);
@@ -364,7 +363,7 @@ void MIDI_DeviceController::setLEDPin(int8_t pin)
 
 
 //Tests/Debug
-//_______________________________________________________________________________________________________
+//_____________________________________________________________________________________________
 void MIDI_DeviceController::testDeviceInterrupt(uint8_t index) 
 {
 	Device *d = getDevice(index);

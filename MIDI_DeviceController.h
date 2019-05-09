@@ -24,7 +24,7 @@ class MIDI_DeviceController
 	static SerialDebug _debug;
 	
 	//Constructors and instance management
-	//_______________________________________________________________________________________________________
+	//_____________________________________________________________________________________________
 	private:
 		MIDI_DeviceController();
 		static MIDI_DeviceController *_instance;
@@ -34,7 +34,7 @@ class MIDI_DeviceController
 		static MIDI_DeviceController &getInstance();
 		
 	//Device management
-	//_______________________________________________________________________________________________________
+	//_____________________________________________________________________________________________
 	private:
 		static Device *_devices[MAX_DEVICES];
 		static Device *_enabledDevices[MAX_DEVICES];
@@ -56,7 +56,7 @@ class MIDI_DeviceController
 		void bendChannel(uint8_t channel, uint16_t value);
 		
 	//Note Processing
-	//_______________________________________________________________________________________________________
+	//_____________________________________________________________________________________________
 	private:
 		bool _isProcessing = false;
 		bool _autoProcessing = true;
@@ -83,7 +83,7 @@ class MIDI_DeviceController
 		bool isProcessing();
 
 	//Settings
-	//_______________________________________________________________________________________________________
+	//_____________________________________________________________________________________________
 	private:
 		uint32_t _lastAssign = 0;
 		volatile uint32_t _maxDuration = MAX_DURATION_DEFAULT;
@@ -98,7 +98,7 @@ class MIDI_DeviceController
 		void setAutoProcess(bool value);
 
 	//LED pin functionality
-	//_______________________________________________________________________________________________________
+	//_____________________________________________________________________________________________
 	private: 
 		int8_t _ledPin = -1;	
 	
@@ -109,7 +109,7 @@ class MIDI_DeviceController
 		void setLEDPin(int8_t pin);
 	
 	//Tests/Debug 
-	//_______________________________________________________________________________________________________
+	//_____________________________________________________________________________________________
 	//If you make any changes to this library, a good way to ensure
 	//it still works is by running all of these test functions
 	public:

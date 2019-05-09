@@ -4,15 +4,7 @@
 SerialDebug Device::_debug;
 
 //Constructors
-//_______________________________________________________________________________________________________
-
-Device::Device(uint8_t id, bool fromDefaults)
-{
-	_id = id;
-	if(fromDefaults) setupFromDefaults();	
-	_debug.debugln(8, F("%d - Device created"), _id);
-}
-
+//_____________________________________________________________________________________________
 Device::Device(uint8_t id, int8_t stepPin, int8_t dirPin, int32_t maxPosition)
 {
 	_id = id;
@@ -26,8 +18,7 @@ Device::~Device()
 }
 
 //Configuration
-//_______________________________________________________________________________________________________
-
+//_____________________________________________________________________________________________
 void Device::setController(MIDI_DeviceController *controller)
 {
 	belongsTo = controller;
@@ -41,18 +32,6 @@ void Device::setup(int8_t stepPin, int8_t dirPin, int32_t maxPosition)
 	setStepPin(stepPin);
 	setDirPin(dirPin);
 	setMaxPosition(maxPosition);
-	
-	initialize();
-}
-
-void Device::setupFromDefaults()
-{
-	_debug.debugln(7, F("%d - Setting up device from defaults"), _id);	
-	
-	//Set properties from defaults
-	setStepPin(Defaults::getStepDefault(_id));
-	setDirPin(Defaults::getDirDefault(_id));
-	setMaxPosition(Defaults::getMaxPosDefault(_id));
 	
 	initialize();
 }
@@ -119,8 +98,7 @@ void Device::setEnabled(bool value) { _enabled = value; }
 bool Device::getEnabled() { return _enabled; }
 
 //Operation
-//_______________________________________________________________________________________________________
-
+//_____________________________________________________________________________________________
 uint16_t *Device::_referencePeriods = MIDI_Periods::calculatedPeriods;
 
 void Device::calibratePosition()
@@ -306,8 +284,7 @@ void Device::toggleDirection()
 }
 
 //Testing/debug
-//_______________________________________________________________________________________________________
-
+//_____________________________________________________________________________________________
 void Device::testStepping(uint32_t steps)
 {
 	uint32_t x = 0;

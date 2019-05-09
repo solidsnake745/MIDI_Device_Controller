@@ -1,7 +1,6 @@
 #ifndef Device_h
 #define Device_h
 
-#include "Defaults.h"
 #include "MIDI_Periods.h"
 #include <Arduino.h>
 #include "SerialDebug.h"
@@ -17,17 +16,16 @@ class Device
 	static SerialDebug _debug;
 	
 	//Constructors
-	//_______________________________________________________________________________________________________
+	//_____________________________________________________________________________________________
 	private:
 		//Nothing here
 		
 	public:
-		Device(uint8_t id, bool fromDefaults = false);
 		Device(uint8_t id, int8_t stepPin, int8_t dirPin = -1, int32_t maxPosition = -1);
 		~Device();
 	
 	//Configuration
-	//_______________________________________________________________________________________________________
+	//_____________________________________________________________________________________________
 	private:
 		uint8_t _id;
 		
@@ -64,9 +62,6 @@ class Device
 		//Setup by specifying settings manually
 		void setup(int8_t stepPin, int8_t dirPin, int32_t maxPosition);
 		
-		//Setup by pulling settings from Defaults.h
-		void setupFromDefaults();
-		
 		uint8_t getID();
 		int8_t getStepPin();
 		int8_t getDirPin();
@@ -86,7 +81,7 @@ class Device
 		void setEnabled(bool value);
 		
 	//Operation
-	//_______________________________________________________________________________________________________
+	//_____________________________________________________________________________________________
 	private:
 		// Calculated microperiods based on the set resolution for each note
 		static uint16_t *_referencePeriods;
@@ -166,7 +161,7 @@ class Device
 		void resetProperties(bool includePosition = false);
 		
 	//Testing/debug
-	//_______________________________________________________________________________________________________
+	//_____________________________________________________________________________________________
 	private:
 		//Nothing here
 		
