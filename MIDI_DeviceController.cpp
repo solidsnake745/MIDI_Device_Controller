@@ -3,7 +3,7 @@
 SerialDebug MIDI_DeviceController::_debug;
 
 //Constructors and instance management
-//_____________________________________________________________________________________________
+//_______________________________________________________________________________________________________
 
 //Global singleton instance
 MIDI_DeviceController MDC = MIDI_DeviceController::getInstance();
@@ -28,7 +28,7 @@ MIDI_DeviceController &MIDI_DeviceController::getInstance()
 
 	
 //Device management
-//_____________________________________________________________________________________________
+//_______________________________________________________________________________________________________
 Device *MIDI_DeviceController::_devices[MAX_DEVICES];
 Device *MIDI_DeviceController::_enabledDevices[MAX_DEVICES];
 
@@ -99,6 +99,18 @@ void MIDI_DeviceController::addDevice(Device *d)
 	
 	d->setController(this);
 	_devices[id] = d;
+}
+
+void MIDI_DeviceController::addDevices(Device devices[], int16_t numDevices)
+{
+	if(numDevices < 1)
+		numDevices = sizeof(devices) / sizeof(devices[0]);
+
+	_debug.debugln(5, F("Attempting to add %d device(s)"), numDevices);
+	
+	int i = 0;
+	while(i != MAX_DEVICES)
+		addDevice(&devices[i++]);
 }
 
 Device *MIDI_DeviceController::getDevice(uint8_t index)
@@ -217,7 +229,8 @@ void MIDI_DeviceController::clearNote(int8_t index, uint8_t note)
 }
 
 //Note Processing
-//_____________________________________________________________________________________________	
+//_______________________________________________________________________________________________________	
+
 void MIDI_DeviceController::lawl() { _instance->processNotes(); };
 
 void MIDI_DeviceController::noteAssigned()
@@ -321,7 +334,7 @@ bool MIDI_DeviceController::isProcessing()
 
 
 //Settings
-//_____________________________________________________________________________________________
+//_______________________________________________________________________________________________________
 uint8_t MIDI_DeviceController::getMaxDevices() { return MAX_DEVICES; }
 uint32_t MIDI_DeviceController::getMaxDuration() { return _maxDuration; }
 void MIDI_DeviceController::setMaxDuration(uint32_t value) { _maxDuration = value; }
@@ -331,7 +344,7 @@ void MIDI_DeviceController::setResolution(uint16_t resolution) { MIDI_Periods::s
 
 
 //LED pin functionality
-//_____________________________________________________________________________________________
+//_______________________________________________________________________________________________________
 void MIDI_DeviceController::LEDOn()
 {
 	if(_ledPin > -1) digitalWrite(_ledPin, HIGH);
@@ -350,7 +363,7 @@ void MIDI_DeviceController::setLEDPin(int8_t pin)
 
 
 //Tests/Debug
-//_____________________________________________________________________________________________
+//_______________________________________________________________________________________________________
 void MIDI_DeviceController::testDeviceInterrupt(uint8_t index) 
 {
 	Device *d = getDevice(index);

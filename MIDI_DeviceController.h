@@ -24,7 +24,7 @@ class MIDI_DeviceController
 	static SerialDebug _debug;
 	
 	//Constructors and instance management
-	//_____________________________________________________________________________________________
+	//_______________________________________________________________________________________________________
 	private:
 		MIDI_DeviceController();
 		static MIDI_DeviceController *_instance;
@@ -34,7 +34,7 @@ class MIDI_DeviceController
 		static MIDI_DeviceController &getInstance();
 		
 	//Device management
-	//_____________________________________________________________________________________________
+	//_______________________________________________________________________________________________________
 	private:
 		static Device *_devices[MAX_DEVICES];
 		static Device *_enabledDevices[MAX_DEVICES];
@@ -43,19 +43,21 @@ class MIDI_DeviceController
 
 	public:
 		void printStatus(); //Print each device slot's status
-		void addDevice(Device *d); //Adds a device to the first empty space if available
+		void addDevice(Device *d); //Adds a device to the correlating index given the device's ID
+		void addDevices(Device devices[], int16_t numDevices = -1); //Adds the given set of devices
 		Device *getDevice(uint8_t index); //Retrieves a device by specified index
 		void removeDevice(uint8_t index); //Removes device by specified index if populated
 
 		void resetPositions();
-		void calibratePositions();	
+		void calibratePositions();
 	
 		void assignNote(int8_t index, uint8_t note);
 		void pitchBend(int8_t index, uint16_t bend);
 		void clearNote(int8_t index, uint8_t note);
+		void bendChannel(uint8_t channel, uint16_t value);
 		
 	//Note Processing
-	//_____________________________________________________________________________________________
+	//_______________________________________________________________________________________________________
 	private:
 		bool _isProcessing = false;
 		bool _autoProcessing = true;
@@ -82,7 +84,7 @@ class MIDI_DeviceController
 		bool isProcessing();
 
 	//Settings
-	//_____________________________________________________________________________________________
+	//_______________________________________________________________________________________________________
 	private:
 		uint32_t _lastAssign = 0;
 		volatile uint32_t _maxDuration = MAX_DURATION_DEFAULT;
@@ -97,7 +99,7 @@ class MIDI_DeviceController
 		void setAutoProcess(bool value);
 
 	//LED pin functionality
-	//_____________________________________________________________________________________________
+	//_______________________________________________________________________________________________________
 	private: 
 		int8_t _ledPin = -1;	
 	
@@ -108,7 +110,7 @@ class MIDI_DeviceController
 		void setLEDPin(int8_t pin);
 	
 	//Tests/Debug 
-	//_____________________________________________________________________________________________
+	//_______________________________________________________________________________________________________
 	//If you make any changes to this library, a good way to ensure
 	//it still works is by running all of these test functions
 	public:
@@ -122,7 +124,7 @@ class MIDI_DeviceController
 		void loadTest(uint8_t numDevices);
 		
 		//Test pitch bending an entire channel (all enabled devices per processing)
-		//void bendChannelTest();
+		void bendChannelTest();
 		
 		//Plays a sequence across all devices to test set configuration
 		void playStartupSequence(uint8_t version);
