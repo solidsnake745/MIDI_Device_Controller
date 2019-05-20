@@ -1,5 +1,5 @@
 #include "Device.h"
-#include "MIDI_DeviceController.h" //Need the definition of noteAssigned()
+#include "../MIDI_DeviceController.h" //Need the definition of noteAssigned()
 
 SerialDebug Device::_debug;
 

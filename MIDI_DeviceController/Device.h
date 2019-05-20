@@ -1,9 +1,9 @@
 #ifndef Device_h
 #define Device_h
 
-#include "MIDI_Periods.h"
 #include <Arduino.h>
-#include "SerialDebug.h"
+#include "MIDI_Periods.h"
+#include "../SerialDebug.h"
 
 //Forward declaration for compiling
 class MIDI_DeviceController;

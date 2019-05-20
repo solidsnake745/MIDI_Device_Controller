@@ -2,7 +2,7 @@
 #define MIDI_Periods_h
 
 #include <avr/pgmspace.h>
-#include "SerialDebug.h"
+#include "../SerialDebug.h"
 
 #define MIN_RESOLUTION 1
 #define MAX_RESOLUTION 200

@@ -1,4 +1,4 @@
-#include "MIDI_DeviceController.h"
+#include "../MIDI_DeviceController.h"
 
 void MIDI_DeviceController::processNotes()
 {	

@@ -1,10 +1,10 @@
 #ifndef MIDI_DeviceController_h
 #define MIDI_DeviceController_h
 
-#include "Device.h"
 #include <Arduino.h>
-#include "SerialDebug.h"
 #include <TimerOne.h>
+#include "MIDI_DeviceController/Device.h"
+#include "SerialDebug.h"
 
 //Max limit of devices that can be managed by the controller
 //Number of devices correlates to more/less memory used by this library

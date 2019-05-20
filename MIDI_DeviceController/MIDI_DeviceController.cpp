@@ -1,4 +1,4 @@
-#include "MIDI_DeviceController.h"
+#include "../MIDI_DeviceController.h"
 
 SerialDebug MIDI_DeviceController::_debug;
 
@@ -103,7 +103,7 @@ void MIDI_DeviceController::addDevice(Device *d)
 
 void MIDI_DeviceController::addDevices(Device devices[], int16_t numDevices)
 {
-	if(numDevices < 1)
+	if(numDevices == -1)
 		numDevices = sizeof(devices) / sizeof(devices[0]);
 
 	_debug.debugln(5, F("Attempting to add %d device(s)"), numDevices);
