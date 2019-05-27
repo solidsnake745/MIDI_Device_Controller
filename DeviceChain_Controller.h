@@ -13,6 +13,8 @@ class DeviceChain_Controller
 	// Give Device access to all private members
 	friend class Device;
 	
+	static SerialDebug _debug;
+	
 	//Constructors and instance management
 	//_______________________________________________________________________________________________________
 	private:

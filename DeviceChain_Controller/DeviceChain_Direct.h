@@ -13,8 +13,8 @@
 		
 		public:		
 			//Abstract implementations		
-			void assignNote(int8_t note);
-			void clearNote(int8_t note);
+			void assignNote(uint8_t note);
+			void clearNote(uint8_t note);
 	};
 
 	//First available 
@@ -24,8 +24,8 @@
 		
 		public:		
 			//Abstract implementations		
-			void assignNote(int8_t note);
-			void clearNote(int8_t note);
+			void assignNote(uint8_t note);
+			void clearNote(uint8_t note);
 	};
 
 	class DeviceChain_RR : public DeviceChain_Base
@@ -35,7 +35,7 @@
 			
 		public:
 			//Abstract implementations		
-			void assignNote(int8_t note);
-			void clearNote(int8_t note);
+			void assignNote(uint8_t note);
+			void clearNote(uint8_t note);
 	};
 #endif

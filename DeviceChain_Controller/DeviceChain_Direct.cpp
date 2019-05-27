@@ -1,7 +1,7 @@
 #include "DeviceChain_Direct.h"
 #include "DeviceNode.h"
 
-void DeviceChain_Direct::assignNote(int8_t note)
+void DeviceChain_Direct::assignNote(uint8_t note)
 {
 	DeviceNode *node = start;
 	
@@ -14,7 +14,7 @@ void DeviceChain_Direct::assignNote(int8_t note)
 	}
 }
 
-void DeviceChain_Direct::clearNote(int8_t note)
+void DeviceChain_Direct::clearNote(uint8_t note)
 {
 	DeviceNode *node = start;
 	
@@ -27,7 +27,7 @@ void DeviceChain_Direct::clearNote(int8_t note)
 	}
 }
 
-void DeviceChain_FA::assignNote(int8_t note)
+void DeviceChain_FA::assignNote(uint8_t note)
 {
 	DeviceNode *node = start;
 	
@@ -43,7 +43,7 @@ void DeviceChain_FA::assignNote(int8_t note)
 	}
 }
 
-void DeviceChain_FA::clearNote(int8_t note)
+void DeviceChain_FA::clearNote(uint8_t note)
 {	
 	DeviceNode *node = start;
 	
@@ -59,7 +59,7 @@ void DeviceChain_FA::clearNote(int8_t note)
 	}
 }
 
-void DeviceChain_RR::assignNote(int8_t note)
+void DeviceChain_RR::assignNote(uint8_t note)
 {
 	if(count == 1)
 	{
@@ -95,9 +95,9 @@ void DeviceChain_RR::assignNote(int8_t note)
 	lastAssign = nextAssign;
 }
 
-void DeviceChain_RR::clearNote(int8_t note)
+void DeviceChain_RR::clearNote(uint8_t note)
 {
-	// DEBUG2(F("Looking to clear note "), note)
+	//_debug.debugln(5, F("Looking to clear note "), note);
 	
 	if(!lastAssign)
 	{

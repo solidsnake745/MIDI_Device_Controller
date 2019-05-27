@@ -1,5 +1,7 @@
 #include "../DeviceChain_Controller.h"
 
+SerialDebug DeviceChain_Controller::_debug;
+
 //Constructors and instance management
 //_______________________________________________________________________________________________________
 

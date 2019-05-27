@@ -247,7 +247,7 @@ bool MIDI_DeviceController::startProcessing()
 {
 	if(_isProcessing)
 	{
-		_debug.println(F("Already processing"));
+		_debug.debugln(5, F("Already processing"));
 		return false;
 	}
 	
@@ -275,7 +275,7 @@ bool MIDI_DeviceController::startProcessing()
 
 void MIDI_DeviceController::stopProcessing()
 {
-	_debug.println(F("Stopping processing"));
+	_debug.debugln(5, F("Stopping processing"));
 	
 	//Silence all devices and reset them to an initial state
 	int i = 0;

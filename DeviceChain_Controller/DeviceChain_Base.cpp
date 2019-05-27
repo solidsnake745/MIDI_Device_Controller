@@ -1,49 +1,43 @@
 #include "DeviceChain_Base.h"
 #include "DeviceNode.h"
 
+SerialDebug DeviceChain_Base::_debug;
+
 DeviceChain_Base::~DeviceChain_Base()
 {
 };
 
 void DeviceChain_Base::printStatus()
 {
-	// PRINT2(count, F(" nodes in this chain"))	
+	_debug.println(F("%d nodes in this chain"), count);	
 	if(!start) return;
 	
-	// PRINT(F("Start of the chain"))
-	// PRINT()
+	_debug.debugln(5, F("Start of the chain"), count);
+	_debug.debugln(5);
 	
-	//int i = 0;
+	int i = 0;
 	DeviceNode *node = start;
 	while(node)
 	{
-		// PRINT2(F("Status for Device Node "), i++)
-		// PRINT2(F("  Device ID: "), node->device->getID())
+		_debug.println(F("Status for Device Node %d"), i++);
+		_debug.println(F("  Device ID: %d"), node->device->getID());
 		
-		if(node->prev)
-		{
-			// PRINT2(F("  Previous Device ID: "), node->prev->device->getID())
-		}
-		else
-		{
-			// PRINT(F("  Previous Device ID: NULL"))
-		}
+		if(node->prev)		
+			_debug.println(F("  Previous Device ID: %d"), node->prev->device->getID());
+		else		
+			_debug.println(F("  Previous Device ID: NULL"));
 		
 		if(node->next)
-		{
-			// PRINT2(F("  Next Device ID: "), node->next->device->getID())
-		}
+			_debug.println(F("  Next Device ID: %d"), node->next->device->getID());
 		else
-		{
-			// PRINT(F("  Next Device ID: NULL"))
-		}
+			_debug.println(F("  Next Device ID: NULL"));
 
-		// PRINT()
+		_debug.println();
 		delay(10);
 		node = node->next;
 	}
 	
-	// PRINT(F("End of the chain"))	
+	_debug.debugln(5, F("End of the chain"), count);
 };
 
 void DeviceChain_Base::addDevice(Device *d)
@@ -53,7 +47,7 @@ void DeviceChain_Base::addDevice(Device *d)
 	{
 		start = new DeviceNode(d, this);
 		count++;
-		// PRINT(F("Starting node added"))
+		_debug.debugln(5, F("Starting node added"));
 		return;
 	}
 	
@@ -63,7 +57,7 @@ void DeviceChain_Base::addDevice(Device *d)
 	{		
 		if(node->device->getID() == d->getID())
 		{
-			// PRINT3(F("Device ID "), node->device->getID(), F(" already added"))
+			_debug.debugln(5, F("Device ID %d already added"), node->device->getID());
 			return;
 		}
 		
@@ -71,21 +65,18 @@ void DeviceChain_Base::addDevice(Device *d)
 		node = node->next;
 	}
 	
-	//Create, setup, and add new node
+	//Create, setup, and add new node	
 	DeviceNode *newNode = new DeviceNode(d, this);
 	node->next = newNode;
 	newNode->prev = node;
 	end = newNode;
 	count++;
-	// PRINT(F("New node added"))
+	_debug.debugln(5, F("New node added"));
 };
 
-void DeviceChain_Base::addDevices(Device devices[], int16_t numDevices)
+void DeviceChain_Base::addDevices(Device devices[], uint16_t numDevices)
 {
-	if(numDevices == -1)
-		numDevices = sizeof(devices) / sizeof(devices[0]);
-
-	// _debug.debugln(5, F("Attempting to add %d device(s)"), numDevices);
+	_debug.debugln(5, F("Attempting to add %d device(s)"), numDevices);
 	
 	int i = 0;
 	while(i < numDevices)
@@ -97,7 +88,7 @@ void DeviceChain_Base::removeDevice(uint8_t id)
 	//Handle empty chain scenario
 	if(!start)
 	{
-		// PRINT(F("No nodes in this chain"))
+		_debug.println(F("No nodes in this chain"));
 		return;
 	}
 	
@@ -105,37 +96,37 @@ void DeviceChain_Base::removeDevice(uint8_t id)
 	DeviceNode *node = start;
 	while(node)
 	{
-		// DEBUG2(F(" Searching - current ID: "), node->device->getID())
+		_debug.debugln(5, F(" Searching - current ID: %d"), node->device->getID());
 		if(node->device->getID() != id)
 		{
 			node = node->next;
 			continue;
 		}
 
-		// PRINT(F("Node found"))
+		_debug.debugln(4, F("Node found"));
 		deleteNode(node);
 		count--;
 		
 		if(start == end)
 		{
-			// DEBUG(F("Only 1 node remaining, clearing end node"))
+			_debug.debugln(5, F("Only 1 node remaining after deleting"));
 			end = NULL;
 		}
 		
 		return;
 	}
 	
-	// PRINT3(F("No node with device ID "), id, F(" found"))
+	_debug.println(F("No node with device ID %d found"), id);
 };
 
 void DeviceChain_Base::assignNote(uint8_t note)
 {
-	// PRINT3(F("Assign note "), note, F(" received, but no strategy defined"))
+	_debug.debugln(5, F("Note %d assignment received"), note);
 };
 
 void DeviceChain_Base::clearNote(uint8_t note)
 {
-	// PRINT3(F("Clear note "), note, F(" received, but no strategy defined"))
+	_debug.debugln(5, F("Note %d clear received"), note);
 };
 
 void DeviceChain_Base::pitchBend(uint16_t bend)
@@ -153,21 +144,19 @@ void DeviceChain_Base::deleteNode(DeviceNode *node)
 	//Handle deleting the start node
 	if(node == start)
 	{
-		start = node->next;
+		start = node->next;		
+		_debug.debugln(5, F("Start node reassigned"));
 		
-		// PRINT(F("Start node reassigned"))
 		if(start)
 		{
 			start->prev = NULL;
-			// DEBUG2(F("New start device ID: "), start->device->getID())			
+			_debug.debugln(5, F("New start device ID: "), start->device->getID());
 		}
 		else
-		{
-			// DEBUG(F("Reassigned to nothing"))
-		}
+			_debug.debugln(5, F("Reassigned to nothing"));
 		
 		delete node;
-		// PRINT(F("Deleted"))
+		_debug.debugln(5, "Deleted");
 		return;
 	}
 	
@@ -175,31 +164,29 @@ void DeviceChain_Base::deleteNode(DeviceNode *node)
 	if(node == end)
 	{
 		end = node->prev;
-		
-		// PRINT(F("End node reassigned"))
+
+		_debug.debugln(5, F("End node reassigned"));
 		if(end)
 		{
 			end->next = NULL;
-			// DEBUG2(F("New end device ID: "), end->device->getID())
+			_debug.debugln(5, F("New end device ID: %d"), end->device->getID());
 		}
 		else
-		{
-			// DEBUG(F("Reassigned to nothing"))
-		}
+			_debug.debugln(5, F("Reassigned to nothing"));
 		
 		delete node;
-		// PRINT(F("Deleted"))
+		_debug.debugln(5, "Deleted");
 		return;
 	}
 	
 	//Handle deleting a normal node
 	//Handle the previous node's next reference - set to current node's next
 	node->prev->next = node->next;
-	// DEBUG(F("Previous node reassigned"))
+	_debug.debugln(5, F("Previous node reassigned"));
 	
 	//Handle the next node's previous reference - set to current node's prev
 	node->next->prev = node->prev;
-	// DEBUG(F("Next node reassigned"))
+	_debug.debugln(5, F("Next node reassigned"));	
 
 	delete node;
 	// PRINT(F("Deleted"))

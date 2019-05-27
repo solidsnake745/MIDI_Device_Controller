@@ -11,19 +11,20 @@ class DeviceChain_Base
 {
 	//Give DeviceNode access to all private members
 	friend class DeviceNode;
-
+	
 	void deleteNode(DeviceNode *node);
 	
 	protected:
 		DeviceNode *start = NULL;
 		DeviceNode *end = NULL;
 		uint8_t count = 0;
-	
+		static SerialDebug _debug;
+		
 	public:
 		virtual ~DeviceChain_Base();
 		
 		void addDevice(Device *d);
-		void addDevices(Device devices[], int16_t numDevices = -1); //Adds the given set of devices
+		void addDevices(Device devices[], uint16_t numDevices); //Adds the given set of devices
 		void removeDevice(uint8_t id);
 		
 		//Overrideable methods

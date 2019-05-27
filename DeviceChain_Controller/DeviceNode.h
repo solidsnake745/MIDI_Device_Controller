@@ -11,6 +11,8 @@
 	{
 		friend class DeviceChain_Base;
 		
+		static SerialDebug _debug;
+		
 		private:
 			DeviceNode(Device *d, DeviceChain_Base *dc);
 			DeviceChain_Base *parent = NULL;		

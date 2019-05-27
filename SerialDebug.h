@@ -30,8 +30,8 @@ class SerialDebug
 	
 		//Print
 		//Regular strings
-		void print(const char *string);
-		void println(const char *string);
+		void print(const char *string);		
+		void println(const char *string = "");
 		
 		template<typename... Args>
 		inline void print(const char *format, Args... args)
@@ -72,7 +72,7 @@ class SerialDebug
 		//Debug
 		//Regular strings
 		void debug(uint8_t level, const char *string);
-		void debugln(uint8_t level, const char *string);
+		void debugln(uint8_t level, const char *string = "");
 		
 		template<typename... Args>
 		inline void debug(uint8_t level, const char *format, Args... args)
