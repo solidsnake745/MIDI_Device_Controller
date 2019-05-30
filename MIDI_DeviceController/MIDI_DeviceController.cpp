@@ -81,36 +81,33 @@ void MIDI_DeviceController::printStatus()
 	}
 }
 
-void MIDI_DeviceController::addDevice(Device *d)
+void MIDI_DeviceController::addDevice(uint8_t index, Device *d)
 {
-	uint8_t id = d->getID();
-	if(id > MAX_DEVICES - 1)
+	if(index > MAX_DEVICES - 1)
 	{
-		_debug.println(F("Can't add device with ID %d"), id);
-		_debug.debugln(5, F("Max device ID is %d"), MAX_DEVICES - 1);
+		_debug.println(F("Can't add device at index %d"), index);
+		_debug.debugln(5, F("Max device index is %d"), MAX_DEVICES - 1);
 		return;
 	}
 
-	if(_devices[id] != NULL)
+	if(_devices[index] != NULL)
 	{		
-		_debug.println(F("Device slot %d is already populated"), id);
+		_debug.println(F("Device already exists at index %d"), index);
 		return;
 	}
 	
 	d->setController(this);
-	_devices[id] = d;
+	d->setID(index);
+	_devices[index] = d;
 }
 
 void MIDI_DeviceController::addDevices(Device devices[], uint8_t numDevices)
 {
-	if(numDevices == -1)
-		numDevices = sizeof(devices) / sizeof(devices[0]);
-
 	_debug.debugln(5, F("Attempting to add %d device(s)"), numDevices);
 	
-	int i = 0;
+	uint8_t i = 0;
 	while(i != MAX_DEVICES)
-		addDevice(&devices[i++]);
+		addDevice(i, &devices[i++]);
 }
 
 Device *MIDI_DeviceController::getDevice(uint8_t index)

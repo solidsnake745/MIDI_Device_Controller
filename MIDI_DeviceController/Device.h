@@ -21,7 +21,7 @@ class Device
 		//Nothing here
 		
 	public:
-		Device(uint8_t id, int8_t stepPin, int8_t dirPin = -1, int32_t maxPosition = -1);
+		Device(int8_t stepPin, int8_t dirPin = -1, int32_t maxPosition = -1);
 		~Device();
 	
 	//Configuration
@@ -54,6 +54,7 @@ class Device
 		void setDirPin(int8_t pin);		
 		
 		void setController(MIDI_DeviceController *controller);
+		void setID(uint8_t value);
 		
 	public:
 		//Print out this device's configuration

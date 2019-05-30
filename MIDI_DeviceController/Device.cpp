@@ -5,16 +5,15 @@ SerialDebug Device::_debug;
 
 //Constructors
 //_____________________________________________________________________________________________
-Device::Device(uint8_t id, int8_t stepPin, int8_t dirPin, int32_t maxPosition)
-{
-	_id = id;
+Device::Device(int8_t stepPin, int8_t dirPin, int32_t maxPosition)
+{	
 	setup(stepPin, dirPin, maxPosition);	
-	_debug.debugln(8, F("%d - Device created"), _id);
+	_debug.debugln(8, F("Device created"));
 }
 
 Device::~Device()
 {
-	_debug.debugln(8, F("%d - Device deleted"), _id);	
+	_debug.debugln(8, F("Device deleted"));	
 }
 
 //Configuration
@@ -88,6 +87,7 @@ void Device::printStatus()
 }
 
 uint8_t Device::getID() { return _id; }
+void Device::setID(uint8_t value) { _id = value; }
 
 int8_t Device::getStepPin() { return _stepPinMap; }
 int8_t Device::getDirPin() { return _dirPinMap; }

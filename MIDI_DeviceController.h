@@ -44,7 +44,7 @@ class MIDI_DeviceController
 	public:
 		void printStatus(); //Print each device slot's status		
 		
-		void addDevice(Device *d); //Adds a device to the correlating index given the device's ID
+		void addDevice(uint8_t index, Device *d); //Adds a device to the correlating index given the device's ID
 		void addDevices(Device devices[], uint8_t numDevices); //Adds the given set of devices
 		Device *getDevice(uint8_t index); //Retrieves a device at specified index
 		void deleteDevice(uint8_t index); //Deletes device at specified index if populated
