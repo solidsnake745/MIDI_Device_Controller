@@ -101,7 +101,7 @@ void MIDI_DeviceController::addDevice(Device *d)
 	_devices[id] = d;
 }
 
-void MIDI_DeviceController::addDevices(Device devices[], int16_t numDevices)
+void MIDI_DeviceController::addDevices(Device devices[], uint8_t numDevices)
 {
 	if(numDevices == -1)
 		numDevices = sizeof(devices) / sizeof(devices[0]);
@@ -124,7 +124,7 @@ Device *MIDI_DeviceController::getDevice(uint8_t index)
 	return _devices[index];
 }
 
-void MIDI_DeviceController::removeDevice(uint8_t index)
+void MIDI_DeviceController::deleteDevice(uint8_t index)
 {
 	if(index > MAX_DEVICES - 1)
 	{

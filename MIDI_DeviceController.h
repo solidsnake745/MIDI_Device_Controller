@@ -42,11 +42,12 @@ class MIDI_DeviceController
 		uint8_t reloadEnabledDevices();
 
 	public:
-		void printStatus(); //Print each device slot's status
+		void printStatus(); //Print each device slot's status		
+		
 		void addDevice(Device *d); //Adds a device to the correlating index given the device's ID
-		void addDevices(Device devices[], int16_t numDevices = -1); //Adds the given set of devices
-		Device *getDevice(uint8_t index); //Retrieves a device by specified index
-		void removeDevice(uint8_t index); //Removes device by specified index if populated
+		void addDevices(Device devices[], uint8_t numDevices); //Adds the given set of devices
+		Device *getDevice(uint8_t index); //Retrieves a device at specified index
+		void deleteDevice(uint8_t index); //Deletes device at specified index if populated
 
 		void resetPositions();
 		void calibratePositions();
