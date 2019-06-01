@@ -103,11 +103,17 @@ void MIDI_DeviceController::addDevice(uint8_t index, Device *d)
 
 void MIDI_DeviceController::addDevices(Device devices[], uint8_t numDevices)
 {
+	if(numDevices > MAX_DEVICES)
+		numDevices = MAX_DEVICES;
+		
 	_debug.debugln(5, F("Attempting to add %d device(s)"), numDevices);
 	
 	uint8_t i = 0;
-	while(i != MAX_DEVICES)
-		addDevice(i, &devices[i++]);
+	while(i < numDevices)
+	{
+		addDevice(i, &devices[i]);
+		i++;
+	}
 }
 
 Device *MIDI_DeviceController::getDevice(uint8_t index)
