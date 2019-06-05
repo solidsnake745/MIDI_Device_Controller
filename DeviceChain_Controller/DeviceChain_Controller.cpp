@@ -1,6 +1,6 @@
 #include "../DeviceChain_Controller.h"
 
-SerialDebug DeviceChain_Controller::_debug;
+SerialDebug DeviceChain_Controller::_debug(DEBUG_DEVICECHAIN_CONTROLLER);
 
 //Constructors and instance management
 //_______________________________________________________________________________________________________
@@ -106,8 +106,8 @@ void DeviceChain_Controller::createChain(uint8_t index, ChainType_t type, uint8_
 			newChain = new DeviceChain_Base(); break;
 	}
 	
-	//Disable warning on size of an array
-	//We want the size of the array to figure out how many elements are in it
+	//Disable warning for sizeof on an array
+	//We know we want the total size of the array to figure out how many elements it contains
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wsizeof-array-argument"
 	uint8_t numDevices = sizeof(deviceIndexes) / sizeof(uint8_t);

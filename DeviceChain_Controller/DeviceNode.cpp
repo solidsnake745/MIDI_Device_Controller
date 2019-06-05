@@ -2,7 +2,7 @@
 #include "../MIDI_DeviceController/Device.h"
 #include "DeviceChain_Base.h"
 
-SerialDebug DeviceNode::_debug;
+SerialDebug DeviceNode::_debug(DEBUG_DEVICENODE);
 
 DeviceNode::DeviceNode(Device *d, DeviceChain_Base *dc)
 {

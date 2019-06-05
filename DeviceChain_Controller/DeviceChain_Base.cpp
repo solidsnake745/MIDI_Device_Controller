@@ -1,7 +1,7 @@
 #include "DeviceChain_Base.h"
 #include "DeviceNode.h"
 
-SerialDebug DeviceChain_Base::_debug;
+SerialDebug DeviceChain_Base::_debug(DEBUG_DEVICECHAIN_BASE);
 
 DeviceChain_Base::~DeviceChain_Base()
 {

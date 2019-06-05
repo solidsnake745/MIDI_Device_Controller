@@ -1,6 +1,6 @@
 #include "MIDI_Periods.h"
 
-SerialDebug MIDI_Periods::_debug;
+SerialDebug MIDI_Periods::_debug(DEBUG_MIDI_PERIODS);
 
 uint16_t MIDI_Periods::getOriginalPeriod(uint16_t index) 
 { 

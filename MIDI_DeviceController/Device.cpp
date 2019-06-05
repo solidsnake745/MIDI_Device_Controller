@@ -1,7 +1,7 @@
 #include "Device.h"
 #include "../MIDI_DeviceController.h" //Need the definition of noteAssigned()
 
-SerialDebug Device::_debug;
+SerialDebug Device::_debug(DEBUG_DEVICE);
 
 //Constructors
 //_____________________________________________________________________________________________

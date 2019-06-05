@@ -1,11 +1,15 @@
 #ifndef Settings_h
 	#define Settings_h
 	
-	//Max limit of devices that can be managed by the controller
-	//Number of devices correlates to more/less memory used by this library
+	#define MIN_RESOLUTION 1
+	#define MAX_RESOLUTION 200
+	#define DEFAULT_RESOLUTION 100
+	
+	//Max limit of device chains that can be managed by the DeviceChain_Controller
+	//Number of chains correlates to more/less memory used by this library
 	#define MAX_CHAINS 16
 
-	//Max limit of devices that can be managed by the controller
+	//Max limit of devices that can be managed by the MIDI_DeviceController
 	//Number of devices correlates to more/less memory used by this library
 	#define MAX_DEVICES 8
 
@@ -14,4 +18,16 @@
 
 	//Longest any one device can be playing (must be in microseconds)
 	#define MAX_DURATION_DEFAULT 10 * 1000000
+	
+	//Debugging areas and levels
+	#define DEBUG_MIDIDEVICE_CONTROLLER 0
+	#define DEBUG_DEVICE 0
+	#define DEBUG_MIDI_PERIODS 0
+	
+	#define DEBUG_DEVICECHAIN_CONTROLLER 0
+	#define DEBUG_DEVICENODE 0
+	#define DEBUG_DEVICECHAIN_BASE 0
+	//#define DEBUG_DEVICECHAIN_DIRECT 0
+	//#define DEBUG_DEVICECHAIN_FA 0
+	//#define DEBUG_DEVICECHAIN_RR 0
 #endif

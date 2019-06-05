@@ -1,6 +1,6 @@
 #include "../MIDI_DeviceController.h"
 
-SerialDebug MIDI_DeviceController::_debug;
+SerialDebug MIDI_DeviceController::_debug(DEBUG_MIDIDEVICE_CONTROLLER);
 
 //Constructors and instance management
 //_______________________________________________________________________________________________________
