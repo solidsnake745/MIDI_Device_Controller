@@ -101,15 +101,25 @@ void DeviceChain_Controller::createChain(uint8_t index, ChainType_t type, uint8_
 			newChain = new DeviceChain_FA(); break;			
 		case RoundRobin:
 			newChain = new DeviceChain_RR(); break;			
-		default: 
+		default:
+			_debug.debugln(5, F("Defaulting to base device chain"));
 			newChain = new DeviceChain_Base(); break;
 	}
 	
+	//Disable warning on size of an array
+	//We want the size of the array to figure out how many elements are in it
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsizeof-array-argument"
 	uint8_t numDevices = sizeof(deviceIndexes) / sizeof(uint8_t);
+#pragma GCC diagnostic pop
+	
+	if(numDevices > MAX_DEVICES)
+		numDevices = MAX_DEVICES;
+
 	_debug.debugln(5, F("Attempting to add %d device(s)"), numDevices);
 	
 	int i = 0;
-	while(i != MAX_DEVICES)
+	while(i != numDevices)
 		newChain->addDevice(MDC.getDevice(deviceIndexes[i++]));
 	
 	addChain(index, newChain);

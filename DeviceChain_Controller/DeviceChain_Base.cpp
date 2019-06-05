@@ -12,7 +12,7 @@ void DeviceChain_Base::printStatus()
 	_debug.println(F("%d nodes in this chain"), count);	
 	if(!start) return;
 	
-	_debug.debugln(5, F("Start of the chain"), count);
+	_debug.debugln(5, F("Start of the chain"));
 	_debug.debugln(5);
 	
 	int i = 0;
@@ -37,7 +37,7 @@ void DeviceChain_Base::printStatus()
 		node = node->next;
 	}
 	
-	_debug.debugln(5, F("End of the chain"), count);
+	_debug.debugln(5, F("End of the chain"));
 };
 
 void DeviceChain_Base::addDevice(Device *d)
@@ -75,7 +75,10 @@ void DeviceChain_Base::addDevice(Device *d)
 };
 
 void DeviceChain_Base::addDevices(Device devices[], uint16_t numDevices)
-{
+{	
+	if(numDevices > MAX_DEVICES)
+		numDevices = MAX_DEVICES;
+
 	_debug.debugln(5, F("Attempting to add %d device(s)"), numDevices);
 	
 	int i = 0;

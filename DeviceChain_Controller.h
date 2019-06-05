@@ -1,14 +1,11 @@
 #ifndef DeviceChain_Controller_h
 #define DeviceChain_Controller_h
 
+#include "Settings.h"
 #include "MIDI_DeviceController.h"
 #include "MIDI_DeviceController/Device.h"
 #include "DeviceChain_Controller/DeviceChain_Base.h"
 #include "DeviceChain_Controller/DeviceChain_Direct.h"
-
-//Max limit of devices that can be managed by the controller
-//Number of devices correlates to more/less memory used by this library
-#define MAX_CHAINS 16
 
 enum ChainType_t { Direct, FirstAvailable, RoundRobin };
 

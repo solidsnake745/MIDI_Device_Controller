@@ -1,6 +1,7 @@
 #ifndef DeviceChain_Base_h
 #define DeviceChain_Base_h
 
+#include "../Settings.h"
 #include "../MIDI_DeviceController/Device.h"
 #include "../SerialDebug.h"
 
