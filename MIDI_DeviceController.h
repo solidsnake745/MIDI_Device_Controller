@@ -46,7 +46,6 @@
 			void assignNote(int8_t index, uint8_t note);
 			void pitchBend(int8_t index, uint16_t bend);
 			void clearNote(int8_t index, uint8_t note);
-			void bendChannel(uint8_t channel, uint16_t value);
 			
 		//Note Processing
 		//_______________________________________________________________________________________________________
@@ -113,10 +112,7 @@
 			void testPitchBend(uint8_t index);
 			
 			//Basic load test to ensure we're able to play 
-			void loadTest(uint8_t numDevices);
-			
-			//Test pitch bending an entire channel (all enabled devices per processing)
-			void bendChannelTest();
+			void loadTest(uint8_t numDevices = MAX_DEVICES);
 			
 			//Plays a sequence across all devices to test set configuration
 			void playStartupSequence(uint8_t version);

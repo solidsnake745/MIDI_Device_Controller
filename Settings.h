@@ -7,7 +7,7 @@
 	
 	//Max limit of device chains that can be managed by the DeviceChain_Controller
 	//Number of chains correlates to more/less memory used by this library
-	#define MAX_CHAINS 16
+	#define MAX_CHAINS 8
 
 	//Max limit of devices that can be managed by the MIDI_DeviceController
 	//Number of devices correlates to more/less memory used by this library

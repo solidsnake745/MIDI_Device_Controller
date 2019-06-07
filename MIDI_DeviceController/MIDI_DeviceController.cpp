@@ -256,10 +256,11 @@ bool MIDI_DeviceController::startProcessing()
 	
 	_isProcessing = true;
 	
-	#if DEBUG_MODE >= 5
-		MIDI_Periods::_currentResolution = 1000000; //1 second interval
-		MIDI_Periods::calculatedPeriods[50] = 3;		
-	#endif
+	//TODO: Redesign and implement debugging the interrupt process
+	// #if DEBUG_MODE >= 5
+		// MIDI_Periods::_currentResolution = 1000000; //1 second interval
+		// MIDI_Periods::calculatedPeriods[50] = 3;		
+	// #endif
 	
 	_debug.debugln(1, F("Starting note processing"));
 	_debug.debugln(2, F("Resolution set to %d"), MIDI_Periods::getResolution());
@@ -388,20 +389,24 @@ void MIDI_DeviceController::testPitchBend(uint8_t index)
 	Device *d = getDevice(index);
 	if(!d) return;
 	
+	bool currentSetting = _autoProcessing;		
+	setAutoProcess(true);	
+	
 	d->assignNote(50);
 	d->pitchBend(1);
-	// if(!_isProcessing) startProcessing();
 	
 	//Note processing occurs every (_resolution) microseconds
 	//Thus effectively creating a delay between pitchBend calls
+	//TODO: Verify above comment again
 	for(int16_t i = 2; i <= 16383; i+=2500) 
 	{
 		d->pitchBend(i);
-		delayMicroseconds(5000);
+		//delayMicroseconds(5000);
 	}
 	
 	d->clearNote();
 	stopProcessing();
+	setAutoProcess(currentSetting);
 }
 
 void MIDI_DeviceController::loadTest(uint8_t numDevices)
@@ -435,41 +440,6 @@ void MIDI_DeviceController::loadTest(uint8_t numDevices)
 	setIdleTimeout(currentTimeout);
 }
 
-/* void MIDISteppers::bendChannelTest()
-{
-	// Temporarily enable auto process and set idle timeout to 5 seconds
-	bool currentSetting = _autoProcessing;	
-	setAutoProcess(true);
-	
-	// Assign notes to specified devices
-	for(int16_t i = 0; i < _numDevices; i++) 
-	{
-		if(!isEnabled(i) || _stepPinMap[i] < 0) continue;
-		assignNote(i, 50, 1);
-		pitchBend(i, 0);
-		delay(100);
-	}
-	
-	delay(250);
-	for(int16_t i = 1; i <= 16383; i++) 
-	{
-		bendChannel(1, i);
-		delay(25);
-	}
-	delay(250);
-	
-	// Assign notes to specified devices
-	for(int16_t i = _numDevices - 1; i >= 0 ; i--)
-	{                                 
-	  clearNote(i);
-	  delay(100);
-	}		
-	
-	// Revert back to user settings and stop processing
-	setAutoProcess(currentSetting);
-	stopProcessing();
-} */
-
 void MIDI_DeviceController::playStartupSequence(uint8_t version)
 {
 	uint8_t numEnabled = reloadEnabledDevices();
@@ -482,9 +452,9 @@ void MIDI_DeviceController::playStartupSequence(uint8_t version)
 			int i = 0;
 			while(i < numEnabled)
 			{
-				Device *d = _devices[i++];
+				Device *d = _enabledDevices[i++];
 				
-				_debug.println(F("Single device sequence on device %d"), d->_id);
+				_debug.println(F("Single device sequence on %d"), d->_id);
 				for(uint8_t y = 0; y <= 9; y++) 
 				{
 					d->toggleStep();
