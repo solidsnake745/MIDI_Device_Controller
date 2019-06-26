@@ -40,7 +40,7 @@ void DeviceChain_Base::printStatus()
 	_debug.debugln(5, F("End of the chain"));
 };
 
-void DeviceChain_Base::addDevice(Device *d)
+void DeviceChain_Base::addDevice(MIDI_Device *d)
 {
 	//Handle first node insertion
 	if(!start)
@@ -74,7 +74,7 @@ void DeviceChain_Base::addDevice(Device *d)
 	_debug.debugln(5, F("New node added"));
 };
 
-void DeviceChain_Base::addDevices(Device devices[], uint16_t numDevices)
+void DeviceChain_Base::addDevices(MIDI_Device devices[], uint16_t numDevices)
 {	
 	if(numDevices > MAX_DEVICES)
 		numDevices = MAX_DEVICES;

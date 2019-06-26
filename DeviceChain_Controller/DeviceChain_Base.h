@@ -2,7 +2,7 @@
 	#define DeviceChain_Base_h
 
 	#include "../Settings.h"
-	#include "../MIDI_DeviceController/Device.h"
+	#include "../MIDI_DeviceController/MIDI_Device.h"
 	#include "../SerialDebug.h"
 
 	struct DeviceNode;
@@ -24,8 +24,8 @@
 		public:
 			virtual ~DeviceChain_Base();
 			
-			void addDevice(Device *d);
-			void addDevices(Device devices[], uint16_t numDevices); //Adds the given set of devices
+			void addDevice(MIDI_Device *d);
+			void addDevices(MIDI_Device devices[], uint16_t numDevices); //Adds the given set of devices
 			void removeDevice(uint8_t id);
 			
 			//Overrideable methods

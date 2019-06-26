@@ -9,7 +9,7 @@ void MIDI_DeviceController::processNotes()
 	int i = 0;
 	while(i < MAX_DEVICES)
 	{
-		Device *d = _enabledDevices[i++];
+		MIDI_Device *d = _enabledDevices[i++];
 		if(!d) return;
 			
 		if(d->_currentNote < 0) 

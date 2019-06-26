@@ -3,7 +3,7 @@
 
 	#include "Settings.h"
 	#include "MIDI_DeviceController.h"
-	#include "MIDI_DeviceController/Device.h"
+	#include "MIDI_DeviceController/MIDI_Device.h"
 	#include "DeviceChain_Controller/DeviceChain_Base.h"
 	#include "DeviceChain_Controller/DeviceChain_Direct.h"
 
@@ -12,7 +12,7 @@
 	class DeviceChain_Controller
 	{
 		// Give Device access to all private members
-		friend class Device;
+		friend class MIDI_Device;
 		
 		static SerialDebug _debug;
 		

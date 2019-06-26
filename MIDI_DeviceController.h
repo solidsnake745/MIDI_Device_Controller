@@ -4,13 +4,13 @@
 	#include "Settings.h"
 	#include <Arduino.h>
 	#include <TimerOne.h>
-	#include "MIDI_DeviceController/Device.h"
+	#include "MIDI_DeviceController/MIDI_Device.h"
 	#include "SerialDebug.h"
 
 	class MIDI_DeviceController
 	{
 		// Give Device access to all private members
-		friend class Device;
+		friend class MIDI_Device;
 		
 		static SerialDebug _debug;
 		
@@ -27,17 +27,17 @@
 		//Device management
 		//_______________________________________________________________________________________________________
 		private:
-			static Device *_devices[MAX_DEVICES];
-			static Device *_enabledDevices[MAX_DEVICES];
+			static MIDI_Device *_devices[MAX_DEVICES];
+			static MIDI_Device *_enabledDevices[MAX_DEVICES];
 
 			uint8_t reloadEnabledDevices();
 
 		public:
 			void printStatus(); //Print each device slot's status		
 			
-			void addDevice(uint8_t index, Device *d); //Adds a device to the correlating index given the device's ID
-			void addDevices(Device devices[], uint8_t numDevices); //Adds the given set of devices
-			Device *getDevice(uint8_t index); //Retrieves a device at specified index
+			void addDevice(uint8_t index, MIDI_Device *d); //Adds a device to the correlating index given the device's ID
+			void addDevices(MIDI_Device devices[], uint8_t numDevices); //Adds the given set of devices
+			MIDI_Device *getDevice(uint8_t index); //Retrieves a device at specified index
 			void deleteDevice(uint8_t index); //Deletes device at specified index if populated
 
 			void resetPositions();

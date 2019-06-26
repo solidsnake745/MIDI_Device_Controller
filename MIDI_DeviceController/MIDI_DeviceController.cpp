@@ -29,8 +29,8 @@ MIDI_DeviceController &MIDI_DeviceController::getInstance()
 	
 //Device management
 //_______________________________________________________________________________________________________
-Device *MIDI_DeviceController::_devices[MAX_DEVICES];
-Device *MIDI_DeviceController::_enabledDevices[MAX_DEVICES];
+MIDI_Device *MIDI_DeviceController::_devices[MAX_DEVICES];
+MIDI_Device *MIDI_DeviceController::_enabledDevices[MAX_DEVICES];
 
 uint8_t MIDI_DeviceController::reloadEnabledDevices()
 {
@@ -81,7 +81,7 @@ void MIDI_DeviceController::printStatus()
 	}
 }
 
-void MIDI_DeviceController::addDevice(uint8_t index, Device *d)
+void MIDI_DeviceController::addDevice(uint8_t index, MIDI_Device *d)
 {
 	if(index > MAX_DEVICES - 1)
 	{
@@ -101,7 +101,7 @@ void MIDI_DeviceController::addDevice(uint8_t index, Device *d)
 	_devices[index] = d;
 }
 
-void MIDI_DeviceController::addDevices(Device devices[], uint8_t numDevices)
+void MIDI_DeviceController::addDevices(MIDI_Device devices[], uint8_t numDevices)
 {
 	if(numDevices > MAX_DEVICES)
 		numDevices = MAX_DEVICES;
@@ -116,7 +116,7 @@ void MIDI_DeviceController::addDevices(Device devices[], uint8_t numDevices)
 	}
 }
 
-Device *MIDI_DeviceController::getDevice(uint8_t index)
+MIDI_Device *MIDI_DeviceController::getDevice(uint8_t index)
 {
 	if(index > MAX_DEVICES - 1)
 	{
@@ -156,7 +156,7 @@ void MIDI_DeviceController::resetPositions()
 	int i = 0;
 	while(i < numEnabled)
 	{
-		Device *d = _enabledDevices[i++];
+		MIDI_Device *d = _enabledDevices[i++];
 		if(!d) break;
 		
 		d->setDirection(HIGH);
@@ -169,7 +169,7 @@ void MIDI_DeviceController::resetPositions()
 		resetDeviceCount = 0;
 		for(i = 0; i < numEnabled; i++)
 		{
-			Device *d = _enabledDevices[i];
+			MIDI_Device *d = _enabledDevices[i];
 			
 			//TODO: refactor out check on isTrackingPosition
 			if(!d->isTrackingPosition() || d->isAtMaxPosition())
@@ -184,7 +184,7 @@ void MIDI_DeviceController::resetPositions()
 	i = 0;
 	while(i < numEnabled)
 	{
-		Device *d = _enabledDevices[i++];
+		MIDI_Device *d = _enabledDevices[i++];
 		
 		d->setDirection(LOW);
 		d->setStepState(LOW);
@@ -198,7 +198,7 @@ void MIDI_DeviceController::calibratePositions()
 	int i = 0;
 	while(i < numEnabled)
 	{
-		Device *d = _enabledDevices[i++];
+		MIDI_Device *d = _enabledDevices[i++];
 
 		d->setDirState(HIGH);
 		d->_currentPosition = d->getMaxPosition();
@@ -212,21 +212,21 @@ void MIDI_DeviceController::assignNote(int8_t index, uint8_t note)
 	_debug.debugln(8, F("Is processing: %d"), _isProcessing);
 	_debug.debugln(8, F("Auto processing: %d"), _autoProcessing);
 	
-	Device *d = getDevice(index);
+	MIDI_Device *d = getDevice(index);
 	if(!d) return;
 	d->assignNote(note);
 }
 
 void MIDI_DeviceController::pitchBend(int8_t index, uint16_t bend)
 {
-	Device *d = getDevice(index);
+	MIDI_Device *d = getDevice(index);
 	if(!d) return;
 	d->pitchBend(bend);
 }
 
 void MIDI_DeviceController::clearNote(int8_t index, uint8_t note)
 {
-	Device *d = getDevice(index);
+	MIDI_Device *d = getDevice(index);
 	if(!d) return;
 	if(d->getCurrentNote() == note) d->clearNote();
 }
@@ -370,7 +370,7 @@ void MIDI_DeviceController::setLEDPin(int8_t pin)
 //_______________________________________________________________________________________________________
 void MIDI_DeviceController::testDeviceInterrupt(uint8_t index) 
 {
-	Device *d = getDevice(index);
+	MIDI_Device *d = getDevice(index);
 	if(!d) return;
 	
 	if(!_isProcessing) startProcessing();
@@ -386,7 +386,7 @@ void MIDI_DeviceController::testDeviceInterrupt(uint8_t index)
 
 void MIDI_DeviceController::testPitchBend(uint8_t index)
 {
-	Device *d = getDevice(index);
+	MIDI_Device *d = getDevice(index);
 	if(!d) return;
 	
 	bool currentSetting = _autoProcessing;		
@@ -424,7 +424,7 @@ void MIDI_DeviceController::loadTest(uint8_t numDevices)
 	//Start the test - Assign notes across active devices
 	for(int16_t i = 0; i < numDevices; i++) 
 	{
-		Device *d = _devices[i];
+		MIDI_Device *d = _devices[i];
 		if(!d) continue;
 		
 		delay(250); //Staggers note assignments
@@ -452,7 +452,7 @@ void MIDI_DeviceController::playStartupSequence(uint8_t version)
 			int i = 0;
 			while(i < numEnabled)
 			{
-				Device *d = _enabledDevices[i++];
+				MIDI_Device *d = _enabledDevices[i++];
 				
 				_debug.println(F("Single device sequence on %d"), d->_id);
 				for(uint8_t y = 0; y <= 9; y++) 

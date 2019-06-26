@@ -1,5 +1,5 @@
-#ifndef Device_h
-	#define Device_h
+#ifndef MIDI_Device_h
+	#define MIDI_Device_h
 
 	#include <Arduino.h>
 	#include "MIDI_Periods.h"
@@ -8,7 +8,7 @@
 	//Forward declaration for compiling
 	class MIDI_DeviceController;
 
-	class Device
+	class MIDI_Device
 	{	
 		//Give MIDI_DeviceController access to all private members
 		friend class MIDI_DeviceController;
@@ -21,8 +21,8 @@
 			//Nothing here
 			
 		public:
-			Device(int8_t stepPin, int8_t dirPin = -1, int32_t maxPosition = -1);
-			~Device();
+			MIDI_Device(int8_t stepPin, int8_t dirPin = -1, int32_t maxPosition = -1);
+			~MIDI_Device();
 		
 		//Configuration
 		//_____________________________________________________________________________________________

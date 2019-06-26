@@ -1,29 +1,29 @@
-#include "Device.h"
+#include "MIDI_Device.h"
 #include "../MIDI_DeviceController.h" //Need the definition of noteAssigned()
 
-SerialDebug Device::_debug(DEBUG_DEVICE);
+SerialDebug MIDI_Device::_debug(DEBUG_DEVICE);
 
 //Constructors
 //_____________________________________________________________________________________________
-Device::Device(int8_t stepPin, int8_t dirPin, int32_t maxPosition)
+MIDI_Device::MIDI_Device(int8_t stepPin, int8_t dirPin, int32_t maxPosition)
 {	
 	setup(stepPin, dirPin, maxPosition);	
 	_debug.debugln(8, F("Device created"));
 }
 
-Device::~Device()
+MIDI_Device::~MIDI_Device()
 {
 	_debug.debugln(8, F("Device deleted"));	
 }
 
 //Configuration
 //_____________________________________________________________________________________________
-void Device::setController(MIDI_DeviceController *controller)
+void MIDI_Device::setController(MIDI_DeviceController *controller)
 {
 	belongsTo = controller;
 }
 
-void Device::setup(int8_t stepPin, int8_t dirPin, int32_t maxPosition)
+void MIDI_Device::setup(int8_t stepPin, int8_t dirPin, int32_t maxPosition)
 {
 	_debug.debugln(7, F("%d - Setting up device"), _id);
 	
@@ -35,7 +35,7 @@ void Device::setup(int8_t stepPin, int8_t dirPin, int32_t maxPosition)
 	initialize();
 }
 
-void Device::initialize()
+void MIDI_Device::initialize()
 {
 	//Initialize/reset device properties to an initial state
 	resetProperties(true);
@@ -66,11 +66,11 @@ void Device::initialize()
 	}
 }
 
-void Device::setStepPin(int8_t pin) { _stepPinMap = pin; }
+void MIDI_Device::setStepPin(int8_t pin) { _stepPinMap = pin; }
 
-void Device::setDirPin(int8_t pin) { _dirPinMap = pin; }
+void MIDI_Device::setDirPin(int8_t pin) { _dirPinMap = pin; }
 
-void Device::printStatus()
+void MIDI_Device::printStatus()
 {
 	_debug.println(F("Status for device %d"), _id);
 	_debug.println(F("  Enabled: %d"), getEnabled());
@@ -86,51 +86,51 @@ void Device::printStatus()
 	_debug.println(F("  Current Note: %d"), getCurrentNote());
 }
 
-uint8_t Device::getID() { return _id; }
-void Device::setID(uint8_t value) { _id = value; }
+uint8_t MIDI_Device::getID() { return _id; }
+void MIDI_Device::setID(uint8_t value) { _id = value; }
 
-int8_t Device::getStepPin() { return _stepPinMap; }
-int8_t Device::getDirPin() { return _dirPinMap; }
+int8_t MIDI_Device::getStepPin() { return _stepPinMap; }
+int8_t MIDI_Device::getDirPin() { return _dirPinMap; }
 
-void Device::setMaxPosition(int32_t value) { _maxPosition = value; }
-void Device::setEnabled(bool value) { _enabled = value; }
+void MIDI_Device::setMaxPosition(int32_t value) { _maxPosition = value; }
+void MIDI_Device::setEnabled(bool value) { _enabled = value; }
 
-bool Device::getEnabled() { return _enabled; }
+bool MIDI_Device::getEnabled() { return _enabled; }
 
 //Operation
 //_____________________________________________________________________________________________
-uint16_t *Device::_referencePeriods = MIDI_Periods::calculatedPeriods;
+uint16_t *MIDI_Device::_referencePeriods = MIDI_Periods::calculatedPeriods;
 
-void Device::calibratePosition()
+void MIDI_Device::calibratePosition()
 {
 	setDirState(LOW);
 	_currentPosition = getMaxPosition();
 	resetPosition();
 }
 
-void Device::zeroPosition() { _currentPosition = 0; }
+void MIDI_Device::zeroPosition() { _currentPosition = 0; }
 
-void Device::clearNote()
+void MIDI_Device::clearNote()
 {
 	_debug.debugln(7, F("%d - Clearing note"), _id);
 	_currentNote = 0;
 }
 
-bool Device::getStepState() { return _stepState; }
-bool Device::getDirState() { return _dirState; }
-int16_t Device::getPosition() { return _currentPosition; }
-int16_t Device::getMaxPosition() { return _maxPosition; }
-int8_t Device::getCurrentNote() { return _currentNote; }
-int16_t Device::getBasePeriod() { return *(_referencePeriods + _currentNote); }
-int16_t Device::getCurrentPeriod() { return _currentPeriod; }
-uint32_t Device::getDuration() { return _currentDuration; }
+bool MIDI_Device::getStepState() { return _stepState; }
+bool MIDI_Device::getDirState() { return _dirState; }
+int16_t MIDI_Device::getPosition() { return _currentPosition; }
+int16_t MIDI_Device::getMaxPosition() { return _maxPosition; }
+int8_t MIDI_Device::getCurrentNote() { return _currentNote; }
+int16_t MIDI_Device::getBasePeriod() { return *(_referencePeriods + _currentNote); }
+int16_t MIDI_Device::getCurrentPeriod() { return _currentPeriod; }
+uint32_t MIDI_Device::getDuration() { return _currentDuration; }
 
-bool Device::isEnabled() { return (_enabled && _stepPinMap >= 0); }
-bool Device::isAvailable() { return _currentNote == -1; }
-bool Device::isAtMaxPosition() { return _currentPosition >= _maxPosition; }
-bool Device::isTrackingPosition() { return _maxPosition > 0; }
+bool MIDI_Device::isEnabled() { return (_enabled && _stepPinMap >= 0); }
+bool MIDI_Device::isAvailable() { return _currentNote == -1; }
+bool MIDI_Device::isAtMaxPosition() { return _currentPosition >= _maxPosition; }
+bool MIDI_Device::isTrackingPosition() { return _maxPosition > 0; }
 
-void Device::resetProperties(bool includePosition)
+void MIDI_Device::resetProperties(bool includePosition)
 {
 	_debug.debugln(7, F("%d - Resetting properties"), _id);
 
@@ -150,7 +150,7 @@ void Device::resetProperties(bool includePosition)
 	zeroPosition();
 }
 
-void Device::resetPosition()
+void MIDI_Device::resetPosition()
 {
 	//Don't attempt resetting if the device isn't set to track position
 	if(!isTrackingPosition()) return;
@@ -168,7 +168,7 @@ void Device::resetPosition()
 	setStepState(LOW);
 }
 
-void Device::setDirection(bool direction)
+void MIDI_Device::setDirection(bool direction)
 {
 	//Check user is actually changing the direction from the current state
 	if(_dirState != direction)
@@ -192,7 +192,7 @@ void Device::setDirection(bool direction)
 	}
 }
 
-void Device::assignNote(uint8_t note)
+void MIDI_Device::assignNote(uint8_t note)
 {
 	if(!isEnabled()) 
 	{
@@ -208,7 +208,7 @@ void Device::assignNote(uint8_t note)
 	if(belongsTo) belongsTo->noteAssigned();
 }
 
-void Device::assignPeriod(uint16_t period)
+void MIDI_Device::assignPeriod(uint16_t period)
 {
 	if(!isEnabled()) return;
 	
@@ -220,7 +220,7 @@ void Device::assignPeriod(uint16_t period)
 	if(belongsTo) belongsTo->noteAssigned();
 }
 
-void Device::pitchBend(uint16_t bend)
+void MIDI_Device::pitchBend(uint16_t bend)
 { 
 	if (_currentNote > 0 && _currentNote < 255) 
 	{
@@ -239,19 +239,19 @@ void Device::pitchBend(uint16_t bend)
 	}
 }
 
-void Device::setStepState(bool state)
+void MIDI_Device::setStepState(bool state)
 {
 	_stepState = state;
 	digitalWrite(_stepPinMap, _stepState);
 }
 
-void Device::setDirState(bool state)
+void MIDI_Device::setDirState(bool state)
 {
 	_dirState = state;
 	digitalWrite(_dirPinMap, _dirState);
 }
 
-void Device::toggleStep()
+void MIDI_Device::toggleStep()
 {
 	//Toggle state for given channel's step pin
 	_stepState = !_stepState;
@@ -262,7 +262,7 @@ void Device::toggleStep()
 		_currentPosition++;
 }
 
-void Device::toggleDirection()
+void MIDI_Device::toggleDirection()
 {
 	//Toggle state for given device's direction pin
 	_debug.debugln(7, F("%d - Direction toggle"), _id);
@@ -272,7 +272,7 @@ void Device::toggleDirection()
 
 //Testing/debug
 //_____________________________________________________________________________________________
-void Device::testStepping(uint32_t steps)
+void MIDI_Device::testStepping(uint32_t steps)
 {
 	uint32_t x = 0;
 	while(x++ < steps)
@@ -287,13 +287,13 @@ void Device::testStepping(uint32_t steps)
 	}
 }
 
-void Device::testStepping(int32_t steps, bool direction)
+void MIDI_Device::testStepping(int32_t steps, bool direction)
 {
 	setDirection(direction);
 	testStepping(steps);
 }
 
-void Device::testDeviceDirect()
+void MIDI_Device::testDeviceDirect()
 {
 	for(int16_t i = 0; i <= 50; i++) 
 	{
@@ -302,7 +302,7 @@ void Device::testDeviceDirect()
 	}
 }
 
-void Device::testMaxDirection() 
+void MIDI_Device::testMaxDirection() 
 {
 	//Nothing to test if no valid max position set
 	if(!isTrackingPosition()) 
@@ -332,7 +332,7 @@ void Device::testMaxDirection()
 	zeroPosition();	
 }
 
-void Device::runAllTests()
+void MIDI_Device::runAllTests()
 {
 	testDeviceDirect(); delay(250);
 	calibratePosition(); delay(250);

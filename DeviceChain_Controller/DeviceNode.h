@@ -4,7 +4,7 @@
 	#include <Arduino.h>
 	#include "../SerialDebug.h"
 	
-	class Device;
+	class MIDI_Device;
 	class DeviceChain_Base;
 
 	struct DeviceNode
@@ -14,12 +14,12 @@
 		static SerialDebug _debug;
 		
 		private:
-			DeviceNode(Device *d, DeviceChain_Base *dc);
+			DeviceNode(MIDI_Device *d, DeviceChain_Base *dc);
 			DeviceChain_Base *parent = NULL;		
 			
 		public:
 			//Devices exist and are stored in MIDI_DeviceController
-			Device *device = NULL;
+			MIDI_Device *device = NULL;
 			DeviceNode *next = NULL;
 			DeviceNode *prev = NULL;
 			
