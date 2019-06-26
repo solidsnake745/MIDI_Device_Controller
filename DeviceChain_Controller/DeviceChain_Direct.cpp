@@ -1,9 +1,9 @@
 #include "DeviceChain_Direct.h"
-#include "DeviceNode.h"
+#include "MIDI_Device_Node.h"
 
 void DeviceChain_Direct::assignNote(uint8_t note)
 {
-	DeviceNode *node = start;
+	MIDI_Device_Node *node = start;
 	
 	while(node)
 	{
@@ -16,7 +16,7 @@ void DeviceChain_Direct::assignNote(uint8_t note)
 
 void DeviceChain_Direct::clearNote(uint8_t note)
 {
-	DeviceNode *node = start;
+	MIDI_Device_Node *node = start;
 	
 	while(node)
 	{
@@ -29,7 +29,7 @@ void DeviceChain_Direct::clearNote(uint8_t note)
 
 void DeviceChain_FA::assignNote(uint8_t note)
 {
-	DeviceNode *node = start;
+	MIDI_Device_Node *node = start;
 	
 	while(node)
 	{
@@ -45,7 +45,7 @@ void DeviceChain_FA::assignNote(uint8_t note)
 
 void DeviceChain_FA::clearNote(uint8_t note)
 {	
-	DeviceNode *node = start;
+	MIDI_Device_Node *node = start;
 	
 	while(node)
 	{
@@ -67,7 +67,7 @@ void DeviceChain_RR::assignNote(uint8_t note)
 		return;
 	}
 	
-	DeviceNode *nextAssign;	
+	MIDI_Device_Node *nextAssign;	
 	if(!lastAssign)
 		nextAssign = start;
 	else
@@ -111,11 +111,11 @@ void DeviceChain_RR::clearNote(uint8_t note)
 		return;
 	}
 	
-	DeviceNode *nextClear = lastAssign->prev;
+	MIDI_Device_Node *nextClear = lastAssign->prev;
 	if(!nextClear) //At the start of the list, go back to the end
 		nextClear = end;
 	
-	DeviceNode *stop = nextClear;
+	MIDI_Device_Node *stop = nextClear;
 	// DEBUG2(F("Starting at device ID "), nextClear->device->getID())
 	
 	while(true)

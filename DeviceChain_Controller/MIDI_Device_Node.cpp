@@ -1,16 +1,16 @@
-#include "DeviceNode.h"
+#include "MIDI_Device_Node.h"
 #include "../MIDI_Device_Controller/MIDI_Device.h"
 #include "DeviceChain_Base.h"
 
-SerialDebug DeviceNode::_debug(DEBUG_DEVICENODE);
+SerialDebug MIDI_Device_Node::_debug(DEBUG_DEVICENODE);
 
-DeviceNode::DeviceNode(MIDI_Device *d, DeviceChain_Base *dc)
+MIDI_Device_Node::MIDI_Device_Node(MIDI_Device *d, DeviceChain_Base *dc)
 {
 	device = d;
 	parent = dc;
 }
 
-bool DeviceNode::tryAssign(uint8_t note)
+bool MIDI_Device_Node::tryAssign(uint8_t note)
 {
 	if(device->isAvailable())
 	{
@@ -23,7 +23,7 @@ bool DeviceNode::tryAssign(uint8_t note)
 	return false;
 }
 
-bool DeviceNode::tryClear(uint8_t note)
+bool MIDI_Device_Node::tryClear(uint8_t note)
 {
 	if(device->getCurrentNote() == note)
 	{
@@ -36,13 +36,13 @@ bool DeviceNode::tryClear(uint8_t note)
 	return false;
 }
 
-void DeviceNode::assignNote(uint8_t note)
+void MIDI_Device_Node::assignNote(uint8_t note)
 {
 	device->assignNote(note);	
 	// lastAssignStamp = millis();
 }
 
-void DeviceNode::clearNote()
+void MIDI_Device_Node::clearNote()
 {
 	device->clearNote();	
 	// lastAssignStamp = 0;

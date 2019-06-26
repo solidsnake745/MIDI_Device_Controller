@@ -1,5 +1,5 @@
 #include "DeviceChain_Base.h"
-#include "DeviceNode.h"
+#include "MIDI_Device_Node.h"
 
 SerialDebug DeviceChain_Base::_debug(DEBUG_DEVICECHAIN_BASE);
 
@@ -16,7 +16,7 @@ void DeviceChain_Base::printStatus()
 	_debug.debugln(5);
 	
 	int i = 0;
-	DeviceNode *node = start;
+	MIDI_Device_Node *node = start;
 	while(node)
 	{
 		_debug.println(F("Status for Device Node %d"), i++);
@@ -45,14 +45,14 @@ void DeviceChain_Base::addDevice(MIDI_Device *d)
 	//Handle first node insertion
 	if(!start)
 	{
-		start = new DeviceNode(d, this);
+		start = new MIDI_Device_Node(d, this);
 		count++;
 		_debug.debugln(5, F("Starting node added"));
 		return;
 	}
 	
 	//Prevent adding duplicate devices
-	DeviceNode *node = start;
+	MIDI_Device_Node *node = start;
 	while(node)
 	{		
 		if(node->device->getID() == d->getID())
@@ -66,7 +66,7 @@ void DeviceChain_Base::addDevice(MIDI_Device *d)
 	}
 	
 	//Create, setup, and add new node	
-	DeviceNode *newNode = new DeviceNode(d, this);
+	MIDI_Device_Node *newNode = new MIDI_Device_Node(d, this);
 	node->next = newNode;
 	newNode->prev = node;
 	end = newNode;
@@ -96,7 +96,7 @@ void DeviceChain_Base::removeDevice(uint8_t id)
 	}
 	
 	//Find and delete node with given device ID
-	DeviceNode *node = start;
+	MIDI_Device_Node *node = start;
 	while(node)
 	{
 		_debug.debugln(5, F(" Searching - current ID: %d"), node->device->getID());
@@ -134,7 +134,7 @@ void DeviceChain_Base::clearNote(uint8_t note)
 
 void DeviceChain_Base::pitchBend(uint16_t bend)
 {
-	DeviceNode *node = start;
+	MIDI_Device_Node *node = start;
 	while(node)
 	{
 		node->device->pitchBend(bend);
@@ -142,7 +142,7 @@ void DeviceChain_Base::pitchBend(uint16_t bend)
 	}
 };
 
-void DeviceChain_Base::deleteNode(DeviceNode *node)
+void DeviceChain_Base::deleteNode(MIDI_Device_Node *node)
 {	
 	//Handle deleting the start node
 	if(node == start)

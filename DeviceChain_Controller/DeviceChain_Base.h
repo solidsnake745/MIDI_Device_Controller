@@ -5,19 +5,19 @@
 	#include "../MIDI_Device_Controller/MIDI_Device.h"
 	#include "../SerialDebug.h"
 
-	struct DeviceNode;
+	struct MIDI_Device_Node;
 
 	//A doubly linked list of devices used for pooling note assignments
 	class DeviceChain_Base
 	{
-		//Give DeviceNode access to all private members
-		friend class DeviceNode;
+		//Give MIDI_Device_Node access to all private members
+		friend class MIDI_Device_Node;
 		
-		void deleteNode(DeviceNode *node);
+		void deleteNode(MIDI_Device_Node *node);
 		
 		protected:
-			DeviceNode *start = NULL;
-			DeviceNode *end = NULL;
+			MIDI_Device_Node *start = NULL;
+			MIDI_Device_Node *end = NULL;
 			uint8_t count = 0;
 			static SerialDebug _debug;
 			

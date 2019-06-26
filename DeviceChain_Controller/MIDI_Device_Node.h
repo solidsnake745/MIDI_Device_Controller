@@ -7,21 +7,21 @@
 	class MIDI_Device;
 	class DeviceChain_Base;
 
-	struct DeviceNode
+	struct MIDI_Device_Node
 	{
 		friend class DeviceChain_Base;
 		
 		static SerialDebug _debug;
 		
 		private:
-			DeviceNode(MIDI_Device *d, DeviceChain_Base *dc);
+			MIDI_Device_Node(MIDI_Device *d, DeviceChain_Base *dc);
 			DeviceChain_Base *parent = NULL;		
 			
 		public:
 			//Devices exist and are stored in MIDI_DeviceController
 			MIDI_Device *device = NULL;
-			DeviceNode *next = NULL;
-			DeviceNode *prev = NULL;
+			MIDI_Device_Node *next = NULL;
+			MIDI_Device_Node *prev = NULL;
 			
 			//Millisecond timestamp when this was last assigned a note
 			// uint32_t lastAssignStamp = 0;
