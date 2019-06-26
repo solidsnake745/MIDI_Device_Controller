@@ -2,8 +2,8 @@
 	#define DeviceChain_Controller_h
 
 	#include "Settings.h"
-	#include "MIDI_DeviceController.h"
-	#include "MIDI_DeviceController/MIDI_Device.h"
+	#include "MIDI_Device_Controller.h"
+	#include "MIDI_Device_Controller/MIDI_Device.h"
 	#include "DeviceChain_Controller/DeviceChain_Base.h"
 	#include "DeviceChain_Controller/DeviceChain_Direct.h"
 

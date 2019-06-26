@@ -1,5 +1,5 @@
 #include "MIDI_Device.h"
-#include "../MIDI_DeviceController.h" //Need the definition of noteAssigned()
+#include "../MIDI_Device_Controller.h" //Need the definition of noteAssigned()
 
 SerialDebug MIDI_Device::_debug(DEBUG_DEVICE);
 
@@ -18,7 +18,7 @@ MIDI_Device::~MIDI_Device()
 
 //Configuration
 //_____________________________________________________________________________________________
-void MIDI_Device::setController(MIDI_DeviceController *controller)
+void MIDI_Device::setController(MIDI_Device_Controller *controller)
 {
 	belongsTo = controller;
 }

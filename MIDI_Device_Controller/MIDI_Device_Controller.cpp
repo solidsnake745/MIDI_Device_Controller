@@ -1,16 +1,16 @@
-#include "../MIDI_DeviceController.h"
+#include "../MIDI_Device_Controller.h"
 
-SerialDebug MIDI_DeviceController::_debug(DEBUG_MIDIDEVICE_CONTROLLER);
+SerialDebug MIDI_Device_Controller::_debug(DEBUG_MIDIDEVICE_CONTROLLER);
 
 //Constructors and instance management
 //_______________________________________________________________________________________________________
 
 //Global singleton instance
-MIDI_DeviceController MDC = MIDI_DeviceController::getInstance();
+MIDI_Device_Controller MDC = MIDI_Device_Controller::getInstance();
 
-MIDI_DeviceController *MIDI_DeviceController::_instance = NULL;
+MIDI_Device_Controller *MIDI_Device_Controller::_instance = NULL;
 
-MIDI_DeviceController::MIDI_DeviceController()
+MIDI_Device_Controller::MIDI_Device_Controller()
 {
 	//Initialize device collection with nulls
 	for(int i = 0;i < MAX_DEVICES;i++) _devices[i] = NULL;
@@ -19,20 +19,20 @@ MIDI_DeviceController::MIDI_DeviceController()
 	setResolution();
 }
 
-MIDI_DeviceController &MIDI_DeviceController::getInstance()
+MIDI_Device_Controller &MIDI_Device_Controller::getInstance()
 {
 	//Single instance check, instantiation, and return
-	if (_instance == NULL) _instance = new MIDI_DeviceController();
+	if (_instance == NULL) _instance = new MIDI_Device_Controller();
 	return *_instance;
 }
 
 	
 //Device management
 //_______________________________________________________________________________________________________
-MIDI_Device *MIDI_DeviceController::_devices[MAX_DEVICES];
-MIDI_Device *MIDI_DeviceController::_enabledDevices[MAX_DEVICES];
+MIDI_Device *MIDI_Device_Controller::_devices[MAX_DEVICES];
+MIDI_Device *MIDI_Device_Controller::_enabledDevices[MAX_DEVICES];
 
-uint8_t MIDI_DeviceController::reloadEnabledDevices()
+uint8_t MIDI_Device_Controller::reloadEnabledDevices()
 {
 	_debug.debugln(1, F("Reloading enabled devices"));
 	
@@ -59,7 +59,7 @@ uint8_t MIDI_DeviceController::reloadEnabledDevices()
 	return x;
 }
 
-void MIDI_DeviceController::printStatus()
+void MIDI_Device_Controller::printStatus()
 {
 	int i = 0;
 	while(i != MAX_DEVICES)
@@ -81,7 +81,7 @@ void MIDI_DeviceController::printStatus()
 	}
 }
 
-void MIDI_DeviceController::addDevice(uint8_t index, MIDI_Device *d)
+void MIDI_Device_Controller::addDevice(uint8_t index, MIDI_Device *d)
 {
 	if(index > MAX_DEVICES - 1)
 	{
@@ -101,7 +101,7 @@ void MIDI_DeviceController::addDevice(uint8_t index, MIDI_Device *d)
 	_devices[index] = d;
 }
 
-void MIDI_DeviceController::addDevices(MIDI_Device devices[], uint8_t numDevices)
+void MIDI_Device_Controller::addDevices(MIDI_Device devices[], uint8_t numDevices)
 {
 	if(numDevices > MAX_DEVICES)
 		numDevices = MAX_DEVICES;
@@ -116,7 +116,7 @@ void MIDI_DeviceController::addDevices(MIDI_Device devices[], uint8_t numDevices
 	}
 }
 
-MIDI_Device *MIDI_DeviceController::getDevice(uint8_t index)
+MIDI_Device *MIDI_Device_Controller::getDevice(uint8_t index)
 {
 	if(index > MAX_DEVICES - 1)
 	{
@@ -127,7 +127,7 @@ MIDI_Device *MIDI_DeviceController::getDevice(uint8_t index)
 	return _devices[index];
 }
 
-void MIDI_DeviceController::deleteDevice(uint8_t index)
+void MIDI_Device_Controller::deleteDevice(uint8_t index)
 {
 	if(index > MAX_DEVICES - 1)
 	{
@@ -149,7 +149,7 @@ void MIDI_DeviceController::deleteDevice(uint8_t index)
 }
 
 //TODO: Verify logic
-void MIDI_DeviceController::resetPositions()
+void MIDI_Device_Controller::resetPositions()
 {
 	uint8_t numEnabled = reloadEnabledDevices();
 	
@@ -191,7 +191,7 @@ void MIDI_DeviceController::resetPositions()
 	}
 }
 
-void MIDI_DeviceController::calibratePositions()
+void MIDI_Device_Controller::calibratePositions()
 {
 	uint8_t numEnabled = reloadEnabledDevices();
 	
@@ -207,7 +207,7 @@ void MIDI_DeviceController::calibratePositions()
 	resetPositions();
 }
 
-void MIDI_DeviceController::assignNote(int8_t index, uint8_t note)
+void MIDI_Device_Controller::assignNote(int8_t index, uint8_t note)
 {
 	_debug.debugln(8, F("Is processing: %d"), _isProcessing);
 	_debug.debugln(8, F("Auto processing: %d"), _autoProcessing);
@@ -217,14 +217,14 @@ void MIDI_DeviceController::assignNote(int8_t index, uint8_t note)
 	d->assignNote(note);
 }
 
-void MIDI_DeviceController::pitchBend(int8_t index, uint16_t bend)
+void MIDI_Device_Controller::pitchBend(int8_t index, uint16_t bend)
 {
 	MIDI_Device *d = getDevice(index);
 	if(!d) return;
 	d->pitchBend(bend);
 }
 
-void MIDI_DeviceController::clearNote(int8_t index, uint8_t note)
+void MIDI_Device_Controller::clearNote(int8_t index, uint8_t note)
 {
 	MIDI_Device *d = getDevice(index);
 	if(!d) return;
@@ -234,9 +234,9 @@ void MIDI_DeviceController::clearNote(int8_t index, uint8_t note)
 //Note Processing
 //_______________________________________________________________________________________________________	
 
-void MIDI_DeviceController::lawl() { _instance->processNotes(); };
+void MIDI_Device_Controller::lawl() { _instance->processNotes(); };
 
-void MIDI_DeviceController::noteAssigned()
+void MIDI_Device_Controller::noteAssigned()
 {
 	if(_autoProcessing)
 	{
@@ -246,7 +246,7 @@ void MIDI_DeviceController::noteAssigned()
 	}
 }
 
-bool MIDI_DeviceController::startProcessing() 
+bool MIDI_Device_Controller::startProcessing() 
 {
 	if(_isProcessing)
 	{
@@ -269,7 +269,7 @@ bool MIDI_DeviceController::startProcessing()
 	if(_autoProcessing) _lastAssign = millis();
 	
 	Timer1.initialize();
-	Timer1.attachInterrupt(MIDI_DeviceController::lawl);
+	Timer1.attachInterrupt(MIDI_Device_Controller::lawl);
 	Timer1.setPeriod(MIDI_Periods::getResolution());
 	Timer1.start();
 	
@@ -277,7 +277,7 @@ bool MIDI_DeviceController::startProcessing()
 	return true;
 }
 
-void MIDI_DeviceController::stopProcessing()
+void MIDI_Device_Controller::stopProcessing()
 {
 	_debug.debugln(5, F("Stopping processing"));
 	
@@ -301,7 +301,7 @@ void MIDI_DeviceController::stopProcessing()
 	// int lastDebugValue = -1;
 // #endif
 
-bool MIDI_DeviceController::resetProcessing()
+bool MIDI_Device_Controller::resetProcessing()
 {
 	if(!_isProcessing) return false;
 	
@@ -331,7 +331,7 @@ bool MIDI_DeviceController::resetProcessing()
 	return false;
 }
 
-bool MIDI_DeviceController::isProcessing()
+bool MIDI_Device_Controller::isProcessing()
 {
 	return _isProcessing;
 }
@@ -339,27 +339,27 @@ bool MIDI_DeviceController::isProcessing()
 
 //Settings
 //_______________________________________________________________________________________________________
-uint8_t MIDI_DeviceController::getMaxDevices() { return MAX_DEVICES; }
-uint32_t MIDI_DeviceController::getMaxDuration() { return _maxDuration; }
-void MIDI_DeviceController::setMaxDuration(uint32_t value) { _maxDuration = value; }
-void MIDI_DeviceController::setIdleTimeout(int16_t value) { _idleTimeout = value; }
-void MIDI_DeviceController::setAutoProcess(bool value) { _autoProcessing = value; }
-void MIDI_DeviceController::setResolution(uint16_t resolution) { MIDI_Periods::setResolution(resolution); }
+uint8_t MIDI_Device_Controller::getMaxDevices() { return MAX_DEVICES; }
+uint32_t MIDI_Device_Controller::getMaxDuration() { return _maxDuration; }
+void MIDI_Device_Controller::setMaxDuration(uint32_t value) { _maxDuration = value; }
+void MIDI_Device_Controller::setIdleTimeout(int16_t value) { _idleTimeout = value; }
+void MIDI_Device_Controller::setAutoProcess(bool value) { _autoProcessing = value; }
+void MIDI_Device_Controller::setResolution(uint16_t resolution) { MIDI_Periods::setResolution(resolution); }
 
 
 //LED pin functionality
 //_______________________________________________________________________________________________________
-void MIDI_DeviceController::LEDOn()
+void MIDI_Device_Controller::LEDOn()
 {
 	if(_ledPin > -1) digitalWrite(_ledPin, HIGH);
 }
 
-void MIDI_DeviceController::LEDOff()
+void MIDI_Device_Controller::LEDOff()
 {
 	if(_ledPin > -1) digitalWrite(_ledPin, LOW);
 }
 
-void MIDI_DeviceController::setLEDPin(int8_t pin) 
+void MIDI_Device_Controller::setLEDPin(int8_t pin) 
 {
 	_ledPin = pin;
 	if(_ledPin > -1) pinMode(_ledPin, OUTPUT);
@@ -368,7 +368,7 @@ void MIDI_DeviceController::setLEDPin(int8_t pin)
 
 //Tests/Debug
 //_______________________________________________________________________________________________________
-void MIDI_DeviceController::testDeviceInterrupt(uint8_t index) 
+void MIDI_Device_Controller::testDeviceInterrupt(uint8_t index) 
 {
 	MIDI_Device *d = getDevice(index);
 	if(!d) return;
@@ -384,7 +384,7 @@ void MIDI_DeviceController::testDeviceInterrupt(uint8_t index)
 	stopProcessing();
 }
 
-void MIDI_DeviceController::testPitchBend(uint8_t index)
+void MIDI_Device_Controller::testPitchBend(uint8_t index)
 {
 	MIDI_Device *d = getDevice(index);
 	if(!d) return;
@@ -409,7 +409,7 @@ void MIDI_DeviceController::testPitchBend(uint8_t index)
 	setAutoProcess(currentSetting);
 }
 
-void MIDI_DeviceController::loadTest(uint8_t numDevices)
+void MIDI_Device_Controller::loadTest(uint8_t numDevices)
 {
 	//Temporarily enable auto process and set idle timeout to 5 seconds
 	bool currentSetting = _autoProcessing;	
@@ -440,7 +440,7 @@ void MIDI_DeviceController::loadTest(uint8_t numDevices)
 	setIdleTimeout(currentTimeout);
 }
 
-void MIDI_DeviceController::playStartupSequence(uint8_t version)
+void MIDI_Device_Controller::playStartupSequence(uint8_t version)
 {
 	uint8_t numEnabled = reloadEnabledDevices();
 	

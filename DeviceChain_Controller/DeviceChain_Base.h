@@ -2,7 +2,7 @@
 	#define DeviceChain_Base_h
 
 	#include "../Settings.h"
-	#include "../MIDI_DeviceController/MIDI_Device.h"
+	#include "../MIDI_Device_Controller/MIDI_Device.h"
 	#include "../SerialDebug.h"
 
 	struct DeviceNode;

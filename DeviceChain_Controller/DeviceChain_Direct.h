@@ -1,7 +1,7 @@
 #ifndef DeviceChain_Direct_h
 	#define DeviceChain_Direct_h
 
-	#include "../MIDI_DeviceController/MIDI_Device.h"
+	#include "../MIDI_Device_Controller/MIDI_Device.h"
 	#include "DeviceChain_Base.h"
 
 	struct DeviceNode;

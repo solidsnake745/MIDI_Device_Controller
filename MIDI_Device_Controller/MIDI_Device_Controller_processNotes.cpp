@@ -1,6 +1,6 @@
-#include "../MIDI_DeviceController.h"
+#include "../MIDI_Device_Controller.h"
 
-void MIDI_DeviceController::processNotes()
+void MIDI_Device_Controller::processNotes()
 {	
 	#if DEBUG_MODE >= 5
 	DEBUG(F("Process start"))

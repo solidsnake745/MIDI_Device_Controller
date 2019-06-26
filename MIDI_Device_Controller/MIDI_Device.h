@@ -6,12 +6,12 @@
 	#include "../SerialDebug.h"
 
 	//Forward declaration for compiling
-	class MIDI_DeviceController;
+	class MIDI_Device_Controller;
 
 	class MIDI_Device
 	{	
 		//Give MIDI_DeviceController access to all private members
-		friend class MIDI_DeviceController;
+		friend class MIDI_Device_Controller;
 		
 		static SerialDebug _debug;
 		
@@ -42,7 +42,7 @@
 			//NOTE: Setting to -1 disables position tracking functionality all together
 			int16_t _maxPosition = -1;
 			
-			MIDI_DeviceController *belongsTo = NULL;
+			MIDI_Device_Controller *belongsTo = NULL;
 			
 			//Intializes an individual device
 			void initialize();
@@ -53,7 +53,7 @@
 			//Sets the associated direction pin
 			void setDirPin(int8_t pin);		
 			
-			void setController(MIDI_DeviceController *controller);
+			void setController(MIDI_Device_Controller *controller);
 			void setID(uint8_t value);
 			
 		public:

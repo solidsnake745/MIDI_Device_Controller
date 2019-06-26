@@ -1,13 +1,13 @@
-#ifndef MIDI_DeviceController_h
-	#define MIDI_DeviceController_h
+#ifndef MIDI_Device_Controller_h
+	#define MIDI_Device_Controller_h
 
 	#include "Settings.h"
 	#include <Arduino.h>
 	#include <TimerOne.h>
-	#include "MIDI_DeviceController/MIDI_Device.h"
+	#include "MIDI_Device_Controller/MIDI_Device.h"
 	#include "SerialDebug.h"
 
-	class MIDI_DeviceController
+	class MIDI_Device_Controller
 	{
 		// Give Device access to all private members
 		friend class MIDI_Device;
@@ -17,12 +17,12 @@
 		//Constructors and instance management
 		//_______________________________________________________________________________________________________
 		private:
-			MIDI_DeviceController();
-			static MIDI_DeviceController *_instance;
+			MIDI_Device_Controller();
+			static MIDI_Device_Controller *_instance;
 			
 		public:
 			//Used to populate our single instance MDC for consumption
-			static MIDI_DeviceController &getInstance();
+			static MIDI_Device_Controller &getInstance();
 			
 		//Device management
 		//_______________________________________________________________________________________________________
@@ -119,5 +119,5 @@
 	};
 
 	//Defines a global instance of our class for users to consume
-	extern MIDI_DeviceController MDC;
+	extern MIDI_Device_Controller MDC;
 #endif
