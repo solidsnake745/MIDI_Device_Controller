@@ -4,8 +4,8 @@
 	#include "Settings.h"
 	#include "MIDI_Device_Controller.h"
 	#include "MIDI_Device_Controller/MIDI_Device.h"
-	#include "DeviceChain_Controller/DeviceChain_Base.h"
-	#include "DeviceChain_Controller/DeviceChain_Direct.h"
+	#include "DeviceChain_Controller/MIDI_Device_Chain.h"
+	#include "DeviceChain_Controller/MIDI_Device_Chains.h"
 
 	enum ChainType_t { Direct, FirstAvailable, RoundRobin };
 
@@ -29,13 +29,13 @@
 		//Device management
 		//_______________________________________________________________________________________________________
 		private:
-			static DeviceChain_Base *_chains[MAX_CHAINS];
+			static MIDI_Device_Chain *_chains[MAX_CHAINS];
 
 		public:
 			void printStatus(); //Print each device slot's status
 			
-			void addChain(uint8_t index, DeviceChain_Base *c); //Adds a chain by index
-			DeviceChain_Base *getChain(uint8_t index); //Retrieves a chain by specified index
+			void addChain(uint8_t index, MIDI_Device_Chain *c); //Adds a chain by index
+			MIDI_Device_Chain *getChain(uint8_t index); //Retrieves a chain by specified index
 			
 			void createChain(uint8_t index, ChainType_t type, uint8_t deviceIndexes[]);
 			void deleteChain(uint8_t index); //Deletes a chain by specified index if populated

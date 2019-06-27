@@ -1,7 +1,7 @@
-#include "DeviceChain_Direct.h"
+#include "MIDI_Device_Chains.h"
 #include "MIDI_Device_Node.h"
 
-void DeviceChain_Direct::assignNote(uint8_t note)
+void Direct_Chain::assignNote(uint8_t note)
 {
 	MIDI_Device_Node *node = start;
 	
@@ -14,7 +14,7 @@ void DeviceChain_Direct::assignNote(uint8_t note)
 	}
 }
 
-void DeviceChain_Direct::clearNote(uint8_t note)
+void Direct_Chain::clearNote(uint8_t note)
 {
 	MIDI_Device_Node *node = start;
 	
@@ -27,7 +27,7 @@ void DeviceChain_Direct::clearNote(uint8_t note)
 	}
 }
 
-void DeviceChain_FA::assignNote(uint8_t note)
+void FirstAvailable_Chain::assignNote(uint8_t note)
 {
 	MIDI_Device_Node *node = start;
 	
@@ -43,7 +43,7 @@ void DeviceChain_FA::assignNote(uint8_t note)
 	}
 }
 
-void DeviceChain_FA::clearNote(uint8_t note)
+void FirstAvailable_Chain::clearNote(uint8_t note)
 {	
 	MIDI_Device_Node *node = start;
 	
@@ -59,7 +59,7 @@ void DeviceChain_FA::clearNote(uint8_t note)
 	}
 }
 
-void DeviceChain_RR::assignNote(uint8_t note)
+void RoundRobin_Chain::assignNote(uint8_t note)
 {
 	if(count == 1)
 	{
@@ -95,7 +95,7 @@ void DeviceChain_RR::assignNote(uint8_t note)
 	lastAssign = nextAssign;
 }
 
-void DeviceChain_RR::clearNote(uint8_t note)
+void RoundRobin_Chain::clearNote(uint8_t note)
 {
 	//_debug.debugln(5, F("Looking to clear note "), note);
 	

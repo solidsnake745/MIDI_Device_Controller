@@ -1,13 +1,13 @@
-#include "DeviceChain_Base.h"
+#include "MIDI_Device_Chain.h"
 #include "MIDI_Device_Node.h"
 
-SerialDebug DeviceChain_Base::_debug(DEBUG_DEVICECHAIN_BASE);
+SerialDebug MIDI_Device_Chain::_debug(DEBUG_DEVICECHAIN_BASE);
 
-DeviceChain_Base::~DeviceChain_Base()
+MIDI_Device_Chain::~MIDI_Device_Chain()
 {
 };
 
-void DeviceChain_Base::printStatus()
+void MIDI_Device_Chain::printStatus()
 {
 	_debug.println(F("%d nodes in this chain"), count);	
 	if(!start) return;
@@ -40,7 +40,7 @@ void DeviceChain_Base::printStatus()
 	_debug.debugln(5, F("End of the chain"));
 };
 
-void DeviceChain_Base::addDevice(MIDI_Device *d)
+void MIDI_Device_Chain::addDevice(MIDI_Device *d)
 {
 	//Handle first node insertion
 	if(!start)
@@ -74,7 +74,7 @@ void DeviceChain_Base::addDevice(MIDI_Device *d)
 	_debug.debugln(5, F("New node added"));
 };
 
-void DeviceChain_Base::addDevices(MIDI_Device devices[], uint16_t numDevices)
+void MIDI_Device_Chain::addDevices(MIDI_Device devices[], uint16_t numDevices)
 {	
 	if(numDevices > MAX_DEVICES)
 		numDevices = MAX_DEVICES;
@@ -86,7 +86,7 @@ void DeviceChain_Base::addDevices(MIDI_Device devices[], uint16_t numDevices)
 		addDevice(&devices[i++]);
 }
 
-void DeviceChain_Base::removeDevice(uint8_t id)
+void MIDI_Device_Chain::removeDevice(uint8_t id)
 {
 	//Handle empty chain scenario
 	if(!start)
@@ -122,17 +122,17 @@ void DeviceChain_Base::removeDevice(uint8_t id)
 	_debug.println(F("No node with device ID %d found"), id);
 };
 
-void DeviceChain_Base::assignNote(uint8_t note)
+void MIDI_Device_Chain::assignNote(uint8_t note)
 {
 	_debug.debugln(5, F("Note %d assignment received"), note);
 };
 
-void DeviceChain_Base::clearNote(uint8_t note)
+void MIDI_Device_Chain::clearNote(uint8_t note)
 {
 	_debug.debugln(5, F("Note %d clear received"), note);
 };
 
-void DeviceChain_Base::pitchBend(uint16_t bend)
+void MIDI_Device_Chain::pitchBend(uint16_t bend)
 {
 	MIDI_Device_Node *node = start;
 	while(node)
@@ -142,7 +142,7 @@ void DeviceChain_Base::pitchBend(uint16_t bend)
 	}
 };
 
-void DeviceChain_Base::deleteNode(MIDI_Device_Node *node)
+void MIDI_Device_Chain::deleteNode(MIDI_Device_Node *node)
 {	
 	//Handle deleting the start node
 	if(node == start)

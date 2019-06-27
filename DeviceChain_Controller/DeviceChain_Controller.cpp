@@ -23,7 +23,7 @@ DeviceChain_Controller &DeviceChain_Controller::getInstance()
 
 //Device management
 //_______________________________________________________________________________________________________
-DeviceChain_Base *DeviceChain_Controller::_chains[MAX_CHAINS];
+MIDI_Device_Chain *DeviceChain_Controller::_chains[MAX_CHAINS];
 
 void DeviceChain_Controller::printStatus()
 {
@@ -47,7 +47,7 @@ void DeviceChain_Controller::printStatus()
 	}
 }
 
-void DeviceChain_Controller::addChain(uint8_t index, DeviceChain_Base *c)
+void DeviceChain_Controller::addChain(uint8_t index, MIDI_Device_Chain *c)
 {
 	if(index > MAX_CHAINS - 1)
 	{
@@ -65,7 +65,7 @@ void DeviceChain_Controller::addChain(uint8_t index, DeviceChain_Base *c)
 	_chains[index] = c;
 }
 
-DeviceChain_Base *DeviceChain_Controller::getChain(uint8_t index)
+MIDI_Device_Chain *DeviceChain_Controller::getChain(uint8_t index)
 {
 	if(index > MAX_CHAINS - 1)
 	{
@@ -91,19 +91,19 @@ void DeviceChain_Controller::createChain(uint8_t index, ChainType_t type, uint8_
 		return;
 	}
 	
-	DeviceChain_Base *newChain;
+	MIDI_Device_Chain *newChain;
 	
 	switch(type)
 	{
 		case Direct:
-			newChain = new DeviceChain_Direct(); break;			
+			newChain = new Direct_Chain(); break;			
 		case FirstAvailable:
-			newChain = new DeviceChain_FA(); break;			
+			newChain = new FirstAvailable_Chain(); break;			
 		case RoundRobin:
-			newChain = new DeviceChain_RR(); break;			
+			newChain = new RoundRobin_Chain(); break;			
 		default:
 			_debug.debugln(5, F("Defaulting to base device chain"));
-			newChain = new DeviceChain_Base(); break;
+			newChain = new MIDI_Device_Chain(); break;
 	}
 	
 	//Disable warning for sizeof on an array
@@ -148,21 +148,21 @@ void DeviceChain_Controller::deleteChain(uint8_t index)
 
 void DeviceChain_Controller::assignNote(int8_t index, uint8_t note)
 {	
-	DeviceChain_Base *c = getChain(index);
+	MIDI_Device_Chain *c = getChain(index);
 	if(!c) return;
 	c->assignNote(note);
 }
 
 void DeviceChain_Controller::clearNote(int8_t index, uint8_t note)
 {
-	DeviceChain_Base *c = getChain(index);
+	MIDI_Device_Chain *c = getChain(index);
 	if(!c) return;
 	c->clearNote(note);
 }
 
 void DeviceChain_Controller::pitchBend(int8_t index, uint16_t bend)
 {
-	DeviceChain_Base *c = getChain(index);
+	MIDI_Device_Chain *c = getChain(index);
 	if(!c) return;
 	c->pitchBend(bend);
 }

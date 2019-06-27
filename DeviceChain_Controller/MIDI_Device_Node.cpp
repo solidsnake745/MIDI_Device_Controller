@@ -1,10 +1,10 @@
 #include "MIDI_Device_Node.h"
 #include "../MIDI_Device_Controller/MIDI_Device.h"
-#include "DeviceChain_Base.h"
+#include "MIDI_Device_Chain.h"
 
 SerialDebug MIDI_Device_Node::_debug(DEBUG_DEVICENODE);
 
-MIDI_Device_Node::MIDI_Device_Node(MIDI_Device *d, DeviceChain_Base *dc)
+MIDI_Device_Node::MIDI_Device_Node(MIDI_Device *d, MIDI_Device_Chain *dc)
 {
 	device = d;
 	parent = dc;
