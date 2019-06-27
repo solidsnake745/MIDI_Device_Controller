@@ -1,15 +1,15 @@
-#ifndef DeviceChain_Controller_h
-	#define DeviceChain_Controller_h
+#ifndef MIDI_Chain_Controller_h
+	#define MIDI_Chain_Controller_h
 
 	#include "Settings.h"
 	#include "MIDI_Device_Controller.h"
 	#include "MIDI_Device_Controller/MIDI_Device.h"
-	#include "DeviceChain_Controller/MIDI_Device_Chain.h"
-	#include "DeviceChain_Controller/MIDI_Device_Chains.h"
+	#include "MIDI_Chain_Controller/MIDI_Device_Chain.h"
+	#include "MIDI_Chain_Controller/MIDI_Device_Chains.h"
 
 	enum ChainType_t { Direct, FirstAvailable, RoundRobin };
 
-	class DeviceChain_Controller
+	class MIDI_Chain_Controller
 	{
 		// Give Device access to all private members
 		friend class MIDI_Device;
@@ -19,12 +19,12 @@
 		//Constructors and instance management
 		//_______________________________________________________________________________________________________
 		private:
-			DeviceChain_Controller();
-			static DeviceChain_Controller *_instance;
+			MIDI_Chain_Controller();
+			static MIDI_Chain_Controller *_instance;
 			
 		public:
 			//Used to populate our single instance MDC for consumption
-			static DeviceChain_Controller &getInstance();
+			static MIDI_Chain_Controller &getInstance();
 			
 		//Device management
 		//_______________________________________________________________________________________________________
@@ -60,5 +60,5 @@
 	};
 
 	//Defines a global instance of our class for users to consume
-	extern DeviceChain_Controller DCC;
+	extern MIDI_Chain_Controller MCC;
 #endif

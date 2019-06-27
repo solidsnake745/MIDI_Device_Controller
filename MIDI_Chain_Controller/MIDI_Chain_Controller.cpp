@@ -1,31 +1,31 @@
-#include "../DeviceChain_Controller.h"
+#include "../MIDI_Chain_Controller.h"
 
-SerialDebug DeviceChain_Controller::_debug(DEBUG_DEVICECHAIN_CONTROLLER);
+SerialDebug MIDI_Chain_Controller::_debug(DEBUG_DEVICECHAIN_CONTROLLER);
 
 //Constructors and instance management
 //_______________________________________________________________________________________________________
 
 //Global singleton instance
-DeviceChain_Controller DCC = DeviceChain_Controller::getInstance();
+MIDI_Chain_Controller MCC = MIDI_Chain_Controller::getInstance();
 
-DeviceChain_Controller *DeviceChain_Controller::_instance = NULL;
+MIDI_Chain_Controller *MIDI_Chain_Controller::_instance = NULL;
 
-DeviceChain_Controller::DeviceChain_Controller()
+MIDI_Chain_Controller::MIDI_Chain_Controller()
 {
 }
 
-DeviceChain_Controller &DeviceChain_Controller::getInstance()
+MIDI_Chain_Controller &MIDI_Chain_Controller::getInstance()
 {
 	//Single instance check, instantiation, and return
-	if (_instance == NULL) _instance = new DeviceChain_Controller();
+	if (_instance == NULL) _instance = new MIDI_Chain_Controller();
 	return *_instance;
 }
 
 //Device management
 //_______________________________________________________________________________________________________
-MIDI_Device_Chain *DeviceChain_Controller::_chains[MAX_CHAINS];
+MIDI_Device_Chain *MIDI_Chain_Controller::_chains[MAX_CHAINS];
 
-void DeviceChain_Controller::printStatus()
+void MIDI_Chain_Controller::printStatus()
 {
 	int i = 0;
 	while(i != MAX_CHAINS)
@@ -47,7 +47,7 @@ void DeviceChain_Controller::printStatus()
 	}
 }
 
-void DeviceChain_Controller::addChain(uint8_t index, MIDI_Device_Chain *c)
+void MIDI_Chain_Controller::addChain(uint8_t index, MIDI_Device_Chain *c)
 {
 	if(index > MAX_CHAINS - 1)
 	{
@@ -65,7 +65,7 @@ void DeviceChain_Controller::addChain(uint8_t index, MIDI_Device_Chain *c)
 	_chains[index] = c;
 }
 
-MIDI_Device_Chain *DeviceChain_Controller::getChain(uint8_t index)
+MIDI_Device_Chain *MIDI_Chain_Controller::getChain(uint8_t index)
 {
 	if(index > MAX_CHAINS - 1)
 	{
@@ -76,7 +76,7 @@ MIDI_Device_Chain *DeviceChain_Controller::getChain(uint8_t index)
 	return _chains[index];
 }
 
-void DeviceChain_Controller::createChain(uint8_t index, ChainType_t type, uint8_t deviceIndexes[])
+void MIDI_Chain_Controller::createChain(uint8_t index, ChainType_t type, uint8_t deviceIndexes[])
 {
 	if(index > MAX_CHAINS - 1)
 	{
@@ -125,7 +125,7 @@ void DeviceChain_Controller::createChain(uint8_t index, ChainType_t type, uint8_
 	addChain(index, newChain);
 }
 
-void DeviceChain_Controller::deleteChain(uint8_t index)
+void MIDI_Chain_Controller::deleteChain(uint8_t index)
 {
 	if(index > MAX_CHAINS - 1)
 	{
@@ -146,21 +146,21 @@ void DeviceChain_Controller::deleteChain(uint8_t index)
 	}
 }
 
-void DeviceChain_Controller::assignNote(int8_t index, uint8_t note)
+void MIDI_Chain_Controller::assignNote(int8_t index, uint8_t note)
 {	
 	MIDI_Device_Chain *c = getChain(index);
 	if(!c) return;
 	c->assignNote(note);
 }
 
-void DeviceChain_Controller::clearNote(int8_t index, uint8_t note)
+void MIDI_Chain_Controller::clearNote(int8_t index, uint8_t note)
 {
 	MIDI_Device_Chain *c = getChain(index);
 	if(!c) return;
 	c->clearNote(note);
 }
 
-void DeviceChain_Controller::pitchBend(int8_t index, uint16_t bend)
+void MIDI_Chain_Controller::pitchBend(int8_t index, uint16_t bend)
 {
 	MIDI_Device_Chain *c = getChain(index);
 	if(!c) return;
