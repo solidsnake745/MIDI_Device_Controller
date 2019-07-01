@@ -1,11 +1,11 @@
 #ifndef MIDI_Chain_Controller_h
 	#define MIDI_Chain_Controller_h
 
-	#include "Settings.h"
-	#include "MIDI_Device_Controller.h"
-	#include "MIDI_Device_Controller/MIDI_Device.h"
-	#include "MIDI_Chain_Controller/MIDI_Device_Chain.h"
-	#include "MIDI_Chain_Controller/MIDI_Device_Chains.h"
+	#include "../Settings.h"
+	#include "../MIDI_Device_Controller.h"
+	#include "../MIDI_Device_Controller/MIDI_Device.h"
+	#include "MIDI_Device_Chain.h"
+	#include "MIDI_Device_Chains.h"
 
 	enum ChainType_t { Direct, FirstAvailable, RoundRobin };
 

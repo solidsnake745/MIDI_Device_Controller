@@ -1,13 +1,8 @@
-#ifndef MDC_Extras_H
-	#define MDC_Extras_H
-	
-	#include "MIDI_Chain_Controller.h"
-	#include "MIDI_Device_Factory.h"
-#endif
 #ifndef MIDI_Device_Controller_h
 	#define MIDI_Device_Controller_h
 
 	#include "Settings.h"
+	#include "MDC_Extras.h"
 	#include <Arduino.h>
 	#include <TimerOne.h>
 	#include "MIDI_Device_Controller/MIDI_Device.h"

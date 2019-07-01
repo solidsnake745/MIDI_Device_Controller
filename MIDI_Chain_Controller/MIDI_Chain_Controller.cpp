@@ -1,4 +1,4 @@
-#include "../MIDI_Chain_Controller.h"
+#include "MIDI_Chain_Controller.h"
 
 SerialDebug MIDI_Chain_Controller::_debug(DEBUG_DEVICECHAIN_CONTROLLER);
 

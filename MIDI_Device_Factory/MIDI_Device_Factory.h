@@ -1,7 +1,7 @@
 #ifndef MIDI_Device_Factory_h
 	#define MIDI_Device_Factory_h
 
-	#include "MIDI_Device_Controller\MIDI_Device.h"
+	#include "../MIDI_Device_Controller/MIDI_Device.h"
 	
 	//enum DeviceType_t { FDD, Stepper, HDD };	
 	
