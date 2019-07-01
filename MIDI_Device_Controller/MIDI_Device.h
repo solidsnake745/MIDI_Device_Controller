@@ -3,7 +3,7 @@
 
 	#include <Arduino.h>
 	#include "MIDI_Periods.h"
-	#include "../SerialDebug.h"
+	#include "../SerialDebug/SerialDebug.h"
 
 	//Forward declaration for compiling
 	class MIDI_Device_Controller;

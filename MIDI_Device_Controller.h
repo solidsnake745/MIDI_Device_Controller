@@ -6,7 +6,7 @@
 	#include <Arduino.h>
 	#include <TimerOne.h>
 	#include "MIDI_Device_Controller/MIDI_Device.h"
-	#include "SerialDebug.h"
+	#include "SerialDebug/SerialDebug.h"
 
 	class MIDI_Device_Controller
 	{

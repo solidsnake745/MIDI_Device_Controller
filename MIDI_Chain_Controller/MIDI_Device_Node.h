@@ -2,7 +2,7 @@
 	#define DeviceNode_h
 
 	#include <Arduino.h>
-	#include "../SerialDebug.h"
+	#include "../SerialDebug/SerialDebug.h"
 	
 	class MIDI_Device;
 	class MIDI_Device_Chain;

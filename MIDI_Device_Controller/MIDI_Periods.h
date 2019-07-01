@@ -3,7 +3,7 @@
 
 	#include <avr/pgmspace.h>
 	#include "../Settings.h"
-	#include "../SerialDebug.h"
+	#include "../SerialDebug/SerialDebug.h"
 
 	class MIDI_Periods
 	{

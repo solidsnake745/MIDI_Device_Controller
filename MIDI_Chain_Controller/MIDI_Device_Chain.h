@@ -3,7 +3,7 @@
 
 	#include "../Settings.h"
 	#include "../MIDI_Device_Controller/MIDI_Device.h"
-	#include "../SerialDebug.h"
+	#include "../SerialDebug/SerialDebug.h"
 
 	struct MIDI_Device_Node;
 
