@@ -1,3 +1,9 @@
+#ifndef MDC_Extras_H
+	#define MDC_Extras_H
+	
+	#include "MIDI_Chain_Controller.h"
+	#include "MIDI_Device_Factory.h"
+#endif
 #ifndef MIDI_Device_Controller_h
 	#define MIDI_Device_Controller_h
 
@@ -36,7 +42,7 @@
 			void printStatus(); //Print each device slot's status		
 			
 			void addDevice(uint8_t index, MIDI_Device *d); //Adds a device to the correlating index given the device's ID
-			void addDevices(MIDI_Device devices[], uint8_t numDevices); //Adds the given set of devices
+			void addDevices(MIDI_Device *devices[], uint8_t numDevices); //Adds the given set of devices
 			MIDI_Device *getDevice(uint8_t index); //Retrieves a device at specified index
 			void deleteDevice(uint8_t index); //Deletes device at specified index if populated
 
