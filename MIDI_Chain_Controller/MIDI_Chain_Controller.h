@@ -5,9 +5,6 @@
 	#include "../MIDI_Device_Controller.h"
 	#include "../MIDI_Device_Controller/MIDI_Device.h"
 	#include "MIDI_Device_Chain.h"
-	#include "MIDI_Device_Chains.h"
-
-	enum ChainType_t { Direct, FirstAvailable, RoundRobin };
 
 	class MIDI_Chain_Controller
 	{
@@ -36,8 +33,6 @@
 			
 			void addChain(uint8_t index, MIDI_Device_Chain *c); //Adds a chain by index
 			MIDI_Device_Chain *getChain(uint8_t index); //Retrieves a chain by specified index
-			
-			void createChain(uint8_t index, ChainType_t type, uint8_t deviceIndexes[]);
 			void deleteChain(uint8_t index); //Deletes a chain by specified index if populated
 
 			void assignNote(int8_t index, uint8_t note);

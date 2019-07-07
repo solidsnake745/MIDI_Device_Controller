@@ -83,6 +83,12 @@ void MIDI_Device_Controller::printStatus()
 
 void MIDI_Device_Controller::addDevice(uint8_t index, MIDI_Device *d)
 {
+	if(!d)
+	{
+		_debug.println(F("NULL device passed in"));
+		return;
+	}
+	
 	if(index > MAX_DEVICES - 1)
 	{
 		_debug.println(F("Can't add device at index %d"), index);

@@ -3,4 +3,5 @@
 	
 	#include "MIDI_Device_Factory/MIDI_Device_Factory.h"
 	#include "MIDI_Chain_Controller/MIDI_Chain_Controller.h"
+	#include "MIDI_Chain_Factory/MIDI_Chain_Factory.h"
 #endif
