@@ -15,38 +15,55 @@
 		ChannelPressure = 13,
 		PitchBend = 14
 	};
-		
+	
 	//Standard MIDI message interface
 	//MIDI messages are 3 byte messages 
 	//http://www.songstuff.com/recording/article/midi_message_format/
 	//http://www.electronics.dit.ie/staff/tscarff/Music_technology/midi/midi_messages.htm
 	struct MIDI_Message
 	{
-		MIDI_Message(MIDI_MessageType_t st, uint8_t ch, uint8_t d1, uint8_t d2)
+		MIDI_Message(MIDI_MessageType_t t, uint8_t ch, uint8_t d1, uint8_t d2) : MIDI_Message(d1, d2)
 		{
-			setStatus(st);
+			setType(t);
 			setChannel(ch);
-			setData1(d1);
-			setData2(d2);
 		}
 
-		MIDI_Message(uint8_t st, uint8_t d1, uint8_t d2)
+		MIDI_Message(uint8_t st, uint8_t d1, uint8_t d2) : MIDI_Message(d1, d2)
 		{
-			_status = st;
-			_data1 = d1;
-			_data2 = d2;
+			setStatus(st);
+		}
+		
+		MIDI_Message(uint8_t d1, uint8_t d2)
+		{
+			setData1(d1);
+			setData2(d2);
 		}
 		
 		MIDI_Message(uint8_t st)
 		{
-			_status = st;
+			setStatus(st);
 		}
 		
 		inline void setData(uint8_t da1, uint8_t da2 = 0) { setData1(da1); setData2(da2); };
 		
-		inline uint8_t getStatus() { return _status >> 4; };    
+		inline MIDI_MessageType_t getType() 
+		{
+			switch(_status >> 4)
+			{
+				case 0: return Undefined;
+				case 8: return NoteOff;
+				case 9: return NoteOn;
+				case 10: return PolyPressure;
+				case 11: return ControlChange;
+				case 12: return ProgramChange;
+				case 13: return ChannelPressure;
+				case 14: return PitchBend;
+				default: return Undefined;
+			}
+		};
+		
 		inline uint8_t getChannel() { return _status & 0x0F; };    
-		inline uint8_t getByte1() { return _status; };
+		inline uint8_t getStatus() { return _status; };
 		inline uint8_t getData1() { return _data1; };
 		inline uint8_t getData2() { return _data2; };
 		
@@ -62,7 +79,7 @@
 			// PRINT2("Data2: ", test.getData2()); //126
 
 			//Increment all values by 1 and check
-			test.setStatus(NoteOn);
+			test.setType(NoteOn);
 			test.setChannel(11);
 			test.setData1(55);
 			test.setData2(127);
@@ -81,12 +98,12 @@
 			uint8_t _data1 = 0x0;
 			uint8_t _data2 = 0x0;
 
-			inline bool setStatus(MIDI_MessageType_t st)
+			inline void setType(MIDI_MessageType_t t)
 			{
 				uint8_t msbData;
 				uint8_t lsbData = (_status & B00001111);
 
-				switch(st)
+				switch(t)
 				{
 					case Undefined: msbData = 0; break;
 					case NoteOff: msbData = 8 << 4; break;
@@ -96,14 +113,11 @@
 					case ProgramChange: msbData = 12 << 4; break;
 					case ChannelPressure: msbData = 13 << 4; break;
 					case PitchBend: msbData = 14 << 4; break;
-					default:
-						// DEBUG("Invalid setStatus")
-						return false;
+					default: msbData = 0; break;
 				}
 
 				//Set new value      
 				_status = msbData + lsbData;
-				return true;
 			};
 
 			inline bool setChannel(uint8_t ch)
@@ -119,6 +133,15 @@
 				uint8_t newValue = (_status & B11110000) + ch;
 				_status = newValue;
 				return true;
+			};
+			
+			inline void setStatus(uint8_t st)
+			{
+				uint8_t type = st >> 4;
+				if(type > 7 && type < 15)					
+					setType(static_cast<MIDI_MessageType_t>(type));
+		
+				setChannel(st & 0x0F);
 			};
 
 			inline void setData1(uint8_t da1) { _data1 = da1; };

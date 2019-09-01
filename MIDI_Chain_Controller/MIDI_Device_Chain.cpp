@@ -19,20 +19,20 @@ void MIDI_Device_Chain::printStatus()
 	MIDI_Device_Node *node = start;
 	while(node)
 	{
-		_debug.println(F("Status for Device Node %d"), i++);
-		_debug.println(F("  Device ID: %d"), node->device->getID());
+		_debug.println(F("Device Node %d: ID %d"), i++, node->device->getID());
+		//_debug.println(F("  Device ID: %d"), node->device->getID());
 		
 		if(node->prev)		
-			_debug.println(F("  Previous Device ID: %d"), node->prev->device->getID());
+			_debug.debugln(5, F("  Previous Device ID: %d"), node->prev->device->getID());
 		else		
-			_debug.println(F("  Previous Device ID: NULL"));
+			_debug.debugln(5, F("  Previous Device ID: NULL"));
 		
 		if(node->next)
-			_debug.println(F("  Next Device ID: %d"), node->next->device->getID());
+			_debug.debugln(5, F("  Next Device ID: %d"), node->next->device->getID());
 		else
-			_debug.println(F("  Next Device ID: NULL"));
+			_debug.debugln(5, F("  Next Device ID: NULL"));
 
-		_debug.println();
+		_debug.debugln(5);
 		delay(10);
 		node = node->next;
 	}

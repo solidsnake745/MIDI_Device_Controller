@@ -34,7 +34,7 @@ void MIDI_Chain_Controller::printStatus()
 		if(_chains[i])
 		{
 			_debug.debugln(5, F("Populated"));
-			//TODO: print info about chain
+			_chains[i]->printStatus();
 		}
 		else
 		{

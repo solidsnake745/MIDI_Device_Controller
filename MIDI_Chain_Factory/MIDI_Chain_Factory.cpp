@@ -1,5 +1,7 @@
 #include "MIDI_Chain_Factory.h"
 
+SerialDebug MIDI_Chain_Factory::_debug(DEBUG_DEVICECHAIN_FACTORY);
+
 //Global singleton instance
 MIDI_Chain_Factory MCF = MIDI_Chain_Factory::getInstance();
 
@@ -50,13 +52,13 @@ void MIDI_Chain_Factory::createChain(uint8_t index, ChainType_t type, uint8_t de
 	//We know we want the total size of the array to figure out how many elements it contains
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wsizeof-array-argument"
-	uint8_t numDevices = sizeof(deviceIndexes) / sizeof(uint8_t);
-#pragma GCC diagnostic pop
+	uint8_t arraySize = sizeof(deviceIndexes);
+	uint8_t elementSize = sizeof(deviceIndexes[0]);
+	_debug.debugln(5, F("Array and element size: %d and %d"), arraySize, elementSize);
 	
-	if(numDevices > MAX_DEVICES)
-		numDevices = MAX_DEVICES;
-
-	// _debug.debugln(5, F("Attempting to add %d device(s)"), numDevices);
+	uint8_t numDevices = arraySize / elementSize;
+	_debug.debugln(5, F("Attempting to add %d device(s)"), numDevices);
+#pragma GCC diagnostic pop	
 	
 	int i = 0;
 	while(i != numDevices)

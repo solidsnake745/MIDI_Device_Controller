@@ -5,14 +5,18 @@
 	#include "../MIDI_Device_Controller.h"
 	#include "../MIDI_Chain_Controller/MIDI_Device_Chain.h"
 	#include "../MIDI_Chain_Controller/MIDI_Device_Chains.h"
+	#include "../SerialDebug/SerialDebug.h"
 	
 	enum ChainType_t { Direct, FirstAvailable, RoundRobin };
 	
 	class MIDI_Chain_Factory
 	{
+		static SerialDebug _debug;
+		
 		//Constructor(s)
 		MIDI_Chain_Factory(); //Disallow creating an instance
 		static MIDI_Chain_Factory *_instance;
+		
 			
 		public:
 			//Used to populate our single instance MDF for consumption

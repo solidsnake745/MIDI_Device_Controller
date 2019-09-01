@@ -2,7 +2,8 @@
 	#define MIDI_Handler_h
 
 	#include "../MIDI_Message/MIDI_Message.h"
-
+	#include "../SerialDebug/SerialDebug.h"
+	
 	class MIDI_Handler
 	{
 		typedef void (*NoteOff) (uint8_t, uint8_t, uint8_t);
@@ -21,10 +22,12 @@
 		ChannelPressure _channelPressure = NULL;
 		PitchBend _pitchBend = NULL;
 
+		//static SerialDebug _debug;
+		
 		public:
 			inline void handleMIDI(MIDI_Message msg)
 			{
-				switch(msg.getStatus())
+				switch(msg.getType())
 				{
 					case MIDI_MessageType_t::NoteOff: 
 						if(_noteOff) 
@@ -54,6 +57,7 @@
 						if(_pitchBend) 
 							_pitchBend(msg.getChannel(), msg.getBendValue());
 						break;
+					default: break;
 				}
 			};
 			
