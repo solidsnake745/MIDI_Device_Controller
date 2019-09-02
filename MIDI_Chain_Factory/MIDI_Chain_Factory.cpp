@@ -7,9 +7,7 @@ MIDI_Chain_Factory MCF = MIDI_Chain_Factory::getInstance();
 
 MIDI_Chain_Factory *MIDI_Chain_Factory::_instance = NULL;
 
-MIDI_Chain_Factory::MIDI_Chain_Factory()
-{
-}
+MIDI_Chain_Factory::MIDI_Chain_Factory(){}
 
 MIDI_Chain_Factory &MIDI_Chain_Factory::getInstance()
 {
@@ -18,19 +16,24 @@ MIDI_Chain_Factory &MIDI_Chain_Factory::getInstance()
 	return *_instance;
 }
 
-void MIDI_Chain_Factory::createChain(uint8_t index, ChainType_t type, uint8_t deviceIndexes[])
+MIDI_Device *MIDI_Chain_Factory::getDeviceFromMDC(uint8_t index)
+{
+	return MDC.getDevice(index);
+}
+
+MIDI_Device_Chain *MIDI_Chain_Factory::createInitialChain(uint8_t index, ChainType_t type)
 {
 	if(index > MAX_CHAINS - 1)
 	{
-		// _debug.println(F("Can't add chain at index %d"), index);
-		// _debug.debugln(5, F("Max chain index is %d"), MAX_CHAINS - 1);
-		return;
+		_debug.debugln(5, F("Can't add chain at index %d"), index);
+		_debug.debugln(5, F("Max chain index is %d"), MAX_CHAINS - 1);
+		return NULL;
 	}
 
 	if(MCC.getChain(index) != NULL)
 	{		
-		// _debug.println(F("Chain already exists at index %d"), index);
-		return;
+		_debug.debugln(5, F("Chain already exists at index %d"), index);
+		return NULL;
 	}
 	
 	MIDI_Device_Chain *newChain;
@@ -48,21 +51,7 @@ void MIDI_Chain_Factory::createChain(uint8_t index, ChainType_t type, uint8_t de
 			newChain = new MIDI_Device_Chain(); break;
 	}
 	
-	//Disable warning for sizeof on an array
-	//We know we want the total size of the array to figure out how many elements it contains
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wsizeof-array-argument"
-	uint8_t arraySize = sizeof(deviceIndexes);
-	uint8_t elementSize = sizeof(deviceIndexes[0]);
-	_debug.debugln(5, F("Array and element size: %d and %d"), arraySize, elementSize);
-	
-	uint8_t numDevices = arraySize / elementSize;
-	_debug.debugln(5, F("Attempting to add %d device(s)"), numDevices);
-#pragma GCC diagnostic pop	
-	
-	int i = 0;
-	while(i != numDevices)
-		newChain->addDevice(MDC.getDevice(deviceIndexes[i++]));
-	
 	MCC.addChain(index, newChain);
+	
+	return newChain;
 }
