@@ -7,15 +7,6 @@
 	#include "../MIDI_Chain_Controller/MIDI_Device_Chains.h"
 	#include "../SerialDebug/SerialDebug.h"
 	
-	//Implement conjunction for C++ 11
-	template<bool...> struct bool_pack{};
-	template<class... Ts>
-	using conjunction = std::is_same<bool_pack<true,Ts::value...>, bool_pack<Ts::value..., true>>;
-
-	//Define compiler check for parameter packs to use uint8_t
-	template<typename... Ts>
-	using Alluint8_t = typename std::enable_if<conjunction<std::is_convertible<Ts, uint8_t>...>::value>::type;
-
 	enum ChainType_t { Direct, FirstAvailable, RoundRobin };
 	
 	class MIDI_Chain_Factory
@@ -32,7 +23,7 @@
 		MIDI_Device *getDeviceFromMDC(uint8_t index);
 		
 		//Recursive template method for populating a device chain from an argument pack of IDs
-		template<typename... IDs, typename = Alluint8_t<IDs...>>
+		template<typename... IDs>
 		inline void populateChain(MIDI_Device_Chain *c, uint8_t id, IDs... ids)
 		{
 			c->addDevice(getDeviceFromMDC(id));
@@ -48,7 +39,7 @@
 			
 			//Used to generate device chains and add devices by specified IDs
 			//Requires at least one device ID
-			template<typename... IDs, typename = Alluint8_t<IDs...>>
+			template<typename... IDs>
 			inline void createChain(uint8_t index, ChainType_t type, uint8_t firstId, IDs... ids)
 			{
 				MIDI_Device_Chain *newChain = createInitialChain(index, type);
