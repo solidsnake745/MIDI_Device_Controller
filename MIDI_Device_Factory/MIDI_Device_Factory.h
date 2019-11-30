@@ -23,6 +23,9 @@
 			
 			inline MIDI_Device *createHDD(uint8_t signalPin)
 			{ return new MIDI_Device(signalPin); };
+			
+			inline MIDI_Device *createBuzzer(uint8_t signalPin)
+			{ return new MIDI_Device(signalPin); };
 	};
 	
 	//Defines a global instance of our class for users to consume
