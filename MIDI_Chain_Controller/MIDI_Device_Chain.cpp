@@ -122,7 +122,7 @@ void MIDI_Device_Chain::removeDevice(uint8_t id)
 	_debug.println(F("No node with device ID %d found"), id);
 };
 
-void MIDI_Device_Chain::assignNote(uint8_t note)
+bool MIDI_Device_Chain::assignNote(uint8_t note)
 {
 	_debug.debugln(5, F("Note %d assignment received"), note);
 };

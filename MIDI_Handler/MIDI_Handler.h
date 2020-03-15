@@ -2,6 +2,7 @@
 	#define MIDI_Handler_h
 
 	#include "../MIDI_Message/MIDI_Message.h"
+	#include "../MIDI_Enums/MIDI_Enums.h"
 	#include "../SerialDebug/SerialDebug.h"
 	
 	class MIDI_Handler
@@ -29,31 +30,31 @@
 			{
 				switch(msg.getType())
 				{
-					case MIDI_MessageType_t::NoteOff: 
+					case MIDI_Enums::NoteOff: 
 						if(_noteOff) 
 							_noteOff(msg.getChannel(), msg.getData1(), msg.getData2());
 						break;
-					case MIDI_MessageType_t::NoteOn: 
+					case MIDI_Enums::NoteOn: 
 						if(_noteOn) 
 							_noteOn(msg.getChannel(), msg.getData1(), msg.getData2());
 						break;
-					case MIDI_MessageType_t::PolyPressure: 
+					case MIDI_Enums::PolyPressure: 
 						if(_polyPressure) 
 							_polyPressure(msg.getChannel(), msg.getData1(), msg.getData2());
 						break;
-					case MIDI_MessageType_t::ControlChange: 
+					case MIDI_Enums::ControlChange: 
 						if(_controlChange) 
 							_controlChange(msg.getChannel(), msg.getData1(), msg.getData2());
 						break;
-					case MIDI_MessageType_t::ProgramChange: 
+					case MIDI_Enums::ProgramChange: 
 						if(_programChange) 
 							_programChange(msg.getChannel(), msg.getData1(), msg.getData2());
 						break;
-					case MIDI_MessageType_t::ChannelPressure: 
+					case MIDI_Enums::ChannelPressure: 
 						if(_channelPressure) 
 							_channelPressure(msg.getChannel(), msg.getData1(), msg.getData2());
 						break;
-					case MIDI_MessageType_t::PitchBend: 
+					case MIDI_Enums::PitchBend: 
 						if(_pitchBend) 
 							_pitchBend(msg.getChannel(), msg.getBendValue());
 						break;

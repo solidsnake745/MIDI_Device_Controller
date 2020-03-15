@@ -1,20 +1,7 @@
 #ifndef MIDI_Message_h
 	#define MIDI_Message_h
-
-	//Standard MIDI message types
-	//Message types range between 0-15 (not all values currently in use)
-	//Limited to 4 bit values though stored in 8 bit field
-	enum MIDI_MessageType_t : uint8_t
-	{
-		Undefined = 0,
-		NoteOff = 8,
-		NoteOn = 9,
-		PolyPressure = 10,
-		ControlChange = 11,
-		ProgramChange = 12,
-		ChannelPressure = 13,
-		PitchBend = 14
-	};
+	
+	#include "../MIDI_Enums/MIDI_Enums.h"
 	
 	//Standard MIDI message interface
 	//MIDI messages are 3 byte messages 
@@ -22,7 +9,7 @@
 	//http://www.electronics.dit.ie/staff/tscarff/Music_technology/midi/midi_messages.htm
 	struct MIDI_Message
 	{
-		MIDI_Message(MIDI_MessageType_t t, uint8_t ch, uint8_t d1, uint8_t d2) : MIDI_Message(d1, d2)
+		MIDI_Message(MIDI_Enums::MsgType t, uint8_t ch, uint8_t d1, uint8_t d2) : MIDI_Message(d1, d2)
 		{
 			setType(t);
 			setChannel(ch);
@@ -46,19 +33,19 @@
 		
 		inline void setData(uint8_t da1, uint8_t da2 = 0) { setData1(da1); setData2(da2); };
 		
-		inline MIDI_MessageType_t getType() 
+		inline MIDI_Enums::MsgType getType() 
 		{
 			switch(_status >> 4)
 			{
-				case 0: return Undefined;
-				case 8: return NoteOff;
-				case 9: return NoteOn;
-				case 10: return PolyPressure;
-				case 11: return ControlChange;
-				case 12: return ProgramChange;
-				case 13: return ChannelPressure;
-				case 14: return PitchBend;
-				default: return Undefined;
+				case 0: return MIDI_Enums::Undefined;
+				case 8: return MIDI_Enums::NoteOff;
+				case 9: return MIDI_Enums::NoteOn;
+				case 10: return MIDI_Enums::PolyPressure;
+				case 11: return MIDI_Enums::ControlChange;
+				case 12: return MIDI_Enums::ProgramChange;
+				case 13: return MIDI_Enums::ChannelPressure;
+				case 14: return MIDI_Enums::PitchBend;
+				default: return MIDI_Enums::Undefined;
 			}
 		};
 		
@@ -79,7 +66,7 @@
 			// PRINT2("Data2: ", test.getData2()); //126
 
 			//Increment all values by 1 and check
-			test.setType(NoteOn);
+			test.setType(MIDI_Enums::NoteOn);
 			test.setChannel(11);
 			test.setData1(55);
 			test.setData2(127);
@@ -98,21 +85,21 @@
 			uint8_t _data1 = 0x0;
 			uint8_t _data2 = 0x0;
 
-			inline void setType(MIDI_MessageType_t t)
+			inline void setType(MIDI_Enums::MsgType t)
 			{
 				uint8_t msbData;
 				uint8_t lsbData = (_status & B00001111);
 
 				switch(t)
 				{
-					case Undefined: msbData = 0; break;
-					case NoteOff: msbData = 8 << 4; break;
-					case NoteOn: msbData = 9 << 4; break;
-					case PolyPressure: msbData = 10 << 4; break;
-					case ControlChange: msbData = 11 << 4; break;
-					case ProgramChange: msbData = 12 << 4; break;
-					case ChannelPressure: msbData = 13 << 4; break;
-					case PitchBend: msbData = 14 << 4; break;
+					case MIDI_Enums::Undefined: msbData = 0; break;
+					case MIDI_Enums::NoteOff: msbData = 8 << 4; break;
+					case MIDI_Enums::NoteOn: msbData = 9 << 4; break;
+					case MIDI_Enums::PolyPressure: msbData = 10 << 4; break;
+					case MIDI_Enums::ControlChange: msbData = 11 << 4; break;
+					case MIDI_Enums::ProgramChange: msbData = 12 << 4; break;
+					case MIDI_Enums::ChannelPressure: msbData = 13 << 4; break;
+					case MIDI_Enums::PitchBend: msbData = 14 << 4; break;
 					default: msbData = 0; break;
 				}
 
@@ -139,7 +126,7 @@
 			{
 				uint8_t type = st >> 4;
 				if(type > 7 && type < 15)					
-					setType(static_cast<MIDI_MessageType_t>(type));
+					setType(static_cast<MIDI_Enums::MsgType>(type));
 		
 				setChannel(st & 0x0F);
 			};
