@@ -13,7 +13,7 @@
 		
 		public:		
 			//Abstract implementations		
-			void assignNote(uint8_t note);
+			bool assignNote(uint8_t note);
 			void clearNote(uint8_t note);
 	};
 
@@ -24,7 +24,7 @@
 		
 		public:		
 			//Abstract implementations		
-			void assignNote(uint8_t note);
+			bool assignNote(uint8_t note);
 			void clearNote(uint8_t note);
 	};
 
@@ -35,7 +35,7 @@
 			
 		public:
 			//Abstract implementations		
-			void assignNote(uint8_t note);
+			bool assignNote(uint8_t note);
 			void clearNote(uint8_t note);
 	};
 #endif

@@ -1,17 +1,23 @@
 #include "MIDI_Device_Chains.h"
 #include "MIDI_Device_Node.h"
 
-void Direct_Chain::assignNote(uint8_t note)
+bool Direct_Chain::assignNote(uint8_t note)
 {
+	bool result = false;
 	MIDI_Device_Node *node = start;
 	
 	while(node)
 	{
 		if(node->device->isAvailable())
+		{
 			node->assignNote(note);
+			result = true;
+		}
 		
 		node = node->next;
 	}
+	
+	return result;
 }
 
 void Direct_Chain::clearNote(uint8_t note)
@@ -27,7 +33,7 @@ void Direct_Chain::clearNote(uint8_t note)
 	}
 }
 
-void FirstAvailable_Chain::assignNote(uint8_t note)
+bool FirstAvailable_Chain::assignNote(uint8_t note)
 {
 	MIDI_Device_Node *node = start;
 	
@@ -36,11 +42,13 @@ void FirstAvailable_Chain::assignNote(uint8_t note)
 		if(node->device->isAvailable())
 		{
 			node->assignNote(note);
-			return;
+			return true;
 		}
 		
 		node = node->next;
 	}
+	
+	return false;
 }
 
 void FirstAvailable_Chain::clearNote(uint8_t note)
@@ -59,13 +67,10 @@ void FirstAvailable_Chain::clearNote(uint8_t note)
 	}
 }
 
-void RoundRobin_Chain::assignNote(uint8_t note)
+bool RoundRobin_Chain::assignNote(uint8_t note)
 {
 	if(count == 1)
-	{
-		start->tryAssign(note);
-		return;
-	}
+		return start->tryAssign(note);
 	
 	MIDI_Device_Node *nextAssign;	
 	if(!lastAssign)
@@ -87,12 +92,13 @@ void RoundRobin_Chain::assignNote(uint8_t note)
 		if(nextAssign == lastAssign)
 		{
 			// DEBUG(F("No available node found"))
-			return;
+			return false;
 		}
 	}
 
 	// DEBUG2(F("Note assigned to device ID "), nextAssign->device->getID())
 	lastAssign = nextAssign;
+	return true;
 }
 
 void RoundRobin_Chain::clearNote(uint8_t note)
