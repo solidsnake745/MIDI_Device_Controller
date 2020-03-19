@@ -32,4 +32,6 @@
 	//#define DEBUG_DEVICECHAIN_RR 0
 	
 	#define DEBUG_DEVICECHAIN_FACTORY 5
+	
+	#define DEBUG_MIDISERIAL 0
 #endif
