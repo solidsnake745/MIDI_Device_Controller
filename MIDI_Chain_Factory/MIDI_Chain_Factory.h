@@ -4,7 +4,9 @@
 	#include "../Settings.h"
 	#include "../MIDI_Device_Controller.h"
 	#include "../MIDI_Chain_Controller/MIDI_Device_Chain.h"
-	#include "../MIDI_Chain_Controller/MIDI_Device_Chains.h"
+	#include "../MIDI_Chain_Controller/Chains/Direct_Chain.h"
+	#include "../MIDI_Chain_Controller/Chains/FirstAvailable_Chain.h"
+	#include "../MIDI_Chain_Controller/Chains/RoundRobin_Chain.h"
 	#include "../SerialDebug/SerialDebug.h"
 	
 	enum ChainType_t { Direct, FirstAvailable, RoundRobin };
