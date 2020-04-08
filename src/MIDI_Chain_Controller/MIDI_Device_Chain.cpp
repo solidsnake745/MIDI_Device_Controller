@@ -125,6 +125,7 @@ void MIDI_Device_Chain::removeDevice(uint8_t id)
 bool MIDI_Device_Chain::assignNote(uint8_t note)
 {
 	_debug.debugln(5, F("Note %d assignment received"), note);
+	return true;
 };
 
 void MIDI_Device_Chain::clearNote(uint8_t note)

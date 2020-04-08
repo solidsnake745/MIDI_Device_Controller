@@ -1,6 +1,6 @@
 #include "MIDI_Message.h"
 
-void MIDI_Message::setData(uint8_t da1, uint8_t da2 = 0) { setData1(da1); setData2(da2); };
+void MIDI_Message::setData(uint8_t da1, uint8_t da2) { setData1(da1); setData2(da2); };
 
 MsgType MIDI_Message::getType() 
 {
