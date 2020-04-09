@@ -15,6 +15,7 @@ printStatus	KEYWORD2
 assignNote	KEYWORD2
 pitchBend	KEYWORD2
 clearNote	KEYWORD2
+MIDI_Device	LITERAL1
 
 ############
 MIDI Device
@@ -55,10 +56,13 @@ assignPeriod	KEYWORD2
 ############
 MIDI Device Factory
 ############
+createFDD	KEYWORD2
 
 ############
 MIDI Device Controller
 ############
+addDevice	KEYWORD2
+getDevice	KEYWORD2
 loadTest	KEYWORD2
 getNumDevices	KEYWORD2
 getMaxDevices	KEYWORD2
@@ -79,10 +83,14 @@ calibratePositions	KEYWORD2
 ############
 MIDI Collection Factory
 ############
+createCollection	KEYWORD2
 
 ############
 MIDI Collection Controller
 ############
+Direct	LITERAL1
+FirstAvailable	LITERAL1
+RoundRobin	LITERAL1
 
 ############
 MIDI Serial
