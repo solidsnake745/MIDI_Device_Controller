@@ -1,22 +1,30 @@
+############
+Global singleton instances
+############
 MS	KEYWORD1
 MDF	KEYWORD1
 MDC	KEYWORD1
 MCF	KEYWORD1
 MCC	KEYWORD1
+
+
+############
+Common
+############
 printStatus	KEYWORD2
+assignNote	KEYWORD2
+pitchBend	KEYWORD2
+clearNote	KEYWORD2
+
+############
+MIDI Device
+############
 testStepping	KEYWORD2
 testDeviceDirect	KEYWORD2
 testDeviceInterrupt	KEYWORD2
 testMaxDirection	KEYWORD2
 testPitchBend	KEYWORD2
 runAllDeviceTests	KEYWORD2
-loadTest	KEYWORD2
-playStartupSequence	KEYWORD2
-getMaxPosDefault	KEYWORD2
-getNumDevices	KEYWORD2
-getMaxDevices	KEYWORD2
-getMaxDuration	KEYWORD2
-isEnabled	KEYWORD2
 getStepPin	KEYWORD2
 getDirPin	KEYWORD2
 getStepState	KEYWORD2
@@ -27,31 +35,55 @@ getCurrentNote	KEYWORD2
 getBasePeriod	KEYWORD2
 getCurrentPeriod	KEYWORD2
 getDuration	KEYWORD2
-isProcessing	KEYWORD2
+isEnabled	KEYWORD2
 isAvailable	KEYWORD2
 isAtMaxPosition	KEYWORD2
 isTrackingPosition	KEYWORD2
+setStepPin	KEYWORD2
+setDirPin	KEYWORD2
+setMaxPosition	KEYWORD2
+setEnabled	KEYWORD2
+resetPosition	KEYWORD2
+calibratePosition	KEYWORD2
+assignPeriod	KEYWORD2
+setEnabled	KEYWORD2
+setDirection	KEYWORD2
+zeroPosition	KEYWORD2
+resetDeviceProperties	KEYWORD2
+assignPeriod	KEYWORD2
+
+############
+MIDI Device Factory
+############
+
+############
+MIDI Device Controller
+############
+loadTest	KEYWORD2
+getNumDevices	KEYWORD2
+getMaxDevices	KEYWORD2
+getMaxDuration	KEYWORD2
 setResolution	KEYWORD2
 setMaxDuration	KEYWORD2
 setIdleTimeout	KEYWORD2
-setStepPin	KEYWORD2
-setDirPin	KEYWORD2
+playStartupSequence	KEYWORD2
+isProcessing	KEYWORD2
 setLEDPin	KEYWORD2
-setMaxPosition	KEYWORD2
-setEnabled	KEYWORD2
 setAutoPlay	KEYWORD2
 startPlaying	KEYWORD2
 stopPlaying	KEYWORD2
 process	KEYWORD2
-resetPosition	KEYWORD2
 resetPositions	KEYWORD2
-calibratePosition	KEYWORD2
 calibratePositions	KEYWORD2
-setDirection	KEYWORD2
-zeroPosition	KEYWORD2
-resetDeviceProperties	KEYWORD2
-assignNote	KEYWORD2
-assignPeriod	KEYWORD2
-pitchBend	KEYWORD2
-clearNote	KEYWORD2
-isProcessing	KEYWORD2
+
+############
+MIDI Collection Factory
+############
+
+############
+MIDI Collection Controller
+############
+
+############
+MIDI Serial
+############
