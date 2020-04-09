@@ -5,17 +5,17 @@
 	#include "../SerialDebug/SerialDebug.h"
 	
 	class MIDI_Device;
-	class MIDI_Device_Chain;
+	class Base_MIDI_Device_Collection;
 
 	struct MIDI_Device_Node
 	{
-		friend class MIDI_Device_Chain;
+		friend class Base_MIDI_Device_Collection;
 		
 		static SerialDebug _debug;
 		
 		private:
-			MIDI_Device_Node(MIDI_Device *d, MIDI_Device_Chain *dc);
-			MIDI_Device_Chain *parent = NULL;		
+			MIDI_Device_Node(MIDI_Device *d, Base_MIDI_Device_Collection *dc);
+			Base_MIDI_Device_Collection *parent = NULL;		
 			
 		public:
 			//Devices exist and are stored in MIDI_DeviceController

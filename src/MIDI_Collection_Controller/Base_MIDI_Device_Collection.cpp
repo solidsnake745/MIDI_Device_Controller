@@ -1,13 +1,13 @@
-#include "MIDI_Device_Chain.h"
+#include "Base_MIDI_Device_Collection.h"
 #include "MIDI_Device_Node.h"
 
-SerialDebug MIDI_Device_Chain::_debug(DEBUG_DEVICECHAIN_BASE);
+SerialDebug Base_MIDI_Device_Collection::_debug(DEBUG_DEVICECHAIN_BASE);
 
-MIDI_Device_Chain::~MIDI_Device_Chain()
+Base_MIDI_Device_Collection::~Base_MIDI_Device_Collection()
 {
 };
 
-void MIDI_Device_Chain::printStatus()
+void Base_MIDI_Device_Collection::printStatus()
 {
 	_debug.println(F("%d nodes in this chain"), count);	
 	if(!start) return;
@@ -40,7 +40,7 @@ void MIDI_Device_Chain::printStatus()
 	_debug.debugln(5, F("End of the chain"));
 };
 
-void MIDI_Device_Chain::addDevice(MIDI_Device *d)
+void Base_MIDI_Device_Collection::addDevice(MIDI_Device *d)
 {
 	//Handle first node insertion
 	if(!start)
@@ -74,7 +74,7 @@ void MIDI_Device_Chain::addDevice(MIDI_Device *d)
 	_debug.debugln(5, F("New node added"));
 };
 
-void MIDI_Device_Chain::addDevices(MIDI_Device devices[], uint16_t numDevices)
+void Base_MIDI_Device_Collection::addDevices(MIDI_Device devices[], uint16_t numDevices)
 {	
 	if(numDevices > MAX_DEVICES)
 		numDevices = MAX_DEVICES;
@@ -86,7 +86,7 @@ void MIDI_Device_Chain::addDevices(MIDI_Device devices[], uint16_t numDevices)
 		addDevice(&devices[i++]);
 }
 
-void MIDI_Device_Chain::removeDevice(uint8_t id)
+void Base_MIDI_Device_Collection::removeDevice(uint8_t id)
 {
 	//Handle empty chain scenario
 	if(!start)
@@ -122,18 +122,18 @@ void MIDI_Device_Chain::removeDevice(uint8_t id)
 	_debug.println(F("No node with device ID %d found"), id);
 };
 
-bool MIDI_Device_Chain::assignNote(uint8_t note)
+bool Base_MIDI_Device_Collection::assignNote(uint8_t note)
 {
 	_debug.debugln(5, F("Note %d assignment received"), note);
 	return true;
 };
 
-void MIDI_Device_Chain::clearNote(uint8_t note)
+void Base_MIDI_Device_Collection::clearNote(uint8_t note)
 {
 	_debug.debugln(5, F("Note %d clear received"), note);
 };
 
-void MIDI_Device_Chain::pitchBend(uint16_t bend)
+void Base_MIDI_Device_Collection::pitchBend(uint16_t bend)
 {
 	MIDI_Device_Node *node = start;
 	while(node)
@@ -143,7 +143,7 @@ void MIDI_Device_Chain::pitchBend(uint16_t bend)
 	}
 };
 
-void MIDI_Device_Chain::deleteNode(MIDI_Device_Node *node)
+void Base_MIDI_Device_Collection::deleteNode(MIDI_Device_Node *node)
 {	
 	//Handle deleting the start node
 	if(node == start)

@@ -1,13 +1,13 @@
-#ifndef MIDI_Device_Chains_h
-	#define MIDI_Device_Chains_h
+#ifndef Base_MIDI_Device_Collections_h
+	#define Base_MIDI_Device_Collections_h
 
 	#include "../../MIDI_Device_Controller/MIDI_Device.h"
-	#include "../MIDI_Device_Chain.h"
+	#include "../Base_MIDI_Device_Collection.h"
 
 	struct MIDI_Device_Node;
 
 	//Directly assigns the given note to all devices in the chain
-	class Direct_Chain : public MIDI_Device_Chain
+	class Direct_Collection : public Base_MIDI_Device_Collection
 	{	
 		private:
 		

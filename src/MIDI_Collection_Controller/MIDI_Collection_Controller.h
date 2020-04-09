@@ -1,12 +1,12 @@
-#ifndef MIDI_Chain_Controller_h
-	#define MIDI_Chain_Controller_h
+#ifndef MIDI_Collection_Controller_h
+	#define MIDI_Collection_Controller_h
 
 	#include "../Settings.h"
 	#include "../MIDI_Device_Controller.h"
 	#include "../MIDI_Device_Controller/MIDI_Device.h"
-	#include "MIDI_Device_Chain.h"
+	#include "Base_MIDI_Device_Collection.h"
 
-	class MIDI_Chain_Controller
+	class MIDI_Collection_Controller
 	{
 		// Give Device access to all private members
 		friend class MIDI_Device;
@@ -16,24 +16,24 @@
 		//Constructors and instance management
 		//_______________________________________________________________________________________________________
 		private:
-			MIDI_Chain_Controller();
-			static MIDI_Chain_Controller *_instance;
+			MIDI_Collection_Controller();
+			static MIDI_Collection_Controller *_instance;
 			
 		public:
 			//Used to populate our single instance MDC for consumption
-			static MIDI_Chain_Controller &getInstance();
+			static MIDI_Collection_Controller &getInstance();
 			
 		//Device management
 		//_______________________________________________________________________________________________________
 		private:
-			static MIDI_Device_Chain *_chains[MAX_CHAINS];
+			static Base_MIDI_Device_Collection *_collections[MAX_COLLECTIONS];
 
 		public:
 			void printStatus(); //Print each device slot's status
 			
-			void addChain(uint8_t index, MIDI_Device_Chain *c); //Adds a chain by index
-			MIDI_Device_Chain *getChain(uint8_t index); //Retrieves a chain by specified index
-			void deleteChain(uint8_t index); //Deletes a chain by specified index if populated
+			void addCollection(uint8_t index, Base_MIDI_Device_Collection *c); //Adds a Collection by index
+			Base_MIDI_Device_Collection *getCollection(uint8_t index); //Retrieves a Collection by specified index
+			void deleteCollection(uint8_t index); //Deletes a Collection by specified index if populated
 
 			void assignNote(int8_t index, uint8_t note);
 			void clearNote(int8_t index, uint8_t note);
@@ -55,5 +55,5 @@
 	};
 
 	//Defines a global instance of our class for users to consume
-	extern MIDI_Chain_Controller MCC;
+	extern MIDI_Collection_Controller MCC;
 #endif

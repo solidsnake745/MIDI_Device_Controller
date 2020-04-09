@@ -1,13 +1,13 @@
-#ifndef FirstAvailable_Chain_h
-	#define FirstAvailable_Chain_h
+#ifndef FirstAvailable_Collection_h
+	#define FirstAvailable_Collection_h
 
 	#include "../../MIDI_Device_Controller/MIDI_Device.h"
-	#include "../MIDI_Device_Chain.h"
+	#include "../Base_MIDI_Device_Collection.h"
 
 	struct MIDI_Device_Node;
 
 	//First available 
-	class FirstAvailable_Chain : public MIDI_Device_Chain
+	class FirstAvailable_Collection : public Base_MIDI_Device_Collection
 	{	
 		private:
 		

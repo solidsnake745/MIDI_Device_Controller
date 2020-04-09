@@ -1,9 +1,8 @@
-#include "Direct_Chain.h"
+#include "FirstAvailable_Collection.h"
 #include "../MIDI_Device_Node.h"
 
-bool Direct_Chain::assignNote(uint8_t note)
+bool FirstAvailable_Collection::assignNote(uint8_t note)
 {
-	bool result = false;
 	MIDI_Device_Node *node = start;
 	
 	while(node)
@@ -11,23 +10,26 @@ bool Direct_Chain::assignNote(uint8_t note)
 		if(node->device->isAvailable())
 		{
 			node->assignNote(note);
-			result = true;
+			return true;
 		}
 		
 		node = node->next;
 	}
 	
-	return result;
+	return false;
 }
 
-void Direct_Chain::clearNote(uint8_t note)
-{
+void FirstAvailable_Collection::clearNote(uint8_t note)
+{	
 	MIDI_Device_Node *node = start;
 	
 	while(node)
 	{
 		if(node->device->getCurrentNote() == note)
+		{
 			node->clearNote();
+			return;
+		}
 		
 		node = node->next;
 	}

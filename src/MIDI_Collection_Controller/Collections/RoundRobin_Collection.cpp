@@ -1,7 +1,7 @@
-#include "RoundRobin_Chain.h"
+#include "RoundRobin_Collection.h"
 #include "../MIDI_Device_Node.h"
 
-bool RoundRobin_Chain::assignNote(uint8_t note)
+bool RoundRobin_Collection::assignNote(uint8_t note)
 {
 	if(count == 1)
 		return start->tryAssign(note);
@@ -35,7 +35,7 @@ bool RoundRobin_Chain::assignNote(uint8_t note)
 	return true;
 }
 
-void RoundRobin_Chain::clearNote(uint8_t note)
+void RoundRobin_Collection::clearNote(uint8_t note)
 {
 	//_debug.debugln(5, F("Looking to clear note "), note);
 	
