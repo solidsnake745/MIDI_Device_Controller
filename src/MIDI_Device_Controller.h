@@ -51,8 +51,8 @@
 		//Note Processing
 		//_______________________________________________________________________________________________________
 		private:
-			bool _isProcessing = false;
-			bool _autoProcessing = true;
+			bool _isPlayingNotes = false;
+			bool _autoPlayNotes = true;
 			
 			//Operates devices during interrupt process
 			void processNotes();
@@ -64,16 +64,16 @@
 		
 		public:
 			//Starts the interrupt process to play notes
-			bool startProcessing();
+			bool startPlaying();
 			
 			//Stops the interrupt process to play notes
-			void stopProcessing();
+			void stopPlaying();
 			
 			//Processes reset for auto processing (needs to be called in your loop!)
-			bool resetProcessing();
+			bool process();
 			
 			//Indicates whether note processing is on/off
-			bool isProcessing();
+			bool isPlayingNotes();
 
 		//Settings
 		//_______________________________________________________________________________________________________

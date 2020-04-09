@@ -39,10 +39,10 @@ setDirPin	KEYWORD2
 setLEDPin	KEYWORD2
 setMaxPosition	KEYWORD2
 setEnabled	KEYWORD2
-setAutoProcess	KEYWORD2
-startProcessing	KEYWORD2
-stopProcessing	KEYWORD2
-resetProcessing	KEYWORD2
+setAutoPlay	KEYWORD2
+startPlaying	KEYWORD2
+stopPlaying	KEYWORD2
+process	KEYWORD2
 resetPosition	KEYWORD2
 resetPositions	KEYWORD2
 calibratePosition	KEYWORD2
@@ -54,3 +54,4 @@ assignNote	KEYWORD2
 assignPeriod	KEYWORD2
 pitchBend	KEYWORD2
 clearNote	KEYWORD2
+isProcessing	KEYWORD2

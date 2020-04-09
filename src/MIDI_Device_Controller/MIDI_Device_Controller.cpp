@@ -215,8 +215,8 @@ void MIDI_Device_Controller::calibratePositions()
 
 void MIDI_Device_Controller::assignNote(int8_t index, uint8_t note)
 {
-	_debug.debugln(8, F("Is processing: %d"), _isProcessing);
-	_debug.debugln(8, F("Auto processing: %d"), _autoProcessing);
+	_debug.debugln(8, F("Is processing: %d"), _isPlayingNotes);
+	_debug.debugln(8, F("Auto processing: %d"), _autoPlayNotes);
 	
 	MIDI_Device *d = getDevice(index);
 	if(!d) return;
@@ -244,23 +244,23 @@ void MIDI_Device_Controller::lawl() { _instance->processNotes(); };
 
 void MIDI_Device_Controller::noteAssigned()
 {
-	if(_autoProcessing)
+	if(_autoPlayNotes)
 	{
 		_debug.debugln(8, F("Auto process"));
 		_lastAssign = millis();
-		if(!_isProcessing) startProcessing();
+		if(!_isPlayingNotes) startPlaying();
 	}
 }
 
-bool MIDI_Device_Controller::startProcessing() 
+bool MIDI_Device_Controller::startPlaying() 
 {
-	if(_isProcessing)
+	if(_isPlayingNotes)
 	{
 		_debug.debugln(5, F("Already processing"));
 		return false;
 	}
 	
-	_isProcessing = true;
+	_isPlayingNotes = true;
 	
 	//TODO: Redesign and implement debugging the interrupt process
 	// #if DEBUG_MODE >= 5
@@ -272,7 +272,7 @@ bool MIDI_Device_Controller::startProcessing()
 	_debug.debugln(2, F("Resolution set to %d"), MIDI_Periods::getResolution());
 	
 	reloadEnabledDevices();
-	if(_autoProcessing) _lastAssign = millis();
+	if(_autoPlayNotes) _lastAssign = millis();
 	
 	Timer1.initialize();
 	Timer1.attachInterrupt(MIDI_Device_Controller::lawl);
@@ -283,7 +283,7 @@ bool MIDI_Device_Controller::startProcessing()
 	return true;
 }
 
-void MIDI_Device_Controller::stopProcessing()
+void MIDI_Device_Controller::stopPlaying()
 {
 	_debug.debugln(5, F("Stopping processing"));
 	
@@ -299,7 +299,7 @@ void MIDI_Device_Controller::stopProcessing()
 
 	Timer1.stop();
 
-	_isProcessing = false;
+	_isPlayingNotes = false;
 	LEDOff();
 }
 
@@ -307,9 +307,9 @@ void MIDI_Device_Controller::stopProcessing()
 	// int lastDebugValue = -1;
 // #endif
 
-bool MIDI_Device_Controller::resetProcessing()
+bool MIDI_Device_Controller::process()
 {
-	if(!_isProcessing) return false;
+	if(!_isPlayingNotes) return false;
 	
 	uint32_t timeSinceLastAssign = (millis() - _lastAssign);
 	
@@ -330,16 +330,16 @@ bool MIDI_Device_Controller::resetProcessing()
 		// #if DEBUG_MODE >= 3
 			// lastDebugValue = -1;
 		// #endif
-		stopProcessing();
+		stopPlaying();
 		return true; //Indicates this method stopped processing
 	}
 	
 	return false;
 }
 
-bool MIDI_Device_Controller::isProcessing()
+bool MIDI_Device_Controller::isPlayingNotes()
 {
-	return _isProcessing;
+	return _isPlayingNotes;
 }
 
 
@@ -349,7 +349,7 @@ uint8_t MIDI_Device_Controller::getMaxDevices() { return MAX_DEVICES; }
 uint32_t MIDI_Device_Controller::getMaxDuration() { return _maxDuration; }
 void MIDI_Device_Controller::setMaxDuration(uint32_t value) { _maxDuration = value; }
 void MIDI_Device_Controller::setIdleTimeout(int16_t value) { _idleTimeout = value; }
-void MIDI_Device_Controller::setAutoProcess(bool value) { _autoProcessing = value; }
+void MIDI_Device_Controller::setAutoProcess(bool value) { _autoPlayNotes = value; }
 void MIDI_Device_Controller::setResolution(uint16_t resolution) { MIDI_Periods::setResolution(resolution); }
 
 
@@ -379,7 +379,7 @@ void MIDI_Device_Controller::testDeviceInterrupt(uint8_t index)
 	MIDI_Device *d = getDevice(index);
 	if(!d) return;
 	
-	if(!_isProcessing) startProcessing();
+	if(!_isPlayingNotes) startPlaying();
 	for(int16_t i = 0; i <= 5; i++)
 	{
 		d->assignNote(50);
@@ -387,7 +387,7 @@ void MIDI_Device_Controller::testDeviceInterrupt(uint8_t index)
 		d->clearNote();
 		delay(200);
 	}
-	stopProcessing();
+	stopPlaying();
 }
 
 void MIDI_Device_Controller::testPitchBend(uint8_t index)
@@ -395,7 +395,7 @@ void MIDI_Device_Controller::testPitchBend(uint8_t index)
 	MIDI_Device *d = getDevice(index);
 	if(!d) return;
 	
-	bool currentSetting = _autoProcessing;		
+	bool currentSetting = _autoPlayNotes;		
 	setAutoProcess(true);	
 	
 	d->assignNote(50);
@@ -411,14 +411,14 @@ void MIDI_Device_Controller::testPitchBend(uint8_t index)
 	}
 	
 	d->clearNote();
-	stopProcessing();
+	stopPlaying();
 	setAutoProcess(currentSetting);
 }
 
 void MIDI_Device_Controller::loadTest(uint8_t numDevices)
 {
 	//Temporarily enable auto process and set idle timeout to 5 seconds
-	bool currentSetting = _autoProcessing;	
+	bool currentSetting = _autoPlayNotes;	
 	uint16_t currentTimeout = _idleTimeout;
 	setAutoProcess(true);	
 	setIdleTimeout(5);
@@ -439,7 +439,7 @@ void MIDI_Device_Controller::loadTest(uint8_t numDevices)
 	
 	//Hold here until the test is over (idle timeout of 5 seconds)
 	_debug.println(F("Waiting 5 seconds"));
-	while(!resetProcessing()) {;}
+	while(!process()) {;}
 	
 	//Revert back to user settings
 	setAutoProcess(currentSetting);
