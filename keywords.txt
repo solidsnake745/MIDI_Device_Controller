@@ -7,7 +7,6 @@ MDC	KEYWORD1
 MCF	KEYWORD1
 MCC	KEYWORD1
 
-
 ############
 Common
 ############
@@ -15,70 +14,75 @@ printStatus	KEYWORD2
 assignNote	KEYWORD2
 pitchBend	KEYWORD2
 clearNote	KEYWORD2
-MIDI_Device	LITERAL1
 
 ############
 MIDI Device
 ############
-testStepping	KEYWORD2
-testDeviceDirect	KEYWORD2
-testDeviceInterrupt	KEYWORD2
-testMaxDirection	KEYWORD2
-testPitchBend	KEYWORD2
-runAllDeviceTests	KEYWORD2
+MIDI_Device	KEYWORD1
+setup	KEYWORD2
+getID	KEYWORD2
 getStepPin	KEYWORD2
 getDirPin	KEYWORD2
+getMaxPosition	KEYWORD2
+getEnabled	KEYWORD2
+isAvailable	KEYWORD2
+isAtMaxPosition	KEYWORD2
+isTrackingPosition	KEYWORD2
+setMaxPosition	KEYWORD2
+setEnabled	KEYWORD2
 getStepState	KEYWORD2
 getDirState	KEYWORD2
 getPosition	KEYWORD2
-getMaxPosition	KEYWORD2
 getCurrentNote	KEYWORD2
 getBasePeriod	KEYWORD2
 getCurrentPeriod	KEYWORD2
 getDuration	KEYWORD2
 isEnabled	KEYWORD2
-isAvailable	KEYWORD2
-isAtMaxPosition	KEYWORD2
-isTrackingPosition	KEYWORD2
-setStepPin	KEYWORD2
-setDirPin	KEYWORD2
-setMaxPosition	KEYWORD2
-setEnabled	KEYWORD2
+assignPeriod	KEYWORD2
+setDirection	KEYWORD2
 resetPosition	KEYWORD2
 calibratePosition	KEYWORD2
-assignPeriod	KEYWORD2
-setEnabled	KEYWORD2
-setDirection	KEYWORD2
 zeroPosition	KEYWORD2
 resetDeviceProperties	KEYWORD2
-assignPeriod	KEYWORD2
+testStepping	KEYWORD2
+testDeviceDirect	KEYWORD2
+testMaxDirection	KEYWORD2
+runAllDeviceTests	KEYWORD2
 
 ############
 MIDI Device Factory
 ############
 createFDD	KEYWORD2
+createStepper	KEYWORD2
+createHDD	KEYWORD2
+createBuzzer	KEYWORD2
 
 ############
 MIDI Device Controller
 ############
 addDevice	KEYWORD2
+addDevices	KEYWORD2
 getDevice	KEYWORD2
-loadTest	KEYWORD2
-getNumDevices	KEYWORD2
+deleteDevice	KEYWORD2
+resetPositions	KEYWORD2
+calibratePositions	KEYWORD2
+startPlaying	KEYWORD2
+stopPlaying	KEYWORD2
+process	KEYWORD2
+isPlayingNotes	KEYWORD2
 getMaxDevices	KEYWORD2
 getMaxDuration	KEYWORD2
 setResolution	KEYWORD2
 setMaxDuration	KEYWORD2
 setIdleTimeout	KEYWORD2
+setAutoPlay	KEYWORD2
 playStartupSequence	KEYWORD2
 isProcessing	KEYWORD2
 setLEDPin	KEYWORD2
-setAutoPlay	KEYWORD2
-startPlaying	KEYWORD2
-stopPlaying	KEYWORD2
-process	KEYWORD2
-resetPositions	KEYWORD2
-calibratePositions	KEYWORD2
+testDeviceInterrupt	KEYWORD2
+testPitchBend	KEYWORD2
+loadTest	KEYWORD2
+playStartupSequence	KEYWORD2
 
 ############
 MIDI Collection Factory
@@ -86,12 +90,35 @@ MIDI Collection Factory
 createCollection	KEYWORD2
 
 ############
-MIDI Collection Controller
+MIDI Message Types
+############
+Undefined	LITERAL1
+NoteOff	LITERAL1
+NoteOn	LITERAL1
+PolyPressure	LITERAL1
+ControlChange	LITERAL1
+ProgramChange	LITERAL1
+ChannelPressure	LITERAL1
+PitchBend	LITERAL1
+
+############
+MIDI Collection Types
 ############
 Direct	LITERAL1
 FirstAvailable	LITERAL1
 RoundRobin	LITERAL1
 
 ############
+MIDI Collection Controller
+############
+addCollection	KEYWORD2
+getCollection	KEYWORD2
+deleteCollection	KEYWORD2
+
+############
 MIDI Serial
 ############
+read	KEYWORD2
+setNoteOnHandle	KEYWORD2
+setNoteOffHandle	KEYWORD2
+setPitchBendHandle	KEYWORD2

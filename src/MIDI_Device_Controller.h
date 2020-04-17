@@ -88,7 +88,7 @@
 			void setResolution(uint16_t resolution = DEFAULT_RESOLUTION);
 			void setMaxDuration(uint32_t value = MAX_DURATION_DEFAULT);
 			void setIdleTimeout(int16_t value = IDLE_TIMEOUT_DEFAULT);		
-			void setAutoProcess(bool value);
+			void setAutoPlay(bool value);
 
 		//LED pin functionality
 		//_______________________________________________________________________________________________________

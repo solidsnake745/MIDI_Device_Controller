@@ -44,14 +44,10 @@
 		private:
 			
 		public:	
-			
-		
-		public: 
 		
 		//Tests/Debug 
 		//_______________________________________________________________________________________________________
 		public:
-
 	};
 
 	//Defines a global instance of our class for users to consume

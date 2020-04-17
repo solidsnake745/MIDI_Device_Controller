@@ -349,7 +349,7 @@ uint8_t MIDI_Device_Controller::getMaxDevices() { return MAX_DEVICES; }
 uint32_t MIDI_Device_Controller::getMaxDuration() { return _maxDuration; }
 void MIDI_Device_Controller::setMaxDuration(uint32_t value) { _maxDuration = value; }
 void MIDI_Device_Controller::setIdleTimeout(int16_t value) { _idleTimeout = value; }
-void MIDI_Device_Controller::setAutoProcess(bool value) { _autoPlayNotes = value; }
+void MIDI_Device_Controller::setAutoPlay(bool value) { _autoPlayNotes = value; }
 void MIDI_Device_Controller::setResolution(uint16_t resolution) { MIDI_Periods::setResolution(resolution); }
 
 
@@ -396,7 +396,7 @@ void MIDI_Device_Controller::testPitchBend(uint8_t index)
 	if(!d) return;
 	
 	bool currentSetting = _autoPlayNotes;		
-	setAutoProcess(true);	
+	setAutoPlay(true);	
 	
 	d->assignNote(50);
 	d->pitchBend(1);
@@ -412,7 +412,7 @@ void MIDI_Device_Controller::testPitchBend(uint8_t index)
 	
 	d->clearNote();
 	stopPlaying();
-	setAutoProcess(currentSetting);
+	setAutoPlay(currentSetting);
 }
 
 void MIDI_Device_Controller::loadTest(uint8_t numDevices)
@@ -420,7 +420,7 @@ void MIDI_Device_Controller::loadTest(uint8_t numDevices)
 	//Temporarily enable auto process and set idle timeout to 5 seconds
 	bool currentSetting = _autoPlayNotes;	
 	uint16_t currentTimeout = _idleTimeout;
-	setAutoProcess(true);	
+	setAutoPlay(true);	
 	setIdleTimeout(5);
 	
 	//Restrict parameter to the upper bound of the array
@@ -442,7 +442,7 @@ void MIDI_Device_Controller::loadTest(uint8_t numDevices)
 	while(!process()) {;}
 	
 	//Revert back to user settings
-	setAutoProcess(currentSetting);
+	setAutoPlay(currentSetting);
 	setIdleTimeout(currentTimeout);
 }
 
