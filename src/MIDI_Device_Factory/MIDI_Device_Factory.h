@@ -1,19 +1,17 @@
 #ifndef MIDI_Device_Factory_h
 	#define MIDI_Device_Factory_h
 
-	#include "../MIDI_Device_Controller/MIDI_Device.h"
-	
-	//enum DeviceType_t { FDD, Stepper, HDD };	
+	#include "../MIDI_Device_Controller/MIDI_Device.h"	
 	
 	class MIDI_Device_Factory
-	{
+	{		
 		//Constructor(s)
 		MIDI_Device_Factory(); //Disallow creating an instance
 		static MIDI_Device_Factory *_instance;
-			
+		
 		public:
 			//Used to populate our single instance MDF for consumption
-			static MIDI_Device_Factory &getInstance();
+			static MIDI_Device_Factory &getInstance();			
 			
 			inline MIDI_Device *createFDD(uint8_t stepPin, uint8_t dirPin)
 			{ return new MIDI_Device(stepPin, dirPin, 158); };

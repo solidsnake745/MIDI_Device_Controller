@@ -1,30 +1,25 @@
 #include "../MIDI_Device_Controller.h"
 
 void MIDI_Device_Controller::processNotes()
-{	
-	#if DEBUG_MODE >= 5
-	DEBUG(F("Process start"))
-	#endif
+{
+	_debug.debugln(20, "Process start");
 
+	//Play MIDI_Device notes
 	int i = 0;
-	while(i < MAX_DEVICES)
+	while(i < MAX_DEVICES && _numEnabled > 0)
 	{
 		MIDI_Device *d = _enabledDevices[i++];
 		if(!d) return;
 			
 		if(d->_currentNote < 0) 
 		{
-			#if DEBUG_MODE >= 5
-				DEBUG3(d->_id, F(" - No note"), d->_currentNote)
-			#endif
+			_debug.debugln(20, "%d - No note", d->_id);
 			continue;
 		}
 		
 		if(d->_currentNote == 0)
-		{
-			#if DEBUG_MODE >= 5
-				DEBUG2(d->_id, F(" - Waiting for reset"))
-			#endif
+		{			
+			_debug.debugln(20, "%d - Resetting properties", d->_id);
 			d->resetProperties();
 			continue;
 		}
@@ -34,11 +29,7 @@ void MIDI_Device_Controller::processNotes()
 		
 		if(_maxDuration != 0 && d->_currentDuration >= _maxDuration) 
 		{
-			#if DEBUG_MODE >= 2
-				DEBUG2(d->_id, F(" - Reached max duration"))
-				DEBUG2(F("Max Duration: "), _maxDuration)
-			#endif
-			
+			_debug.debugln(20, "%d - Reached max duration", d->_id);
 			d->_currentNote = 0;
 			continue;
 		}
@@ -46,9 +37,7 @@ void MIDI_Device_Controller::processNotes()
 		d->_currentTick++;
 		if(d->_currentTick >= d->_currentPeriod) 
 		{
-			#if DEBUG_MODE >= 5
-				DEBUG2(d->_id, F(" - Toggling step"))
-			#endif
+			_debug.debugln(20, "%d - Toggling step", d->_id);
 			
 			d->toggleStep();
 			d->_currentTick = 0;
@@ -56,16 +45,18 @@ void MIDI_Device_Controller::processNotes()
 		
 		if(d->_maxPosition > 0 && d->_currentPosition >= d->_maxPosition) 
 		{
-			#if DEBUG_MODE >= 5
-			DEBUG2(d->_id, F(" - Toggling direction"))
-			#endif
+			_debug.debugln(20, "%d - Toggling direction", d->_id);
 			
 			d->toggleDirection();
 			d->zeroPosition();
 		}
 	}
 	
-	#if DEBUG_MODE >= 5
-	DEBUG(F("Process end"))
-	#endif
+	//Play shift register notes
+	if(_MSR_instance)		
+		_MSR_instance->playNotes();
+	else
+		_debug.debugln(20, "No register device");
+	
+	_debug.debugln(20, "Process end");
 }

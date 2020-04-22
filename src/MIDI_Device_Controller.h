@@ -5,7 +5,9 @@
 	#include "MDC_Extras.h"
 	#include <Arduino.h>
 	#include <TimerOne.h>
+	#include "MIDI_Device_Controller/MIDI_Periods.h"
 	#include "MIDI_Device_Controller/MIDI_Device.h"
+	#include "MIDI_Device_Controller/MIDI_Shift_Register.h"
 	#include "SerialDebug/SerialDebug.h"
 
 	class MIDI_Device_Controller
@@ -30,9 +32,11 @@
 		private:
 			static MIDI_Device *_devices[MAX_DEVICES];
 			static MIDI_Device *_enabledDevices[MAX_DEVICES];
-
+			static uint8_t _numEnabled;
+			
 			uint8_t reloadEnabledDevices();
-
+			
+			static MIDI_Shift_Register *_MSR_instance;
 		public:
 			void printStatus(); //Print each device slot's status		
 			
@@ -41,12 +45,16 @@
 			MIDI_Device *getDevice(uint8_t index); //Retrieves a device at specified index
 			void deleteDevice(uint8_t index); //Deletes device at specified index if populated
 
+			void initializeShiftRegisterDevice(uint8_t size, uint8_t startingNote, uint8_t latchPin);
 			void resetPositions();
 			void calibratePositions();
 		
 			void assignNote(int8_t index, uint8_t note);
 			void pitchBend(int8_t index, uint16_t bend);
 			void clearNote(int8_t index, uint8_t note);
+			
+			void playRegisterNote(uint8_t note);
+			void stopRegisterNote(uint8_t note);
 			
 		//Note Processing
 		//_______________________________________________________________________________________________________
@@ -86,6 +94,7 @@
 			uint8_t getMaxDevices();
 			uint32_t getMaxDuration();
 			void setResolution(uint16_t resolution = DEFAULT_RESOLUTION);
+			void setDebugResolution();
 			void setMaxDuration(uint32_t value = MAX_DURATION_DEFAULT);
 			void setIdleTimeout(int16_t value = IDLE_TIMEOUT_DEFAULT);		
 			void setAutoPlay(bool value);

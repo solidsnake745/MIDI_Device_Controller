@@ -48,6 +48,11 @@ void MIDI_Periods::setResolution(uint32_t resolution)
 	calculatePeriods(resolution);
 }
 
+void MIDI_Periods::setDebugResolution() 
+{ 
+	_currentResolution = 100000;
+}
+
 void MIDI_Periods::printOriginalPeriod(uint8_t note)
 {
 	_debug.println(F("Original period for %d: %d"), note, getOriginalPeriod(note));

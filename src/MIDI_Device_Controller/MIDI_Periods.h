@@ -49,6 +49,7 @@
 			
 			static uint32_t getResolution();
 			static void setResolution(uint32_t resolution = DEFAULT_RESOLUTION);
+			static void setDebugResolution();
 			
 			static void printOriginalPeriod(uint8_t note);
 			static void printOriginalPeriods();

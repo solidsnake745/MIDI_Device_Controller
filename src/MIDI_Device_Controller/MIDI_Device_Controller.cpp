@@ -31,6 +31,7 @@ MIDI_Device_Controller &MIDI_Device_Controller::getInstance()
 //_______________________________________________________________________________________________________
 MIDI_Device *MIDI_Device_Controller::_devices[MAX_DEVICES];
 MIDI_Device *MIDI_Device_Controller::_enabledDevices[MAX_DEVICES];
+uint8_t MIDI_Device_Controller::_numEnabled = 0;
 
 uint8_t MIDI_Device_Controller::reloadEnabledDevices()
 {
@@ -55,9 +56,12 @@ uint8_t MIDI_Device_Controller::reloadEnabledDevices()
 		}
 	}
 	
-	_debug.debugln(1, "%d device(s) loaded", x);
-	return x;
+	_numEnabled = x;
+	_debug.debugln(1, "%d device(s) loaded", _numEnabled);
+	return _numEnabled;
 }
+
+MIDI_Shift_Register *MIDI_Device_Controller::_MSR_instance = NULL;
 
 void MIDI_Device_Controller::printStatus()
 {
@@ -154,6 +158,17 @@ void MIDI_Device_Controller::deleteDevice(uint8_t index)
 	}
 }
 
+void MIDI_Device_Controller::initializeShiftRegisterDevice(uint8_t size, uint8_t startingNote, uint8_t latchPin)
+{
+	if(_MSR_instance != NULL)
+	{
+		_debug.debugln(1, F("Shift register device already initialized"));
+		return;
+	}
+	
+	_MSR_instance = new MIDI_Shift_Register(size, startingNote, latchPin);
+}
+
 //TODO: Verify logic
 void MIDI_Device_Controller::resetPositions()
 {
@@ -235,6 +250,30 @@ void MIDI_Device_Controller::clearNote(int8_t index, uint8_t note)
 	MIDI_Device *d = getDevice(index);
 	if(!d) return;
 	if(d->getCurrentNote() == note) d->clearNote();
+}
+
+void MIDI_Device_Controller::playRegisterNote(uint8_t note)
+{
+	if(_MSR_instance == NULL)
+	{
+		_debug.debugln(1, F("Shift register device need to be initialized"));
+		return;
+	}
+	
+	_debug.debugln(2, F("Playing %d on register"), note);
+	_MSR_instance->playNote(note);
+}
+
+void MIDI_Device_Controller::stopRegisterNote(uint8_t note)
+{
+	if(_MSR_instance == NULL)
+	{
+		_debug.debugln(1, F("Shift register device need to be initialized"));
+		return;
+	}
+	
+	_debug.debugln(2, F("Stopping %d on register"), note);
+	_MSR_instance->stopNote(note);
 }
 
 //Note Processing
@@ -351,7 +390,7 @@ void MIDI_Device_Controller::setMaxDuration(uint32_t value) { _maxDuration = val
 void MIDI_Device_Controller::setIdleTimeout(int16_t value) { _idleTimeout = value; }
 void MIDI_Device_Controller::setAutoPlay(bool value) { _autoPlayNotes = value; }
 void MIDI_Device_Controller::setResolution(uint16_t resolution) { MIDI_Periods::setResolution(resolution); }
-
+void MIDI_Device_Controller::setDebugResolution() { MIDI_Periods::setDebugResolution(); }
 
 //LED pin functionality
 //_______________________________________________________________________________________________________
