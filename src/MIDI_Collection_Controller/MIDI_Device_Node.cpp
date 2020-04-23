@@ -10,12 +10,24 @@ MIDI_Device_Node::MIDI_Device_Node(MIDI_Device *d, Base_MIDI_Device_Collection *
 	parent = dc;
 }
 
-bool MIDI_Device_Node::tryAssign(uint8_t note)
+void MIDI_Device_Node::playNote(uint8_t note)
+{
+	device->playNote(note);	
+	// lastAssignStamp = millis();
+}
+
+void MIDI_Device_Node::stopNote()
+{
+	device->stopNote();	
+	// lastAssignStamp = 0;
+}
+
+bool MIDI_Device_Node::tryPlayNote(uint8_t note)
 {
 	if(device->isAvailable())
 	{
 		//DEBUG2(device->getID(), F(" - Available"))
-		device->assignNote(note);
+		device->playNote(note);
 		return true;
 	}
 	
@@ -23,27 +35,15 @@ bool MIDI_Device_Node::tryAssign(uint8_t note)
 	return false;
 }
 
-bool MIDI_Device_Node::tryClear(uint8_t note)
+bool MIDI_Device_Node::tryStopNote(uint8_t note)
 {
 	if(device->getCurrentNote() == note)
 	{
 		//DEBUG2(device->getID(), F(" - Matches"))
-		device->clearNote();
+		device->stopNote();
 		return true;
 	}
 	
 	//DEBUG3(device->getID(), F(" - Doesn't match: "), device->getCurrentNote())
 	return false;
-}
-
-void MIDI_Device_Node::assignNote(uint8_t note)
-{
-	device->assignNote(note);	
-	// lastAssignStamp = millis();
-}
-
-void MIDI_Device_Node::clearNote()
-{
-	device->clearNote();	
-	// lastAssignStamp = 0;
 }

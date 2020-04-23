@@ -1,7 +1,7 @@
 #include "FirstAvailable_Collection.h"
 #include "../MIDI_Device_Node.h"
 
-bool FirstAvailable_Collection::assignNote(uint8_t note)
+bool FirstAvailable_Collection::playNote(uint8_t note)
 {
 	MIDI_Device_Node *node = start;
 	
@@ -9,7 +9,7 @@ bool FirstAvailable_Collection::assignNote(uint8_t note)
 	{
 		if(node->device->isAvailable())
 		{
-			node->assignNote(note);
+			node->playNote(note);
 			return true;
 		}
 		
@@ -19,7 +19,7 @@ bool FirstAvailable_Collection::assignNote(uint8_t note)
 	return false;
 }
 
-void FirstAvailable_Collection::clearNote(uint8_t note)
+void FirstAvailable_Collection::stopNote(uint8_t note)
 {	
 	MIDI_Device_Node *node = start;
 	
@@ -27,7 +27,7 @@ void FirstAvailable_Collection::clearNote(uint8_t note)
 	{
 		if(node->device->getCurrentNote() == note)
 		{
-			node->clearNote();
+			node->stopNote();
 			return;
 		}
 		

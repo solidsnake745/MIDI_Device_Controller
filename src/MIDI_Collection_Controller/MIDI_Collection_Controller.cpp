@@ -97,18 +97,11 @@ void MIDI_Collection_Controller::deleteCollection(uint8_t index)
 	}
 }
 
-void MIDI_Collection_Controller::assignNote(int8_t index, uint8_t note)
+void MIDI_Collection_Controller::playNote(int8_t index, uint8_t note)
 {	
 	Base_MIDI_Device_Collection *c = getCollection(index);
 	if(!c) return;
-	c->assignNote(note);
-}
-
-void MIDI_Collection_Controller::clearNote(int8_t index, uint8_t note)
-{
-	Base_MIDI_Device_Collection *c = getCollection(index);
-	if(!c) return;
-	c->clearNote(note);
+	c->playNote(note);
 }
 
 void MIDI_Collection_Controller::pitchBend(int8_t index, uint16_t bend)
@@ -116,6 +109,13 @@ void MIDI_Collection_Controller::pitchBend(int8_t index, uint16_t bend)
 	Base_MIDI_Device_Collection *c = getCollection(index);
 	if(!c) return;
 	c->pitchBend(bend);
+}
+
+void MIDI_Collection_Controller::stopNote(int8_t index, uint8_t note)
+{
+	Base_MIDI_Device_Collection *c = getCollection(index);
+	if(!c) return;
+	c->stopNote(note);
 }
 
 //Settings

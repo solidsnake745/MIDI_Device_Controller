@@ -13,8 +13,8 @@
 			
 		public:
 			//Abstract implementations		
-			bool assignNote(uint8_t note);
-			void clearNote(uint8_t note);
+			bool playNote(uint8_t note);
+			void stopNote(uint8_t note);
 	};
 	
 #endif

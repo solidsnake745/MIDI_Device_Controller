@@ -35,18 +35,15 @@
 			Base_MIDI_Device_Collection *getCollection(uint8_t index); //Retrieves a Collection by specified index
 			void deleteCollection(uint8_t index); //Deletes a Collection by specified index if populated
 
-			void assignNote(int8_t index, uint8_t note);
-			void clearNote(int8_t index, uint8_t note);
+			void playNote(int8_t index, uint8_t note);
 			void pitchBend(int8_t index, uint16_t bend);
+			void stopNote(int8_t index, uint8_t note);			
 
 		//Settings
 		//_______________________________________________________________________________________________________
 		private:
 			
-		public:	
-			
-		
-		public: 
+		public:
 		
 		//Tests/Debug 
 		//_______________________________________________________________________________________________________

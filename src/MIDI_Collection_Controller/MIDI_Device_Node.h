@@ -26,9 +26,9 @@
 			//Millisecond timestamp when this was last assigned a note
 			// uint32_t lastAssignStamp = 0;
 			
-			void assignNote(uint8_t note);
-			void clearNote();
-			bool tryAssign(uint8_t note);
-			bool tryClear(uint8_t note);
+			void playNote(uint8_t note);
+			void stopNote();
+			bool tryPlayNote(uint8_t note);
+			bool tryStopNote(uint8_t note);
 	};
 #endif

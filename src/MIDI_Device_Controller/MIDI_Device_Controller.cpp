@@ -228,14 +228,14 @@ void MIDI_Device_Controller::calibratePositions()
 	resetPositions();
 }
 
-void MIDI_Device_Controller::assignNote(int8_t index, uint8_t note)
+void MIDI_Device_Controller::playNote(int8_t index, uint8_t note)
 {
 	_debug.debugln(8, F("Is processing: %d"), _isPlayingNotes);
 	_debug.debugln(8, F("Auto processing: %d"), _autoPlayNotes);
 	
 	MIDI_Device *d = getDevice(index);
 	if(!d) return;
-	d->assignNote(note);
+	d->playNote(note);
 }
 
 void MIDI_Device_Controller::pitchBend(int8_t index, uint16_t bend)
@@ -245,11 +245,11 @@ void MIDI_Device_Controller::pitchBend(int8_t index, uint16_t bend)
 	d->pitchBend(bend);
 }
 
-void MIDI_Device_Controller::clearNote(int8_t index, uint8_t note)
+void MIDI_Device_Controller::stopNote(int8_t index, uint8_t note)
 {
 	MIDI_Device *d = getDevice(index);
 	if(!d) return;
-	if(d->getCurrentNote() == note) d->clearNote();
+	if(d->getCurrentNote() == note) d->stopNote();
 }
 
 void MIDI_Device_Controller::playRegisterNote(uint8_t note)
@@ -330,7 +330,7 @@ void MIDI_Device_Controller::stopPlaying()
 	int i = 0;
 	while(i != MAX_DEVICES)
 	{
-		if(_devices[i]) _devices[i]->clearNote();
+		if(_devices[i]) _devices[i]->stopNote();
 		i++;
 	}
 	
@@ -421,9 +421,9 @@ void MIDI_Device_Controller::testDeviceInterrupt(uint8_t index)
 	if(!_isPlayingNotes) startPlaying();
 	for(int16_t i = 0; i <= 5; i++)
 	{
-		d->assignNote(50);
+		d->playNote(50);
 		delay(200);
-		d->clearNote();
+		d->stopNote();
 		delay(200);
 	}
 	stopPlaying();
@@ -437,7 +437,7 @@ void MIDI_Device_Controller::testPitchBend(uint8_t index)
 	bool currentSetting = _autoPlayNotes;		
 	setAutoPlay(true);	
 	
-	d->assignNote(50);
+	d->playNote(50);
 	d->pitchBend(1);
 	
 	//Note processing occurs every (_resolution) microseconds
@@ -449,7 +449,7 @@ void MIDI_Device_Controller::testPitchBend(uint8_t index)
 		//delayMicroseconds(5000);
 	}
 	
-	d->clearNote();
+	d->stopNote();
 	stopPlaying();
 	setAutoPlay(currentSetting);
 }
@@ -473,7 +473,7 @@ void MIDI_Device_Controller::loadTest(uint8_t numDevices)
 		if(!d) continue;
 		
 		delay(250); //Staggers note assignments
-		d->assignNote(50);	  
+		d->playNote(50);	  
 	}
 	
 	//Hold here until the test is over (idle timeout of 5 seconds)

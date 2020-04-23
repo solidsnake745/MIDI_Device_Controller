@@ -30,8 +30,8 @@
 			
 			//Overrideable methods
 			virtual void printStatus();
-			virtual bool assignNote(uint8_t note);
-			virtual void clearNote(uint8_t note);
+			virtual bool playNote(uint8_t note);			
 			virtual void pitchBend(uint16_t bend);
+			virtual void stopNote(uint8_t note);
 	};
 #endif

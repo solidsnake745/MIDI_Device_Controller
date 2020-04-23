@@ -7,37 +7,57 @@ Base_MIDI_Device_Collection::~Base_MIDI_Device_Collection()
 {
 };
 
-void Base_MIDI_Device_Collection::printStatus()
-{
-	_debug.println(F("%d nodes in this chain"), count);	
-	if(!start) return;
-	
-	_debug.debugln(5, F("Start of the chain"));
-	_debug.debugln(5);
-	
-	int i = 0;
-	MIDI_Device_Node *node = start;
-	while(node)
+void Base_MIDI_Device_Collection::deleteNode(MIDI_Device_Node *node)
+{	
+	//Handle deleting the start node
+	if(node == start)
 	{
-		_debug.println(F("Device Node %d: ID %d"), i++, node->device->getID());
-		//_debug.println(F("  Device ID: %d"), node->device->getID());
+		start = node->next;		
+		_debug.debugln(5, F("Start node reassigned"));
 		
-		if(node->prev)		
-			_debug.debugln(5, F("  Previous Device ID: %d"), node->prev->device->getID());
-		else		
-			_debug.debugln(5, F("  Previous Device ID: NULL"));
-		
-		if(node->next)
-			_debug.debugln(5, F("  Next Device ID: %d"), node->next->device->getID());
+		if(start)
+		{
+			start->prev = NULL;
+			_debug.debugln(5, F("New start device ID: "), start->device->getID());
+		}
 		else
-			_debug.debugln(5, F("  Next Device ID: NULL"));
-
-		_debug.debugln(5);
-		delay(10);
-		node = node->next;
+			_debug.debugln(5, F("Reassigned to nothing"));
+		
+		delete node;
+		_debug.debugln(5, "Deleted");
+		return;
 	}
 	
-	_debug.debugln(5, F("End of the chain"));
+	//Handle deleting the end node
+	if(node == end)
+	{
+		end = node->prev;
+
+		_debug.debugln(5, F("End node reassigned"));
+		if(end)
+		{
+			end->next = NULL;
+			_debug.debugln(5, F("New end device ID: %d"), end->device->getID());
+		}
+		else
+			_debug.debugln(5, F("Reassigned to nothing"));
+		
+		delete node;
+		_debug.debugln(5, "Deleted");
+		return;
+	}
+	
+	//Handle deleting a normal node
+	//Handle the previous node's next reference - set to current node's next
+	node->prev->next = node->next;
+	_debug.debugln(5, F("Previous node reassigned"));
+	
+	//Handle the next node's previous reference - set to current node's prev
+	node->next->prev = node->prev;
+	_debug.debugln(5, F("Next node reassigned"));	
+
+	delete node;
+	// PRINT(F("Deleted"))
 };
 
 void Base_MIDI_Device_Collection::addDevice(MIDI_Device *d)
@@ -122,15 +142,43 @@ void Base_MIDI_Device_Collection::removeDevice(uint8_t id)
 	_debug.println(F("No node with device ID %d found"), id);
 };
 
-bool Base_MIDI_Device_Collection::assignNote(uint8_t note)
+void Base_MIDI_Device_Collection::printStatus()
+{
+	_debug.println(F("%d nodes in this chain"), count);	
+	if(!start) return;
+	
+	_debug.debugln(5, F("Start of the chain"));
+	_debug.debugln(5);
+	
+	int i = 0;
+	MIDI_Device_Node *node = start;
+	while(node)
+	{
+		_debug.println(F("Device Node %d: ID %d"), i++, node->device->getID());
+		//_debug.println(F("  Device ID: %d"), node->device->getID());
+		
+		if(node->prev)		
+			_debug.debugln(5, F("  Previous Device ID: %d"), node->prev->device->getID());
+		else		
+			_debug.debugln(5, F("  Previous Device ID: NULL"));
+		
+		if(node->next)
+			_debug.debugln(5, F("  Next Device ID: %d"), node->next->device->getID());
+		else
+			_debug.debugln(5, F("  Next Device ID: NULL"));
+
+		_debug.debugln(5);
+		delay(10);
+		node = node->next;
+	}
+	
+	_debug.debugln(5, F("End of the chain"));
+};
+
+bool Base_MIDI_Device_Collection::playNote(uint8_t note)
 {
 	_debug.debugln(5, F("Note %d assignment received"), note);
 	return true;
-};
-
-void Base_MIDI_Device_Collection::clearNote(uint8_t note)
-{
-	_debug.debugln(5, F("Note %d clear received"), note);
 };
 
 void Base_MIDI_Device_Collection::pitchBend(uint16_t bend)
@@ -143,55 +191,7 @@ void Base_MIDI_Device_Collection::pitchBend(uint16_t bend)
 	}
 };
 
-void Base_MIDI_Device_Collection::deleteNode(MIDI_Device_Node *node)
-{	
-	//Handle deleting the start node
-	if(node == start)
-	{
-		start = node->next;		
-		_debug.debugln(5, F("Start node reassigned"));
-		
-		if(start)
-		{
-			start->prev = NULL;
-			_debug.debugln(5, F("New start device ID: "), start->device->getID());
-		}
-		else
-			_debug.debugln(5, F("Reassigned to nothing"));
-		
-		delete node;
-		_debug.debugln(5, "Deleted");
-		return;
-	}
-	
-	//Handle deleting the end node
-	if(node == end)
-	{
-		end = node->prev;
-
-		_debug.debugln(5, F("End node reassigned"));
-		if(end)
-		{
-			end->next = NULL;
-			_debug.debugln(5, F("New end device ID: %d"), end->device->getID());
-		}
-		else
-			_debug.debugln(5, F("Reassigned to nothing"));
-		
-		delete node;
-		_debug.debugln(5, "Deleted");
-		return;
-	}
-	
-	//Handle deleting a normal node
-	//Handle the previous node's next reference - set to current node's next
-	node->prev->next = node->next;
-	_debug.debugln(5, F("Previous node reassigned"));
-	
-	//Handle the next node's previous reference - set to current node's prev
-	node->next->prev = node->prev;
-	_debug.debugln(5, F("Next node reassigned"));	
-
-	delete node;
-	// PRINT(F("Deleted"))
+void Base_MIDI_Device_Collection::stopNote(uint8_t note)
+{
+	_debug.debugln(5, F("Note %d clear received"), note);
 };

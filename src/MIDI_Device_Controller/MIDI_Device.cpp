@@ -110,7 +110,7 @@ void MIDI_Device::calibratePosition()
 
 void MIDI_Device::zeroPosition() { _currentPosition = 0; }
 
-void MIDI_Device::clearNote()
+void MIDI_Device::stopNote()
 {
 	_debug.debugln(7, F("%d - Clearing note"), _id);
 	_currentNote = 0;
@@ -124,11 +124,82 @@ int8_t MIDI_Device::getCurrentNote() { return _currentNote; }
 int16_t MIDI_Device::getBasePeriod() { return *(_referencePeriods + _currentNote); }
 int16_t MIDI_Device::getCurrentPeriod() { return _currentPeriod; }
 uint32_t MIDI_Device::getDuration() { return _currentDuration; }
-
-bool MIDI_Device::isEnabled() { return (_enabled && _stepPinMap >= 0); }
 bool MIDI_Device::isAvailable() { return _currentNote == -1; }
 bool MIDI_Device::isAtMaxPosition() { return _currentPosition >= _maxPosition; }
 bool MIDI_Device::isTrackingPosition() { return _maxPosition > 0; }
+
+bool MIDI_Device::isEnabled() { return (_enabled && _stepPinMap >= 0); }
+
+void MIDI_Device::playNote(uint8_t note)
+{
+	if(!isEnabled()) 
+	{
+		_debug.debugln(7, F("%d - Not enabled"), _id);
+		return;
+	}
+	
+	_currentNote = note;
+	_currentPeriod = getBasePeriod();
+	
+	_debug.debugln(7, F("%d - Note %d (%d) assigned"), _id, _currentNote, _currentPeriod);
+		
+	if(belongsTo) belongsTo->noteAssigned();
+}
+
+void MIDI_Device::playPeriod(uint16_t period)
+{
+	if(!isEnabled()) return;
+	
+	_currentNote = 255;	
+	_currentPeriod = period;
+	
+	_debug.debugln(7, F("%d - Period %d assigned"), _id, _currentPeriod);
+
+	if(belongsTo) belongsTo->noteAssigned();
+}
+
+void MIDI_Device::pitchBend(uint16_t bend)
+{ 
+	if (_currentNote > 0 && _currentNote < 255) 
+	{
+		_debug.debugln(7, F("%d - Bending: %d"), _id, bend);
+		
+		int16_t basePeriod = getBasePeriod();
+		_debug.debugln(7, F("%d - Base: %d"), _id, basePeriod);		
+		
+		float pitchFactor = pow(2.0, (bend - 8192.0) / 8192.0);
+		_debug.debugln(7, F("%d - Factor: %d"), _id, pitchFactor);
+		
+		int16_t newPeriod = basePeriod / pitchFactor;
+		_debug.debugln(7, F("%d - New Period: %d"), _id, newPeriod);
+
+		_currentPeriod = newPeriod;
+	}
+}
+
+void MIDI_Device::setDirection(bool direction)
+{
+	//Check user is actually changing the direction from the current state
+	if(_dirState != direction)
+	{
+		//Set the desired state for the given device
+		_dirState = direction;
+		setDirState(_dirState);
+		_debug.debugln(7, F("%d - New direction: %d"), _id, direction);
+
+		//Update it's current position if device is tracking it
+		if(isTrackingPosition())
+		{
+			_debug.debugln(7, F("%d - Updating position from: %d"), _id, _currentPosition);
+			_currentPosition = (_maxPosition - _currentPosition);
+			_debug.debugln(7, F("%d - New position: %d"), _id, _currentPosition);
+		}
+	}
+	else
+	{
+		_debug.debugln(7, F("%d - Direction is already: %d"), _id, direction);
+	}
+}
 
 void MIDI_Device::resetProperties(bool includePosition)
 {
@@ -166,77 +237,6 @@ void MIDI_Device::resetPosition()
 	
 	setDirection(LOW);
 	setStepState(LOW);
-}
-
-void MIDI_Device::setDirection(bool direction)
-{
-	//Check user is actually changing the direction from the current state
-	if(_dirState != direction)
-	{
-		//Set the desired state for the given device
-		_dirState = direction;
-		setDirState(_dirState);
-		_debug.debugln(7, F("%d - New direction: %d"), _id, direction);
-
-		//Update it's current position if device is tracking it
-		if(isTrackingPosition())
-		{
-			_debug.debugln(7, F("%d - Updating position from: %d"), _id, _currentPosition);
-			_currentPosition = (_maxPosition - _currentPosition);
-			_debug.debugln(7, F("%d - New position: %d"), _id, _currentPosition);
-		}
-	}
-	else
-	{
-		_debug.debugln(7, F("%d - Direction is already: %d"), _id, direction);
-	}
-}
-
-void MIDI_Device::assignNote(uint8_t note)
-{
-	if(!isEnabled()) 
-	{
-		_debug.debugln(7, F("%d - Not enabled"), _id);
-		return;
-	}
-	
-	_currentNote = note;
-	_currentPeriod = getBasePeriod();
-	
-	_debug.debugln(7, F("%d - Note %d (%d) assigned"), _id, _currentNote, _currentPeriod);
-		
-	if(belongsTo) belongsTo->noteAssigned();
-}
-
-void MIDI_Device::assignPeriod(uint16_t period)
-{
-	if(!isEnabled()) return;
-	
-	_currentNote = 255;	
-	_currentPeriod = period;
-	
-	_debug.debugln(7, F("%d - Period %d assigned"), _id, _currentPeriod);
-
-	if(belongsTo) belongsTo->noteAssigned();
-}
-
-void MIDI_Device::pitchBend(uint16_t bend)
-{ 
-	if (_currentNote > 0 && _currentNote < 255) 
-	{
-		_debug.debugln(7, F("%d - Bending: %d"), _id, bend);
-		
-		int16_t basePeriod = getBasePeriod();
-		_debug.debugln(7, F("%d - Base: %d"), _id, basePeriod);		
-		
-		float pitchFactor = pow(2.0, (bend - 8192.0) / 8192.0);
-		_debug.debugln(7, F("%d - Factor: %d"), _id, pitchFactor);
-		
-		int16_t newPeriod = basePeriod / pitchFactor;
-		_debug.debugln(7, F("%d - New Period: %d"), _id, newPeriod);
-
-		_currentPeriod = newPeriod;
-	}
 }
 
 void MIDI_Device::setStepState(bool state)

@@ -131,12 +131,10 @@
 			
 			bool isEnabled();
 			
-			void assignNote(uint8_t note);		
-			void assignPeriod(uint16_t period);
-			
+			void playNote(uint8_t note);		
+			void playPeriod(uint16_t period);
 			void pitchBend(uint16_t bend);
-			
-			void clearNote();
+			void stopNote();
 			
 			//Used to set the state of the direction pin associated with a given device
 			//Respects position and updates it accordingly

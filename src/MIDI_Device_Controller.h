@@ -49,9 +49,9 @@
 			void resetPositions();
 			void calibratePositions();
 		
-			void assignNote(int8_t index, uint8_t note);
+			void playNote(int8_t index, uint8_t note);
 			void pitchBend(int8_t index, uint16_t bend);
-			void clearNote(int8_t index, uint8_t note);
+			void stopNote(int8_t index, uint8_t note);
 			
 			void playRegisterNote(uint8_t note);
 			void stopRegisterNote(uint8_t note);

@@ -1,10 +1,10 @@
 #include "RoundRobin_Collection.h"
 #include "../MIDI_Device_Node.h"
 
-bool RoundRobin_Collection::assignNote(uint8_t note)
+bool RoundRobin_Collection::playNote(uint8_t note)
 {
 	if(count == 1)
-		return start->tryAssign(note);
+		return start->tryPlayNote(note);
 	
 	MIDI_Device_Node *nextAssign;	
 	if(!lastAssign)
@@ -17,7 +17,7 @@ bool RoundRobin_Collection::assignNote(uint8_t note)
 	
 	while(true)
 	{
-		if(nextAssign->tryAssign(note)) break;
+		if(nextAssign->tryPlayNote(note)) break;
 		nextAssign = nextAssign->next;
 	
 		if(!nextAssign) //At the end of the list, go back to the start
@@ -35,7 +35,7 @@ bool RoundRobin_Collection::assignNote(uint8_t note)
 	return true;
 }
 
-void RoundRobin_Collection::clearNote(uint8_t note)
+void RoundRobin_Collection::stopNote(uint8_t note)
 {
 	//_debug.debugln(5, F("Looking to clear note "), note);
 	
@@ -47,7 +47,7 @@ void RoundRobin_Collection::clearNote(uint8_t note)
 
 	if(count == 1)
 	{
-		lastAssign->tryClear(note);
+		lastAssign->tryStopNote(note);
 		return;
 	}
 	
@@ -60,7 +60,7 @@ void RoundRobin_Collection::clearNote(uint8_t note)
 	
 	while(true)
 	{		
-		if(nextClear->tryClear(note)) break;
+		if(nextClear->tryStopNote(note)) break;
 		nextClear = nextClear->prev;
 	
 		if(!nextClear) //At the start of the list, go back to the end
