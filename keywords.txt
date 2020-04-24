@@ -11,9 +11,9 @@ MCC	KEYWORD1
 Common
 ############
 printStatus	KEYWORD2
-assignNote	KEYWORD2
+playNote	KEYWORD2
 pitchBend	KEYWORD2
-clearNote	KEYWORD2
+stopNote	KEYWORD2
 
 ############
 MIDI Device
