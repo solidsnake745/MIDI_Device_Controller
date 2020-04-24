@@ -270,6 +270,47 @@ void MIDI_Device::toggleDirection()
 	setDirState(_dirState);
 }
 
+void MIDI_Device::playNotes()
+{
+	if(_currentNote < 0)
+	{
+		_debug.debugln(20, "%d - No note", _id);
+		return;
+	}
+	
+	if(_currentNote == 0)
+	{			
+		_debug.debugln(20, "%d - Resetting properties", _id);
+		resetProperties();
+		return;
+	}
+	
+	uint32_t resolution = MIDI_Periods::getResolution();		
+	_currentDuration += resolution;
+	
+	if(belongsTo->_maxDuration != 0 && _currentDuration >= belongsTo->_maxDuration) 
+	{
+		_debug.debugln(20, "%d - Reached max duration", _id);
+		_currentNote = 0;
+		return;
+	}
+	
+	_currentTick++;
+	if(_currentTick >= _currentPeriod) 
+	{
+		_debug.debugln(20, "%d - Toggling step", _id);
+		toggleStep();
+		_currentTick = 0;
+	}
+	
+	if(_maxPosition > 0 && _currentPosition >= _maxPosition) 
+	{
+		_debug.debugln(20, "%d - Toggling direction", _id);
+		toggleDirection();
+		zeroPosition();
+	}
+}
+
 //Testing/debug
 //_____________________________________________________________________________________________
 void MIDI_Device::testStepping(uint32_t steps)

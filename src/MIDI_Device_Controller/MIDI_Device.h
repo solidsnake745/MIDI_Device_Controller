@@ -120,6 +120,9 @@
 			//Toggles the direction pin associated with the given channel
 			void toggleDirection();
 		
+			//Operates device per desired MIDI output
+			void playNotes();
+			
 		public:
 			bool getStepState();
 			bool getDirState();

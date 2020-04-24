@@ -27,7 +27,7 @@
 			//Used to populate our single instance MDC for consumption
 			static MIDI_Device_Controller &getInstance();
 			
-		//Device management
+		//Device management/operation
 		//_______________________________________________________________________________________________________
 		private:
 			static MIDI_Device *_devices[MAX_DEVICES];
@@ -90,7 +90,7 @@
 			volatile uint32_t _maxDuration = MAX_DURATION_DEFAULT;
 			uint16_t _idleTimeout = IDLE_TIMEOUT_DEFAULT;
 
-		public:	
+		public:
 			uint8_t getMaxDevices();
 			uint32_t getMaxDuration();
 			void setResolution(uint16_t resolution = DEFAULT_RESOLUTION);
@@ -102,8 +102,7 @@
 		//LED pin functionality
 		//_______________________________________________________________________________________________________
 		private: 
-			int8_t _ledPin = -1;	
-		
+			int8_t _ledPin = -1;
 			void LEDOn();
 			void LEDOff();
 		

@@ -4,11 +4,13 @@
 	#include <Arduino.h>
 	#include "../SerialDebug/SerialDebug.h"
 	
+	//Forward declaration for compiling
 	class MIDI_Device;
 	class Base_MIDI_Device_Collection;
 
 	struct MIDI_Device_Node
 	{
+		//Give Base_MIDI_Device_Collection access to all private members
 		friend class Base_MIDI_Device_Collection;
 		
 		static SerialDebug _debug;
