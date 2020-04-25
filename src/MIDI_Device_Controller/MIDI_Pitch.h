@@ -1,5 +1,5 @@
-#ifndef MIDI_Device_h
-	#define MIDI_Device_h
+#ifndef MIDI_Pitch_h
+	#define MIDI_Pitch_h
 
 	#include <Arduino.h>
 	#include "MIDI_Periods.h"
@@ -8,7 +8,7 @@
 	//Forward declaration for compiling
 	class MIDI_Device_Controller;
 
-	class MIDI_Device
+	class MIDI_Pitch
 	{	
 		//Give MIDI_DeviceController access to all private members
 		friend class MIDI_Device_Controller;
@@ -21,8 +21,8 @@
 			//Nothing here
 			
 		public:
-			MIDI_Device(int8_t stepPin, int8_t dirPin = -1, int32_t maxPosition = -1);
-			~MIDI_Device();
+			MIDI_Pitch(int8_t stepPin, int8_t dirPin = -1, int32_t maxPosition = -1);
+			~MIDI_Pitch();
 		
 		//Configuration
 		//_____________________________________________________________________________________________
@@ -42,7 +42,7 @@
 			//NOTE: Setting to -1 disables position tracking functionality all together
 			int16_t _maxPosition = -1;
 			
-			MIDI_Device_Controller *belongsTo = NULL;
+			MIDI_Device_Controller *_belongsTo = NULL;
 			
 			//Intializes an individual device
 			void initialize();
@@ -136,7 +136,7 @@
 			
 			void playNote(uint8_t note);		
 			void playPeriod(uint16_t period);
-			void pitchBend(uint16_t bend);
+			void bendNote(uint16_t bend);
 			void stopNote();
 			
 			//Used to set the state of the direction pin associated with a given device

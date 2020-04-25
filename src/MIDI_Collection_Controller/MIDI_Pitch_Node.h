@@ -1,29 +1,29 @@
-#ifndef DeviceNode_h
-	#define DeviceNode_h
+#ifndef PitchNode_h
+	#define PitchNode_h
 
 	#include <Arduino.h>
 	#include "../SerialDebug/SerialDebug.h"
 	
 	//Forward declaration for compiling
-	class MIDI_Device;
-	class Base_MIDI_Device_Collection;
+	class MIDI_Pitch;
+	class Base_MIDI_Pitch_Collection;
 
-	struct MIDI_Device_Node
+	struct MIDI_Pitch_Node
 	{
-		//Give Base_MIDI_Device_Collection access to all private members
-		friend class Base_MIDI_Device_Collection;
+		//Give Base_MIDI_Pitch_Collection access to all private members
+		friend class Base_MIDI_Pitch_Collection;
 		
 		static SerialDebug _debug;
 		
 		private:
-			MIDI_Device_Node(MIDI_Device *d, Base_MIDI_Device_Collection *dc);
-			Base_MIDI_Device_Collection *parent = NULL;		
+			MIDI_Pitch_Node(MIDI_Pitch *d, Base_MIDI_Pitch_Collection *dc);
+			Base_MIDI_Pitch_Collection *parent = NULL;		
 			
 		public:
 			//Devices exist and are stored in MIDI_DeviceController
-			MIDI_Device *device = NULL;
-			MIDI_Device_Node *next = NULL;
-			MIDI_Device_Node *prev = NULL;
+			MIDI_Pitch *device = NULL;
+			MIDI_Pitch_Node *next = NULL;
+			MIDI_Pitch_Node *prev = NULL;
 			
 			//Millisecond timestamp when this was last assigned a note
 			// uint32_t lastAssignStamp = 0;

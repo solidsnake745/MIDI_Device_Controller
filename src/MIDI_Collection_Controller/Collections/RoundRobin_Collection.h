@@ -1,15 +1,16 @@
 #ifndef RoundRobin_Collection_h
 	#define RoundRobin_Collection_h
 
-	#include "../../MIDI_Device_Controller/MIDI_Device.h"
-	#include "../Base_MIDI_Device_Collection.h"
+	#include "../../MIDI_Device_Controller/MIDI_Pitch.h"
+	#include "../Base_MIDI_Pitch_Collection.h"
 
-	struct MIDI_Device_Node;
+	//Forward declaration for compiling
+	struct MIDI_Pitch_Node;
 
-	class RoundRobin_Collection : public Base_MIDI_Device_Collection
+	class RoundRobin_Collection : public Base_MIDI_Pitch_Collection
 	{	
 		private:
-			MIDI_Device_Node *lastAssign;
+			MIDI_Pitch_Node *lastAssign;
 			
 		public:
 			//Abstract implementations		

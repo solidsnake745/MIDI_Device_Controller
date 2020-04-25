@@ -1,28 +1,28 @@
-#include "MIDI_Device_Node.h"
-#include "../MIDI_Device_Controller/MIDI_Device.h"
-#include "Base_MIDI_Device_Collection.h"
+#include "MIDI_Pitch_Node.h"
+#include "../MIDI_Device_Controller/MIDI_Pitch.h"
+#include "Base_MIDI_Pitch_Collection.h"
 
-SerialDebug MIDI_Device_Node::_debug(DEBUG_DEVICENODE);
+SerialDebug MIDI_Pitch_Node::_debug(DEBUG_DEVICENODE);
 
-MIDI_Device_Node::MIDI_Device_Node(MIDI_Device *d, Base_MIDI_Device_Collection *dc)
+MIDI_Pitch_Node::MIDI_Pitch_Node(MIDI_Pitch *d, Base_MIDI_Pitch_Collection *dc)
 {
 	device = d;
 	parent = dc;
 }
 
-void MIDI_Device_Node::playNote(uint8_t note)
+void MIDI_Pitch_Node::playNote(uint8_t note)
 {
 	device->playNote(note);	
 	// lastAssignStamp = millis();
 }
 
-void MIDI_Device_Node::stopNote()
+void MIDI_Pitch_Node::stopNote()
 {
 	device->stopNote();	
 	// lastAssignStamp = 0;
 }
 
-bool MIDI_Device_Node::tryPlayNote(uint8_t note)
+bool MIDI_Pitch_Node::tryPlayNote(uint8_t note)
 {
 	if(device->isAvailable())
 	{
@@ -35,7 +35,7 @@ bool MIDI_Device_Node::tryPlayNote(uint8_t note)
 	return false;
 }
 
-bool MIDI_Device_Node::tryStopNote(uint8_t note)
+bool MIDI_Pitch_Node::tryStopNote(uint8_t note)
 {
 	if(device->getCurrentNote() == note)
 	{

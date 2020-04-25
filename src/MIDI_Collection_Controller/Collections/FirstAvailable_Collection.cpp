@@ -1,9 +1,9 @@
 #include "FirstAvailable_Collection.h"
-#include "../MIDI_Device_Node.h"
+#include "../MIDI_Pitch_Node.h"
 
 bool FirstAvailable_Collection::playNote(uint8_t note)
 {
-	MIDI_Device_Node *node = start;
+	MIDI_Pitch_Node *node = start;
 	
 	while(node)
 	{
@@ -21,7 +21,7 @@ bool FirstAvailable_Collection::playNote(uint8_t note)
 
 void FirstAvailable_Collection::stopNote(uint8_t note)
 {	
-	MIDI_Device_Node *node = start;
+	MIDI_Pitch_Node *node = start;
 	
 	while(node)
 	{

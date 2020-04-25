@@ -1,12 +1,12 @@
 #include "RoundRobin_Collection.h"
-#include "../MIDI_Device_Node.h"
+#include "../MIDI_Pitch_Node.h"
 
 bool RoundRobin_Collection::playNote(uint8_t note)
 {
 	if(count == 1)
 		return start->tryPlayNote(note);
 	
-	MIDI_Device_Node *nextAssign;	
+	MIDI_Pitch_Node *nextAssign;	
 	if(!lastAssign)
 		nextAssign = start;
 	else
@@ -51,11 +51,11 @@ void RoundRobin_Collection::stopNote(uint8_t note)
 		return;
 	}
 	
-	MIDI_Device_Node *nextClear = lastAssign->prev;
+	MIDI_Pitch_Node *nextClear = lastAssign->prev;
 	if(!nextClear) //At the start of the list, go back to the end
 		nextClear = end;
 	
-	MIDI_Device_Node *stop = nextClear;
+	MIDI_Pitch_Node *stop = nextClear;
 	// DEBUG2(F("Starting at device ID "), nextClear->device->getID())
 	
 	while(true)

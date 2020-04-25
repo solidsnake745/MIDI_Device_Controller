@@ -6,14 +6,14 @@
 	#include <Arduino.h>
 	#include <TimerOne.h>
 	#include "MIDI_Device_Controller/MIDI_Periods.h"
-	#include "MIDI_Device_Controller/MIDI_Device.h"
+	#include "MIDI_Device_Controller/MIDI_Pitch.h"
 	#include "MIDI_Device_Controller/MIDI_Shift_Register.h"
 	#include "SerialDebug/SerialDebug.h"
 
 	class MIDI_Device_Controller
 	{
 		// Give Device access to all private members
-		friend class MIDI_Device;
+		friend class MIDI_Pitch;
 		
 		static SerialDebug _debug;
 		
@@ -30,28 +30,28 @@
 		//Device management/operation
 		//_______________________________________________________________________________________________________
 		private:
-			static MIDI_Device *_devices[MAX_DEVICES];
-			static MIDI_Device *_enabledDevices[MAX_DEVICES];
+			static MIDI_Pitch *_pitchDevices[MAX_PITCH_DEVICES];
+			static MIDI_Pitch *_enabledPitchDevices[MAX_PITCH_DEVICES];
 			static uint8_t _numEnabled;
 			
-			uint8_t reloadEnabledDevices();
+			uint8_t reloadEnabledPitchDevices();
 			
 			static MIDI_Shift_Register *_MSR_instance;
 		public:
 			void printStatus(); //Print each device slot's status		
 			
-			void addDevice(uint8_t index, MIDI_Device *d); //Adds a device to the correlating index given the device's ID
-			void addDevices(MIDI_Device *devices[], uint8_t numDevices); //Adds the given set of devices
-			MIDI_Device *getDevice(uint8_t index); //Retrieves a device at specified index
-			void deleteDevice(uint8_t index); //Deletes device at specified index if populated
+			void addPitchDevice(uint8_t index, MIDI_Pitch *d); //Adds a device to the correlating index given the device's ID
+			void addPitchDevices(MIDI_Pitch *devices[], uint8_t numDevices); //Adds the given set of devices
+			MIDI_Pitch *getPitchDevice(uint8_t index); //Retrieves a device at specified index
+			void deletePitchDevice(uint8_t index); //Deletes device at specified index if populated
 
 			void initializeShiftRegisterDevice(uint8_t size, uint8_t startingNote, uint8_t latchPin);
-			void resetPositions();
-			void calibratePositions();
+			void resetPitchDevicePositions();
+			void calibratePitchDevicePositions();
 		
-			void playNote(int8_t index, uint8_t note);
-			void pitchBend(int8_t index, uint16_t bend);
-			void stopNote(int8_t index, uint8_t note);
+			void playPitchNote(int8_t index, uint8_t note);
+			void bendPitchNote(int8_t index, uint16_t bend);
+			void stopPitchNote(int8_t index, uint8_t note);
 			
 			void playRegisterNote(uint8_t note);
 			void stopRegisterNote(uint8_t note);
@@ -91,7 +91,7 @@
 			uint16_t _idleTimeout = IDLE_TIMEOUT_DEFAULT;
 
 		public:
-			uint8_t getMaxDevices();
+			uint8_t getMaxPitchDevices();
 			uint32_t getMaxDuration();
 			void setResolution(uint16_t resolution = DEFAULT_RESOLUTION);
 			void setDebugResolution();
@@ -115,13 +115,13 @@
 		//it still works is by running all of these test functions
 		public:
 			//Plays a test tone on a given device via our interrupt process a few times
-			void testDeviceInterrupt(uint8_t index);
+			void testPitchDeviceInterrupt(uint8_t index);
 			
 			//Pitch bend test
 			void testPitchBend(uint8_t index);
 			
 			//Basic load test to ensure we're able to play 
-			void loadTest(uint8_t numDevices = MAX_DEVICES);
+			void loadTest(uint8_t numDevices = MAX_PITCH_DEVICES);
 			
 			//Plays a sequence across all devices to test set configuration
 			void playStartupSequence(uint8_t version);

@@ -16,12 +16,12 @@ MIDI_Collection_Factory &MIDI_Collection_Factory::getInstance()
 	return *_instance;
 }
 
-MIDI_Device *MIDI_Collection_Factory::getDeviceFromMDC(uint8_t index)
+MIDI_Pitch *MIDI_Collection_Factory::getDeviceFromMDC(uint8_t index)
 {
-	return MDC.getDevice(index);
+	return MDC.getPitchDevice(index);
 }
 
-Base_MIDI_Device_Collection *MIDI_Collection_Factory::createInitialCollection(uint8_t index, CollectionType type)
+Base_MIDI_Pitch_Collection *MIDI_Collection_Factory::createInitialCollection(uint8_t index, CollectionType type)
 {
 	_debug.debugln(1, F("Adding collection at %d"), index);
 	
@@ -38,7 +38,7 @@ Base_MIDI_Device_Collection *MIDI_Collection_Factory::createInitialCollection(ui
 		return NULL;
 	}
 	
-	Base_MIDI_Device_Collection *newCollection;
+	Base_MIDI_Pitch_Collection *newCollection;
 	
 	switch(type)
 	{
@@ -50,7 +50,7 @@ Base_MIDI_Device_Collection *MIDI_Collection_Factory::createInitialCollection(ui
 			newCollection = new RoundRobin_Collection(); break;			
 		default:
 			// _debug.debugln(5, F("Defaulting to base device Collection"));
-			newCollection = new Base_MIDI_Device_Collection(); break;
+			newCollection = new Base_MIDI_Pitch_Collection(); break;
 	}
 	
 	MCC.addCollection(index, newCollection);

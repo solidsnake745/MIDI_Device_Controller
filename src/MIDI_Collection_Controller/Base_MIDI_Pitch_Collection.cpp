@@ -1,13 +1,13 @@
-#include "Base_MIDI_Device_Collection.h"
-#include "MIDI_Device_Node.h"
+#include "Base_MIDI_Pitch_Collection.h"
+#include "MIDI_Pitch_Node.h"
 
-SerialDebug Base_MIDI_Device_Collection::_debug(DEBUG_DEVICECHAIN_BASE);
+SerialDebug Base_MIDI_Pitch_Collection::_debug(DEBUG_DEVICECHAIN_BASE);
 
-Base_MIDI_Device_Collection::~Base_MIDI_Device_Collection()
+Base_MIDI_Pitch_Collection::~Base_MIDI_Pitch_Collection()
 {
 };
 
-void Base_MIDI_Device_Collection::deleteNode(MIDI_Device_Node *node)
+void Base_MIDI_Pitch_Collection::deleteNode(MIDI_Pitch_Node *node)
 {	
 	//Handle deleting the start node
 	if(node == start)
@@ -60,19 +60,19 @@ void Base_MIDI_Device_Collection::deleteNode(MIDI_Device_Node *node)
 	// PRINT(F("Deleted"))
 };
 
-void Base_MIDI_Device_Collection::addDevice(MIDI_Device *d)
+void Base_MIDI_Pitch_Collection::addDevice(MIDI_Pitch *d)
 {
 	//Handle first node insertion
 	if(!start)
 	{
-		start = new MIDI_Device_Node(d, this);
+		start = new MIDI_Pitch_Node(d, this);
 		count++;
 		_debug.debugln(5, F("Starting node added"));
 		return;
 	}
 	
 	//Prevent adding duplicate devices
-	MIDI_Device_Node *node = start;
+	MIDI_Pitch_Node *node = start;
 	while(node)
 	{		
 		if(node->device->getID() == d->getID())
@@ -86,7 +86,7 @@ void Base_MIDI_Device_Collection::addDevice(MIDI_Device *d)
 	}
 	
 	//Create, setup, and add new node	
-	MIDI_Device_Node *newNode = new MIDI_Device_Node(d, this);
+	MIDI_Pitch_Node *newNode = new MIDI_Pitch_Node(d, this);
 	node->next = newNode;
 	newNode->prev = node;
 	end = newNode;
@@ -94,10 +94,10 @@ void Base_MIDI_Device_Collection::addDevice(MIDI_Device *d)
 	_debug.debugln(5, F("New node added"));
 };
 
-void Base_MIDI_Device_Collection::addDevices(MIDI_Device devices[], uint16_t numDevices)
+void Base_MIDI_Pitch_Collection::addDevices(MIDI_Pitch devices[], uint16_t numDevices)
 {	
-	if(numDevices > MAX_DEVICES)
-		numDevices = MAX_DEVICES;
+	if(numDevices > MAX_PITCH_DEVICES)
+		numDevices = MAX_PITCH_DEVICES;
 
 	_debug.debugln(5, F("Attempting to add %d device(s)"), numDevices);
 	
@@ -106,7 +106,7 @@ void Base_MIDI_Device_Collection::addDevices(MIDI_Device devices[], uint16_t num
 		addDevice(&devices[i++]);
 }
 
-void Base_MIDI_Device_Collection::removeDevice(uint8_t id)
+void Base_MIDI_Pitch_Collection::removeDevice(uint8_t id)
 {
 	//Handle empty chain scenario
 	if(!start)
@@ -116,7 +116,7 @@ void Base_MIDI_Device_Collection::removeDevice(uint8_t id)
 	}
 	
 	//Find and delete node with given device ID
-	MIDI_Device_Node *node = start;
+	MIDI_Pitch_Node *node = start;
 	while(node)
 	{
 		_debug.debugln(5, F(" Searching - current ID: %d"), node->device->getID());
@@ -142,7 +142,7 @@ void Base_MIDI_Device_Collection::removeDevice(uint8_t id)
 	_debug.println(F("No node with device ID %d found"), id);
 };
 
-void Base_MIDI_Device_Collection::printStatus()
+void Base_MIDI_Pitch_Collection::printStatus()
 {
 	_debug.println(F("%d nodes in this chain"), count);	
 	if(!start) return;
@@ -151,7 +151,7 @@ void Base_MIDI_Device_Collection::printStatus()
 	_debug.debugln(5);
 	
 	int i = 0;
-	MIDI_Device_Node *node = start;
+	MIDI_Pitch_Node *node = start;
 	while(node)
 	{
 		_debug.println(F("Device Node %d: ID %d"), i++, node->device->getID());
@@ -175,23 +175,23 @@ void Base_MIDI_Device_Collection::printStatus()
 	_debug.debugln(5, F("End of the chain"));
 };
 
-bool Base_MIDI_Device_Collection::playNote(uint8_t note)
+bool Base_MIDI_Pitch_Collection::playNote(uint8_t note)
 {
 	_debug.debugln(5, F("Note %d assignment received"), note);
 	return true;
 };
 
-void Base_MIDI_Device_Collection::pitchBend(uint16_t bend)
+void Base_MIDI_Pitch_Collection::bendNote(uint16_t bend)
 {
-	MIDI_Device_Node *node = start;
+	MIDI_Pitch_Node *node = start;
 	while(node)
 	{
-		node->device->pitchBend(bend);
+		node->device->bendNote(bend);
 		node = node->next;
 	}
 };
 
-void Base_MIDI_Device_Collection::stopNote(uint8_t note)
+void Base_MIDI_Pitch_Collection::stopNote(uint8_t note)
 {
 	_debug.debugln(5, F("Note %d clear received"), note);
 };

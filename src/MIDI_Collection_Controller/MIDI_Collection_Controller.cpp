@@ -23,7 +23,7 @@ MIDI_Collection_Controller &MIDI_Collection_Controller::getInstance()
 
 //Device management
 //_______________________________________________________________________________________________________
-Base_MIDI_Device_Collection *MIDI_Collection_Controller::_collections[MAX_COLLECTIONS];
+Base_MIDI_Pitch_Collection *MIDI_Collection_Controller::_collections[MAX_COLLECTIONS];
 
 void MIDI_Collection_Controller::printStatus()
 {
@@ -47,7 +47,7 @@ void MIDI_Collection_Controller::printStatus()
 	}
 }
 
-void MIDI_Collection_Controller::addCollection(uint8_t index, Base_MIDI_Device_Collection *c)
+void MIDI_Collection_Controller::addCollection(uint8_t index, Base_MIDI_Pitch_Collection *c)
 {
 	if(index > MAX_COLLECTIONS - 1)
 	{
@@ -65,7 +65,7 @@ void MIDI_Collection_Controller::addCollection(uint8_t index, Base_MIDI_Device_C
 	_collections[index] = c;
 }
 
-Base_MIDI_Device_Collection *MIDI_Collection_Controller::getCollection(uint8_t index)
+Base_MIDI_Pitch_Collection *MIDI_Collection_Controller::getCollection(uint8_t index)
 {
 	if(index > MAX_COLLECTIONS - 1)
 	{
@@ -99,21 +99,21 @@ void MIDI_Collection_Controller::deleteCollection(uint8_t index)
 
 void MIDI_Collection_Controller::playNote(int8_t index, uint8_t note)
 {	
-	Base_MIDI_Device_Collection *c = getCollection(index);
+	Base_MIDI_Pitch_Collection *c = getCollection(index);
 	if(!c) return;
 	c->playNote(note);
 }
 
-void MIDI_Collection_Controller::pitchBend(int8_t index, uint16_t bend)
+void MIDI_Collection_Controller::bendNote(int8_t index, uint16_t bend)
 {
-	Base_MIDI_Device_Collection *c = getCollection(index);
+	Base_MIDI_Pitch_Collection *c = getCollection(index);
 	if(!c) return;
-	c->pitchBend(bend);
+	c->bendNote(bend);
 }
 
 void MIDI_Collection_Controller::stopNote(int8_t index, uint8_t note)
 {
-	Base_MIDI_Device_Collection *c = getCollection(index);
+	Base_MIDI_Pitch_Collection *c = getCollection(index);
 	if(!c) return;
 	c->stopNote(note);
 }

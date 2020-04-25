@@ -1,13 +1,14 @@
 #ifndef FirstAvailable_Collection_h
 	#define FirstAvailable_Collection_h
 
-	#include "../../MIDI_Device_Controller/MIDI_Device.h"
-	#include "../Base_MIDI_Device_Collection.h"
+	#include "../../MIDI_Device_Controller/MIDI_Pitch.h"
+	#include "../Base_MIDI_Pitch_Collection.h"
 
-	struct MIDI_Device_Node;
+	//Forward declaration for compiling
+	struct MIDI_Pitch_Node;
 
 	//First available 
-	class FirstAvailable_Collection : public Base_MIDI_Device_Collection
+	class FirstAvailable_Collection : public Base_MIDI_Pitch_Collection
 	{	
 		private:
 		
