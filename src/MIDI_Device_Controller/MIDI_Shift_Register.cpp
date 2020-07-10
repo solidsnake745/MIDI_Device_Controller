@@ -5,9 +5,12 @@ SerialDebug MIDI_Shift_Register::_debug(0);
 MIDI_Shift_Register::MIDI_Shift_Register(uint8_t size, uint8_t startingNote, uint8_t latchPin) 
 {
 	//Save settings
-	_numRegisters = size;
+	_numRegisters = size; //Number of 8 bit shift registers 
 	_startingNote = startingNote;
-	_endingNote = startingNote + (size * 8) - 1;
+	
+	//ex. _startingNote = 50 and _size = 1 then 50 + ((1 * 8) - 1) = 57
+	_endingNote = _startingNote + (size * 8) - 1;
+	
 	_debug.debugln(5, "Calculated end note: %d", _endingNote);
 	
 	//Initialize collections
@@ -30,19 +33,48 @@ MIDI_Shift_Register::MIDI_Shift_Register(uint8_t size, uint8_t startingNote, uin
 	latchRegisters();
 };
 
+void MIDI_Shift_Register::runRegisterTest()
+{
+	int testDelay = 50;
+	
+	//Enable each output on each register gradually
+	_debug.println("Testing each register's individual outputs");
+	
+	for(int x = 0; x < 8; x++)
+	{
+		int z = 1 << x;
+		_debug.println("Testing output %d", x);
+		
+		for(int y = 0; y < _numRegisters; y++)
+		{
+			SPI.transfer(z);
+			latchRegisters();
+			delay(testDelay);
+		}
+		delay(testDelay);
+	}
+	
+	//Clear registers
+	for(int y = 0; y < _numRegisters; y++)
+	{
+		SPI.transfer(0);
+		latchRegisters();
+	}
+}
+
 void MIDI_Shift_Register::playNote(uint8_t note)
 {
-	_debug.debugln(1, "Attempting to play note: %d", note);
+	_debug.debugln(20, "Attempting to play note: %d", note);
 	
 	//Don't play notes outside of the expected range
 	if(note < _startingNote)
 	{
-		_debug.debugln(3, "Not playing note %d; starting note is %d", note, _startingNote);
+		_debug.debugln(15, "Not playing note %d; starting note is %d", note, _startingNote);
 		return;
 	}
 	if(note > _endingNote) 
 	{
-		_debug.debugln(3, "Not playing note %d; ending note is %d", note, _endingNote);
+		_debug.debugln(15, "Not playing note %d; ending note is %d", note, _endingNote);
 		return;
 	}	
 	
@@ -55,7 +87,7 @@ void MIDI_Shift_Register::playNote(uint8_t note)
 	//Set the output if not already set
 	if(_registers[registerIndex].bits.getBit(bitIndex) == true)
 	{
-		_debug.debugln(3, "Note %d is already playing", note);
+		_debug.debugln(15, "Note %d is already playing", note);
 		return;
 	}
 	
@@ -66,17 +98,17 @@ void MIDI_Shift_Register::playNote(uint8_t note)
 
 void MIDI_Shift_Register::stopNote(uint8_t note)
 {
-	_debug.debugln(1, "Attempting to stop note: %d", note);
+	_debug.debugln(20, "Attempting to stop note: %d", note);
 	
 	//Don't stop notes outside of the expected range
 	if(note < _startingNote)
 	{
-		_debug.debugln(3, "Not stopping note %d; starting note is %d", note, _startingNote);
+		_debug.debugln(15, "Not stopping note %d; starting note is %d", note, _startingNote);
 		return;
 	}
 	if(note > _endingNote) 
 	{
-		_debug.debugln(3, "Not stopping note %d; ending note is %d", note, _endingNote);
+		_debug.debugln(15, "Not stopping note %d; ending note is %d", note, _endingNote);
 		return;
 	}	
 	
@@ -84,12 +116,12 @@ void MIDI_Shift_Register::stopNote(uint8_t note)
 	uint8_t shiftedNote = note - _startingNote;
 	uint8_t registerIndex = shiftedNote/8;
 	uint8_t bitIndex = shiftedNote%8;
-	_debug.debugln(5, "Calculated register %d and output %d", registerIndex, bitIndex);
+	_debug.debugln(15, "Calculated register %d and output %d", registerIndex, bitIndex);
 	
 	//Clear the output if not already cleared
 	if(_registers[registerIndex].bits.getBit(bitIndex) == false)
 	{
-		_debug.debugln(3, "Note %d is already stopped", note);
+		_debug.debugln(15, "Note %d is already stopped", note);
 		return;
 	}
 	
@@ -103,7 +135,7 @@ uint8_t MIDI_Shift_Register::getRegisterValue(uint8_t index)
 {
 	if(index >= _numRegisters)
 	{
-		_debug.debugln(3, "Register %d doesn't exist; %d register(s) configured", index, _numRegisters);
+		_debug.debugln(15, "Register %d doesn't exist; %d register(s) configured", index, _numRegisters);
 		return 0;
 	}
 	return _registers[index].value;
@@ -111,21 +143,17 @@ uint8_t MIDI_Shift_Register::getRegisterValue(uint8_t index)
 
 void MIDI_Shift_Register::playNotes()
 {
-	_debug.debugln(20, "playNotes begin");
+	_debug.debugln(50, "playNotes begin");
 	
-	if(_numActiveOutputs == 0)
-	{
-		_debug.debugln(10, "No active outputs");
-		return;
-	}
-	
-	updateDurations();	
 	updateRegisters();
+	
+	if(_numActiveOutputs > 0)
+		updateDurations();
 };
 
 void MIDI_Shift_Register::updateDurations()
 {	
-	_debug.debugln(20, "updateDurations begin");
+	_debug.debugln(50, "updateDurations begin");
 	
 	for(int x = 0; x < _numRegisters; x++)
 	{		
@@ -139,7 +167,7 @@ void MIDI_Shift_Register::updateDurations()
 			uint32_t temp = _durations[x].getDuration(y);
 			if(temp > _durationLimit)
 			{
-				_debug.debugln(10, "Resetting register %d output %d duration (%d)", x, y, temp);
+				_debug.debugln(20, "Resetting register %d output %d duration (%d)", x, y, temp);
 				_durations[x].resetDuration(y);
 				_registers[x].bits.clearBit(y);
 				_numActiveOutputs--;
@@ -151,18 +179,18 @@ void MIDI_Shift_Register::updateDurations()
 
 void MIDI_Shift_Register::updateRegisters()
 {	
-	_debug.debugln(20, "updateRegisters begin");
+	_debug.debugln(50, "updateRegisters begin");
 	
 	if(!_registersChanged)
 	{
-		_debug.debugln(10, "Registers have not changed");		
+		_debug.debugln(50, "Registers have not changed");		
 		return;
 	}
 		
-	_debug.debugln(10, "Registers have changed; %d active outputs", _numActiveOutputs);		
-	for(int i = 0; i < _numRegisters; i++)
+	_debug.debugln(20, "Registers have changed; %d active outputs", _numActiveOutputs);		
+	for(int i = _numRegisters - 1; i >= 0; i--)
 	{
-		_debug.debugln(10, "Register %d value: %d", i, _registers[i].value);
+		_debug.debugln(3, "Register %d value: %d", i, _registers[i].value);
 		SPI.transfer(_registers[i].value);
 	}
 	latchRegisters();

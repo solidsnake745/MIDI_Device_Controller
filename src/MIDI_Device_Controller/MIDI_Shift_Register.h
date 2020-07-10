@@ -120,12 +120,14 @@
 		
 		public:
 			MIDI_Shift_Register(uint8_t size, uint8_t startingNote, uint8_t latchPin);
-			
+
 			void playNote(uint8_t note);
 			void stopNote(uint8_t note);
-				
+
 			inline void setLatchPin(uint8_t pin) {_latchPin = pin;};
 			inline void setDuration(uint32_t limit) {_durationLimit = limit;};
+			
+			void runRegisterTest();
 			
 		private:
 			uint8_t _numRegisters;

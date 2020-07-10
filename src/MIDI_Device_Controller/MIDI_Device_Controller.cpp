@@ -63,6 +63,13 @@ uint8_t MIDI_Device_Controller::reloadEnabledPitchDevices()
 
 MIDI_Shift_Register *MIDI_Device_Controller::_MSR_instance = NULL;
 
+MIDI_Shift_Register &MIDI_Device_Controller::getMSRInstance()
+{
+	if (_MSR_instance == NULL)
+		_debug.debugln(1, "Shift register hasn't been initialized yet");
+	return *_MSR_instance;
+}
+
 void MIDI_Device_Controller::printStatus()
 {
 	int i = 0;

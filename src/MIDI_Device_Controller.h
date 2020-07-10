@@ -37,6 +37,7 @@
 			uint8_t reloadEnabledPitchDevices();
 			
 			static MIDI_Shift_Register *_MSR_instance;
+			
 		public:
 			void printStatus(); //Print each device slot's status		
 			
@@ -46,6 +47,8 @@
 			void deletePitchDevice(uint8_t index); //Deletes device at specified index if populated
 
 			void initializeShiftRegisterDevice(uint8_t size, uint8_t startingNote, uint8_t latchPin);
+			MIDI_Shift_Register &getMSRInstance();
+			
 			void resetPitchDevicePositions();
 			void calibratePitchDevicePositions();
 		
