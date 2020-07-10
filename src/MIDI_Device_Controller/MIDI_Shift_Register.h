@@ -127,7 +127,7 @@
 			inline void setLatchPin(uint8_t pin) {_latchPin = pin;};
 			inline void setDuration(uint32_t limit) {_durationLimit = limit;};
 			
-			void runRegisterTest();
+			void runSPITest();
 			
 		private:
 			uint8_t _numRegisters;
@@ -139,8 +139,8 @@
 			uint32_t _numActiveOutputs = 0;
 			shiftRegister *_registers;
 			registerDurations *_durations;
+			MIDI_Device_Controller *_belongsTo = NULL;
 			
-			uint8_t getRegisterValue(uint8_t index);
 			void playNotes(); //Operates the SPI bus per desired MIDI output
 			void updateDurations();
 			void updateRegisters();
@@ -150,5 +150,7 @@
 				digitalWrite(_latchPin, HIGH);
 				digitalWrite(_latchPin, LOW);
 			};
+			
+			void setController(MIDI_Device_Controller *controller);
 	};
 #endif

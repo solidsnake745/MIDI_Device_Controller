@@ -1,6 +1,7 @@
 #include "MIDI_Shift_Register.h"
+#include "../MIDI_Device_Controller.h" //Need the definition of noteAssigned()
 
-SerialDebug MIDI_Shift_Register::_debug(0);
+SerialDebug MIDI_Shift_Register::_debug(5);
 
 MIDI_Shift_Register::MIDI_Shift_Register(uint8_t size, uint8_t startingNote, uint8_t latchPin) 
 {
@@ -33,7 +34,7 @@ MIDI_Shift_Register::MIDI_Shift_Register(uint8_t size, uint8_t startingNote, uin
 	latchRegisters();
 };
 
-void MIDI_Shift_Register::runRegisterTest()
+void MIDI_Shift_Register::runSPITest()
 {
 	int testDelay = 50;
 	
@@ -94,6 +95,9 @@ void MIDI_Shift_Register::playNote(uint8_t note)
 	_registers[registerIndex].bits.setBit(bitIndex);
 	_numActiveOutputs++;
 	_registersChanged = true;
+	
+	if(_belongsTo) 
+		_belongsTo->noteAssigned();
 };
 
 void MIDI_Shift_Register::stopNote(uint8_t note)
@@ -129,16 +133,6 @@ void MIDI_Shift_Register::stopNote(uint8_t note)
 	_durations[registerIndex].resetDuration(bitIndex);
 	_numActiveOutputs--;
 	_registersChanged = true;
-};
-
-uint8_t MIDI_Shift_Register::getRegisterValue(uint8_t index)
-{
-	if(index >= _numRegisters)
-	{
-		_debug.debugln(15, "Register %d doesn't exist; %d register(s) configured", index, _numRegisters);
-		return 0;
-	}
-	return _registers[index].value;
 };
 
 void MIDI_Shift_Register::playNotes()
@@ -197,3 +191,8 @@ void MIDI_Shift_Register::updateRegisters()
 	
 	_registersChanged = false;
 };
+
+void MIDI_Shift_Register::setController(MIDI_Device_Controller *controller)
+{
+	_belongsTo = controller;
+}

@@ -14,6 +14,7 @@
 	{
 		// Give Device access to all private members
 		friend class MIDI_Pitch;
+		friend class MIDI_Shift_Register;
 		
 		static SerialDebug _debug;
 		
