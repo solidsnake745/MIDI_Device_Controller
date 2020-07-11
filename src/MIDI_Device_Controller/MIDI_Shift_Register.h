@@ -141,7 +141,6 @@
 			registerDurations *_durations;
 			MIDI_Device_Controller *_belongsTo = NULL;
 			
-			bool validateNote(uint8_t note);
 			void playNotes(); //Operates the SPI bus per desired MIDI output
 			void updateDurations();
 			void updateRegisters();

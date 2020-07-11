@@ -1,9 +1,7 @@
 #ifndef MIDI_Device_Factory_h
 	#define MIDI_Device_Factory_h
 
-	#include "../MIDI_Device_Controller.h"
-	#include "../MIDI_Device_Controller/MIDI_Pitch.h"
-	#include "../MIDI_Device_Controller/MIDI_Shift_Register.h"
+	#include "../MIDI_Device_Controller/MIDI_Pitch.h"	
 	
 	class MIDI_Device_Factory
 	{
@@ -26,8 +24,6 @@
 			
 			inline MIDI_Pitch *createBuzzer(uint8_t signalPin)
 			{ return new MIDI_Pitch(signalPin); };
-			
-			MIDI_Shift_Register *createShiftRegister(uint8_t size, uint8_t startingNote, uint8_t latchPin);
 	};
 	
 	//Defines a global instance of our class for users to consume
