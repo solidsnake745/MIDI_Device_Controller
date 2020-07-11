@@ -68,16 +68,8 @@ void MIDI_Shift_Register::playNote(uint8_t note)
 	_debug.debugln(20, "Attempting to play note: %d", note);
 	
 	//Don't play notes outside of the expected range
-	if(note < _startingNote)
-	{
-		_debug.debugln(15, "Not playing note %d; starting note is %d", note, _startingNote);
+	if(!validateNote(note))
 		return;
-	}
-	if(note > _endingNote) 
-	{
-		_debug.debugln(15, "Not playing note %d; ending note is %d", note, _endingNote);
-		return;
-	}	
 	
 	//Calculate which register and bit this note correlates to
 	uint8_t shiftedNote = note - _startingNote;
@@ -105,16 +97,8 @@ void MIDI_Shift_Register::stopNote(uint8_t note)
 	_debug.debugln(20, "Attempting to stop note: %d", note);
 	
 	//Don't stop notes outside of the expected range
-	if(note < _startingNote)
-	{
-		_debug.debugln(15, "Not stopping note %d; starting note is %d", note, _startingNote);
+	if(!validateNote(note))
 		return;
-	}
-	if(note > _endingNote) 
-	{
-		_debug.debugln(15, "Not stopping note %d; ending note is %d", note, _endingNote);
-		return;
-	}	
 	
 	//Calculate which register and bit this note correlates to
 	uint8_t shiftedNote = note - _startingNote;
@@ -133,6 +117,22 @@ void MIDI_Shift_Register::stopNote(uint8_t note)
 	_durations[registerIndex].resetDuration(bitIndex);
 	_numActiveOutputs--;
 	_registersChanged = true;
+};
+
+bool MIDI_Shift_Register::validateNote(uint8_t note)
+{
+	if(note < _startingNote)
+	{
+		_debug.debugln(15, "Note %d is out of range; starting note is %d", note, _startingNote);
+		return false;
+	}
+	if(note > _endingNote) 
+	{
+		_debug.debugln(15, "Note %d is out of range; ending note is %d", note, _endingNote);
+		return false;
+	}
+	
+	return true;
 };
 
 void MIDI_Shift_Register::playNotes()
