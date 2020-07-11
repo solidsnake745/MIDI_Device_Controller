@@ -327,7 +327,7 @@ void MIDI_Device_Controller::stopPlaying()
 {
 	_debug.debugln(5, F("Stopping processing"));
 	
-	//Silence all devices and reset them to an initial state
+	//Silence all pitch devices and reset them to an initial state
 	int i = 0;
 	while(i != MAX_PITCH_DEVICES)
 	{
@@ -335,9 +335,12 @@ void MIDI_Device_Controller::stopPlaying()
 		i++;
 	}
 	
-	delay(5); //Give the interrupt process some time to rest our devices
+	delay(5); //Give the interrupt process some time to rest those devices
 
 	Timer1.stop();
+	
+	if(_MSR_instance)
+		_MSR_instance->stopNotes();
 
 	_isPlayingNotes = false;
 	LEDOff();
@@ -425,6 +428,26 @@ void MIDI_Device_Controller::testPitchDeviceInterrupt(uint8_t index)
 		delay(200);
 	}
 	stopPlaying();
+}
+
+void MIDI_Device_Controller::testRegisterDeviceInterrupt()
+{
+	MIDI_Shift_Register *r = getMSRInstance();
+	if(!r) return;
+	
+	uint32_t currentDuration = r->getDuration();
+	r->setDuration(6*10000);
+	
+	if(!_isPlayingNotes) startPlaying();
+	for(int16_t i = r->getStartingNote(); i <= r->getEndingNote(); i++)
+	{
+		r->playNote(i);
+		delay(50);
+	}
+	
+	delay(500);
+	stopPlaying();
+	r->setDuration(currentDuration);
 }
 
 void MIDI_Device_Controller::testPitchBend(uint8_t index)

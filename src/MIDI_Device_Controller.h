@@ -121,6 +121,9 @@
 			//Plays a test tone on a given device via our interrupt process a few times
 			void testPitchDeviceInterrupt(uint8_t index);
 			
+			//Plays the configured range of notes on the shift register via our interrupt process
+			void testRegisterDeviceInterrupt();
+			
 			//Pitch bend test
 			void testPitchBend(uint8_t index);
 			

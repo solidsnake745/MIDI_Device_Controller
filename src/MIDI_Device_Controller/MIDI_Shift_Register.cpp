@@ -1,7 +1,7 @@
 #include "MIDI_Shift_Register.h"
 #include "../MIDI_Device_Controller.h" //Need the definition of noteAssigned()
 
-SerialDebug MIDI_Shift_Register::_debug(5);
+SerialDebug MIDI_Shift_Register::_debug(15);
 
 MIDI_Shift_Register::MIDI_Shift_Register(uint8_t size, uint8_t startingNote, uint8_t latchPin) 
 {
@@ -24,8 +24,6 @@ MIDI_Shift_Register::MIDI_Shift_Register(uint8_t size, uint8_t startingNote, uin
 	
 	//Setup SPI
 	setLatchPin(latchPin);
-	pinMode(_latchPin, OUTPUT);
-	digitalWrite(_latchPin, LOW);
 	SPI.begin();
 	
 	//0 out all configured shift registers
@@ -34,7 +32,7 @@ MIDI_Shift_Register::MIDI_Shift_Register(uint8_t size, uint8_t startingNote, uin
 	latchRegisters();
 };
 
-void MIDI_Shift_Register::runSPITest()
+void MIDI_Shift_Register::testRegistersDirect()
 {
 	int testDelay = 50;
 	
@@ -52,7 +50,7 @@ void MIDI_Shift_Register::runSPITest()
 			latchRegisters();
 			delay(testDelay);
 		}
-		delay(testDelay);
+		delay(testDelay * 2);
 	}
 	
 	//Clear registers
@@ -119,6 +117,28 @@ void MIDI_Shift_Register::stopNote(uint8_t note)
 	_registersChanged = true;
 };
 
+void MIDI_Shift_Register::stopNotes()
+{
+	_debug.debugln(20, "Attempting to stop all actives notes");
+	
+	if(_numActiveOutputs == 0)
+	{
+		_debug.debugln(15, "No active notes to stop");
+		return;
+	}
+	
+	for(int bitIndex = 0; bitIndex < 8; bitIndex++)
+		for(int registerIndex = 0; registerIndex < _numRegisters; registerIndex++)
+		{
+			_registers[registerIndex].bits.clearBit(bitIndex);
+			_durations[registerIndex].resetDuration(bitIndex);
+		}
+	
+	_numActiveOutputs = 0;
+	_registersChanged = true;
+	updateRegisters();
+}
+
 bool MIDI_Shift_Register::validateNote(uint8_t note)
 {
 	if(note < _startingNote)
@@ -180,7 +200,7 @@ void MIDI_Shift_Register::updateRegisters()
 		_debug.debugln(50, "Registers have not changed");		
 		return;
 	}
-		
+	
 	_debug.debugln(20, "Registers have changed; %d active outputs", _numActiveOutputs);		
 	for(int i = _numRegisters - 1; i >= 0; i--)
 	{
@@ -188,7 +208,7 @@ void MIDI_Shift_Register::updateRegisters()
 		SPI.transfer(_registers[i].value);
 	}
 	latchRegisters();
-	
+
 	_registersChanged = false;
 };
 

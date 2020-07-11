@@ -121,13 +121,25 @@
 		public:
 			MIDI_Shift_Register(uint8_t size, uint8_t startingNote, uint8_t latchPin);
 
+			inline uint8_t getRegisterCount() { return _numRegisters; };
+			inline uint8_t getStartingNote() { return _startingNote; };
+			inline uint8_t getEndingNote() { return _endingNote; };
+			inline uint8_t getLatchPin() { return _latchPin; };
+			inline uint32_t getDuration() { return _durationLimit; };
+			
+			inline void setLatchPin(uint8_t pin) 
+			{ 
+				_latchPin = pin;
+				pinMode(_latchPin, OUTPUT);
+				digitalWrite(_latchPin, LOW);
+			};
+			inline void setDuration(uint32_t limit) { _durationLimit = limit; };
+
 			void playNote(uint8_t note);
 			void stopNote(uint8_t note);
-
-			inline void setLatchPin(uint8_t pin) {_latchPin = pin;};
-			inline void setDuration(uint32_t limit) {_durationLimit = limit;};
+			void stopNotes();			
 			
-			void runSPITest();
+			void testRegistersDirect();
 			
 		private:
 			uint8_t _numRegisters;
