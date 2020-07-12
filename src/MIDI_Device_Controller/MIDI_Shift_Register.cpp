@@ -202,11 +202,19 @@ void MIDI_Shift_Register::updateRegisters()
 	}
 	
 	_debug.debugln(20, "Registers have changed; %d active outputs", _numActiveOutputs);		
-	for(int i = _numRegisters - 1; i >= 0; i--)
+	uint8_t newValues[_numRegisters];
+	uint8_t newIndex = _writeDirection ? _numRegisters - 1 : 0;
+	
+	_debug.debug(3, "New register values: ");
+	for(int i = 0; i < _numRegisters; i++)
 	{
-		_debug.debugln(3, "Register %d value: %d", i, _registers[i].value);
-		SPI.transfer(_registers[i].value);
+		_debug.debug(3, "%d, ", _registers[i].value);
+		newValues[newIndex] = _registers[i].value;
+		newIndex = _writeDirection ? newIndex - 1 : newIndex + 1;
 	}
+	_debug.debugln(3);
+	
+	SPI.transfer(&newValues, _numRegisters);
 	latchRegisters();
 
 	_registersChanged = false;

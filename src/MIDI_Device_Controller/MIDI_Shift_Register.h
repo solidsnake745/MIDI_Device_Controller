@@ -134,7 +134,8 @@
 				digitalWrite(_latchPin, LOW);
 			};
 			inline void setDuration(uint32_t limit) { _durationLimit = limit; };
-
+			inline void setWriteDirection(bool value) { _writeDirection = value; };
+			
 			void playNote(uint8_t note);
 			void stopNote(uint8_t note);
 			void stopNotes();			
@@ -147,6 +148,7 @@
 			uint8_t _endingNote;
 			uint8_t _latchPin;
 			uint32_t _durationLimit = 1000;
+			bool _writeDirection = true;
 			volatile bool _registersChanged = false;
 			uint32_t _numActiveOutputs = 0;
 			shiftRegister *_registers;
