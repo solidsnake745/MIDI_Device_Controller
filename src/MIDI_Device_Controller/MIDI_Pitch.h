@@ -160,14 +160,14 @@
 		private:
 			//Nothing here
 			
-		public: 
+		public:
 			//Tests the stepping capability of the given device
 			void testStepping(uint32_t steps);
 
 			void testStepping(int32_t steps, bool direction);
 			
 			//Steps a given device directly 50 times
-			void testDeviceDirect();
+			void testDirect();
 			
 			//Operates a given device to it's max position and back
 			void testMaxDirection();

@@ -18,6 +18,6 @@ MIDI_Device_Factory &MIDI_Device_Factory::getInstance()
 
 MIDI_Shift_Register *MIDI_Device_Factory::createShiftRegister(uint8_t size, uint8_t startingNote, uint8_t latchPin)
 {
-	MDC.initializeShiftRegisterDevice(size, startingNote, latchPin);
-	return MDC.getMSRInstance();
+	MDC.initializeShiftRegister(size, startingNote, latchPin);
+	return MDC.getShiftRegister();
 }

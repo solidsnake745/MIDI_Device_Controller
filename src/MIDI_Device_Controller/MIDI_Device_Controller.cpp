@@ -33,7 +33,7 @@ MIDI_Pitch *MIDI_Device_Controller::_pitchDevices[MAX_PITCH_DEVICES];
 MIDI_Pitch *MIDI_Device_Controller::_enabledPitchDevices[MAX_PITCH_DEVICES];
 uint8_t MIDI_Device_Controller::_numEnabled = 0;
 
-uint8_t MIDI_Device_Controller::reloadEnabledPitchDevices()
+uint8_t MIDI_Device_Controller::reloadEnabledDevices()
 {
 	_debug.debugln(1, F("Reloading enabled pitch devices"));
 	
@@ -63,7 +63,7 @@ uint8_t MIDI_Device_Controller::reloadEnabledPitchDevices()
 
 MIDI_Shift_Register *MIDI_Device_Controller::_MSR_instance = NULL;
 
-MIDI_Shift_Register *MIDI_Device_Controller::getMSRInstance()
+MIDI_Shift_Register *MIDI_Device_Controller::getShiftRegister()
 {
 	if (_MSR_instance == NULL)
 		_debug.debugln(1, "Shift register hasn't been initialized yet");
@@ -92,7 +92,7 @@ void MIDI_Device_Controller::printStatus()
 	}
 }
 
-void MIDI_Device_Controller::addPitchDevice(uint8_t index, MIDI_Pitch *d)
+void MIDI_Device_Controller::addDevice(uint8_t index, MIDI_Pitch *d)
 {
 	if(!d)
 	{
@@ -117,7 +117,7 @@ void MIDI_Device_Controller::addPitchDevice(uint8_t index, MIDI_Pitch *d)
 	_pitchDevices[index] = d;
 }
 
-void MIDI_Device_Controller::addPitchDevices(MIDI_Pitch *devices[], uint8_t numDevices)
+void MIDI_Device_Controller::addDevices(MIDI_Pitch *devices[], uint8_t numDevices)
 {
 	if(numDevices > MAX_PITCH_DEVICES)
 		numDevices = MAX_PITCH_DEVICES;
@@ -127,12 +127,12 @@ void MIDI_Device_Controller::addPitchDevices(MIDI_Pitch *devices[], uint8_t numD
 	uint8_t i = 0;
 	while(i < numDevices)
 	{
-		addPitchDevice(i, devices[i]);
+		addDevice(i, devices[i]);
 		i++;
 	}
 }
 
-MIDI_Pitch *MIDI_Device_Controller::getPitchDevice(uint8_t index)
+MIDI_Pitch *MIDI_Device_Controller::getDevice(uint8_t index)
 {
 	if(index > MAX_PITCH_DEVICES - 1)
 	{
@@ -143,7 +143,7 @@ MIDI_Pitch *MIDI_Device_Controller::getPitchDevice(uint8_t index)
 	return _pitchDevices[index];
 }
 
-void MIDI_Device_Controller::deletePitchDevice(uint8_t index)
+void MIDI_Device_Controller::deleteDevice(uint8_t index)
 {
 	if(index > MAX_PITCH_DEVICES - 1)
 	{
@@ -164,7 +164,7 @@ void MIDI_Device_Controller::deletePitchDevice(uint8_t index)
 	}
 }
 
-void MIDI_Device_Controller::initializeShiftRegisterDevice(uint8_t size, uint8_t startingNote, uint8_t latchPin)
+void MIDI_Device_Controller::initializeShiftRegister(uint8_t size, uint8_t startingNote, uint8_t latchPin)
 {
 	if(_MSR_instance != NULL)
 	{
@@ -177,9 +177,9 @@ void MIDI_Device_Controller::initializeShiftRegisterDevice(uint8_t size, uint8_t
 }
 
 //TODO: Verify logic
-void MIDI_Device_Controller::resetPitchDevicePositions()
+void MIDI_Device_Controller::resetDevicePositions()
 {
-	uint8_t numEnabled = reloadEnabledPitchDevices();
+	uint8_t numEnabled = reloadEnabledDevices();
 	
 	int i = 0;
 	while(i < numEnabled)
@@ -219,9 +219,9 @@ void MIDI_Device_Controller::resetPitchDevicePositions()
 	}
 }
 
-void MIDI_Device_Controller::calibratePitchDevicePositions()
+void MIDI_Device_Controller::calibrateDevicePositions()
 {
-	uint8_t numEnabled = reloadEnabledPitchDevices();
+	uint8_t numEnabled = reloadEnabledDevices();
 	
 	int i = 0;
 	while(i < numEnabled)
@@ -232,29 +232,29 @@ void MIDI_Device_Controller::calibratePitchDevicePositions()
 		d->_currentPosition = d->getMaxPosition();
 	}
 	
-	resetPitchDevicePositions();
+	resetDevicePositions();
 }
 
-void MIDI_Device_Controller::playPitchNote(int8_t index, uint8_t note)
+void MIDI_Device_Controller::playDeviceNote(int8_t index, uint8_t note)
 {
 	_debug.debugln(8, F("Is processing: %d"), _isPlayingNotes);
 	_debug.debugln(8, F("Auto processing: %d"), _autoPlayNotes);
 	
-	MIDI_Pitch *d = getPitchDevice(index);
+	MIDI_Pitch *d = getDevice(index);
 	if(!d) return;
 	d->playNote(note);
 }
 
-void MIDI_Device_Controller::bendPitchNote(int8_t index, uint16_t bend)
+void MIDI_Device_Controller::bendDeviceNote(int8_t index, uint16_t bend)
 {
-	MIDI_Pitch *d = getPitchDevice(index);
+	MIDI_Pitch *d = getDevice(index);
 	if(!d) return;
 	d->bendNote(bend);
 }
 
-void MIDI_Device_Controller::stopPitchNote(int8_t index, uint8_t note)
+void MIDI_Device_Controller::stopDeviceNote(int8_t index, uint8_t note)
 {
-	MIDI_Pitch *d = getPitchDevice(index);
+	MIDI_Pitch *d = getDevice(index);
 	if(!d) return;
 	if(d->getCurrentNote() == note) d->stopNote();
 }
@@ -311,7 +311,7 @@ bool MIDI_Device_Controller::startPlaying()
 	_debug.debugln(1, F("Starting note processing"));
 	_debug.debugln(2, F("Resolution set to %d"), MIDI_Periods::getResolution());
 	
-	reloadEnabledPitchDevices();
+	reloadEnabledDevices();
 	if(_autoPlayNotes) _lastAssign = millis();
 	
 	Timer1.initialize();
@@ -416,7 +416,7 @@ void MIDI_Device_Controller::setLEDPin(int8_t pin)
 //_______________________________________________________________________________________________________
 void MIDI_Device_Controller::testPitchDeviceInterrupt(uint8_t index) 
 {
-	MIDI_Pitch *d = getPitchDevice(index);
+	MIDI_Pitch *d = getDevice(index);
 	if(!d) return;
 	
 	if(!_isPlayingNotes) startPlaying();
@@ -432,11 +432,11 @@ void MIDI_Device_Controller::testPitchDeviceInterrupt(uint8_t index)
 
 void MIDI_Device_Controller::testRegisterDeviceInterrupt()
 {
-	MIDI_Shift_Register *r = getMSRInstance();
+	MIDI_Shift_Register *r = getShiftRegister();
 	if(!r) return;
 	
-	uint32_t currentDuration = r->getDuration();
-	r->setDuration(6*10000);
+	uint32_t currentDuration = r->getDuration();	
+	r->setDuration(60000);
 	
 	if(!_isPlayingNotes) startPlaying();
 	for(int16_t i = r->getStartingNote(); i <= r->getEndingNote(); i++)
@@ -452,7 +452,7 @@ void MIDI_Device_Controller::testRegisterDeviceInterrupt()
 
 void MIDI_Device_Controller::testPitchBend(uint8_t index)
 {
-	MIDI_Pitch *d = getPitchDevice(index);
+	MIDI_Pitch *d = getDevice(index);
 	if(!d) return;
 	
 	bool currentSetting = _autoPlayNotes;		
@@ -508,7 +508,7 @@ void MIDI_Device_Controller::loadTest(uint8_t numDevices)
 
 void MIDI_Device_Controller::playStartupSequence(uint8_t version)
 {
-	uint8_t numEnabled = reloadEnabledPitchDevices();
+	uint8_t numEnabled = reloadEnabledDevices();
 	
 	LEDOn();	
 	switch(version)
@@ -544,7 +544,7 @@ void MIDI_Device_Controller::playStartupSequence(uint8_t version)
 			
 			_debug.println(F("Pause and reset"));
 			delay(500);	
-			resetPitchDevicePositions();
+			resetDevicePositions();
 		}
 		break;
 		

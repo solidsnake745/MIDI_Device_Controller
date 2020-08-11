@@ -48,9 +48,9 @@ calibratePosition	KEYWORD2
 zeroPosition	KEYWORD2
 resetProperties	KEYWORD2
 testStepping	KEYWORD2
-testDeviceDirect	KEYWORD2
+testDirect	KEYWORD2
 testMaxDirection	KEYWORD2
-runAllDeviceTests	KEYWORD2
+runAllTests	KEYWORD2
 
 ############
 MIDI Device Factory
@@ -59,20 +59,21 @@ createFDD	KEYWORD2
 createStepper	KEYWORD2
 createHDD	KEYWORD2
 createBuzzer	KEYWORD2
+createShiftRegister	KEYWORD2
 
 ############
 MIDI Device Controller
 ############
-addPitchDevice	KEYWORD2
-addPitchDevices	KEYWORD2
-getPitchDevice	KEYWORD2
-deletePitchDevice	KEYWORD2
-initializeShiftRegisterDevice	KEYWORD2
-resetPitchDevicePositions	KEYWORD2
-calibratePitchDevicePositions	KEYWORD2
-playPitchNote	KEYWORD2
-bendPitchNote	KEYWORD2
-stopPitchNote	KEYWORD2
+addDevice	KEYWORD2
+addDevices	KEYWORD2
+getDevice	KEYWORD2
+deleteDevice	KEYWORD2
+initializeShiftRegister	KEYWORD2
+resetDevicePositions	KEYWORD2
+calibrateDevicePositions	KEYWORD2
+playDeviceNote	KEYWORD2
+bendDeviceNote	KEYWORD2
+stopDeviceNote	KEYWORD2
 playRegisterNote	KEYWORD2
 stopRegisterNote	KEYWORD2
 startPlaying	KEYWORD2
@@ -89,6 +90,7 @@ playStartupSequence	KEYWORD2
 isProcessing	KEYWORD2
 setLEDPin	KEYWORD2
 testPitchDeviceInterrupt	KEYWORD2
+testRegisterDeviceInterrupt	KEYWORD2
 testPitchBend	KEYWORD2
 loadTest	KEYWORD2
 playStartupSequence	KEYWORD2

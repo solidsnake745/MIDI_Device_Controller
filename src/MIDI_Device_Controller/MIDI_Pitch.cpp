@@ -334,7 +334,7 @@ void MIDI_Pitch::testStepping(int32_t steps, bool direction)
 	testStepping(steps);
 }
 
-void MIDI_Pitch::testDeviceDirect()
+void MIDI_Pitch::testDirect()
 {
 	for(int16_t i = 0; i <= 50; i++) 
 	{
@@ -375,7 +375,7 @@ void MIDI_Pitch::testMaxDirection()
 
 void MIDI_Pitch::runAllTests()
 {
-	testDeviceDirect(); delay(250);
+	testDirect(); delay(250);
 	calibratePosition(); delay(250);
 	testMaxDirection(); delay(250);
 	calibratePosition();

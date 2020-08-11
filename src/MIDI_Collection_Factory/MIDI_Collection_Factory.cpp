@@ -18,7 +18,7 @@ MIDI_Collection_Factory &MIDI_Collection_Factory::getInstance()
 
 MIDI_Pitch *MIDI_Collection_Factory::getDeviceFromMDC(uint8_t index)
 {
-	return MDC.getPitchDevice(index);
+	return MDC.getDevice(index);
 }
 
 Base_MIDI_Pitch_Collection *MIDI_Collection_Factory::createInitialCollection(uint8_t index, CollectionType type)

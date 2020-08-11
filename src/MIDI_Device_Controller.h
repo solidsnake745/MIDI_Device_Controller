@@ -35,27 +35,27 @@
 			static MIDI_Pitch *_enabledPitchDevices[MAX_PITCH_DEVICES];
 			static uint8_t _numEnabled;
 			
-			uint8_t reloadEnabledPitchDevices();
+			uint8_t reloadEnabledDevices();
 			
 			static MIDI_Shift_Register *_MSR_instance;
 			
 		public:
 			void printStatus(); //Print each device slot's status		
 			
-			void addPitchDevice(uint8_t index, MIDI_Pitch *d); //Adds a device to the correlating index given the device's ID
-			void addPitchDevices(MIDI_Pitch *devices[], uint8_t numDevices); //Adds the given set of devices
-			MIDI_Pitch *getPitchDevice(uint8_t index); //Retrieves a device at specified index
-			void deletePitchDevice(uint8_t index); //Deletes device at specified index if populated
+			void addDevice(uint8_t index, MIDI_Pitch *d); //Adds a device to the correlating index given the device's ID
+			void addDevices(MIDI_Pitch *devices[], uint8_t numDevices); //Adds the given set of devices
+			MIDI_Pitch *getDevice(uint8_t index); //Retrieves a device at specified index
+			void deleteDevice(uint8_t index); //Deletes device at specified index if populated
 
-			void initializeShiftRegisterDevice(uint8_t size, uint8_t startingNote, uint8_t latchPin);
-			MIDI_Shift_Register *getMSRInstance();
+			void initializeShiftRegister(uint8_t size, uint8_t startingNote, uint8_t latchPin);
+			MIDI_Shift_Register *getShiftRegister();
 			
-			void resetPitchDevicePositions();
-			void calibratePitchDevicePositions();
+			void resetDevicePositions();
+			void calibrateDevicePositions();
 		
-			void playPitchNote(int8_t index, uint8_t note);
-			void bendPitchNote(int8_t index, uint16_t bend);
-			void stopPitchNote(int8_t index, uint8_t note);
+			void playDeviceNote(int8_t index, uint8_t note);
+			void bendDeviceNote(int8_t index, uint16_t bend);
+			void stopDeviceNote(int8_t index, uint8_t note);
 			
 			void playRegisterNote(uint8_t note);
 			void stopRegisterNote(uint8_t note);
