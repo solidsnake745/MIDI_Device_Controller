@@ -41,7 +41,7 @@ void MIDI_Collection_Controller::printStatus()
 			_debug.println(F("Empty"));
 		}
 		
-		_debug.println("");
+		_debug.println(F(""));
 		delay(10);
 		i++;
 	}

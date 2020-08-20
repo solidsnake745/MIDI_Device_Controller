@@ -33,7 +33,7 @@
 		};
 		
 		//Recursive decay case
-		inline void populateCollection(Base_MIDI_Pitch_Collection *c) { _debug.debugln(5, "Finished populating"); };		
+		inline void populateCollection(Base_MIDI_Pitch_Collection *c) { _debug.debugln(5, F("Finished populating")); };		
 		
 		public:
 			//Used to populate our single instance MDF for consumption
@@ -48,11 +48,11 @@
 				
 				if(newCollection)
 				{
-					_debug.println("Populating Collection");
+					_debug.println(F("Populating Collection"));
 					populateCollection(newCollection, firstId, ids...);
 				}
 				else
-					_debug.println("Failed to create new Collection");
+					_debug.println(F("Failed to create new Collection"));
 			};
 	};
 	

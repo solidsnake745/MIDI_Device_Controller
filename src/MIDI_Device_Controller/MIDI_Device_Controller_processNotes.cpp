@@ -2,7 +2,7 @@
 
 void MIDI_Device_Controller::processNotes()
 {
-	_debug.debugln(20, "Process start");
+	_debug.debugln(20, F("Process start"));
 
 	//Play MIDI_Pitch notes
 	int i = 0;
@@ -17,7 +17,7 @@ void MIDI_Device_Controller::processNotes()
 	if(_MSR_instance)		
 		_MSR_instance->playNotes();
 	else
-		_debug.debugln(20, "No register device");
+		_debug.debugln(20, F("No register device"));
 	
-	_debug.debugln(20, "Process end");
+	_debug.debugln(20, F("Process end"));
 }

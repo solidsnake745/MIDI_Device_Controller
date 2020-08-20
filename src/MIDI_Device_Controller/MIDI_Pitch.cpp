@@ -160,21 +160,21 @@ void MIDI_Pitch::playPeriod(uint16_t period)
 
 void MIDI_Pitch::bendNote(uint16_t bend)
 { 
-	if (_currentNote > 0 && _currentNote < 255) 
-	{
-		_debug.debugln(7, F("%d - Bending: %d"), _id, bend);
-		
-		int16_t basePeriod = getBasePeriod();
-		_debug.debugln(7, F("%d - Base: %d"), _id, basePeriod);		
-		
-		float pitchFactor = pow(2.0, (bend - 8192.0) / 8192.0);
-		_debug.debugln(7, F("%d - Factor: %d"), _id, pitchFactor);
-		
-		int16_t newPeriod = basePeriod / pitchFactor;
-		_debug.debugln(7, F("%d - New Period: %d"), _id, newPeriod);
+	if (!(_currentNote > 0 && _currentNote < 256))
+		return;
+	
+	// _debug.debugln(7, F("%d - Bending: %d"), _id, bend);
+	
+	int16_t basePeriod = getBasePeriod();
+	// _debug.debugln(7, F("%d - Base: %d"), _id, basePeriod);
+	
+	float pitchFactor = pow(2.0, (bend - 8192.0) / 8192.0);
+	// _debug.debugln(7, F("%d - Factor: %d"), _id, pitchFactor);
+	
+	int16_t newPeriod = basePeriod / pitchFactor;
+	// _debug.debugln(7, F("%d - New Period: %d"), _id, newPeriod);
 
-		_currentPeriod = newPeriod;
-	}
+	_currentPeriod = newPeriod;
 }
 
 void MIDI_Pitch::setDirection(bool direction)
@@ -274,13 +274,13 @@ void MIDI_Pitch::playNotes()
 {
 	if(_currentNote < 0)
 	{
-		_debug.debugln(20, "%d - No note", _id);
+		_debug.debugln(20, F("%d - No note"), _id);
 		return;
 	}
 	
 	if(_currentNote == 0)
 	{			
-		_debug.debugln(20, "%d - Resetting properties", _id);
+		_debug.debugln(20, F("%d - Resetting properties"), _id);
 		resetProperties();
 		return;
 	}
@@ -290,7 +290,7 @@ void MIDI_Pitch::playNotes()
 	
 	if(_belongsTo->_maxDuration != 0 && _currentDuration >= _belongsTo->_maxDuration) 
 	{
-		_debug.debugln(20, "%d - Reached max duration", _id);
+		_debug.debugln(20, F("%d - Reached max duration"), _id);
 		_currentNote = 0;
 		return;
 	}
@@ -298,14 +298,14 @@ void MIDI_Pitch::playNotes()
 	_currentTick++;
 	if(_currentTick >= _currentPeriod) 
 	{
-		_debug.debugln(20, "%d - Toggling step", _id);
+		_debug.debugln(20, F("%d - Toggling step"), _id);
 		toggleStep();
 		_currentTick = 0;
 	}
 	
 	if(_maxPosition > 0 && _currentPosition >= _maxPosition) 
 	{
-		_debug.debugln(20, "%d - Toggling direction", _id);
+		_debug.debugln(20, F("%d - Toggling direction"), _id);
 		toggleDirection();
 		zeroPosition();
 	}

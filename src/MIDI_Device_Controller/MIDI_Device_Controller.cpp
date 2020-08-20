@@ -47,17 +47,17 @@ uint8_t MIDI_Device_Controller::reloadEnabledDevices()
 		if(!_pitchDevices[i]) continue;
 		if(_pitchDevices[i]->isEnabled())
 		{
-			_debug.debugln(2, "Device %d added", i);
+			_debug.debugln(2, F("Device %d added"), i);
 			_enabledPitchDevices[x++] = _pitchDevices[i];
 		}
 		else
 		{
-			_debug.debugln(2, "Device %d not added", i);
+			_debug.debugln(2, F("Device %d not added"), i);
 		}
 	}
 	
 	_numEnabled = x;
-	_debug.debugln(1, "%d pitch device(s) loaded", _numEnabled);
+	_debug.debugln(1, F("%d pitch device(s) loaded"), _numEnabled);
 	return _numEnabled;
 }
 
@@ -66,7 +66,7 @@ MIDI_Shift_Register *MIDI_Device_Controller::_MSR_instance = NULL;
 MIDI_Shift_Register *MIDI_Device_Controller::getShiftRegister()
 {
 	if (_MSR_instance == NULL)
-		_debug.debugln(1, "Shift register hasn't been initialized yet");
+		_debug.debugln(1, F("Shift register hasn't been initialized yet"));
 	return _MSR_instance;
 }
 
@@ -86,7 +86,7 @@ void MIDI_Device_Controller::printStatus()
 			_debug.println(F("Empty"));
 		}
 		
-		_debug.println("");
+		_debug.println(F(""));
 		delay(10);
 		i++;
 	}

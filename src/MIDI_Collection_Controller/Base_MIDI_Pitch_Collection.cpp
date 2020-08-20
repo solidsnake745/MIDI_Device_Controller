@@ -24,7 +24,7 @@ void Base_MIDI_Pitch_Collection::deleteNode(MIDI_Pitch_Node *node)
 			_debug.debugln(5, F("Reassigned to nothing"));
 		
 		delete node;
-		_debug.debugln(5, "Deleted");
+		_debug.debugln(5, F("Deleted"));
 		return;
 	}
 	
@@ -43,7 +43,7 @@ void Base_MIDI_Pitch_Collection::deleteNode(MIDI_Pitch_Node *node)
 			_debug.debugln(5, F("Reassigned to nothing"));
 		
 		delete node;
-		_debug.debugln(5, "Deleted");
+		_debug.debugln(5, F("Deleted"));
 		return;
 	}
 	

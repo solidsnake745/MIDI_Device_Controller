@@ -29,24 +29,24 @@ void MIDI_Message::runTest()
 {
 	//Initial set and check
 	MIDI_Message test(B10001010, 54, 126);
-	// PRINT2("Status: ", test.getStatus()); //8
-	// PRINT2("Channel: ", test.getChannel()); //10
-	// PRINT2("Data1: ", test.getData1()); //54
-	// PRINT2("Data2: ", test.getData2()); //126
+	// PRINT2(F("Status: "), test.getStatus()); //8
+	// PRINT2(F("Channel: "), test.getChannel()); //10
+	// PRINT2(F("Data1: "), test.getData1()); //54
+	// PRINT2(F("Data2: "), test.getData2()); //126
 
 	//Increment all values by 1 and check
 	test.setType(MsgType::NoteOn);
 	test.setChannel(11);
 	test.setData1(55);
 	test.setData2(127);
-	// PRINT2("Status: ", test.getStatus()); //9
-	// PRINT2("Channel: ", test.getChannel()); //11
-	// PRINT2("Data1: ", test.getData1()); //55
-	// PRINT2("Data2: ", test.getData2()); //127
+	// PRINT2(F("Status: "), test.getStatus()); //9
+	// PRINT2(F("Channel: "), test.getChannel()); //11
+	// PRINT2(F("Data1: "), test.getData1()); //55
+	// PRINT2(F("Data2: "), test.getData2()); //127
 
 	//Set bend value and check
 	test.setBendValue(0x0107);
-	// PRINT2("Bend Value: ", test.getBendValue()); //256 + 7 = 263
+	// PRINT2(F("Bend Value: "), test.getBendValue()); //256 + 7 = 263
 };
 
 void MIDI_Message::setType(MsgType t)
@@ -76,7 +76,7 @@ bool MIDI_Message::setChannel(uint8_t ch)
 	//Validate
 	if (ch > 15)
 	{
-		//DEBUG2("Invalid setChannel: ", ch)
+		//DEBUG2(F("Invalid setChannel: "), ch)
 		return false;
 	}
 
