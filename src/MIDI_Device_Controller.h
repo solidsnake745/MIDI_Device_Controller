@@ -95,6 +95,9 @@
 			uint16_t _idleTimeout = IDLE_TIMEOUT_DEFAULT;
 
 		public:
+			//Indicates whether note processing is automatically started on note assignment
+			bool isAutoPlayEnabled();
+			
 			uint8_t getMaxPitchDevices();
 			uint32_t getMaxDuration();
 			void setResolution(uint16_t resolution = DEFAULT_RESOLUTION);

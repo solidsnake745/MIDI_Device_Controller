@@ -18,7 +18,7 @@
 		protected:
 			MIDI_Pitch_Node *start = NULL;
 			MIDI_Pitch_Node *end = NULL;
-			uint8_t count = 0;
+			uint8_t _count = 0;
 			static SerialDebug _debug;
 			
 		public:
@@ -33,5 +33,8 @@
 			virtual bool playNote(uint8_t note);			
 			virtual void bendNote(uint16_t bend);
 			virtual void stopNote(uint8_t note);
+			
+			//Test methods
+			void testPitchBend();
 	};
 #endif

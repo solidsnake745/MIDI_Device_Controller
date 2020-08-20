@@ -120,6 +120,11 @@ FirstAvailable	LITERAL1
 RoundRobin	LITERAL1
 
 ############
+Base MIDI Collections
+############
+testPitchBend	KEYWORD2
+
+############
 MIDI Collection Controller
 ############
 addCollection	KEYWORD2

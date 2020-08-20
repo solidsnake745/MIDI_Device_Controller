@@ -385,6 +385,7 @@ bool MIDI_Device_Controller::isPlayingNotes() { return _isPlayingNotes; }
 
 //Settings
 //_______________________________________________________________________________________________________
+bool MIDI_Device_Controller::isAutoPlayEnabled() { return _autoPlayNotes; }
 uint8_t MIDI_Device_Controller::getMaxPitchDevices() { return MAX_PITCH_DEVICES; }
 uint32_t MIDI_Device_Controller::getMaxDuration() { return _maxDuration; }
 void MIDI_Device_Controller::setMaxDuration(uint32_t value) { _maxDuration = value; }
@@ -467,7 +468,7 @@ void MIDI_Device_Controller::testPitchBend(uint8_t index)
 	for(int16_t i = 2; i <= 16383; i+=2500) 
 	{
 		d->bendNote(i);
-		//delayMicroseconds(5000);
+		delayMicroseconds(5000);
 	}
 	
 	d->stopNote();

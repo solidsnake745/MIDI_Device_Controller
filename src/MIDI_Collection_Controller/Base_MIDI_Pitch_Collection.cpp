@@ -1,3 +1,4 @@
+#include "../MIDI_Device_Controller.h" //Need function prototypes
 #include "Base_MIDI_Pitch_Collection.h"
 #include "MIDI_Pitch_Node.h"
 
@@ -66,7 +67,7 @@ void Base_MIDI_Pitch_Collection::addDevice(MIDI_Pitch *d)
 	if(!start)
 	{
 		start = new MIDI_Pitch_Node(d, this);
-		count++;
+		_count++;
 		_debug.debugln(5, F("Starting node added"));
 		return;
 	}
@@ -90,7 +91,7 @@ void Base_MIDI_Pitch_Collection::addDevice(MIDI_Pitch *d)
 	node->next = newNode;
 	newNode->prev = node;
 	end = newNode;
-	count++;
+	_count++;
 	_debug.debugln(5, F("New node added"));
 };
 
@@ -128,7 +129,7 @@ void Base_MIDI_Pitch_Collection::removeDevice(uint8_t id)
 
 		_debug.debugln(4, F("Node found"));
 		deleteNode(node);
-		count--;
+		_count--;
 		
 		if(start == end)
 		{
@@ -144,7 +145,7 @@ void Base_MIDI_Pitch_Collection::removeDevice(uint8_t id)
 
 void Base_MIDI_Pitch_Collection::printStatus()
 {
-	_debug.println(F("%d nodes in this chain"), count);	
+	_debug.println(F("%d nodes in this chain"), _count);	
 	if(!start) return;
 	
 	_debug.debugln(5, F("Start of the chain"));
@@ -194,4 +195,30 @@ void Base_MIDI_Pitch_Collection::bendNote(uint16_t bend)
 void Base_MIDI_Pitch_Collection::stopNote(uint8_t note)
 {
 	_debug.debugln(5, F("Note %d clear received"), note);
+};
+
+void Base_MIDI_Pitch_Collection::testPitchBend()
+{
+	bool currentSetting = MDC.isAutoPlayEnabled();
+	MDC.setAutoPlay(true);
+	
+	for(uint8_t c = 0; c < _count; c++)
+		playNote(50);
+
+	bendNote(1);
+	
+	//Note processing occurs every (_resolution) microseconds
+	//Thus effectively creating a delay between bendNote calls
+	//TODO: Verify above comment again
+	for(int16_t i = 2; i <= 16383; i+=2500)
+	{
+		bendNote(i);
+		delayMicroseconds(5000);
+	}
+	
+	for(uint8_t c = 0; c < _count; c++)
+		stopNote(50);
+	
+	MDC.stopPlaying();
+	MDC.setAutoPlay(currentSetting);
 };

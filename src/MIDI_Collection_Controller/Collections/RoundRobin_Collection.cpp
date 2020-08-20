@@ -3,7 +3,7 @@
 
 bool RoundRobin_Collection::playNote(uint8_t note)
 {
-	if(count == 1)
+	if(_count == 1)
 		return start->tryPlayNote(note);
 	
 	MIDI_Pitch_Node *nextAssign;	
@@ -45,7 +45,7 @@ void RoundRobin_Collection::stopNote(uint8_t note)
 		return;
 	}
 
-	if(count == 1)
+	if(_count == 1)
 	{
 		lastAssign->tryStopNote(note);
 		return;
