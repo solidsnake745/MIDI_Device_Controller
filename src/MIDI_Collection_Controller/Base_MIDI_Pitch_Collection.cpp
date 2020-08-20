@@ -210,10 +210,10 @@ void Base_MIDI_Pitch_Collection::testPitchBend()
 	//Note processing occurs every (_resolution) microseconds
 	//Thus effectively creating a delay between bendNote calls
 	//TODO: Verify above comment again
-	for(int16_t i = 2; i <= 16383; i+=2500)
+	for(int16_t i = 2; i <= 16383; i+=1200)
 	{
 		bendNote(i);
-		delayMicroseconds(5000);
+		delay(50);
 	}
 	
 	for(uint8_t c = 0; c < _count; c++)
