@@ -13,6 +13,7 @@
 		
 		public:
 			//Used to populate our single instance MDF for consumption
+			/// @private
 			static MIDI_Device_Factory &getInstance();			
 			
 			inline MIDI_Pitch *createFDD(uint8_t stepPin, uint8_t dirPin)

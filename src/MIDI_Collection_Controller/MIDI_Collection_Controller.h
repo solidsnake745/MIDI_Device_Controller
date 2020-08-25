@@ -21,6 +21,7 @@
 			
 		public:
 			//Used to populate our single instance MDC for consumption
+			/// @private
 			static MIDI_Collection_Controller &getInstance();
 			
 		//Device management

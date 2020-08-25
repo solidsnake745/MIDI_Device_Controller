@@ -20,6 +20,7 @@
 			
 		public:
 			//Used to populate our single instance MS for consumption
+			/// @private
 			static MIDI_Serial &getInstance();
 			
 		//Serial Handling

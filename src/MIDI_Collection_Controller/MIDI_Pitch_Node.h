@@ -8,6 +8,7 @@
 	class MIDI_Pitch;
 	class Base_MIDI_Pitch_Collection;
 
+	/// @private
 	struct MIDI_Pitch_Node
 	{
 		//Give Base_MIDI_Pitch_Collection access to all private members

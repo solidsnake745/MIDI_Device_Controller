@@ -37,6 +37,7 @@
 		
 		public:
 			//Used to populate our single instance MDF for consumption
+			/// @private
 			static MIDI_Collection_Factory &getInstance();
 			
 			//Used to generate device Collections and add devices by specified IDs

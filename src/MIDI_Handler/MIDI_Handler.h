@@ -5,6 +5,7 @@
 	#include "../MIDI_Message/MIDI_Message.h"
 	#include "../SerialDebug/SerialDebug.h"
 	
+	/// @private
 	class MIDI_Handler
 	{
 		typedef void (*NoteOff) (uint8_t, uint8_t, uint8_t);

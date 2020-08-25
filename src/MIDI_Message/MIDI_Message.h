@@ -9,6 +9,7 @@
 	//MIDI messages are 3 byte messages 
 	//http://www.songstuff.com/recording/article/midi_message_format/
 	//http://www.electronics.dit.ie/staff/tscarff/Music_technology/midi/midi_messages.htm
+	/// @private
 	struct MIDI_Message
 	{
 		MIDI_Message(MsgType t, uint8_t ch, uint8_t d1, uint8_t d2) : MIDI_Message(d1, d2)
