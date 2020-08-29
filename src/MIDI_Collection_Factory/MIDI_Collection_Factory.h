@@ -28,7 +28,8 @@
 		template<typename... IDs>
 		inline void populateCollection(Base_MIDI_Pitch_Collection *c, uint8_t id, IDs... ids)
 		{
-			c->addDevice(getDeviceFromMDC(id));
+			MIDI_Pitch *d = getDeviceFromMDC(id);
+			if(d) c->addDevice(d);
 			populateCollection(c, ids...);
 		};
 		
