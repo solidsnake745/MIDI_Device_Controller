@@ -314,10 +314,8 @@ bool MIDI_Device_Controller::startPlaying()
 	reloadEnabledDevices();
 	if(_autoPlayNotes) _lastAssign = millis();
 	
-	Timer1.initialize();
-	Timer1.attachInterrupt(MIDI_Device_Controller::lawl);
-	Timer1.setPeriod(MIDI_Periods::getResolution());
-	Timer1.start();
+	_timer->setupOnce(MIDI_Periods::getResolution(), MIDI_Device_Controller::lawl);
+	_timer->start();
 	
 	LEDOn();
 	return true;
@@ -335,9 +333,9 @@ void MIDI_Device_Controller::stopPlaying()
 		i++;
 	}
 	
-	delay(5); //Give the interrupt process some time to rest those devices
+	delay(5); //Give the interrupt process some time to reset those devices
 
-	Timer1.stop();
+	_timer->stop();
 	
 	if(_MSR_instance)
 		_MSR_instance->stopNotes();

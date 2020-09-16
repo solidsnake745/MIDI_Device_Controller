@@ -3,12 +3,15 @@
 
 	#include "Settings.h"
 	#include "MDC_Extras.h"
-	#include <Arduino.h>
-	#include <TimerOne.h>
+	#include <Arduino.h>	
 	#include "MIDI_Device_Controller/MIDI_Periods.h"
 	#include "MIDI_Device_Controller/MIDI_Pitch.h"
-	#include "MIDI_Device_Controller/MIDI_Shift_Register.h"
+	#include "MIDI_Device_Controller/MIDI_Shift_Register.h"	
 	#include "SerialDebug/SerialDebug.h"
+
+	//Resolve timer interrupt implementation
+	#include "MIDI_Device_Controller/ITimer/ITimer.h"
+	#include "MIDI_Device_Controller/ITimer/TimerOne_Timer.h"
 
 	class MIDI_Device_Controller
 	{
@@ -82,6 +85,7 @@
 		private:
 			bool _isPlayingNotes = false;
 			bool _autoPlayNotes = true;
+			ITimer *_timer = new TimerOne_Timer();
 			
 			//Operates devices during interrupt process
 			void processNotes();
