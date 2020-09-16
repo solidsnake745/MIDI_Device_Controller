@@ -7,7 +7,7 @@
 
 	struct MIDI_Pitch_Node;
 
-	//A doubly linked list of devices used for pooling note assignments
+	///A doubly linked list of devices used for distributing note assignments
 	class Base_MIDI_Pitch_Collection
 	{
 		//Give MIDI_Pitch_Node access to all private members

@@ -41,12 +41,28 @@
 			static MIDI_Shift_Register *_MSR_instance;
 			
 		public:
-			void printStatus(); //Print each device slot's status		
+			void printStatus(); ///< Print the status of the device controller
 			
-			void addDevice(uint8_t index, MIDI_Pitch *d); //Adds a device to the correlating index given the device's ID
-			void addDevices(MIDI_Pitch *devices[], uint8_t numDevices); //Adds the given set of devices
-			MIDI_Pitch *getDevice(uint8_t index); //Retrieves a device at specified index
-			void deleteDevice(uint8_t index); //Deletes device at specified index if populated
+			/// Adds a device to the controller
+			/*!
+				\param index Index to add the device to
+				\param d The device object to add
+			*/
+			void addDevice(uint8_t index, MIDI_Pitch *d);
+			
+			void addDevices(MIDI_Pitch *devices[], uint8_t numDevices); ///< Adds the given set of devices
+			
+			/// Retrieves the registered device from the controller
+			/*!
+				\param index Index to retrieve the device from
+			*/
+			MIDI_Pitch *getDevice(uint8_t index);
+			
+			/// Deletes a device from the controller
+			/*!
+				\param index Index to try deleting the device from
+			*/
+			void deleteDevice(uint8_t index);
 
 			void initializeShiftRegister(uint8_t size, uint8_t startingNote, uint8_t latchPin);
 			MIDI_Shift_Register *getShiftRegister();
