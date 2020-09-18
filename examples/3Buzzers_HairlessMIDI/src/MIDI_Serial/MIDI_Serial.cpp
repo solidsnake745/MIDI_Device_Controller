@@ -1,7 +1,5 @@
 #include "MIDI_Serial.h"
 
-SerialDebug MIDI_Serial::_debug(DEBUG_MIDISERIAL);
-
 //Constructors and instance management
 //_______________________________________________________________________________________________________
 

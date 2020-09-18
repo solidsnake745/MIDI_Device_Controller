@@ -1,7 +1,7 @@
 #ifndef MIDI_Message_h
 	#define MIDI_Message_h
 	
-	#include "../MIDI_Enums/MIDI_Enums.h"
+	#include "MIDI_Enums.h"
 	// #include <stdint.h>
 	#include <Arduino.h>
 	

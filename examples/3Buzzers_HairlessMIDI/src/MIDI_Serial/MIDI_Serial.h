@@ -1,17 +1,13 @@
 #ifndef MIDI_Serial_h
 	#define MIDI_Serial_h
 
-	#include "../Settings.h"
-	#include "../MIDI_Message/MIDI_Message.h"
-	#include "../MIDI_Enums/MIDI_Enums.h"
-	#include "../MIDI_Handler/MIDI_Handler.h"
-	#include "../SerialDebug/SerialDebug.h"
+	#include "MIDI_Message.h"
+	#include "MIDI_Enums.h"
+	#include "MIDI_Handler.h"
 	#include <Arduino.h>
 	
 	class MIDI_Serial
 	{
-		static SerialDebug _debug;
-		
 		//Constructors and instance management
 		//_______________________________________________________________________________________________________
 		private:

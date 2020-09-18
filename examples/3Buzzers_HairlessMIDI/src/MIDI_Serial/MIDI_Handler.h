@@ -1,9 +1,8 @@
 #ifndef MIDI_Handler_h
 	#define MIDI_Handler_h
 
-	#include "../MIDI_Enums/MIDI_Enums.h"
-	#include "../MIDI_Message/MIDI_Message.h"
-	#include "../SerialDebug/SerialDebug.h"
+	#include "MIDI_Enums.h"
+	#include "MIDI_Message.h"
 	
 	/// @private
 	class MIDI_Handler
@@ -23,8 +22,6 @@
 		ProgramChange _programChange = NULL;
 		ChannelPressure _channelPressure = NULL;
 		PitchBend _pitchBend = NULL;
-
-		//static SerialDebug _debug;
 		
 		public:
 			void handleMIDI(MIDI_Message msg);
