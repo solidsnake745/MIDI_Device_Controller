@@ -38,18 +38,7 @@
 
 			void playNote(int8_t index, uint8_t note);
 			void bendNote(int8_t index, uint16_t bend);
-			void stopNote(int8_t index, uint8_t note);			
-
-		//Settings
-		//_______________________________________________________________________________________________________
-		private:
-			
-		public:
-		
-		//Tests/Debug 
-		//_______________________________________________________________________________________________________
-		public:
-
+			void stopNote(int8_t index, uint8_t note);
 	};
 
 	//Defines a global instance of our class for users to consume

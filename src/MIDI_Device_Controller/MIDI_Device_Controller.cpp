@@ -117,21 +117,6 @@ void MIDI_Device_Controller::addDevice(uint8_t index, MIDI_Pitch *d)
 	_pitchDevices[index] = d;
 }
 
-void MIDI_Device_Controller::addDevices(MIDI_Pitch *devices[], uint8_t numDevices)
-{
-	if(numDevices > MAX_PITCH_DEVICES)
-		numDevices = MAX_PITCH_DEVICES;
-		
-	_debug.debugln(5, F("Attempting to add %d device(s)"), numDevices);
-	
-	uint8_t i = 0;
-	while(i < numDevices)
-	{
-		addDevice(i, devices[i]);
-		i++;
-	}
-}
-
 MIDI_Pitch *MIDI_Device_Controller::getDevice(uint8_t index)
 {
 	if(index > MAX_PITCH_DEVICES - 1)
@@ -285,6 +270,28 @@ void MIDI_Device_Controller::stopRegisterNote(uint8_t note)
 
 //Note Processing
 //_______________________________________________________________________________________________________	
+
+void MIDI_Device_Controller::processNotes()
+{
+	_debug.debugln(20, F("Process start"));
+
+	//Play MIDI_Pitch notes
+	int i = 0;
+	while(i < _numEnabled && _numEnabled > 0)
+	{
+		MIDI_Pitch *d = _enabledPitchDevices[i++];
+		if(!d) continue;
+		d->playNotes();
+	}
+	
+	//Play MIDI_Shift_Register notes
+	if(_MSR_instance)		
+		_MSR_instance->playNotes();
+	else
+		_debug.debugln(20, F("No register device"));
+	
+	_debug.debugln(20, F("Process end"));
+}
 
 void MIDI_Device_Controller::lawl() { _instance->processNotes(); };
 

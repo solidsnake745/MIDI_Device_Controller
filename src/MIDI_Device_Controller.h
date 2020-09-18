@@ -53,8 +53,6 @@
 			*/
 			void addDevice(uint8_t index, MIDI_Pitch *d);
 			
-			void addDevices(MIDI_Pitch *devices[], uint8_t numDevices); ///< Adds the given set of devices
-			
 			/// Retrieves the registered device from the controller
 			/*!
 				\param index Index to retrieve the device from
