@@ -4,6 +4,7 @@
 	#include "ITimer.h"
 	#include <TimerOne.h>
 	
+	/// @private
 	class TimerOne_Timer : public ITimer
 	{
 		private:

@@ -3,6 +3,7 @@
 	
 	#include <stdint.h>
 	
+	/// @private
 	class ITimer
 	{
 		protected:

@@ -6,6 +6,7 @@
 	#include "../MIDI_Device_Controller/MIDI_Pitch.h"
 	#include "Base_MIDI_Pitch_Collection.h"
 
+	///Controls and manages collections of MIDI Pitch objects
 	class MIDI_Collection_Controller
 	{
 		// Give Device access to all private members

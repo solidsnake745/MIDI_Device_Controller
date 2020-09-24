@@ -1,10 +1,11 @@
 #ifndef MIDI_Periods_h
 	#define MIDI_Periods_h
-
-	#include <avr/pgmspace.h>
+	
 	#include "../Settings.h"
 	#include "../SerialDebug/SerialDebug.h"
+	#include <avr/pgmspace.h>
 
+	/// @private
 	class MIDI_Periods
 	{
 		//Give MIDI_DeviceController access to all private members

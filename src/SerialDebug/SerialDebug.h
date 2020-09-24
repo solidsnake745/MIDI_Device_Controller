@@ -1,7 +1,7 @@
 #ifndef SerialDebug_h
 #define SerialDebug_h
 
-#define DEBUG_ENABLED 1
+#define DEBUG_ENABLED 0
 #define FLASH_STRING_BUFFERSIZE 64
 
 #include <Arduino.h>	

@@ -7,7 +7,7 @@
 
 	struct MIDI_Pitch_Node;
 
-	///A doubly linked list of devices used for distributing note assignments
+	///Base implementation of a collection of MIDI Pitch devices for distributing notes
 	class Base_MIDI_Pitch_Collection
 	{
 		//Give MIDI_Pitch_Node access to all private members
@@ -24,17 +24,35 @@
 		public:
 			virtual ~Base_MIDI_Pitch_Collection();
 			
+			///Adds a given MIDI_Pitch device to this collection
+			/*!
+				\param d Pitch device to be added
+			*/
 			void addDevice(MIDI_Pitch *d);
-			void addDevices(MIDI_Pitch devices[], uint16_t numDevices); //Adds the given set of devices
+			
+			///Removes a given MIDI_Pitch device by ID from this collection
+			/*!
+				\param id The ID of the MIDI_Pitch to attempt removing
+			*/
 			void removeDevice(uint8_t id);
 			
 			//Overrideable methods
+			
+			///Prints information about this collection to Serial
 			virtual void printStatus();
+			
+			///Plays the given note
 			virtual bool playNote(uint8_t note);			
+			
+			///Pitch bend the entire collection
 			virtual void bendNote(uint16_t bend);
+			
+			///Stops the given note
 			virtual void stopNote(uint8_t note);
 			
 			//Test methods
+			
+			///Tests pitch bending all devices in the collection
 			void testPitchBend();
 	};
 #endif

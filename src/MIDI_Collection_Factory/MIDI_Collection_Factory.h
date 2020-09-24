@@ -11,6 +11,7 @@
 	
 	enum CollectionType { Direct, FirstAvailable, RoundRobin };
 	
+	///Simplifies creating MIDI Pitch collections and associating them to the collection controller
 	class MIDI_Collection_Factory
 	{
 		static SerialDebug _debug;

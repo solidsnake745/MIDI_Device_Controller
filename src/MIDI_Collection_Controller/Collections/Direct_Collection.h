@@ -7,7 +7,7 @@
 	//Forward declaration for compiling
 	struct MIDI_Pitch_Node;
 
-	//Directly assigns the given note to all devices in the chain
+	///Assigns notes to all available devices in the collection
 	class Direct_Collection : public Base_MIDI_Pitch_Collection
 	{	
 		private:

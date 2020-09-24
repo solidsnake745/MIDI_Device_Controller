@@ -7,6 +7,7 @@
 	//Forward declaration for compiling
 	struct MIDI_Pitch_Node;
 
+	///Assigns notes to the next available device in the collection
 	class RoundRobin_Collection : public Base_MIDI_Pitch_Collection
 	{	
 		private:

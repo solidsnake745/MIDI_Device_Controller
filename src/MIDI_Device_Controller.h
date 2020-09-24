@@ -13,6 +13,7 @@
 	#include "MIDI_Device_Controller/ITimer/ITimer.h"
 	#include "MIDI_Device_Controller/ITimer/TimerOne_Timer.h"
 
+	///Controls and manages various MIDI device objects
 	class MIDI_Device_Controller
 	{
 		// Give Device access to all private members

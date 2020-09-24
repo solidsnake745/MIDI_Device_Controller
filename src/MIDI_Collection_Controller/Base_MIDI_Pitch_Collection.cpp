@@ -95,18 +95,6 @@ void Base_MIDI_Pitch_Collection::addDevice(MIDI_Pitch *d)
 	_debug.debugln(5, F("New node added"));
 };
 
-void Base_MIDI_Pitch_Collection::addDevices(MIDI_Pitch devices[], uint16_t numDevices)
-{	
-	if(numDevices > MAX_PITCH_DEVICES)
-		numDevices = MAX_PITCH_DEVICES;
-
-	_debug.debugln(5, F("Attempting to add %d device(s)"), numDevices);
-	
-	int i = 0;
-	while(i < numDevices)
-		addDevice(&devices[i++]);
-}
-
 void Base_MIDI_Pitch_Collection::removeDevice(uint8_t id)
 {
 	//Handle empty chain scenario

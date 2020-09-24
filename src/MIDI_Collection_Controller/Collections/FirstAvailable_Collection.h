@@ -7,7 +7,7 @@
 	//Forward declaration for compiling
 	struct MIDI_Pitch_Node;
 
-	//First available 
+	///Assigns notes to the first available device in the collection
 	class FirstAvailable_Collection : public Base_MIDI_Pitch_Collection
 	{	
 		private:
