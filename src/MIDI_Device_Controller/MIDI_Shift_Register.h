@@ -9,6 +9,7 @@
 	//Forward declaration for compiling
 	class MIDI_Device_Controller;
 	
+	///MIDI device class for pulsing shift register outputs via SPI
 	class MIDI_Shift_Register
 	{
 		//Give MIDI_DeviceController access to all private members

@@ -13,7 +13,7 @@
 	#include "MIDI_Device_Controller/ITimer/ITimer.h"
 	#include "MIDI_Device_Controller/ITimer/TimerOne_Timer.h"
 
-	///Controls and manages various MIDI device objects
+	///[MDC] Controls and manages various MIDI device objects
 	class MIDI_Device_Controller
 	{
 		// Give Device access to all private members
@@ -45,22 +45,23 @@
 			static MIDI_Shift_Register *_MSR_instance;
 			
 		public:
-			void printStatus(); ///< Print the status of the device controller
+			///Prints status information about this controller to Serial
+			void printStatus();
 			
-			/// Adds a device to the controller
+			///Adds a device to the controller
 			/*!
-				\param index Index to add the device to
-				\param d The device object to add
+				\param index Index to assign the device to
+				\param d Device to add
 			*/
 			void addDevice(uint8_t index, MIDI_Pitch *d);
 			
-			/// Retrieves the registered device from the controller
+			///Retrieves a device from the controller
 			/*!
 				\param index Index to retrieve the device from
 			*/
 			MIDI_Pitch *getDevice(uint8_t index);
 			
-			/// Deletes a device from the controller
+			///Deletes a device from the controller
 			/*!
 				\param index Index to try deleting the device from
 			*/
@@ -121,8 +122,18 @@
 			uint8_t getMaxPitchDevices();
 			uint32_t getMaxDuration();
 			void setResolution(uint16_t resolution = DEFAULT_RESOLUTION);
+			
+			///@private
 			void setDebugResolution();
+			
+			///@private
 			void setMaxDuration(uint32_t value = MAX_DURATION_DEFAULT);
+			
+			///Sets the timeout period in milliseconds
+			/*!
+				When idle, all processing and outputs are turned off.
+				\param value Number of milliseconds
+			*/
 			void setIdleTimeout(int16_t value = IDLE_TIMEOUT_DEFAULT);		
 			void setAutoPlay(bool value);
 

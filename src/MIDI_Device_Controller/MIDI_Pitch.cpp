@@ -76,10 +76,10 @@ void MIDI_Pitch::printStatus()
 	_debug.println(F("  Enabled: %d"), getEnabled());
 	_debug.println(F("  Is Enabled: %d"), isEnabled());
 	_debug.println(F("  Step Pin: %d"), getStepPin());
-	_debug.println(F("  Step State: %d"), getStepState());
+	_debug.println(F("  Step State: %d"), _stepState);
 	_debug.println(F("  Actual State: %d"), digitalRead(_stepPinMap));
 	_debug.println(F("  Dir Pin: %d"), getDirPin());
-	_debug.println(F("  Dir State: %d"), getDirState());
+	_debug.println(F("  Dir State: %d"), _dirState);
 	_debug.println(F("  Actual State: %d"), digitalRead(_dirPinMap));
 	_debug.println(F("  Current Position: %d"), getPosition());
 	_debug.println(F("  Max Position: %d"), getMaxPosition());
@@ -116,8 +116,6 @@ void MIDI_Pitch::stopNote()
 	_currentNote = 0;
 }
 
-bool MIDI_Pitch::getStepState() { return _stepState; }
-bool MIDI_Pitch::getDirState() { return _dirState; }
 int16_t MIDI_Pitch::getPosition() { return _currentPosition; }
 int16_t MIDI_Pitch::getMaxPosition() { return _maxPosition; }
 int8_t MIDI_Pitch::getCurrentNote() { return _currentNote; }

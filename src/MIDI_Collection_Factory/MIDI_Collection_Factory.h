@@ -11,7 +11,7 @@
 	
 	enum CollectionType { Direct, FirstAvailable, RoundRobin };
 	
-	///Simplifies creating MIDI Pitch collections and associating them to the collection controller
+	///[MCF] Simplifies creating MIDI Pitch collections and associating them to the collection controller
 	class MIDI_Collection_Factory
 	{
 		static SerialDebug _debug;
@@ -20,7 +20,7 @@
 		MIDI_Collection_Factory(); //Disallow creating an instance
 		static MIDI_Collection_Factory *_instance;
 		
-		//Creates a new Collection and adds it to the controller (MCC)		
+		//Creates a new collection and adds it to the controller (MCC)
 		Base_MIDI_Pitch_Collection *createInitialCollection(uint8_t index, CollectionType type);
 		
 		MIDI_Pitch *getDeviceFromMDC(uint8_t index);
@@ -44,6 +44,14 @@
 			
 			//Used to generate device Collections and add devices by specified IDs
 			//Requires at least one device ID
+			
+			///Creates a new collection with devices from MDC and adds it to the controller (MCC)
+			/*!
+				\param index Index to assign the collection to
+				\param type Type of collection to create
+				\param firstId ID of the first device to add from MDC
+				\param ids Rest of the device IDs to be added (I.E. firstId, 1, 2, 3)
+			*/
 			template<typename... IDs>
 			inline void createCollection(uint8_t index, CollectionType type, uint8_t firstId, IDs... ids)
 			{

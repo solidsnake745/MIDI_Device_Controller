@@ -38,13 +38,13 @@
 			
 			//Overrideable methods
 			
-			///Prints information about this collection to Serial
+			///Prints status information about this collection to Serial
 			virtual void printStatus();
 			
 			///Plays the given note
 			virtual bool playNote(uint8_t note);			
 			
-			///Pitch bend the entire collection
+			///Pitch bend all active notes in the collection
 			virtual void bendNote(uint16_t bend);
 			
 			///Stops the given note

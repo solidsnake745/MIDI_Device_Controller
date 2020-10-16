@@ -8,6 +8,7 @@
 	//Forward declaration for compiling
 	class MIDI_Device_Controller;
 
+	///MIDI device class for anything needing a pitch signal (FDD, HDD, Stepper motors, etc.)
 	class MIDI_Pitch
 	{	
 		//Give MIDI_DeviceController access to all private members
@@ -56,12 +57,15 @@
 			void setController(MIDI_Device_Controller *controller);
 			void setID(uint8_t value);
 			
+			//Setup this pitch device
+			void setup(int8_t stepPin, int8_t dirPin, int32_t maxPosition);
+			
+			//Indicates whether a device is at or beyond it's max position    	
+			bool isAtMaxPosition();
+			
 		public:
 			//Print out this device's configuration
 			void printStatus();
-			
-			//Setup by specifying settings manually
-			void setup(int8_t stepPin, int8_t dirPin, int32_t maxPosition);
 			
 			uint8_t getID();
 			int8_t getStepPin();
@@ -72,9 +76,6 @@
 			//Indicates whether a device is available for note assignment
 			bool isAvailable();
 			
-			//Indicates whether a device is at or beyond it's max position    	
-			bool isAtMaxPosition();
-			
 			//Indicates whether a device is tracking and changing direction
 			bool isTrackingPosition(); 
 
@@ -84,7 +85,7 @@
 		//Operation
 		//_____________________________________________________________________________________________
 		private:
-			// Calculated microperiods based on the set resolution for each note
+			//Calculated microperiods based on the set resolution for each note
 			static uint16_t *_referencePeriods;
 		
 			//Current step pin state
@@ -107,7 +108,15 @@
 			
 			//Current position value
 			volatile int16_t _currentPosition = 0;
-		
+			
+			//Gets the base period of the note currently being played
+			int16_t getBasePeriod();
+			
+			//Gets the period currently being played
+			int16_t getCurrentPeriod();
+			
+			uint32_t getDuration();
+			
 			//Sets the state of the associated step pin
 			void setStepState(bool state); 
 			
@@ -120,17 +129,17 @@
 			//Toggles the direction pin associated with the given channel
 			void toggleDirection();
 		
+			//Resets a device's operational properties
+			void resetProperties(bool includePosition = false);
+			
 			//Operates device per desired MIDI output
 			void playNotes();
-			
+						
 		public:
 			bool getStepState();
 			bool getDirState();
 			int16_t getPosition();
 			int8_t getCurrentNote();
-			int16_t getBasePeriod();
-			int16_t getCurrentPeriod();
-			uint32_t getDuration();
 			
 			bool isEnabled();
 			
@@ -151,9 +160,6 @@
 			
 			//Sets the given device's position to 0
 			void zeroPosition();
-
-			//Resets a device's operational properties
-			void resetProperties(bool includePosition = false);
 			
 		//Testing/debug
 		//_____________________________________________________________________________________________

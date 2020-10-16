@@ -5,7 +5,7 @@
 	#include "../MIDI_Device_Controller/MIDI_Pitch.h"
 	#include "../MIDI_Device_Controller/MIDI_Shift_Register.h"
 	
-	///Simplifies creating MIDI device objects and associating them to the device controller
+	///[MDF] Simplifies creating MIDI device objects and associating them to the device controller
 	class MIDI_Device_Factory
 	{
 		//Constructor(s)

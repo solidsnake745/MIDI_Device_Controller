@@ -16,4 +16,5 @@ void TimerOne_Timer::start()
 
 void TimerOne_Timer::stop()
 {
+	Timer1.stop();
 }
