@@ -2,8 +2,9 @@
 	#define MIDI_Device_Factory_h
 
 	#include "../MIDI_Device_Controller.h"
-	#include "../MIDI_Device_Controller/MIDI_Pitch.h"
-	#include "../MIDI_Device_Controller/MIDI_Shift_Register.h"
+	#include "../MIDI_Devices/MIDI_Pitch.h"
+	#include "../MIDI_Devices/MIDI_SN74HC595N.h"
+	#include "../MIDI_Devices/MIDI_Digital_IO.h"
 	
 	///[MDF] Simplifies creating MIDI device objects and associating them to the device controller
 	class MIDI_Device_Factory
@@ -50,13 +51,19 @@
 			*/
 			MIDI_Pitch *createBuzzer(uint8_t index, uint8_t signalPin);
 			
-			///Creates a new shift register device and adds it to the controller
+			///Creates a new digital IO device and adds it to the controller
 			/*!
 				\param size Number of shift registers
+			*/
+			MIDI_Digital_IO *createDigitalIO(uint8_t numOutputs);
+			
+			///Creates a new shift register device and adds it to the controller
+			/*!
+				\param numRegisters Number of shift registers
 				\param startingNote The first MIDI note to associate to the first output of the shift registers
 				\param latchPin Pin to use for latching the registers
 			*/
-			MIDI_Shift_Register *createShiftRegister(uint8_t size, uint8_t startingNote, uint8_t latchPin);
+			MIDI_SN74HC595N *createSN74HC595N(uint8_t numRegisters, uint8_t latchPin);
 	};
 	
 	//Defines a global instance of our class for users to consume

@@ -5,8 +5,9 @@
 	#include "MDC_Extras.h"
 	#include <Arduino.h>	
 	#include "MIDI_Device_Controller/MIDI_Periods.h"
-	#include "MIDI_Device_Controller/MIDI_Pitch.h"
-	#include "MIDI_Device_Controller/MIDI_Shift_Register.h"	
+	#include "MIDI_Devices/MIDI_Pitch.h"
+	#include "MIDI_Devices/MIDI_SN74HC595N.h"
+	#include "MIDI_Devices/MIDI_Digital_IO.h"
 	#include "SerialDebug/SerialDebug.h"
 
 	//Resolve timer interrupt implementation
@@ -18,7 +19,8 @@
 	{
 		// Give Device access to all private members
 		friend class MIDI_Pitch;
-		friend class MIDI_Shift_Register;
+		friend class MIDI_SN74HC595N;
+		friend class MIDI_Digital_IO;
 		
 		static SerialDebug _debug;
 		
@@ -42,7 +44,9 @@
 			
 			uint8_t reloadEnabledDevices();
 			
-			static MIDI_Shift_Register *_MSR_instance;
+			static MIDI_SN74HC595N *_SN74HC595N;
+			
+			static MIDI_Digital_IO *_digitalIO;
 			
 		public:
 			///Prints status information about this controller to Serial
@@ -67,8 +71,11 @@
 			*/
 			void deleteDevice(uint8_t index);
 
-			void initializeShiftRegister(uint8_t size, uint8_t startingNote, uint8_t latchPin);
-			MIDI_Shift_Register *getShiftRegister();
+			void setSN74HC595N(MIDI_SN74HC595N *device);
+			MIDI_SN74HC595N *getSN74HC595N();
+			
+			void setDigitalIO(MIDI_Digital_IO *device);
+			MIDI_Digital_IO *getDigitalIO();
 			
 			void resetDevicePositions();
 			void calibrateDevicePositions();
@@ -76,9 +83,6 @@
 			void playDeviceNote(int8_t index, uint8_t note);
 			void bendDeviceNote(int8_t index, uint16_t bend);
 			void stopDeviceNote(int8_t index, uint8_t note);
-			
-			void playRegisterNote(uint8_t note);
-			void stopRegisterNote(uint8_t note);
 			
 		//Note Processing
 		//_______________________________________________________________________________________________________
@@ -154,9 +158,6 @@
 		public:
 			//Plays a test tone on a given device via our interrupt process a few times
 			void testPitchDeviceInterrupt(uint8_t index);
-			
-			//Plays the configured range of notes on the shift register via our interrupt process
-			void testRegisterDeviceInterrupt();
 			
 			//Pitch bend test
 			void testPitchBend(uint8_t index);

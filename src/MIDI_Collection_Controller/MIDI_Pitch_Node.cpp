@@ -1,5 +1,5 @@
 #include "MIDI_Pitch_Node.h"
-#include "../MIDI_Device_Controller/MIDI_Pitch.h"
+#include "../MIDI_Devices/MIDI_Pitch.h"
 #include "Base_MIDI_Pitch_Collection.h"
 
 SerialDebug MIDI_Pitch_Node::_debug(DEBUG_DEVICENODE);

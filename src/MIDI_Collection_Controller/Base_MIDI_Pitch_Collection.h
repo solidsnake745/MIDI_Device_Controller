@@ -2,7 +2,7 @@
 	#define Base_MIDI_Device_Collection_h
 
 	#include "../Settings.h"
-	#include "../MIDI_Device_Controller/MIDI_Pitch.h"
+	#include "../MIDI_Devices/MIDI_Pitch.h"
 	#include "../SerialDebug/SerialDebug.h"
 
 	struct MIDI_Pitch_Node;

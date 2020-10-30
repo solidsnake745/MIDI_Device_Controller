@@ -2,7 +2,7 @@
 	#define MIDI_Pitch_h
 
 	#include <Arduino.h>
-	#include "MIDI_Periods.h"
+	#include "MIDI_Device_Controller/MIDI_Periods.h"
 	#include "../SerialDebug/SerialDebug.h"
 
 	//Forward declaration for compiling

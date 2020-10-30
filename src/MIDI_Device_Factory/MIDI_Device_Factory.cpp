@@ -73,8 +73,20 @@ MIDI_Pitch *MIDI_Device_Factory::createBuzzer(uint8_t index, uint8_t signalPin)
 	return MDC.getDevice(index);
 }
 
-MIDI_Shift_Register *MIDI_Device_Factory::createShiftRegister(uint8_t size, uint8_t startingNote, uint8_t latchPin)
+MIDI_Digital_IO *MIDI_Device_Factory::createDigitalIO(uint8_t numOutputs)
 {
-	MDC.initializeShiftRegister(size, startingNote, latchPin);
-	return MDC.getShiftRegister();
+	if(MDC.getDigitalIO())
+		return MDC.getDigitalIO();
+	
+	MDC.setDigitalIO(new MIDI_Digital_IO(numOutputs));
+	return MDC.getDigitalIO();
+}
+
+MIDI_SN74HC595N *MIDI_Device_Factory::createSN74HC595N(uint8_t numOutputs, uint8_t latchPin)
+{
+	if(MDC.getSN74HC595N())
+		return MDC.getSN74HC595N();
+	
+	MDC.setSN74HC595N(new MIDI_SN74HC595N(numOutputs, latchPin));
+	return MDC.getSN74HC595N();
 }

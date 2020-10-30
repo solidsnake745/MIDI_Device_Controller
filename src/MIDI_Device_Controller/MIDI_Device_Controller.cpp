@@ -61,14 +61,9 @@ uint8_t MIDI_Device_Controller::reloadEnabledDevices()
 	return _numEnabled;
 }
 
-MIDI_Shift_Register *MIDI_Device_Controller::_MSR_instance = NULL;
+MIDI_SN74HC595N *MIDI_Device_Controller::_SN74HC595N = NULL;
 
-MIDI_Shift_Register *MIDI_Device_Controller::getShiftRegister()
-{
-	if (_MSR_instance == NULL)
-		_debug.debugln(1, F("Shift register hasn't been initialized yet"));
-	return _MSR_instance;
-}
+MIDI_Digital_IO *MIDI_Device_Controller::_digitalIO = NULL;
 
 void MIDI_Device_Controller::printStatus()
 {
@@ -149,16 +144,26 @@ void MIDI_Device_Controller::deleteDevice(uint8_t index)
 	}
 }
 
-void MIDI_Device_Controller::initializeShiftRegister(uint8_t size, uint8_t startingNote, uint8_t latchPin)
+void MIDI_Device_Controller::setSN74HC595N(MIDI_SN74HC595N *device)
+{	
+	_SN74HC595N = device;
+	_SN74HC595N->setController(this);
+}
+
+MIDI_SN74HC595N *MIDI_Device_Controller::getSN74HC595N()
 {
-	if(_MSR_instance != NULL)
-	{
-		_debug.debugln(1, F("Shift register device already initialized"));
-		return;
-	}
-	
-	_MSR_instance = new MIDI_Shift_Register(size, startingNote, latchPin);
-	_MSR_instance->setController(this);
+	return _SN74HC595N;
+}
+
+void MIDI_Device_Controller::setDigitalIO(MIDI_Digital_IO *device)
+{	
+	_digitalIO = device;
+	_digitalIO->setController(this);
+}
+
+MIDI_Digital_IO *MIDI_Device_Controller::getDigitalIO()
+{
+	return _digitalIO;
 }
 
 //TODO: Verify logic
@@ -244,30 +249,6 @@ void MIDI_Device_Controller::stopDeviceNote(int8_t index, uint8_t note)
 	if(d->getCurrentNote() == note) d->stopNote();
 }
 
-void MIDI_Device_Controller::playRegisterNote(uint8_t note)
-{
-	if(_MSR_instance == NULL)
-	{
-		_debug.debugln(1, F("Shift register device need to be initialized"));
-		return;
-	}
-	
-	_debug.debugln(2, F("Playing %d on register"), note);
-	_MSR_instance->playNote(note);
-}
-
-void MIDI_Device_Controller::stopRegisterNote(uint8_t note)
-{
-	if(_MSR_instance == NULL)
-	{
-		_debug.debugln(1, F("Shift register device need to be initialized"));
-		return;
-	}
-	
-	_debug.debugln(2, F("Stopping %d on register"), note);
-	_MSR_instance->stopNote(note);
-}
-
 //Note Processing
 //_______________________________________________________________________________________________________	
 
@@ -284,11 +265,17 @@ void MIDI_Device_Controller::processNotes()
 		d->playNotes();
 	}
 	
-	//Play MIDI_Shift_Register notes
-	if(_MSR_instance)		
-		_MSR_instance->playNotes();
+	//Play shift register notes
+	if(_SN74HC595N)		
+		_SN74HC595N->playNotes();
 	else
 		_debug.debugln(20, F("No register device"));
+	
+	//Play digital IO notes
+	if(_digitalIO)		
+		_digitalIO->playNotes();
+	else
+		_debug.debugln(20, F("No digital IO device"));
 	
 	_debug.debugln(20, F("Process end"));
 }
@@ -336,7 +323,8 @@ void MIDI_Device_Controller::stopPlaying()
 	int i = 0;
 	while(i != MAX_PITCH_DEVICES)
 	{
-		if(_pitchDevices[i]) _pitchDevices[i]->stopNote();
+		if(_pitchDevices[i]) 
+			_pitchDevices[i]->stopNote();
 		i++;
 	}
 	
@@ -344,9 +332,12 @@ void MIDI_Device_Controller::stopPlaying()
 
 	_timer->stop();
 	
-	if(_MSR_instance)
-		_MSR_instance->stopNotes();
-
+	if(_SN74HC595N)
+		_SN74HC595N->stopOutputs();
+	
+	if(_digitalIO)
+		_digitalIO->stopOutputs();
+	
 	_isPlayingNotes = false;
 	LEDOff();
 }
@@ -434,26 +425,6 @@ void MIDI_Device_Controller::testPitchDeviceInterrupt(uint8_t index)
 		delay(200);
 	}
 	stopPlaying();
-}
-
-void MIDI_Device_Controller::testRegisterDeviceInterrupt()
-{
-	MIDI_Shift_Register *r = getShiftRegister();
-	if(!r) return;
-	
-	uint32_t currentDuration = r->getDuration();	
-	r->setDuration(60000);
-	
-	if(!_isPlayingNotes) startPlaying();
-	for(int16_t i = r->getStartingNote(); i <= r->getEndingNote(); i++)
-	{
-		r->playNote(i);
-		delay(50);
-	}
-	
-	delay(500);
-	stopPlaying();
-	r->setDuration(currentDuration);
 }
 
 void MIDI_Device_Controller::testPitchBend(uint8_t index)
