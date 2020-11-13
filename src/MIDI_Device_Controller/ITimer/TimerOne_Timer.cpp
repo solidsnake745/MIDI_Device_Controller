@@ -7,6 +7,7 @@ void TimerOne_Timer::setupOnce(uint16_t interval, void (*action)())
 	Timer1.initialize();
 	Timer1.attachInterrupt(action);
 	Timer1.setPeriod(interval);
+	_isSetup = true;
 }
 
 void TimerOne_Timer::start()

@@ -10,9 +10,18 @@
 	#include "MIDI_Devices/MIDI_Digital_IO.h"
 	#include "SerialDebug/SerialDebug.h"
 
-	//Resolve timer interrupt implementation
 	#include "MIDI_Device_Controller/ITimer/ITimer.h"
-	#include "MIDI_Device_Controller/ITimer/TimerOne_Timer.h"
+	//Resolve timer interrupt implementation
+	#if defined(ARDUINO_ARCH_AVR)
+		#warning "ARDUINO_ARCH_AVR"
+		#include "MIDI_Device_Controller/ITimer/TimerOne_Timer.h"
+	#elif defined(CORE_TEENSY)
+		#warning "CORE_TEENSY"
+		#include "MIDI_Device_Controller/ITimer/TimerOne_Timer.h"
+	#elif defined(ESP32)
+		#warning "TODO: Implement ESP32 timer"
+		//TODO: Implement ESP32 timer
+	#endif
 
 	///[MDC] Controls and manages various MIDI device objects
 	class MIDI_Device_Controller
@@ -89,7 +98,16 @@
 		private:
 			bool _isPlayingNotes = false;
 			bool _autoPlayNotes = true;
-			ITimer *_timer = new TimerOne_Timer();
+
+			//Resolve timer interrupt implementation
+			#if defined(ARDUINO_ARCH_AVR)
+				ITimer *_timer = new TimerOne_Timer();
+			#elif defined(CORE_TEENSY)
+				ITimer *_timer = new TimerOne_Timer();
+			#elif defined(ESP32)
+				//TODO: Implement ESP32 timer
+				ITimer *_timer;
+			#endif
 			
 			//Operates devices during interrupt process
 			void processNotes();
@@ -116,7 +134,7 @@
 		//_______________________________________________________________________________________________________
 		private:
 			uint32_t _lastAssign = 0;
-			volatile uint32_t _maxDuration = MAX_DURATION_DEFAULT;
+			uint32_t _maxDuration = MAX_DURATION_DEFAULT;
 			uint16_t _idleTimeout = IDLE_TIMEOUT_DEFAULT;
 
 		public:

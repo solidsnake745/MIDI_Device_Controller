@@ -15,6 +15,8 @@
 		#include "map"
 	#elif defined(CORE_TEENSY)
 		#include <map>
+	#elif defined(ESP32)
+		#include <map>
 	#endif
 	
 	//Forward declaration for compiling

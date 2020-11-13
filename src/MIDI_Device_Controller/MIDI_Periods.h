@@ -3,7 +3,13 @@
 	
 	#include "../Settings.h"
 	#include "../SerialDebug/SerialDebug.h"
-	#include <avr/pgmspace.h>
+	
+	//Resolve pgmspace dependency
+	#if defined(ARDUINO_ARCH_AVR)
+		#include <avr/pgmspace.h>
+	#elif defined(ESP32)
+		#include <pgmspace.h>
+	#endif
 
 	/// @private
 	class MIDI_Periods
