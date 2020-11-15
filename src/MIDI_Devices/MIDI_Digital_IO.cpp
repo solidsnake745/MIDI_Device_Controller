@@ -1,7 +1,7 @@
 #include "MIDI_Digital_IO.h"
 #include "../MIDI_Device_Controller.h" //Need the definition of noteAssigned()
 
-SerialDebug MIDI_Digital_IO::_debug(20);
+SerialDebug MIDI_Digital_IO::_debug(DEBUG_DigitalIO);
 
 MIDI_Digital_IO::MIDI_Digital_IO(uint8_t numOutputs) 
 {

@@ -31,6 +31,7 @@ MIDI_Device_Controller &MIDI_Device_Controller::getInstance()
 //_______________________________________________________________________________________________________
 MIDI_Pitch *MIDI_Device_Controller::_pitchDevices[MAX_PITCH_DEVICES];
 MIDI_Pitch *MIDI_Device_Controller::_enabledPitchDevices[MAX_PITCH_DEVICES];
+IPulseNotes *MIDI_Device_Controller::_pulseDevices[MAX_PULSE_DEVICES];
 uint8_t MIDI_Device_Controller::_numEnabled = 0;
 
 uint8_t MIDI_Device_Controller::reloadEnabledDevices()
@@ -60,10 +61,6 @@ uint8_t MIDI_Device_Controller::reloadEnabledDevices()
 	_debug.debugln(1, F("%d pitch device(s) loaded"), _numEnabled);
 	return _numEnabled;
 }
-
-MIDI_SN74HC595N *MIDI_Device_Controller::_SN74HC595N = NULL;
-
-MIDI_Digital_IO *MIDI_Device_Controller::_digitalIO = NULL;
 
 void MIDI_Device_Controller::printStatus()
 {
@@ -112,7 +109,7 @@ void MIDI_Device_Controller::addDevice(uint8_t index, MIDI_Pitch *d)
 	_pitchDevices[index] = d;
 }
 
-MIDI_Pitch *MIDI_Device_Controller::getDevice(uint8_t index)
+MIDI_Pitch* MIDI_Device_Controller::getDevice(uint8_t index)
 {
 	if(index > MAX_PITCH_DEVICES - 1)
 	{
@@ -144,26 +141,30 @@ void MIDI_Device_Controller::deleteDevice(uint8_t index)
 	}
 }
 
-void MIDI_Device_Controller::setSN74HC595N(MIDI_SN74HC595N *device)
-{	
-	_SN74HC595N = device;
-	_SN74HC595N->setController(this);
+void MIDI_Device_Controller::setSN74HC595N(MIDI_SN74HC595N* device)
+{
+	device->setController(this);	
+	uint8_t i = static_cast<uint8_t>(PulseDevice::SN74HC595N);	
+	_pulseDevices[i] = device;
 }
 
-MIDI_SN74HC595N *MIDI_Device_Controller::getSN74HC595N()
+MIDI_SN74HC595N* MIDI_Device_Controller::getSN74HC595N()
 {
-	return _SN74HC595N;
+	uint8_t i = static_cast<uint8_t>(PulseDevice::SN74HC595N);
+	return (MIDI_SN74HC595N*) _pulseDevices[i];
 }
 
 void MIDI_Device_Controller::setDigitalIO(MIDI_Digital_IO *device)
 {	
-	_digitalIO = device;
-	_digitalIO->setController(this);
+	device->setController(this);	
+	uint8_t i = static_cast<uint8_t>(PulseDevice::DigitalIO);	
+	_pulseDevices[i] = device;
 }
 
-MIDI_Digital_IO *MIDI_Device_Controller::getDigitalIO()
+MIDI_Digital_IO* MIDI_Device_Controller::getDigitalIO()
 {
-	return _digitalIO;
+	uint8_t i = static_cast<uint8_t>(PulseDevice::DigitalIO);
+	return (MIDI_Digital_IO*) _pulseDevices[i];
 }
 
 //TODO: Verify logic
@@ -256,7 +257,7 @@ void MIDI_Device_Controller::processNotes()
 {
 	_debug.debugln(20, F("Process start"));
 
-	//Play MIDI_Pitch notes
+	//Play MIDI_Pitch devices
 	int i = 0;
 	while(i < _numEnabled && _numEnabled > 0)
 	{
@@ -265,17 +266,12 @@ void MIDI_Device_Controller::processNotes()
 		d->playNotes();
 	}
 	
-	//Play shift register notes
-	if(_SN74HC595N)		
-		_SN74HC595N->playNotes();
-	else
-		_debug.debugln(20, F("No register device"));
-	
-	//Play digital IO notes
-	if(_digitalIO)		
-		_digitalIO->playNotes();
-	else
-		_debug.debugln(20, F("No digital IO device"));
+	//Play IPulseNotes devices
+	for(i = 0; i < MAX_PULSE_DEVICES; i++)
+	{
+		if(_pulseDevices[i])
+			_pulseDevices[i]->playNotes();
+	}
 	
 	_debug.debugln(20, F("Process end"));
 }
@@ -328,15 +324,15 @@ void MIDI_Device_Controller::stopPlaying()
 		i++;
 	}
 	
+	for(i = 0; i < MAX_PULSE_DEVICES; i++)
+	{
+		if(_pulseDevices[i])
+			_pulseDevices[i]->stopOutputs();
+	}
+	
 	delay(5); //Give the interrupt process some time to reset those devices
 
 	_timer->stop();
-	
-	if(_SN74HC595N)
-		_SN74HC595N->stopOutputs();
-	
-	if(_digitalIO)
-		_digitalIO->stopOutputs();
 	
 	_isPlayingNotes = false;
 	LEDOff();

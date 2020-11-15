@@ -43,6 +43,7 @@
 			void pulseOutput(uint8_t out);
 			void stopOutput(uint8_t out);
 			void stopOutputs();
+			void playNotes(); //Operates the digital IO per desired MIDI output
 			
 			void testOutputsDirect();
 			
@@ -58,8 +59,7 @@
 			uint16_t _usedOutputs = 0;
 			MIDI_Device_Controller *_belongsTo = NULL;
 			std::map<uint8_t, uint8_t> _outputMap;
-			
-			void playNotes(); //Operates the digital IO per desired MIDI output
+						
 			void updateDurations();
 			void updateIO();
 			

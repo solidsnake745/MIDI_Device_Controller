@@ -1,7 +1,7 @@
 #include "MIDI_SN74HC595N.h"
 #include "../MIDI_Device_Controller.h" //Need the definition of noteAssigned()
 
-SerialDebug MIDI_SN74HC595N::_debug(15);
+SerialDebug MIDI_SN74HC595N::_debug(DEBUG_SN74HC595N);
 
 MIDI_SN74HC595N::MIDI_SN74HC595N(uint8_t numRegisters, uint8_t latchPin) 
 {

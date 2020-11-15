@@ -6,22 +6,23 @@
 	#include <Arduino.h>	
 	#include "MIDI_Device_Controller/MIDI_Periods.h"
 	#include "MIDI_Devices/MIDI_Pitch.h"
+	#include "SerialDebug/SerialDebug.h"
+
+	#include "MIDI_Devices/PulseDeviceEnum.h"
 	#include "MIDI_Devices/MIDI_SN74HC595N.h"
 	#include "MIDI_Devices/MIDI_Digital_IO.h"
-	#include "SerialDebug/SerialDebug.h"
 
 	#include "MIDI_Device_Controller/ITimer/ITimer.h"
 	//Resolve timer interrupt implementation
-	#if defined(ARDUINO_ARCH_AVR)
-		#warning "ARDUINO_ARCH_AVR"
+	#if defined(ARDUINO_ARCH_AVR)		
 		#include "MIDI_Device_Controller/ITimer/TimerOne_Timer.h"
 	#elif defined(CORE_TEENSY)
-		#warning "CORE_TEENSY"
 		#include "MIDI_Device_Controller/ITimer/TimerOne_Timer.h"
 	#elif defined(ESP32)
-		#warning "TODO: Implement ESP32 timer"
-		//TODO: Implement ESP32 timer
+		#error "TODO: Implement ESP32 timer"
 	#endif
+
+	#define MAX_PULSE_DEVICES 2
 
 	///[MDC] Controls and manages various MIDI device objects
 	class MIDI_Device_Controller
@@ -49,13 +50,10 @@
 		private:
 			static MIDI_Pitch *_pitchDevices[MAX_PITCH_DEVICES];
 			static MIDI_Pitch *_enabledPitchDevices[MAX_PITCH_DEVICES];
+			static IPulseNotes *_pulseDevices[MAX_PULSE_DEVICES];
 			static uint8_t _numEnabled;
 			
 			uint8_t reloadEnabledDevices();
-			
-			static MIDI_SN74HC595N *_SN74HC595N;
-			
-			static MIDI_Digital_IO *_digitalIO;
 			
 		public:
 			///Prints status information about this controller to Serial

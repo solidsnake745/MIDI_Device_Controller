@@ -39,6 +39,7 @@
 			void pulseOutput(uint8_t out);
 			void stopOutput(uint8_t out);
 			void stopOutputs();
+			void playNotes(); //Operates the SPI bus per desired MIDI output
 			
 			void testRegistersDirect();
 			
@@ -55,7 +56,6 @@
 			uint16_t _maxOutput = 0;
 			MIDI_Device_Controller *_belongsTo = NULL;
 			
-			void playNotes(); //Operates the SPI bus per desired MIDI output
 			void updateDurations();
 			void updateSN74HC595N();
 			
