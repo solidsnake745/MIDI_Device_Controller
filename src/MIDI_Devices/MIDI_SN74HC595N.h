@@ -33,7 +33,12 @@
 				digitalWrite(_latchPin, LOW);
 			};
 			
-			inline void setDuration(uint32_t limit) { _maxDuration.microsec = limit; };
+			inline void setDuration(uint32_t limit)
+			{
+				_maxDuration.reset();
+				_maxDuration.addMicroseconds(limit);
+			};
+			
 			inline void setWriteDirection(bool value) { _writeDirection = value; };			
 			
 			void pulseOutput(uint8_t out);

@@ -6,10 +6,10 @@
   //@private
   struct noteDuration
   {
-    unsigned int 
-      seconds : 10,
-      millisec : 11,
-      microsec : 11;
+    uint16_t 
+		seconds,
+		millisec,
+		microsec;
 
     noteDuration(){ reset(); }
     
@@ -40,6 +40,43 @@
         
       return false;
     }
+	
+	void addMicroseconds(uint32_t s)
+	{
+		//Add microseconds passed in
+		while(s >= 1000000)
+		{
+			s -= 1000000;			
+			seconds += 1;
+		}
+		
+		while(s >= 1000)
+		{
+			s -= 1000;			
+			millisec += 1;
+		}
+		
+		microsec += s;
+		
+		//Handle carry over logic
+		if(microsec < 1000)
+			return;
+
+		while(microsec >= 1000)
+		{
+			microsec -= 1000;
+			millisec += 1;
+		}
+
+		if(millisec < 1000)
+			return;
+
+		while(millisec >= 1000)
+		{
+			millisec -= 1000;
+			seconds += 1; 
+		}
+	};
   };
 
   //@private
@@ -47,15 +84,14 @@
   class noteDurationTracker
   {
     public:
-      noteDurationTracker();
+      noteDurationTracker() {};
       inline void reset() { _duration.reset(); };
       inline int getSeconds() { return _duration.seconds; };
       inline int getMilliseconds() { return _duration.millisec; };
       inline int getMicroseconds() { return _duration.microsec; };
-      void addMicroseconds(uint32_t s) ;
+      inline void addMicroseconds(uint32_t s) { _duration.addMicroseconds(s); };
       
-      bool operator <(noteDuration &nd) 
-      { return _duration < nd; };
+      inline bool operator <(noteDuration &nd) { return _duration < nd; };
       
     private:
        noteDuration _duration;

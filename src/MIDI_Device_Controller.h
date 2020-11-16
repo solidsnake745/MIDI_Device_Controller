@@ -161,12 +161,12 @@
 		//_______________________________________________________________________________________________________
 		private: 
 			int8_t _ledPin = -1;
-			void LEDOn();
-			void LEDOff();
+			
 		
 		public: 
 			void setLEDPin(int8_t pin);
-		
+			void LEDOn();
+			void LEDOff();
 		//Tests/Debug 
 		//_______________________________________________________________________________________________________
 		//If you make any changes to this library, a good way to ensure

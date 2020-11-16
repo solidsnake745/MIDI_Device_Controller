@@ -32,4 +32,5 @@
 	
 	#define DEBUG_DigitalIO 0
 	#define DEBUG_SN74HC595N 0
+	#define DEBUG_PulseController 0
 #endif

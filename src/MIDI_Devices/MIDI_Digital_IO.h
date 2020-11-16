@@ -35,7 +35,11 @@
 
 			inline uint8_t getRegisterCount() { return _numRegisters; };
 			
-			inline void setDuration(uint32_t limit) { _maxDuration.microsec = limit; };	
+			inline void setDuration(uint32_t limit) 
+			{
+				_maxDuration.reset();
+				_maxDuration.addMicroseconds(limit);
+			};
 			
 			void addOutput(uint8_t pin);
 			void deleteOutput(uint8_t pin);
@@ -59,7 +63,7 @@
 			uint16_t _usedOutputs = 0;
 			MIDI_Device_Controller *_belongsTo = NULL;
 			std::map<uint8_t, uint8_t> _outputMap;
-						
+			
 			void updateDurations();
 			void updateIO();
 			
