@@ -41,6 +41,7 @@
 			
 			inline void setWriteDirection(bool value) { _writeDirection = value; };			
 			
+			bool isValidMapping(uint8_t out);
 			void pulseOutput(uint8_t out);
 			void stopOutput(uint8_t out);
 			void stopOutputs();

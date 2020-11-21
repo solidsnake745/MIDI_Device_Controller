@@ -67,6 +67,15 @@ void MIDI_SN74HC595N::testRegistersInterrupt()
 	_belongsTo->stopPlaying();
 }
 
+bool MIDI_SN74HC595N::isValidMapping(uint8_t out)
+{
+	bool isWithinRange = out <= _maxOutput;
+	if(!isWithinRange)
+		_debug.debugln(20, F("Output %d is not valid; Max is %d"), out, _maxOutput);
+	
+	return isWithinRange;
+}
+
 void MIDI_SN74HC595N::pulseOutput(uint8_t out)
 {
 	_debug.debugln(20, F("Attempting to pulse output: %d"), out);

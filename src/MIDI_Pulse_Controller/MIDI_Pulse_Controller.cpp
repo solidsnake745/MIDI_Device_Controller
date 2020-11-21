@@ -32,7 +32,7 @@ void MIDI_Pulse_Controller::addMapping(uint8_t note, PulseDevice device, uint8_t
 	switch(device)
 	{
 		case PulseDevice::DigitalIO:
-			d = MDC.getDigitalIO();
+			d = MDC.getDigitalIO();			
 			break;
 			
 		case PulseDevice::SN74HC595N:
@@ -47,14 +47,17 @@ void MIDI_Pulse_Controller::addMapping(uint8_t note, PulseDevice device, uint8_t
 		return;
 	}		
 
-	_noteMap[note] = new mapEntry(d, output);
+	if(d->isValidMapping(output))
+		_noteMap[note] = new mapEntry(d, output);
+	else
+		_debug.debugln(15, F("Mapping to output %d is not valid"), output);
 }
 
 void MIDI_Pulse_Controller::deleteMapping(uint8_t note)
 {	
 	auto find = _noteMap.find(note);
 	if(find == _noteMap.end())
-		_debug.debugln(20, F("Note %d is not mapped"), note);
+		_debug.debugln(15, F("Note %d is not mapped"), note);
 	else
 	{
 		delete(find->second);
@@ -66,7 +69,7 @@ void MIDI_Pulse_Controller::pulseNote(uint8_t note)
 {
 	auto find = _noteMap.find(note);
 	if(find == _noteMap.end())
-		_debug.debugln(20, F("Note %d is not mapped"), note);
+		_debug.debugln(15, F("Note %d is not mapped"), note);
 	else
 	{
 		mapEntry* e = find->second;
@@ -78,7 +81,7 @@ void MIDI_Pulse_Controller::stopNote(uint8_t note)
 {
 	auto find = _noteMap.find(note);
 	if(find == _noteMap.end())
-		_debug.debugln(20, F("Note %d is not mapped"), note);
+		_debug.debugln(15, F("Note %d is not mapped"), note);
 	else
 	{
 		mapEntry* e = find->second;

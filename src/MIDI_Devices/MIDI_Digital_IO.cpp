@@ -100,6 +100,15 @@ void MIDI_Digital_IO::deleteOutput(uint8_t pin)
 	}
 }
 
+bool MIDI_Digital_IO::isValidMapping(uint8_t out)
+{
+	bool hasBeenAdded = _outputMap.count(out) > 0;
+	if(!hasBeenAdded)
+		_debug.debugln(20, F("Pin %d is not an added output"), out);
+	
+	return hasBeenAdded;
+}
+
 void MIDI_Digital_IO::pulseOutput(uint8_t out)
 {
 	_debug.debugln(20, F("Attempting to pulse output: %d"), out);

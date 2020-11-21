@@ -44,6 +44,7 @@
 			void addOutput(uint8_t pin);
 			void deleteOutput(uint8_t pin);
 			
+			bool isValidMapping(uint8_t out);
 			void pulseOutput(uint8_t out);
 			void stopOutput(uint8_t out);
 			void stopOutputs();
