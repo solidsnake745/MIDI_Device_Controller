@@ -5,12 +5,11 @@
 	#include "MDC_Extras.h"
 	#include <Arduino.h>	
 	#include "MIDI_Device_Controller/MIDI_Periods.h"
-	#include "MIDI_Devices/MIDI_Pitch.h"
+	#include "MIDI_Pitch/MIDI_Pitch.h"
 	#include "SerialDebug/SerialDebug.h"
 
-	#include "MIDI_Devices/PulseDeviceEnum.h"
-	#include "MIDI_Devices/MIDI_SN74HC595N.h"
-	#include "MIDI_Devices/MIDI_Digital_IO.h"
+	#include "IO_Factory/IO_Factory.h"
+	#include "IO_Devices/IO_Device.h"
 
 	#include "MIDI_Device_Controller/ITimer/ITimer.h"
 	//Resolve timer interrupt implementation
@@ -19,18 +18,18 @@
 	#elif defined(CORE_TEENSY)
 		#include "MIDI_Device_Controller/ITimer/TimerOne_Timer.h"
 	#elif defined(ESP32)
-		#error "TODO: Implement ESP32 timer"
+		#error "TODO: Implement ESP32"
 	#endif
 
-	#define MAX_PULSE_DEVICES 2
+	//Forward declaration for compiling
+	class MIDI_Pulse_Controller;
 
 	///[MDC] Controls and manages various MIDI device objects
 	class MIDI_Device_Controller
 	{
 		// Give Device access to all private members
-		friend class MIDI_Pitch;
-		friend class MIDI_SN74HC595N;
-		friend class MIDI_Digital_IO;
+		friend class MIDI_Pitch;		
+		friend class MIDI_Pulse_Controller;
 		
 		static SerialDebug _debug;
 		
@@ -50,7 +49,6 @@
 		private:
 			static MIDI_Pitch *_pitchDevices[MAX_PITCH_DEVICES];
 			static MIDI_Pitch *_enabledPitchDevices[MAX_PITCH_DEVICES];
-			static IPulseNotes *_pulseDevices[MAX_PULSE_DEVICES];
 			static uint8_t _numEnabled;
 			
 			uint8_t reloadEnabledDevices();
@@ -77,12 +75,6 @@
 				\param index Index to try deleting the device from
 			*/
 			void deleteDevice(uint8_t index);
-
-			void setSN74HC595N(MIDI_SN74HC595N *device);
-			MIDI_SN74HC595N *getSN74HC595N();
-			
-			void setDigitalIO(MIDI_Digital_IO *device);
-			MIDI_Digital_IO *getDigitalIO();
 			
 			void resetDevicePositions();
 			void calibrateDevicePositions();

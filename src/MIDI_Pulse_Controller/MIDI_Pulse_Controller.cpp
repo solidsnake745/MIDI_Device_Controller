@@ -1,4 +1,5 @@
 #include "MIDI_Pulse_Controller.h"
+#include "../MIDI_Device_Controller.h" //Need the definition of noteAssigned()
 
 SerialDebug MIDI_Pulse_Controller::_debug(DEBUG_PulseController);
 
@@ -18,7 +19,7 @@ MIDI_Pulse_Controller &MIDI_Pulse_Controller::getInstance()
 	return *_instance;
 }
 
-void MIDI_Pulse_Controller::addMapping(uint8_t note, PulseDevice device, uint8_t output)
+void MIDI_Pulse_Controller::addMapping(uint8_t note, IO_DeviceEnum device, uint8_t output)
 {
 	//Check note is not already mapped
 	if(_noteMap.count(note) > 0)
@@ -28,17 +29,7 @@ void MIDI_Pulse_Controller::addMapping(uint8_t note, PulseDevice device, uint8_t
 	}
 	
 	//Retrieve device to map to
-	IPulseNotes* d = NULL;
-	switch(device)
-	{
-		case PulseDevice::DigitalIO:
-			d = MDC.getDigitalIO();			
-			break;
-			
-		case PulseDevice::SN74HC595N:
-			d = MDC.getSN74HC595N();
-			break;
-	}
+	IO_Device* d = IOF.getDevice(device);
 	
 	//Check the device is populated
 	if(!d)
@@ -48,7 +39,10 @@ void MIDI_Pulse_Controller::addMapping(uint8_t note, PulseDevice device, uint8_t
 	}		
 
 	if(d->isValidMapping(output))
+	{
+		d->setMaxDuration(output, _defaultDuration);
 		_noteMap[note] = new mapEntry(d, output);
+	}		
 	else
 		_debug.debugln(15, F("Mapping to output %d is not valid"), output);
 }
@@ -73,7 +67,8 @@ void MIDI_Pulse_Controller::pulseNote(uint8_t note)
 	else
 	{
 		mapEntry* e = find->second;
-		e->device->pulseOutput(e->out);
+		e->device->setOutput(e->out, true);
+		MDC.noteAssigned();
 	}
 }
 
@@ -85,18 +80,18 @@ void MIDI_Pulse_Controller::stopNote(uint8_t note)
 	else
 	{
 		mapEntry* e = find->second;
-		e->device->stopOutput(e->out);
+		e->device->setOutput(e->out, false);
 	}
 }
 
 void MIDI_Pulse_Controller::stopNotes()
 {
-	IPulseNotes* d;
-	d = MDC.getDigitalIO();
+	IO_Device* d;
+	d = IOF.getDevice(DigitalWrite);;
 	if(d)
-		d->stopOutputs();
+		d->stopOuts();
 	
-	d = MDC.getSN74HC595N();
+	d = IOF.getDevice(SN74HC595N);
 	if(d)
-		d->stopOutputs();
+		d->stopOuts();
 }

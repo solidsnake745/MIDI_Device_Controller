@@ -3,6 +3,8 @@
 
 	#include <Arduino.h>
 	#include "MIDI_Device_Controller/MIDI_Periods.h"
+	#include "../IO_Devices/IO_Device.h"
+	#include "../IO_Factory/IO_Factory.h"
 	#include "../SerialDebug/SerialDebug.h"
 
 	//Forward declaration for compiling
@@ -22,22 +24,21 @@
 			//Nothing here
 			
 		public:
-			MIDI_Pitch(int8_t stepPin, int8_t dirPin = -1, int32_t maxPosition = -1);
+			MIDI_Pitch();
 			~MIDI_Pitch();
 		
 		//Configuration
 		//_____________________________________________________________________________________________
 		private:
 			uint8_t _id;
-			
-			//Enabled (disabled devices will not play notes)
-			bool _enabled = false;
 		
 			//Designated step pin mapping where -1 indicates no pin is assigned
 			int8_t _stepPinMap = -1;
+			IO_Device* _stepIO = NULL;
 
 			//Designated direction pin mapping where -1 indicates no pin is assigned					
 			int8_t _dirPinMap = -1;
+			IO_Device* _dirIO = NULL;
 			
 			//Max number of steps the device can take before needing to switch directions where -1 indicates it does not have a max
 			//NOTE: Setting to -1 disables position tracking functionality all together
@@ -45,20 +46,8 @@
 			
 			MIDI_Device_Controller *_belongsTo = NULL;
 			
-			//Intializes an individual device
-			void initialize();
-			
-			//Sets the associated step pin
-			void setStepPin(int8_t pin);
-			
-			//Sets the associated direction pin
-			void setDirPin(int8_t pin);		
-			
 			void setController(MIDI_Device_Controller *controller);
 			void setID(uint8_t value);
-			
-			//Setup this pitch device
-			void setup(int8_t stepPin, int8_t dirPin, int32_t maxPosition);
 			
 			//Indicates whether a device is at or beyond it's max position    	
 			bool isAtMaxPosition();
@@ -71,7 +60,6 @@
 			int8_t getStepPin();
 			int8_t getDirPin();
 			int16_t getMaxPosition();
-			bool getEnabled(); 
 			
 			//Indicates whether a device is available for note assignment
 			bool isAvailable();
@@ -79,8 +67,13 @@
 			//Indicates whether a device is tracking and changing direction
 			bool isTrackingPosition(); 
 
+			//Sets the associated step pin
+			void setStepPin(IO_DeviceEnum device, int8_t pin);
+			
+			//Sets the associated direction pin
+			void setDirPin(IO_DeviceEnum device, int8_t pin);
+			
 			void setMaxPosition(int32_t value);
-			void setEnabled(bool value);
 			
 		//Operation
 		//_____________________________________________________________________________________________
@@ -115,8 +108,6 @@
 			//Gets the period currently being played
 			int16_t getCurrentPeriod();
 			
-			uint32_t getDuration();
-			
 			//Sets the state of the associated step pin
 			void setStepState(bool state); 
 			
@@ -134,7 +125,7 @@
 			
 			//Operates device per desired MIDI output
 			void playNotes();
-						
+			
 		public:
 			bool getStepState();
 			bool getDirState();
@@ -167,6 +158,9 @@
 			//Nothing here
 			
 		public:
+			//Plays Do-Re-Mi scale
+			void testDoReMi(uint8_t ocatve = 0, uint16_t noteDuration = 150, uint16_t noteGap = 50);
+		
 			//Tests the stepping capability of the given device
 			void testStepping(uint32_t steps);
 
@@ -177,8 +171,5 @@
 			
 			//Operates a given device to it's max position and back
 			void testMaxDirection();
-
-			//Runs all above tests consecutively
-			void runAllTests();
 	};
 #endif

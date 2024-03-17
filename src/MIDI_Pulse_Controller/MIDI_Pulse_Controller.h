@@ -1,17 +1,18 @@
 #ifndef MIDI_Pulse_Controller_h
 	#define MIDI_Pulse_Controller_h
-
+	
+	#include "../MIDI_Device_Controller.h"
 	#include "../SerialDebug/SerialDebug.h"
 	#include "../MIDI_Device_Controller.h"
-	#include "../MIDI_Devices/PulseDeviceEnum.h"
-	#include "../MIDI_Devices/IPulseNotes.h"
-	#include "../MIDI_Devices/MIDI_SN74HC595N.h"
-	#include "../MIDI_Devices/MIDI_Digital_IO.h"
+	#include "../IO_Devices/IO_Device.h"
+	#include "../IO_Factory/IO_Factory.h"
 	
 	//Resolve STL dependency
 	#if defined(ARDUINO_ARCH_AVR)
-		#include "ArduinoSTL.h"
-		#include "map"
+		//#include "../Common/ArduinoSTLClone/ArduinoSTL.h"
+		#include "../Common/ArduinoSTLClone/map"
+		//#include <ArduinoSTL.h>
+		//#include "map"
 	#elif defined(CORE_TEENSY)
 		#include <map>
 	#elif defined(ESP32)
@@ -30,32 +31,36 @@
 		struct mapEntry
 		{
 			mapEntry() {};
-			mapEntry(IPulseNotes* d, uint8_t o) 
+			mapEntry(IO_Device* d, uint8_t o) 
 			{
 				device = d;
 				out = o;
 			};
 			
-			IPulseNotes* device = NULL;
+			IO_Device* device = NULL;
 			uint8_t out;
 		};
 	
 		std::map<uint8_t, mapEntry*> _noteMap;
-
+		
+		uint32_t _defaultDuration = 5000;
+		
 		public:
 			//Used to populate our single instance MDF for consumption
 			/// @private
 			static MIDI_Pulse_Controller &getInstance();			
 			
+			inline void setDefaultDuration(uint32_t limit) { _defaultDuration = limit; };
+			
 			///Adds a mapping between note and pulse device output
 			/*!
 				\param note MIDI note to map
-				\param device Pulse device to map to
+				\param device IO device to map to
 				\param output Output of the device to map to
 			*/
-			void addMapping(uint8_t note, PulseDevice device, uint8_t output);
+			void addMapping(uint8_t note, IO_DeviceEnum device, uint8_t output);
 			
-			void deleteMapping(uint8_t note);
+			void deleteMapping(uint8_t note);			
 			
 			void pulseNote(uint8_t note);
 			void stopNote(uint8_t note);

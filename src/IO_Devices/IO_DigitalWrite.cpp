@@ -1,9 +1,9 @@
-#include "MIDI_Digital_IO.h"
-#include "../MIDI_Device_Controller.h" //Need the definition of noteAssigned()
+#include "IO_DigitalWrite.h"
+//#include "../MIDI_Device_Controller.h" //Need the definition of noteAssigned()
 
-SerialDebug MIDI_Digital_IO::_debug(DEBUG_DigitalIO);
+SerialDebug IO_DigitalWrite::_debug(DEBUG_DigitalIO);
 
-MIDI_Digital_IO::MIDI_Digital_IO(uint8_t numOutputs) 
+IO_DigitalWrite::IO_DigitalWrite(uint8_t numOutputs) 
 {
 	if(numOutputs == 0)
 		numOutputs = 1;
@@ -21,35 +21,20 @@ MIDI_Digital_IO::MIDI_Digital_IO(uint8_t numOutputs)
 	//Nothing to do here without mappings
 };
 
-void MIDI_Digital_IO::testOutputsDirect()
+void IO_DigitalWrite::testOutputs()
 {
 	auto out = _outputMap.begin();
 	while(out != _outputMap.end())
 	{
 		digitalWrite(out->first, HIGH);
-		delay(50);
+		delay(250);
 		digitalWrite(out->first, LOW);
+		delay(250);
 		out++;
 	}
 }
 
-void MIDI_Digital_IO::testOutputsInterrupt()
-{
-	_belongsTo->startPlaying();
-	
-	auto out = _outputMap.begin();
-	while(out != _outputMap.end())
-	{
-		pulseOutput(out->first);
-		delay(50);		
-		out++;
-	}
-	
-	delay(50);
-	_belongsTo->stopPlaying();
-}
-
-void MIDI_Digital_IO::addOutput(uint8_t pin)
+void IO_DigitalWrite::addOutput(uint8_t pin)
 {
 	//Check there are outputs available
 	if(_usedOutputs == _maxOutputs)
@@ -70,7 +55,7 @@ void MIDI_Digital_IO::addOutput(uint8_t pin)
 	{
 		bool used = false;
 		auto search = _outputMap.begin();
-		while(search != _outputMap.end())
+		while(search != _outputMap.end() && !used)
 		{
 			used = search->second == out || used;
 			search++;
@@ -88,7 +73,7 @@ void MIDI_Digital_IO::addOutput(uint8_t pin)
 	}
 }
 
-void MIDI_Digital_IO::deleteOutput(uint8_t pin)
+void IO_DigitalWrite::deleteOutput(uint8_t pin)
 {
 	auto find = _outputMap.find(pin);
 	if(find == _outputMap.end())
@@ -100,7 +85,7 @@ void MIDI_Digital_IO::deleteOutput(uint8_t pin)
 	}
 }
 
-bool MIDI_Digital_IO::isValidMapping(uint8_t out)
+bool IO_DigitalWrite::isValidMapping(uint8_t out)
 {
 	bool hasBeenAdded = _outputMap.count(out) > 0;
 	if(!hasBeenAdded)
@@ -109,9 +94,25 @@ bool MIDI_Digital_IO::isValidMapping(uint8_t out)
 	return hasBeenAdded;
 }
 
-void MIDI_Digital_IO::pulseOutput(uint8_t out)
+void IO_DigitalWrite::setMaxDuration(uint8_t out, uint32_t us)
 {
-	_debug.debugln(20, F("Attempting to pulse output: %d"), out);
+	auto find = _outputMap.find(out);
+	if(find == _outputMap.end())
+	{
+		_debug.debugln(20, F("Pin %d is not an added output"), out);
+		return;
+	}
+	
+	uint8_t registerIndex = find->second/8;
+	uint8_t bitIndex = find->second%8;
+	_debug.debugln(15, F("Calculated register %d and output %d"), registerIndex, bitIndex);
+	
+	_registers[registerIndex].setMaxDuration(bitIndex, us);
+}
+
+void IO_DigitalWrite::setOutput(uint8_t out, bool value)
+{
+	_debug.debugln(20, F("Attempting to set output: %d"), out);
 	
 	auto find = _outputMap.find(out);
 	if(find == _outputMap.end())
@@ -121,52 +122,22 @@ void MIDI_Digital_IO::pulseOutput(uint8_t out)
 	}
 	
 	//Calculate which register and bit this output correlates to
-	uint8_t registerIndex = out/8;
-	uint8_t bitIndex = out%8;
+	uint8_t registerIndex = find->second/8;
+	uint8_t bitIndex = find->second%8;
 	_debug.debugln(15, F("Calculated register %d and output %d"), registerIndex, bitIndex);
 	
 	//Set the output if not already set
-	if(_registers[registerIndex].getOutput(bitIndex) == true)
+	if(_registers[registerIndex].getBit(bitIndex) == value)
 	{
-		_debug.debugln(15, F("Output %d is already active"), out);
+		_debug.debugln(15, F("Output %d is already %d"), value);
 		return;
 	}
 	
-	_registers[registerIndex].setOutput(bitIndex);
-	_outputsChanged = true;
-	
-	if(_belongsTo) 
-		_belongsTo->noteAssigned();
-}
-
-void MIDI_Digital_IO::stopOutput(uint8_t out)
-{
-	_debug.debugln(20, F("Attempting to stop output: %d"), out);
-	
-	auto find = _outputMap.find(out);
-	if(find == _outputMap.end())
-	{
-		_debug.debugln(20, F("Pin %d is not an added output"), out);
-		return;
-	}
-	
-	//Calculate which register and bit this output correlates to
-	uint8_t registerIndex = out/8;
-	uint8_t bitIndex = out%8;
-	_debug.debugln(15, F("Calculated register %d and output %d"), registerIndex, bitIndex);
-	
-	//Clear the output if not already cleared
-	if(_registers[registerIndex].getOutput(bitIndex) == false)
-	{
-		_debug.debugln(15, F("Output %d is already stopped"), out);
-		return;
-	}
-	
-	_registers[registerIndex].clearOutput(bitIndex);
+	_registers[registerIndex].setBitValue(bitIndex, value);
 	_outputsChanged = true;
 }
 
-void MIDI_Digital_IO::stopOutputs()
+void IO_DigitalWrite::stopOuts()
 {
 	_debug.debugln(20, F("Attempting to stop all actives notes"));
 	
@@ -175,7 +146,7 @@ void MIDI_Digital_IO::stopOutputs()
 	{
 		uint8_t registerIndex = out->second/8;
 		uint8_t bitIndex = out->second%8;
-		_registers[registerIndex].clearOutput(bitIndex);
+		_registers[registerIndex].clearBit(bitIndex);
 		out++;
 	}
 	
@@ -183,26 +154,26 @@ void MIDI_Digital_IO::stopOutputs()
 	updateIO();
 }
 
-void MIDI_Digital_IO::playNotes()
+void IO_DigitalWrite::updateOuts()
 {
-	_debug.debugln(50, F("playNotes begin"));
+	_debug.debugln(50, F("updateOuts begin"));
 	
 	updateIO();
 	updateDurations();
 };
 
-void MIDI_Digital_IO::updateDurations()
+void IO_DigitalWrite::updateDurations()
 {	
 	_debug.debugln(50, F("updateDurations begin"));
 	
 	for(int x = 0; x < _numRegisters; x++)
 	{
-		bool registerUpdated = _registers[x].updateDurations(MIDI_Periods::getResolution(), _maxDuration);
+		bool registerUpdated = _registers[x].updateDurations(MIDI_Periods::getResolution());
 		_outputsChanged = _outputsChanged || registerUpdated;
 	}
 };
 
-void MIDI_Digital_IO::updateIO()
+void IO_DigitalWrite::updateIO()
 {	
 	_debug.debugln(50, F("updateIO begin"));
 	
@@ -220,14 +191,9 @@ void MIDI_Digital_IO::updateIO()
 		uint8_t registerIndex = out->second/8;
 		uint8_t bitIndex = out->second%8;
 		
-		digitalWrite(out->first, _registers[registerIndex].getOutput(bitIndex));
+		digitalWrite(out->first, _registers[registerIndex].getBit(bitIndex));
 		out++;
 	}
 	
 	_outputsChanged = false;
 };
-
-void MIDI_Digital_IO::setController(MIDI_Device_Controller *controller)
-{
-	_belongsTo = controller;
-}

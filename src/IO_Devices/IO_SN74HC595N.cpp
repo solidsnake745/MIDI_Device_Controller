@@ -1,9 +1,10 @@
-#include "MIDI_SN74HC595N.h"
+#include "IO_SN74HC595N.h"
 #include "../MIDI_Device_Controller.h" //Need the definition of noteAssigned()
 
-SerialDebug MIDI_SN74HC595N::_debug(DEBUG_SN74HC595N);
+SerialDebug IO_SN74HC595N::_debug(DEBUG_SN74HC595N);
+constexpr unsigned char IO_SN74HC595N::lookup[];
 
-MIDI_SN74HC595N::MIDI_SN74HC595N(uint8_t numRegisters, uint8_t latchPin) 
+IO_SN74HC595N::IO_SN74HC595N(uint8_t numRegisters, uint8_t latchPin) 
 {
 	if(numRegisters == 0)
 		numRegisters = 1;
@@ -27,7 +28,7 @@ MIDI_SN74HC595N::MIDI_SN74HC595N(uint8_t numRegisters, uint8_t latchPin)
 	latchRegisters();
 };
 
-void MIDI_SN74HC595N::testRegistersDirect()
+void IO_SN74HC595N::testOutputs()
 {	
 	//Enable each output on each register gradually
 	_debug.println(F("Testing each register's individual outputs"));
@@ -43,7 +44,7 @@ void MIDI_SN74HC595N::testRegistersDirect()
 			latchRegisters();			
 		}
 		
-		delay(50);
+		delay(250);
 	}
 	
 	//Clear registers
@@ -54,20 +55,7 @@ void MIDI_SN74HC595N::testRegistersDirect()
 	}
 }
 
-void MIDI_SN74HC595N::testRegistersInterrupt()
-{	
-	_belongsTo->startPlaying();
-	for(int x = 0; x <= _maxOutput; x++)
-	{
-		pulseOutput(x);
-		delay(50);
-	}
-	
-	delay(50);
-	_belongsTo->stopPlaying();
-}
-
-bool MIDI_SN74HC595N::isValidMapping(uint8_t out)
+bool IO_SN74HC595N::isValidMapping(uint8_t out)
 {
 	bool isWithinRange = out <= _maxOutput;
 	if(!isWithinRange)
@@ -76,9 +64,24 @@ bool MIDI_SN74HC595N::isValidMapping(uint8_t out)
 	return isWithinRange;
 }
 
-void MIDI_SN74HC595N::pulseOutput(uint8_t out)
+void IO_SN74HC595N::setMaxDuration(uint8_t out, uint32_t us)
 {
-	_debug.debugln(20, F("Attempting to pulse output: %d"), out);
+	if(out > _maxOutput)
+	{
+		_debug.debugln(15, F("Output %d is out of range; Max is %d"), out, _maxOutput);
+		return;
+	}
+	
+	uint8_t registerIndex = out/8;
+	uint8_t bitIndex = out%8;
+	_debug.debugln(15, F("Calculated register %d and output %d"), registerIndex, bitIndex);
+	
+	_registers[registerIndex].setMaxDuration(bitIndex, us);
+}
+
+void IO_SN74HC595N::setOutput(uint8_t out, bool value)
+{
+	_debug.debugln(20, F("Attempting to set output: %d"), out);
 	
 	if(out > _maxOutput)
 	{
@@ -92,77 +95,53 @@ void MIDI_SN74HC595N::pulseOutput(uint8_t out)
 	_debug.debugln(15, F("Calculated register %d and output %d"), registerIndex, bitIndex);
 	
 	//Set the output if not already set
-	if(_registers[registerIndex].getOutput(bitIndex) == true)
+	if(_registers[registerIndex].getBit(bitIndex) == value)
 	{
-		_debug.debugln(15, F("Output %d is already active"), out);
+		_debug.debugln(15, F("Output %d is already %d"), value);
 		return;
 	}
 	
-	_registers[registerIndex].setOutput(bitIndex);
-	_registersChanged = true;
-	
-	if(_belongsTo) 
-		_belongsTo->noteAssigned();
-}
-
-void MIDI_SN74HC595N::stopOutput(uint8_t out)
-{
-	_debug.debugln(20, F("Attempting to stop output: %d"), out);
-	
-	if(out > _maxOutput)
-	{
-		_debug.debugln(15, F("Output %d is out of range; Max is %d"), out, _maxOutput);
-		return;
-	}
-	
-	//Calculate which register and bit this output correlates to
-	uint8_t registerIndex = out/8;
-	uint8_t bitIndex = out%8;
-	_debug.debugln(15, F("Calculated register %d and output %d"), registerIndex, bitIndex);
-	
-	//Clear the output if not already cleared
-	if(_registers[registerIndex].getOutput(bitIndex) == false)
-	{
-		_debug.debugln(15, F("Output %d is already stopped"), out);
-		return;
-	}
-	
-	_registers[registerIndex].clearOutput(bitIndex);
+	_registers[registerIndex].setBitValue(bitIndex, value);
 	_registersChanged = true;
 }
 
-void MIDI_SN74HC595N::stopOutputs()
+void IO_SN74HC595N::stopOuts()
 {
 	_debug.debugln(20, F("Attempting to stop all actives notes"));
 	
 	for(int bitIndex = 0; bitIndex < 8; bitIndex++)
 		for(int registerIndex = 0; registerIndex < _numRegisters; registerIndex++)
-			_registers[registerIndex].clearOutput(bitIndex);
+			_registers[registerIndex].clearBit(bitIndex);
 	
 	_registersChanged = true;
 	updateSN74HC595N();
 }
 
-void MIDI_SN74HC595N::playNotes()
+void IO_SN74HC595N::updateOuts()
 {
-	_debug.debugln(50, F("playNotes begin"));
+	_debug.debugln(50, F("updateOuts begin"));
 	
 	updateSN74HC595N();
 	updateDurations();
 };
 
-void MIDI_SN74HC595N::updateDurations()
+uint8_t IO_SN74HC595N::reverse(uint8_t n) {
+   // Reverse the top and bottom nibble then swap them.
+   return (lookup[n&0b1111] << 4) | lookup[n>>4];
+}
+
+void IO_SN74HC595N::updateDurations()
 {	
 	_debug.debugln(50, F("updateDurations begin"));
 	
 	for(int x = 0; x < _numRegisters; x++)
 	{
-		bool registerUpdated = _registers[x].updateDurations(MIDI_Periods::getResolution(), _maxDuration);
+		bool registerUpdated = _registers[x].updateDurations(MIDI_Periods::getResolution());
 		_registersChanged = _registersChanged || registerUpdated;
 	}
 };
 
-void MIDI_SN74HC595N::updateSN74HC595N()
+void IO_SN74HC595N::updateSN74HC595N()
 {	
 	_debug.debugln(50, F("updateSN74HC595N begin"));
 	
@@ -174,14 +153,14 @@ void MIDI_SN74HC595N::updateSN74HC595N()
 	
 	_debug.debugln(20, F("Registers have changed"));		
 	uint8_t newValues[_numRegisters];
-	uint8_t newIndex = _writeDirection ? _numRegisters - 1 : 0;
+	uint8_t newIndex = !_writeDirection ? _numRegisters - 1 : 0;
 	
 	_debug.debug(3, F("New register values: "));
 	for(int x = 0; x < _numRegisters; x++)
 	{
-		_debug.debug(3, F("%d, "), _registers[x].getOutputs());
-		newValues[newIndex] = _registers[x].getOutputs();
-		newIndex = _writeDirection ? newIndex - 1 : newIndex + 1;
+		newValues[newIndex] = !_writeDirection ? _registers[x].getByteValue() : reverse(_registers[x].getByteValue());
+		_debug.debug(3, F("%d (%d), "), _registers[x].getByteValue(), newValues[newIndex]);
+		newIndex = !_writeDirection ? newIndex - 1 : newIndex + 1;
 	}
 	_debug.debugln(3);
 	
@@ -190,8 +169,3 @@ void MIDI_SN74HC595N::updateSN74HC595N()
 
 	_registersChanged = false;
 };
-
-void MIDI_SN74HC595N::setController(MIDI_Device_Controller *controller)
-{
-	_belongsTo = controller;
-}

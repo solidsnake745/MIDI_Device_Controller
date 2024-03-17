@@ -5,9 +5,9 @@ SerialDebug MIDI_Pitch::_debug(DEBUG_DEVICE);
 
 //Constructors
 //_____________________________________________________________________________________________
-MIDI_Pitch::MIDI_Pitch(int8_t stepPin, int8_t dirPin, int32_t maxPosition)
-{	
-	setup(stepPin, dirPin, maxPosition);	
+MIDI_Pitch::MIDI_Pitch()
+{
+	resetProperties(true);
 	_debug.debugln(8, F("Device created"));
 }
 
@@ -23,57 +23,35 @@ void MIDI_Pitch::setController(MIDI_Device_Controller *controller)
 	_belongsTo = controller;
 }
 
-void MIDI_Pitch::setup(int8_t stepPin, int8_t dirPin, int32_t maxPosition)
-{
-	_debug.debugln(7, F("%d - Setting up device"), _id);
-	
-	//Set properties from inputs
-	setStepPin(stepPin);
-	setDirPin(dirPin);
-	setMaxPosition(maxPosition);
-	
-	initialize();
-}
-
-void MIDI_Pitch::initialize()
-{
-	//Initialize/reset device properties to an initial state
-	resetProperties(true);
-
-	//Setup mapped step pin
+void MIDI_Pitch::setStepPin(IO_DeviceEnum device, int8_t pin) 
+{ 
+	_stepPinMap = pin; 
 	if (_stepPinMap >= 0)
 	{
-		pinMode(_stepPinMap, OUTPUT);
-		setStepState(LOW);
-		_enabled = true;
-	}
-	else
-	{
-		//If no valid pin setup for step, disable the device
-		_enabled = false;
-	}
-
-	//Setup mapped direction pin
-	if (_dirPinMap >= 0)
-	{
-		pinMode(_dirPinMap, OUTPUT);
-		setDirState(LOW);
-	}
-	else
-	{
-		//If no valid pin setup for direction, disable position tracking
-		_maxPosition = -1;
+		_stepIO = IOF.getDevice(device);
+		if(_stepIO && _stepIO->isValidMapping(_stepPinMap))
+			_stepIO->setMaxDuration(_stepPinMap, 0);
+		else
+			_stepPinMap = -1;		
 	}
 }
 
-void MIDI_Pitch::setStepPin(int8_t pin) { _stepPinMap = pin; }
-
-void MIDI_Pitch::setDirPin(int8_t pin) { _dirPinMap = pin; }
+void MIDI_Pitch::setDirPin(IO_DeviceEnum device, int8_t pin) 
+{ 
+	_dirPinMap = pin;
+	if (_dirPinMap >= 0)
+	{
+		_dirIO = IOF.getDevice(device);
+		if(_dirIO && _dirIO->isValidMapping(_dirPinMap))
+			_dirIO->setMaxDuration(_dirPinMap, 0);
+		else
+			_dirPinMap = -1;
+	}
+}
 
 void MIDI_Pitch::printStatus()
 {
 	_debug.println(F("Status for device %d"), _id);
-	_debug.println(F("  Enabled: %d"), getEnabled());
 	_debug.println(F("  Is Enabled: %d"), isEnabled());
 	_debug.println(F("  Step Pin: %d"), getStepPin());
 	_debug.println(F("  Step State: %d"), _stepState);
@@ -93,9 +71,6 @@ int8_t MIDI_Pitch::getStepPin() { return _stepPinMap; }
 int8_t MIDI_Pitch::getDirPin() { return _dirPinMap; }
 
 void MIDI_Pitch::setMaxPosition(int32_t value) { _maxPosition = value; }
-void MIDI_Pitch::setEnabled(bool value) { _enabled = value; }
-
-bool MIDI_Pitch::getEnabled() { return _enabled; }
 
 //Operation
 //_____________________________________________________________________________________________
@@ -121,12 +96,10 @@ int16_t MIDI_Pitch::getMaxPosition() { return _maxPosition; }
 int8_t MIDI_Pitch::getCurrentNote() { return _currentNote; }
 int16_t MIDI_Pitch::getBasePeriod() { return *(_referencePeriods + _currentNote); }
 int16_t MIDI_Pitch::getCurrentPeriod() { return _currentPeriod; }
-uint32_t MIDI_Pitch::getDuration() { return _currentDuration; }
 bool MIDI_Pitch::isAvailable() { return _currentNote == -1; }
 bool MIDI_Pitch::isAtMaxPosition() { return _currentPosition >= _maxPosition; }
 bool MIDI_Pitch::isTrackingPosition() { return _maxPosition > 0; }
-
-bool MIDI_Pitch::isEnabled() { return (_enabled && _stepPinMap >= 0); }
+bool MIDI_Pitch::isEnabled() { return (_stepPinMap >= 0); }
 
 void MIDI_Pitch::playNote(uint8_t note)
 {
@@ -146,7 +119,11 @@ void MIDI_Pitch::playNote(uint8_t note)
 
 void MIDI_Pitch::playPeriod(uint16_t period)
 {
-	if(!isEnabled()) return;
+	if(!isEnabled()) 
+	{
+		_debug.debugln(7, F("%d - Not enabled"), _id);
+		return;
+	}
 	
 	_currentNote = 255;	
 	_currentPeriod = period;
@@ -240,20 +217,21 @@ void MIDI_Pitch::resetPosition()
 void MIDI_Pitch::setStepState(bool state)
 {
 	_stepState = state;
-	digitalWrite(_stepPinMap, _stepState);
+	if(_stepPinMap < 0 || !_stepIO) return;
+	_stepIO->setOutput(_stepPinMap, _stepState);
 }
 
 void MIDI_Pitch::setDirState(bool state)
 {
 	_dirState = state;
-	digitalWrite(_dirPinMap, _dirState);
+	if(_dirPinMap < 0 || !_dirIO) return;
+	_dirIO->setOutput(_dirPinMap, _dirState);
 }
 
 void MIDI_Pitch::toggleStep()
 {
 	//Toggle state for given channel's step pin
-	_stepState = !_stepState;
-	digitalWrite(_stepPinMap, _stepState);
+	setStepState(!_stepState);
 	
 	//Increment position
 	if(isTrackingPosition())
@@ -263,9 +241,8 @@ void MIDI_Pitch::toggleStep()
 void MIDI_Pitch::toggleDirection()
 {
 	//Toggle state for given device's direction pin
-	_debug.debugln(7, F("%d - Direction toggle"), _id);
-	_dirState = !_dirState;
-	setDirState(_dirState);
+	_debug.debugln(7, F("%d - Direction toggle"), _id);	
+	setDirState(!_dirState);
 }
 
 void MIDI_Pitch::playNotes()
@@ -311,12 +288,43 @@ void MIDI_Pitch::playNotes()
 
 //Testing/debug
 //_____________________________________________________________________________________________
+
+void MIDI_Pitch::testDoReMi(uint8_t octave, uint16_t noteDuration, uint16_t noteGap)
+{
+	uint8_t noteShift = octave * 12;	
+	
+	playNote(48 + noteShift); delay(noteDuration);
+	stopNote(); delay(noteGap);
+	
+	playNote(50 + noteShift); delay(noteDuration);
+	stopNote(); delay(noteGap);
+	
+	playNote(52 + noteShift); delay(noteDuration);
+	stopNote(); delay(noteGap);
+	
+	playNote(53 + noteShift); delay(noteDuration);
+	stopNote(); delay(noteGap);
+	
+	playNote(55 + noteShift); delay(noteDuration);
+	stopNote(); delay(noteGap);
+	
+	playNote(57 + noteShift); delay(noteDuration);
+	stopNote(); delay(noteGap);
+	
+	playNote(59 + noteShift); delay(noteDuration);
+	stopNote(); delay(noteGap);
+	
+	playNote(60 + noteShift); delay(noteDuration);
+	stopNote(); delay(noteGap);
+}
+
 void MIDI_Pitch::testStepping(uint32_t steps)
 {
 	uint32_t x = 0;
 	while(x++ < steps)
-	{
+	{		
 		toggleStep();
+		if(_belongsTo) _belongsTo->noteAssigned();
 		if(_currentPosition >= _maxPosition)
 		{
 			toggleDirection();
@@ -336,7 +344,7 @@ void MIDI_Pitch::testDirect()
 {
 	for(int16_t i = 0; i <= 50; i++) 
 	{
-		testStepping(2);	
+		testStepping(2);
 		delay(50);
 	}
 }
@@ -349,9 +357,10 @@ void MIDI_Pitch::testMaxDirection()
 		_debug.debugln(7, F("%d - Not tracking position"), _id);
 		return;
 	}
-
+		
 	while(!isAtMaxPosition()) 
 	{ 
+		if(_belongsTo) _belongsTo->noteAssigned();
 		toggleStep(); 
 		delayMicroseconds(5000);
 	}
@@ -363,18 +372,11 @@ void MIDI_Pitch::testMaxDirection()
 
 	while(!isAtMaxPosition()) 
 	{
+		if(_belongsTo) _belongsTo->noteAssigned();
 		toggleStep(); 
 		delayMicroseconds(5000);
 	}
 
 	toggleDirection();
 	zeroPosition();	
-}
-
-void MIDI_Pitch::runAllTests()
-{
-	testDirect(); delay(250);
-	calibratePosition(); delay(250);
-	testMaxDirection(); delay(250);
-	calibratePosition();
 }
