@@ -2,17 +2,15 @@
 	#define MIDI_Pulse_Controller_h
 	
 	#include "../MIDI_Device_Controller.h"
+	#include "../Settings.h"
 	#include "../SerialDebug/SerialDebug.h"
 	#include "../MIDI_Device_Controller.h"
 	#include "../IO_Devices/IO_Device.h"
 	#include "../IO_Factory/IO_Factory.h"
 	
-	//Resolve STL dependency
+	//Resolve map dependency
 	#if defined(ARDUINO_ARCH_AVR)
-		//#include "../Common/ArduinoSTLClone/ArduinoSTL.h"
-		#include "../Common/ArduinoSTLClone/map"
-		//#include <ArduinoSTL.h>
-		//#include "map"
+		#include "../../ArduinoSTLClone/map"
 	#elif defined(CORE_TEENSY)
 		#include <map>
 	#elif defined(ESP32)
@@ -22,7 +20,7 @@
 	///[MPC] Manages mapping MIDI notes to the outputs of pulse devices
 	class MIDI_Pulse_Controller
 	{
-		static SerialDebug _debug;
+		inline static SerialDebug _debug = SerialDebug(DEBUG_PULSECONTROLLER);
 		
 		//Constructor(s)
 		MIDI_Pulse_Controller(); //Disallow creating an instance
@@ -41,7 +39,7 @@
 			uint8_t out;
 		};
 	
-		std::map<uint8_t, mapEntry*> _noteMap;
+		static std::map<uint8_t, mapEntry*> _noteMap;
 		
 		uint32_t _defaultDuration = 5000;
 		

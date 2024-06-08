@@ -2,11 +2,11 @@
 	#define MIDI_Device_Controller_h
 
 	#include "Settings.h"
+	#include "SerialDebug/SerialDebug.h"
 	#include "MDC_Extras.h"
 	#include <Arduino.h>	
 	#include "MIDI_Device_Controller/MIDI_Periods.h"
-	#include "MIDI_Pitch/MIDI_Pitch.h"
-	#include "SerialDebug/SerialDebug.h"
+	#include "MIDI_Pitch/MIDI_Pitch.h"	
 
 	#include "IO_Factory/IO_Factory.h"
 	#include "IO_Devices/IO_Device.h"
@@ -17,10 +17,15 @@
 		#include "MIDI_Device_Controller/ITimer/TimerOne_Timer.h"
 	#elif defined(CORE_TEENSY)
 		#include "MIDI_Device_Controller/ITimer/TimerOne_Timer.h"
-	#elif defined(ESP32)
-		#error "TODO: Implement ESP32"
+	#elif ARDUINO_ARCH_ESP32
+		#warning "TODO: Implement ESP32"
 	#endif
 
+	//0 - Off
+	//1 - Make methods public
+	//2 - Serial print execution time
+	#define ISR_TESTING 1
+	
 	//Forward declaration for compiling
 	class MIDI_Pulse_Controller;
 
@@ -31,7 +36,7 @@
 		friend class MIDI_Pitch;		
 		friend class MIDI_Pulse_Controller;
 		
-		static SerialDebug _debug;
+		inline static SerialDebug _debug = SerialDebug(DEBUG_DEVICECONTROLLER);
 		
 		//Constructors and instance management
 		//_______________________________________________________________________________________________________
@@ -50,7 +55,13 @@
 			static MIDI_Pitch *_pitchDevices[MAX_PITCH_DEVICES];
 			static MIDI_Pitch *_enabledPitchDevices[MAX_PITCH_DEVICES];
 			static uint8_t _numEnabled;
-			
+
+	#if ISR_TESTING
+		//Make reloadEnabledDevices public so we can call it for testing
+		public:
+	#else
+		private:
+	#endif
 			uint8_t reloadEnabledDevices();
 			
 		public:
@@ -79,12 +90,13 @@
 			void resetDevicePositions();
 			void calibrateDevicePositions();
 		
-			void playDeviceNote(int8_t index, uint8_t note);
-			void bendDeviceNote(int8_t index, uint16_t bend);
-			void stopDeviceNote(int8_t index, uint8_t note);
+			void playDeviceNote(uint8_t index, uint8_t note);
+			void bendDeviceNote(uint8_t index, uint16_t bend);
+			void stopDeviceNote(uint8_t index, uint8_t note);
 			
 		//Note Processing
 		//_______________________________________________________________________________________________________
+			
 		private:
 			bool _isPlayingNotes = false;
 			bool _autoPlayNotes = true;
@@ -97,16 +109,22 @@
 			#elif defined(ESP32)
 				//TODO: Implement ESP32 timer
 				ITimer *_timer;
-			#endif
-			
-			//Operates devices during interrupt process
-			void processNotes();
+			#endif	
 			
 			//Static method for interrupt to attach to
 			static void lawl();
 		
 			void noteAssigned();
 		
+	#if ISR_TESTING
+		//Make processNotes public so we can call it for testing
+		public:
+	#else
+		private:
+	#endif
+			//Operates devices during interrupt process
+			void processNotes();
+			
 		public:
 			//Starts the interrupt process to play notes
 			bool startPlaying();
@@ -118,7 +136,7 @@
 			bool process();
 			
 			//Indicates whether note processing is on/off
-			bool isPlayingNotes();
+			inline bool isPlayingNotes() { return _isPlayingNotes; };
 
 		//Settings
 		//_______________________________________________________________________________________________________
@@ -129,36 +147,36 @@
 
 		public:
 			//Indicates whether note processing is automatically started on note assignment
-			bool isAutoPlayEnabled();
+			inline bool isAutoPlayEnabled() { return _autoPlayNotes; };
 			
-			uint8_t getMaxPitchDevices();
-			uint32_t getMaxDuration();
-			void setResolution(uint16_t resolution = DEFAULT_RESOLUTION);
-			
-			///@private
-			void setDebugResolution();
+			inline uint8_t getMaxPitchDevices() { return MAX_PITCH_DEVICES; };
+			inline uint32_t getMaxDuration() { return _maxDuration; };
+			inline void setResolution(uint16_t resolution = DEFAULT_RESOLUTION) { MIDI_Periods::setResolution(resolution); };
 			
 			///@private
-			void setMaxDuration(uint32_t value = MAX_DURATION_DEFAULT);
+			inline void setDebugResolution() { MIDI_Periods::setDebugResolution(); };
+			
+			///@private
+			inline void setMaxDuration(uint32_t value = MAX_DURATION_DEFAULT) { _maxDuration = value; };
 			
 			///Sets the timeout period in milliseconds
 			/*!
 				When idle, all processing and outputs are turned off.
 				\param value Number of milliseconds
 			*/
-			void setIdleTimeout(int16_t value = IDLE_TIMEOUT_DEFAULT);		
-			void setAutoPlay(bool value);
+			inline void setIdleTimeout(int16_t value = IDLE_TIMEOUT_DEFAULT) { _idleTimeout = value; };		
+			inline void setAutoPlay(bool value) { _autoPlayNotes = value; };
 
 		//LED pin functionality
 		//_______________________________________________________________________________________________________
 		private: 
 			int8_t _ledPin = -1;
 			
-		
 		public: 
 			void setLEDPin(int8_t pin);
 			void LEDOn();
 			void LEDOff();
+			
 		//Tests/Debug 
 		//_______________________________________________________________________________________________________
 		//If you make any changes to this library, a good way to ensure
@@ -174,7 +192,7 @@
 			void loadTest(uint8_t numDevices = MAX_PITCH_DEVICES);
 			
 			//Plays a sequence across all devices to test set configuration
-			void playStartupSequence(uint8_t version);
+			void playStartupSequence(uint8_t version = 0);
 	};
 
 	//Defines a global instance of our class for users to consume

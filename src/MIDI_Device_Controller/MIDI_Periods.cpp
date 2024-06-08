@@ -1,7 +1,5 @@
 #include "MIDI_Periods.h"
 
-SerialDebug MIDI_Periods::_debug(DEBUG_MIDI_PERIODS);
-
 uint16_t MIDI_Periods::getOriginalPeriod(uint16_t index) 
 { 
 	return pgm_read_dword(ORIGINAL_PERIODS + index); 
@@ -28,11 +26,6 @@ void MIDI_Periods::calculatePeriods(uint16_t resolution)
 uint16_t MIDI_Periods::calculatedPeriods[];
 constexpr uint32_t MIDI_Periods::ORIGINAL_PERIODS[];
 uint32_t MIDI_Periods::_currentResolution;
-
-uint32_t MIDI_Periods::getResolution() 
-{
-	return _currentResolution;
-}
 
 void MIDI_Periods::setResolution(uint32_t resolution) 
 {

@@ -4,7 +4,7 @@
 	//Standard MIDI message types
 	//Message types range between 0-15 (not all values currently in use)
 	//Limited to 4 bit values though stored in 8 bit field
-	enum class MsgType
+	enum MsgType
 	{
 		Undefined = 0,
 		NoteOff = 8,

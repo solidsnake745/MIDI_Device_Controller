@@ -2,8 +2,6 @@
 #include "Base_MIDI_Pitch_Collection.h"
 #include "MIDI_Pitch_Node.h"
 
-SerialDebug Base_MIDI_Pitch_Collection::_debug(DEBUG_DEVICECHAIN_BASE);
-
 Base_MIDI_Pitch_Collection::~Base_MIDI_Pitch_Collection()
 {
 };
@@ -172,10 +170,13 @@ bool Base_MIDI_Pitch_Collection::playNote(uint8_t note)
 
 void Base_MIDI_Pitch_Collection::bendNote(uint16_t bend)
 {
+	//Calculate factor once and use for bending all devices
+	float pitchFactor = pow(2.0, (bend - 8192.0) / 8192.0);
+	
 	MIDI_Pitch_Node *node = start;
 	while(node)
 	{
-		node->device->bendNote(bend);
+		node->device->bendNoteByFactor(pitchFactor);
 		node = node->next;
 	}
 };

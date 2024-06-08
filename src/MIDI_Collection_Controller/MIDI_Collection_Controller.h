@@ -12,7 +12,7 @@
 		// Give Device access to all private members
 		friend class MIDI_Pitch;
 		
-		static SerialDebug _debug;
+		inline static SerialDebug _debug = SerialDebug(DEBUG_COLLECTIONCONTROLLER);
 		
 		//Constructors and instance management
 		//_______________________________________________________________________________________________________
@@ -25,7 +25,7 @@
 			/// @private
 			static MIDI_Collection_Controller &getInstance();
 			
-		//Device management
+		//Collection management
 		//_______________________________________________________________________________________________________
 		private:
 			static Base_MIDI_Pitch_Collection *_collections[MAX_COLLECTIONS];
@@ -53,6 +53,9 @@
 			*/
 			void deleteCollection(uint8_t index);
 
+		//Collection management
+		//_______________________________________________________________________________________________________
+		public:
 			///Plays the given note on a collection
 			/*!
 				\param index Index to play the note on

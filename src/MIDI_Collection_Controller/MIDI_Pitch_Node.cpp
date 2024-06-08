@@ -2,8 +2,6 @@
 #include "../MIDI_Pitch/MIDI_Pitch.h"
 #include "Base_MIDI_Pitch_Collection.h"
 
-SerialDebug MIDI_Pitch_Node::_debug(DEBUG_DEVICENODE);
-
 MIDI_Pitch_Node::MIDI_Pitch_Node(MIDI_Pitch *d, Base_MIDI_Pitch_Collection *dc)
 {
 	device = d;

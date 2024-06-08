@@ -17,10 +17,10 @@
 		//Give MIDI_DeviceController access to all private members
 		friend class MIDI_DeviceController;
 		
-		//Constructor(s)
-		MIDI_Periods(); //Disallow creating an instance
+		inline static SerialDebug _debug = SerialDebug(DEBUG_MIDIPERIODS);
 		
-		static SerialDebug _debug;
+		//Constructor(s)
+		MIDI_Periods(); //Disallow creating an instance		
 		
 		// Variables:
 		static uint32_t _currentResolution;
@@ -54,7 +54,7 @@
 				119, 113, 106, 100, 95, 89, 84, 80
 			};
 			
-			static uint32_t getResolution();
+			static inline uint32_t getResolution() { return _currentResolution; };
 			static void setResolution(uint32_t resolution = DEFAULT_RESOLUTION);
 			
 			/// @private

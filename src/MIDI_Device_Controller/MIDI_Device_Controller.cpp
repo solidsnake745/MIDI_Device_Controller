@@ -1,7 +1,5 @@
 #include "../MIDI_Device_Controller.h"
 
-SerialDebug MIDI_Device_Controller::_debug(DEBUG_MIDIDEVICE_CONTROLLER);
-
 //Constructors and instance management
 //_______________________________________________________________________________________________________
 
@@ -26,7 +24,6 @@ MIDI_Device_Controller &MIDI_Device_Controller::getInstance()
 	return *_instance;
 }
 
-	
 //Device management
 //_______________________________________________________________________________________________________
 MIDI_Pitch *MIDI_Device_Controller::_pitchDevices[MAX_PITCH_DEVICES];
@@ -38,11 +35,11 @@ uint8_t MIDI_Device_Controller::reloadEnabledDevices()
 	_debug.debugln(1, F("Reloading enabled pitch devices"));
 	
 	//Clear out current references
-	for(int i = 0;i < MAX_PITCH_DEVICES;i++) _enabledPitchDevices[i] = NULL;
+	for(int i = 0; i < MAX_PITCH_DEVICES; i++) _enabledPitchDevices[i] = NULL;
 	
 	//Look for populated devices that are enabled
 	uint8_t x = 0;
-	for(int i = 0;i < MAX_PITCH_DEVICES;i++)
+	for(int i = 0; i < MAX_PITCH_DEVICES; i++)
 	{
 		if(!_pitchDevices[i]) continue;
 		if(_pitchDevices[i]->isEnabled())
@@ -170,6 +167,7 @@ void MIDI_Device_Controller::resetDevicePositions()
 			else
 				d->toggleStep();
 			
+			//This specific delay makes it sounds cool. That is all.
 			delayMicroseconds(1530);
 		}
 	}
@@ -201,7 +199,7 @@ void MIDI_Device_Controller::calibrateDevicePositions()
 	resetDevicePositions();
 }
 
-void MIDI_Device_Controller::playDeviceNote(int8_t index, uint8_t note)
+void MIDI_Device_Controller::playDeviceNote(uint8_t index, uint8_t note)
 {
 	_debug.debugln(8, F("Is processing: %d"), _isPlayingNotes);
 	_debug.debugln(8, F("Auto processing: %d"), _autoPlayNotes);
@@ -211,14 +209,14 @@ void MIDI_Device_Controller::playDeviceNote(int8_t index, uint8_t note)
 	d->playNote(note);
 }
 
-void MIDI_Device_Controller::bendDeviceNote(int8_t index, uint16_t bend)
+void MIDI_Device_Controller::bendDeviceNote(uint8_t index, uint16_t bend)
 {
 	MIDI_Pitch *d = getDevice(index);
 	if(!d) return;
 	d->bendNote(bend);
 }
 
-void MIDI_Device_Controller::stopDeviceNote(int8_t index, uint8_t note)
+void MIDI_Device_Controller::stopDeviceNote(uint8_t index, uint8_t note)
 {
 	MIDI_Pitch *d = getDevice(index);
 	if(!d) return;
@@ -228,11 +226,18 @@ void MIDI_Device_Controller::stopDeviceNote(int8_t index, uint8_t note)
 //Note Processing
 //_______________________________________________________________________________________________________	
 
+#pragma GCC push_options
+#pragma GCC optimize("Ofast")
 void MIDI_Device_Controller::processNotes()
 {
 	_debug.debugln(20, F("Process start"));
 
-	//Play MIDI_Pitch devices
+#if ISR_TESTING >= 2
+	uint32_t startTime = micros();
+	uint32_t endTime = 0;
+#endif
+
+	//Process MIDI_Pitch devices
 	int i = 0;
 	while(i < _numEnabled && _numEnabled > 0)
 	{
@@ -241,25 +246,38 @@ void MIDI_Device_Controller::processNotes()
 		d->playNotes();
 	}
 	
+#if ISR_TESTING >= 2
+	endTime = micros();
+	_debug.println(F("Pitch device processing time: %u"), (endTime - startTime));
+	startTime = micros();
+#endif
+	
 	//Update IO devices
 	for(i = 0; i < MAX_IO_DEVICES; i++)
 	{
 		if(IO_Factory::_ioDevices[i])
 			IO_Factory::_ioDevices[i]->updateOuts();
 	}
+
+#if ISR_TESTING >= 2
+	endTime = micros();
+	_debug.println(F("IO processing time: %u"), (endTime - startTime));
+#endif
 	
 	_debug.debugln(20, F("Process end"));
 }
+#pragma GCC pop_options
 
 void MIDI_Device_Controller::lawl() { _instance->processNotes(); };
 
 void MIDI_Device_Controller::noteAssigned()
 {
-	if(_autoPlayNotes)
+	_lastAssign = millis();
+	
+	if(_autoPlayNotes && !_isPlayingNotes)
 	{
 		_debug.debugln(8, F("Auto playing..."));
-		_lastAssign = millis();
-		if(!_isPlayingNotes) startPlaying();
+		startPlaying();
 	}
 }
 
@@ -289,8 +307,6 @@ bool MIDI_Device_Controller::startPlaying()
 			d->_dirIO->setMaxDuration(d->_dirPinMap, 0);
 	}
 	
-	if(_autoPlayNotes) _lastAssign = millis();
-	
 	_timer->setupOnce(MIDI_Periods::getResolution(), MIDI_Device_Controller::lawl);
 	_timer->start();
 	
@@ -302,95 +318,85 @@ void MIDI_Device_Controller::stopPlaying()
 {
 	_debug.debugln(5, F("Stopping processing"));
 	
+	//Stop the timer interrupt so it doesn't interfere
+	_timer->stop();
+	
 	//Silence all pitch devices and reset them to an initial state
 	int i = 0;
-	while(i != MAX_PITCH_DEVICES)
+	int numEnabled = reloadEnabledDevices();
+	while(i < numEnabled)
 	{
-		if(_pitchDevices[i]) 
-			_pitchDevices[i]->stopNote();
-		i++;
+		MIDI_Pitch *d = _enabledPitchDevices[i++];
+		d->resetProperties();
 	}
 	
 	for(i = 0; i < MAX_IO_DEVICES; i++)
 	{
-		if(IO_Factory::_ioDevices[i])
-			IO_Factory::_ioDevices[i]->stopOuts();
+		IO_Device *io = IO_Factory::_ioDevices[i];
+		if(io)
+			io->stopOuts();
 	}
-	
-	delay(5); //Give the interrupt process some time to reset those devices
-
-	_timer->stop();
 	
 	_isPlayingNotes = false;
 	LEDOff();
+	
+	_debug.debugln(5, F("Stopped processing"));
 }
 
-// #if DEBUG_MODE >= 3
-	// int lastDebugValue = -1;
-// #endif
-
 bool MIDI_Device_Controller::process()
-{
-	if(!_isPlayingNotes) return false;
+{	
+	if(!_isPlayingNotes)
+		return false;
 	
-	uint32_t timeSinceLastAssign = (millis() - _lastAssign);
-	
-	// #if DEBUG_MODE >= 3
-		// if(timeSinceLastAssign % 1000 == 0)
-		// {
-			// int approxSeconds = timeSinceLastAssign / 1000;
-			// if(approxSeconds > lastDebugValue)
-			// {
-				// lastDebugValue = approxSeconds;
-				// DEBUG2(F("Seconds since last assign: "), approxSeconds)
-			// }
-		// }
-	// #endif
-	
+	//Stop playing if past the idle timeout
+	uint32_t timeSinceLastAssign = (millis() - _lastAssign);	
 	if(timeSinceLastAssign >= _idleTimeout * 1000) 
 	{
-		// #if DEBUG_MODE >= 3
-			// lastDebugValue = -1;
-		// #endif
 		stopPlaying();
+		
+		//Exit out as max durations don't matter if we've stopped playing
 		return true; //Indicates this method stopped processing
+	}
+	
+	//Stop any pitch devices over their max duration
+	int i = 0;	
+	while(i < _numEnabled)
+	{
+		MIDI_Pitch *d = _enabledPitchDevices[i++];
+		d->checkMaxDuration();
+	}
+	
+	//Stop any IO outputs over their max duration
+	for(i = 0; i < MAX_IO_DEVICES; i++)
+	{
+		IO_Device *io = IO_Factory::_ioDevices[i];
+		if(io)
+			io->checkMaxDuration();
 	}
 	
 	return false;
 }
 
-bool MIDI_Device_Controller::isPlayingNotes() { return _isPlayingNotes; }
-
-
-//Settings
-//_______________________________________________________________________________________________________
-bool MIDI_Device_Controller::isAutoPlayEnabled() { return _autoPlayNotes; }
-uint8_t MIDI_Device_Controller::getMaxPitchDevices() { return MAX_PITCH_DEVICES; }
-uint32_t MIDI_Device_Controller::getMaxDuration() { return _maxDuration; }
-void MIDI_Device_Controller::setMaxDuration(uint32_t value) { _maxDuration = value; }
-void MIDI_Device_Controller::setIdleTimeout(int16_t value) { _idleTimeout = value; }
-void MIDI_Device_Controller::setAutoPlay(bool value) { _autoPlayNotes = value; }
-void MIDI_Device_Controller::setResolution(uint16_t resolution) { MIDI_Periods::setResolution(resolution); }
-void MIDI_Device_Controller::setDebugResolution() { MIDI_Periods::setDebugResolution(); }
-
 //LED pin functionality
 //_______________________________________________________________________________________________________
 void MIDI_Device_Controller::LEDOn()
 {
-	if(_ledPin > -1) digitalWrite(_ledPin, HIGH);
+	if(_ledPin > -1)
+		digitalWrite(_ledPin, HIGH);
 }
 
 void MIDI_Device_Controller::LEDOff()
 {
-	if(_ledPin > -1) digitalWrite(_ledPin, LOW);
+	if(_ledPin > -1)
+		digitalWrite(_ledPin, LOW);
 }
 
 void MIDI_Device_Controller::setLEDPin(int8_t pin) 
 {
 	_ledPin = pin;
-	if(_ledPin > -1) pinMode(_ledPin, OUTPUT);
+	if(_ledPin > -1)
+		pinMode(_ledPin, OUTPUT);
 }
-
 
 //Tests/Debug
 //_______________________________________________________________________________________________________
@@ -421,13 +427,10 @@ void MIDI_Device_Controller::testPitchBend(uint8_t index)
 	d->playNote(50);
 	d->bendNote(1);
 	
-	//Note processing occurs every (_resolution) microseconds
-	//Thus effectively creating a delay between bendNote calls
-	//TODO: Verify above comment again
-	for(int16_t i = 2; i <= 16383; i+=1200) 
+	for(int16_t i = 2; i <= 16383; i += 1) 
 	{
 		d->bendNote(i);
-		delay(50);
+		delayMicroseconds(100);
 	}
 	
 	d->stopNote();
@@ -469,8 +472,8 @@ void MIDI_Device_Controller::loadTest(uint8_t numDevices)
 void MIDI_Device_Controller::playStartupSequence(uint8_t version)
 {
 	uint8_t numEnabled = reloadEnabledDevices();
+	LEDOn();
 	
-	LEDOn();	
 	switch(version)
 	{
 		case 0:
@@ -506,7 +509,8 @@ void MIDI_Device_Controller::playStartupSequence(uint8_t version)
 		}
 		break;
 		
-		default: break;
+		default:
+			break;
 	}
 	
 	LEDOff();

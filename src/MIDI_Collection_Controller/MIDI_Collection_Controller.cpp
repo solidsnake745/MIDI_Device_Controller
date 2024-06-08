@@ -1,7 +1,5 @@
 #include "MIDI_Collection_Controller.h"
 
-SerialDebug MIDI_Collection_Controller::_debug(DEBUG_DEVICECHAIN_CONTROLLER);
-
 //Constructors and instance management
 //_______________________________________________________________________________________________________
 

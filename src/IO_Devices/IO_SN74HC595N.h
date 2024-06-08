@@ -1,6 +1,7 @@
 #ifndef IO_SN74HC595N_h
 	#define IO_SN74HC595N_h
 	
+	#include "../Settings.h"	
 	#include "../SerialDebug/SerialDebug.h"
 	#include "../MIDI_Device_Controller/MIDI_Periods.h"
 	#include "IO_Device.h"
@@ -18,7 +19,33 @@
 		//Give MIDI_DeviceController access to all private members
 		friend class MIDI_Device_Controller;
 		
-		static SerialDebug _debug;
+		inline static SerialDebug _debug = SerialDebug(DEBUG_SN74HC595N);
+		
+		//Lookup table for the reverse values of 4 bits i.e. reverse of 0001 (1) is 1000 (8)
+		constexpr static unsigned char reverseLookup[16] = {
+			0x0, 0x8, 0x4, 0xc, 0x2, 0xa, 0x6, 0xe,
+			0x1, 0x9, 0x5, 0xd, 0x3, 0xb, 0x7, 0xf };
+
+		uint8_t reverseByte(uint8_t n);
+		
+		uint8_t _numRegisters;
+		uint8_t _latchPin;
+		volatile bool _registersChanged = false;
+		byteNoteRegister *_registers;
+		uint16_t _maxOutput = 0;
+		bool _writeDirection = false;	
+		
+		void checkMaxDuration();
+		void updateOuts(); //Operates the SPI bus per desired MIDI output
+					
+		void updateDurations();
+		void updateSN74HC595N();			
+		
+		inline void latchRegisters()
+		{
+			digitalWrite(_latchPin, HIGH);
+			digitalWrite(_latchPin, LOW);
+		};
 		
 		public:
 			IO_SN74HC595N(uint8_t numRegisters, uint8_t latchPin);
@@ -38,31 +65,8 @@
 			bool isValidMapping(uint8_t out);
 			void setMaxDuration(uint8_t out, uint32_t us);
 			void setOutput(uint8_t out, bool value);
-			void stopOuts();
-			void updateOuts(); //Operates the SPI bus per desired MIDI output
+			void stopOuts();			
 			
 			void testOutputs();
-			
-		private:
-			constexpr static unsigned char lookup[16] = {
-				0x0, 0x8, 0x4, 0xc, 0x2, 0xa, 0x6, 0xe,
-				0x1, 0x9, 0x5, 0xd, 0x3, 0xb, 0x7, 0xf };
-
-			uint8_t _numRegisters;
-			uint8_t _latchPin;
-			volatile bool _registersChanged = false;
-			byteNoteRegister *_registers;
-			uint16_t _maxOutput = 0;
-			bool _writeDirection = false;	
-			
-			uint8_t reverse(uint8_t n);
-			void updateDurations();
-			void updateSN74HC595N();
-			
-			inline void latchRegisters()
-			{
-				digitalWrite(_latchPin, HIGH);
-				digitalWrite(_latchPin, LOW);
-			};
 	};
 #endif

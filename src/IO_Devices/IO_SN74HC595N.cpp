@@ -1,8 +1,7 @@
 #include "IO_SN74HC595N.h"
 #include "../MIDI_Device_Controller.h" //Need the definition of noteAssigned()
 
-SerialDebug IO_SN74HC595N::_debug(DEBUG_SN74HC595N);
-constexpr unsigned char IO_SN74HC595N::lookup[];
+constexpr unsigned char IO_SN74HC595N::reverseLookup[];
 
 IO_SN74HC595N::IO_SN74HC595N(uint8_t numRegisters, uint8_t latchPin) 
 {
@@ -109,8 +108,8 @@ void IO_SN74HC595N::stopOuts()
 {
 	_debug.debugln(20, F("Attempting to stop all actives notes"));
 	
-	for(int bitIndex = 0; bitIndex < 8; bitIndex++)
-		for(int registerIndex = 0; registerIndex < _numRegisters; registerIndex++)
+	for(int registerIndex = 0; registerIndex < _numRegisters; registerIndex++)
+		for(int bitIndex = 0; bitIndex < 8; bitIndex++)		
 			_registers[registerIndex].clearBit(bitIndex);
 	
 	_registersChanged = true;
@@ -125,9 +124,11 @@ void IO_SN74HC595N::updateOuts()
 	updateDurations();
 };
 
-uint8_t IO_SN74HC595N::reverse(uint8_t n) {
-   // Reverse the top and bottom nibble then swap them.
-   return (lookup[n&0b1111] << 4) | lookup[n>>4];
+uint8_t IO_SN74HC595N::reverseByte(uint8_t n)
+{
+	// Taken from https://stackoverflow.com/a/2603254
+	// Reverse the top and bottom nibble then swap them
+	return (reverseLookup[n&0b1111] << 4) | reverseLookup[n>>4];
 }
 
 void IO_SN74HC595N::updateDurations()
@@ -135,10 +136,7 @@ void IO_SN74HC595N::updateDurations()
 	_debug.debugln(50, F("updateDurations begin"));
 	
 	for(int x = 0; x < _numRegisters; x++)
-	{
-		bool registerUpdated = _registers[x].updateDurations(MIDI_Periods::getResolution());
-		_registersChanged = _registersChanged || registerUpdated;
-	}
+		_registers[x].updateDurations(MIDI_Periods::getResolution());
 };
 
 void IO_SN74HC595N::updateSN74HC595N()
@@ -158,7 +156,7 @@ void IO_SN74HC595N::updateSN74HC595N()
 	_debug.debug(3, F("New register values: "));
 	for(int x = 0; x < _numRegisters; x++)
 	{
-		newValues[newIndex] = !_writeDirection ? _registers[x].getByteValue() : reverse(_registers[x].getByteValue());
+		newValues[newIndex] = !_writeDirection ? _registers[x].getByteValue() : reverseByte(_registers[x].getByteValue());
 		_debug.debug(3, F("%d (%d), "), _registers[x].getByteValue(), newValues[newIndex]);
 		newIndex = !_writeDirection ? newIndex - 1 : newIndex + 1;
 	}
@@ -168,4 +166,9 @@ void IO_SN74HC595N::updateSN74HC595N()
 	latchRegisters();
 
 	_registersChanged = false;
+};
+
+void IO_SN74HC595N::checkMaxDuration()
+{
+	
 };

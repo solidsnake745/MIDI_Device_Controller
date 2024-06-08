@@ -1,63 +1,96 @@
 #ifndef byteNoteRegister_h
-  #define byteNoteRegister_h
+#define byteNoteRegister_h
 
-  #include "byteBits.h"
-  #include "noteDuration.h"
+#include "noteDuration.h"
+#include "../Settings.h"
+#include "../SerialDebug/SerialDebug.h"
 
-  class byteNoteRegister
-  {
-    public:
-      byteNoteRegister() {};
-      bool updateDurations(uint8_t period)
-      {
-        bool outputChanged = false;
+class byteNoteRegister
+{
+	inline static SerialDebug _debug = SerialDebug(DEBUG_BYTENOTEREGISTER);
+	
+	uint8_t _data = 0;
+	noteDuration _durations[8];
+	noteDuration _maxDurations[8];
+		
+	public:
+		byteNoteRegister() {};
+		
+		#pragma GCC push_options
+		#pragma GCC optimize("Ofast")
+		inline void updateDurations(uint8_t period)
+		{
+			for(int x = 0; x < 8; x++)
+			{
+				if(_maxDurations[x].isZero() || !getBit(x))
+					continue;
 
-        for(int x = 0; x < 8; x++)
-        {
-          if(!_data.getBit(x))
-            continue;
-
-          _durations[x].addMicroseconds(period);
-
-          if(_maxDurations[x].isZero())
-            continue;
-
-          if(_durations[x] < _maxDurations[x])
-            continue;
-          
-          clearBit(x);
-          outputChanged = true;
-        }
-
-        return outputChanged;
-      };
-
-      inline uint8_t getByteValue() { return _data.value; };
-      inline bool getBit(uint8_t i) { return _data.getBit(i); };
-      inline void setBit(uint8_t i) { _data.setBit(i); };    
+				_durations[x].addMicros(period);
+			}
+		};
+		#pragma GCC pop_options
+	
+		inline uint8_t getByteValue() { return _data; };
+		inline bool getBit(uint8_t i) { return bitRead(_data, i); };
+		inline void setBit(uint8_t i) { bitSet(_data, i); };
       
-      inline void clearBit(uint8_t i)
-      {
-        _data.clearBit(i);
-        _durations[i].reset();
-      };
+		inline void clearBit(uint8_t i)
+		{
+			bitClear(_data, i);
+			_durations[i].reset();
+		};
       
-      inline void setBitValue(uint8_t i, bool value) 
-      { 
-        _data.setBitValue(i, value);
-        if(!value) _durations[i].reset();
-      };
+		inline void setBitValue(uint8_t i, bool value) { value ? setBit(i) : clearBit(i); };		
       
-      inline void setMaxDuration(uint8_t i, uint32_t us)
-      { 
-        _maxDurations[i].reset(); 
-        _maxDurations[i].addMicroseconds(us); 
-      };
-	      
-    private:
-      byteBits _data;
-      noteDuration _durations[8];
-	    noteDuration _maxDurations[8];
-  };
+		inline void setMaxDuration(uint8_t i, uint32_t us)
+		{ 
+			_maxDurations[i].reset(); 
+			_maxDurations[i].addMicros(us); 
+		};
+		
+		inline bool isPastMaxDuration(uint8_t i)
+		{
+			if(_maxDurations[i].isZero())
+				return false;
+			
+			return _maxDurations[i] < _durations[i];			
+		};
+		
+		//TODO: This may not be necessary as isPastMaxDuration and related functions are available and provide more control over the process
+		inline void checkMaxDuration()
+		{
+			for(int x = 0; x < 8; x++)
+			{
+				if(_maxDurations[x].isZero())
+				{
+					_debug.debugln(30, F("byteNoteRegister: %d - No max duration"), x);
+					continue;
+				}
+				
+				if(_durations[x] < _maxDurations[x])
+				{
+					_debug.debugln(30, F("byteNoteRegister: %d - Duration less than max"), x);
+					continue;
+				}					
+
+				_debug.debugln(20, F("byteNoteRegister: %d - Reached max duration"), x);
+				clearBit(x);
+			}
+		};
+		
+		#if INCLUDE_TESTS
+		inline static void runTest()
+		{
+			byteNoteRegister test;
+			_debug.debugln(5, F("Initial value of _data: %d"), test.getByteValue());
+			for(int x = 0; x < 8; x++)
+			{
+				test._data = 0;
+				test.setBit(x);
+				_debug.debugln(5, F("Value after bit %d set: %d"), x, test.getByteValue());
+			}
+		}
+		#endif
+};
   
 #endif

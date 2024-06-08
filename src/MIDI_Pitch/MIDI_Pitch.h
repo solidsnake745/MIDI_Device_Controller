@@ -2,9 +2,10 @@
 	#define MIDI_Pitch_h
 
 	#include <Arduino.h>
-	#include "MIDI_Device_Controller/MIDI_Periods.h"
+	#include "../MIDI_Device_Controller/MIDI_Periods.h"
 	#include "../IO_Devices/IO_Device.h"
 	#include "../IO_Factory/IO_Factory.h"
+	#include "../Settings.h"
 	#include "../SerialDebug/SerialDebug.h"
 
 	//Forward declaration for compiling
@@ -16,7 +17,7 @@
 		//Give MIDI_DeviceController access to all private members
 		friend class MIDI_Device_Controller;
 		
-		static SerialDebug _debug;
+		inline static SerialDebug _debug = SerialDebug(DEBUG_MIDIPITCH);
 		
 		//Constructors
 		//_____________________________________________________________________________________________
@@ -47,25 +48,25 @@
 			MIDI_Device_Controller *_belongsTo = NULL;
 			
 			void setController(MIDI_Device_Controller *controller);
-			void setID(uint8_t value);
+			inline void setID(uint8_t value) { _id = value; };
 			
 			//Indicates whether a device is at or beyond it's max position    	
-			bool isAtMaxPosition();
+			inline bool isAtMaxPosition() { return _currentPosition >= _maxPosition; };
 			
 		public:
 			//Print out this device's configuration
 			void printStatus();
 			
-			uint8_t getID();
-			int8_t getStepPin();
-			int8_t getDirPin();
-			int16_t getMaxPosition();
+			inline uint8_t getID() { return _id; };
+			inline int8_t getStepPin() { return _stepPinMap; };
+			inline int8_t getDirPin() { return _dirPinMap; };
+			inline int16_t getMaxPosition() { return _maxPosition; };
 			
 			//Indicates whether a device is available for note assignment
-			bool isAvailable();
+			inline bool isAvailable() { return _currentNote == -1; };
 			
 			//Indicates whether a device is tracking and changing direction
-			bool isTrackingPosition(); 
+			inline bool isTrackingPosition() { return _maxPosition > 0; }; 
 
 			//Sets the associated step pin
 			void setStepPin(IO_DeviceEnum device, int8_t pin);
@@ -73,7 +74,7 @@
 			//Sets the associated direction pin
 			void setDirPin(IO_DeviceEnum device, int8_t pin);
 			
-			void setMaxPosition(int32_t value);
+			inline void setMaxPosition(int32_t value) { _maxPosition = value; };
 			
 		//Operation
 		//_____________________________________________________________________________________________
@@ -103,10 +104,10 @@
 			volatile int16_t _currentPosition = 0;
 			
 			//Gets the base period of the note currently being played
-			int16_t getBasePeriod();
+			inline int16_t getBasePeriod() { return *(_referencePeriods + _currentNote); };
 			
 			//Gets the period currently being played
-			int16_t getCurrentPeriod();
+			inline int16_t getCurrentPeriod() { return _currentPeriod; };
 			
 			//Sets the state of the associated step pin
 			void setStepState(bool state); 
@@ -126,17 +127,21 @@
 			//Operates device per desired MIDI output
 			void playNotes();
 			
+			//Checks if deivce is past the max duration and stops playing the current note if so
+			void checkMaxDuration();
+			
 		public:
 			bool getStepState();
 			bool getDirState();
-			int16_t getPosition();
-			int8_t getCurrentNote();
+			inline int16_t getPosition() { return _currentPosition; };
+			inline int8_t getCurrentNote() { return _currentNote; };
 			
-			bool isEnabled();
+			inline bool isEnabled() { return (_stepPinMap >= 0); };
 			
 			void playNote(uint8_t note);		
 			void playPeriod(uint16_t period);
 			void bendNote(uint16_t bend);
+			void bendNoteByFactor(float pitchFactor);
 			void stopNote();
 			
 			//Used to set the state of the direction pin associated with a given device
@@ -150,7 +155,7 @@
 			void calibratePosition();
 			
 			//Sets the given device's position to 0
-			void zeroPosition();
+			inline void zeroPosition() { _currentPosition = 0; };
 			
 		//Testing/debug
 		//_____________________________________________________________________________________________
@@ -160,7 +165,7 @@
 		public:
 			//Plays Do-Re-Mi scale
 			void testDoReMi(uint8_t ocatve = 0, uint16_t noteDuration = 150, uint16_t noteGap = 50);
-		
+
 			//Tests the stepping capability of the given device
 			void testStepping(uint32_t steps);
 

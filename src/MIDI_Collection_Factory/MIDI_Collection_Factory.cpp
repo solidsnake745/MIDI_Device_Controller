@@ -1,7 +1,5 @@
 #include "MIDI_Collection_Factory.h"
 
-SerialDebug MIDI_Collection_Factory::_debug(DEBUG_DEVICECOLLECTION_FACTORY);
-
 //Global singleton instance
 MIDI_Collection_Factory MCF = MIDI_Collection_Factory::getInstance();
 
@@ -21,7 +19,7 @@ MIDI_Pitch *MIDI_Collection_Factory::getDeviceFromMDC(uint8_t index)
 	return MDC.getDevice(index);
 }
 
-Base_MIDI_Pitch_Collection *MIDI_Collection_Factory::createInitialCollection(uint8_t index, CollectionType type)
+Base_MIDI_Pitch_Collection *MIDI_Collection_Factory::createCollection(uint8_t index, CollectionType type)
 {
 	_debug.debugln(1, F("Adding collection at %d"), index);
 	

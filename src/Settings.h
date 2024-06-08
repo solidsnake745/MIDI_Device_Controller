@@ -11,7 +11,7 @@
 
 	//Max limit of device collections that can be managed by the DeviceChain_Controller
 	//Number of collections correlates to more/less memory used by this library
-	#define MAX_COLLECTIONS 12
+	#define MAX_COLLECTIONS 8
 	
 	//Amount of time in seconds before stopping processing if using auto processing
 	#define IDLE_TIMEOUT_DEFAULT 15
@@ -20,17 +20,23 @@
 	#define MAX_DURATION_DEFAULT 10 * 1000000
 	
 	//Debugging areas and levels
-	#define DEBUG_MIDIDEVICE_CONTROLLER 0
-	#define DEBUG_DEVICE 0
-	#define DEBUG_MIDI_PERIODS 0
+	#define INCLUDE_TESTS 1
 	
-	#define DEBUG_DEVICECHAIN_CONTROLLER 0
-	#define DEBUG_DEVICENODE 0
-	#define DEBUG_DEVICECHAIN_BASE 0
+	#define DEBUG_DEVICECONTROLLER 0
+	#define DEBUG_MIDIPITCH 0
+	#define DEBUG_MIDIPERIODS 0	
 	
-	#define DEBUG_DEVICECOLLECTION_FACTORY 0
+	//The SerialDebug instance for this is shared with derived classes so you'll get any logging from the derived classes
+	//No additional logging currently exists in derived classes, but just FYI future me
+	#define DEBUG_BASEPITCHCOLLECTION 0
 	
-	#define DEBUG_DigitalIO 0
+	#define DEBUG_PITCHNODE 0
+	#define DEBUG_COLLECTIONCONTROLLER 0	
+	#define DEBUG_COLLECTION_FACTORY 0
+	
+	#define DEBUG_DIGITALIO 0
 	#define DEBUG_SN74HC595N 0
-	#define DEBUG_PulseController 0
+	#define DEBUG_PULSECONTROLLER 0
+	
+	#define DEBUG_BYTENOTEREGISTER 0
 #endif

@@ -1,8 +1,8 @@
 #ifndef Base_MIDI_Device_Collection_h
 	#define Base_MIDI_Device_Collection_h
-
-	#include "../Settings.h"
+	
 	#include "../MIDI_Pitch/MIDI_Pitch.h"
+	#include "../Settings.h"
 	#include "../SerialDebug/SerialDebug.h"
 
 	struct MIDI_Pitch_Node;
@@ -16,10 +16,10 @@
 		void deleteNode(MIDI_Pitch_Node *node);
 		
 		protected:
+			inline static SerialDebug _debug = SerialDebug(DEBUG_BASEPITCHCOLLECTION);
 			MIDI_Pitch_Node *start = NULL;
 			MIDI_Pitch_Node *end = NULL;
-			uint8_t _count = 0;
-			static SerialDebug _debug;
+			uint8_t _count = 0;			
 			
 		public:
 			virtual ~Base_MIDI_Pitch_Collection();

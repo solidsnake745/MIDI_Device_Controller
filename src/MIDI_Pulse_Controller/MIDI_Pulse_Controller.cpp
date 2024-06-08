@@ -1,8 +1,6 @@
 #include "MIDI_Pulse_Controller.h"
 #include "../MIDI_Device_Controller.h" //Need the definition of noteAssigned()
 
-SerialDebug MIDI_Pulse_Controller::_debug(DEBUG_PulseController);
-
 //Global singleton instance
 MIDI_Pulse_Controller MPC = MIDI_Pulse_Controller::getInstance();
 

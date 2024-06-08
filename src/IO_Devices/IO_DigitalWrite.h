@@ -1,6 +1,9 @@
 #ifndef IO_DigitalWrite_h
 	#define IO_DigitalWrite_h
 	
+	#include <Arduino.h>
+	
+	#include "../Settings.h"
 	#include "../SerialDebug/SerialDebug.h"
 	#include "../MIDI_Device_Controller/MIDI_Periods.h"
 	#include "IO_Device.h"
@@ -11,10 +14,8 @@
 
 	//Resolve STL dependency
 	#if defined(ARDUINO_ARCH_AVR)
-		//#include "../Common/ArduinoSTLClone/ArduinoSTL.h"
-		#include "../Common/ArduinoSTLClone/map"
-		//#include <ArduinoSTL.h>
-		//#include "map"
+		#include "../../ArduinoSTLClone/map"
+		#include "../../ArduinoSTLClone/vector"
 	#elif defined(CORE_TEENSY)
 		#include <map>
 	#elif defined(ESP32)
@@ -30,7 +31,32 @@
 		//Give MIDI_DeviceController access to all private members
 		friend class MIDI_Device_Controller;
 		
-		static SerialDebug _debug;
+		struct changedOutput
+		{
+			changedOutput(uint8_t p, bool s)
+			{
+				pin = p;
+				state = s;
+			};
+			
+			uint8_t pin;
+			bool state;
+		};
+		
+		inline static SerialDebug _debug = SerialDebug(DEBUG_DIGITALIO);
+		
+		uint8_t _numRegisters;		
+		volatile bool _outputsChanged = false;
+		inline static byteNoteRegister *_registers;
+		uint16_t _maxOutputs = 0;
+		uint16_t _usedOutputs = 0;
+		inline static std::map<uint8_t, uint8_t> _outputMap;
+		inline static std::vector<changedOutput> _changedOutputs;		
+		
+		void updateDurations();
+		void updateIO();
+
+		void checkMaxDuration();
 		
 		public:
 			IO_DigitalWrite(uint8_t numOutputs);
@@ -46,16 +72,5 @@
 			void updateOuts(); //Operates the digital IO per desired MIDI output
 			
 			void testOutputs();
-			
-		private:
-			uint8_t _numRegisters;		
-			bool _outputsChanged = false;
-			byteNoteRegister *_registers;
-			uint16_t _maxOutputs = 0;
-			uint16_t _usedOutputs = 0;
-			std::map<uint8_t, uint8_t> _outputMap;
-			
-			void updateDurations();
-			void updateIO();
 	};
 #endif

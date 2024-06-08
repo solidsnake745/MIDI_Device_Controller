@@ -1,7 +1,4 @@
 #include "IO_DigitalWrite.h"
-//#include "../MIDI_Device_Controller.h" //Need the definition of noteAssigned()
-
-SerialDebug IO_DigitalWrite::_debug(DEBUG_DigitalIO);
 
 IO_DigitalWrite::IO_DigitalWrite(uint8_t numOutputs) 
 {
@@ -44,7 +41,7 @@ void IO_DigitalWrite::addOutput(uint8_t pin)
 	}
 	
 	//Check pin is not already mapped
-	if(_outputMap.count(pin) > 0)
+	if(isValidMapping(pin))
 	{
 		_debug.debugln(15, F("Pin %d is already added"), pin);
 		return;
@@ -126,7 +123,7 @@ void IO_DigitalWrite::setOutput(uint8_t out, bool value)
 	uint8_t bitIndex = find->second%8;
 	_debug.debugln(15, F("Calculated register %d and output %d"), registerIndex, bitIndex);
 	
-	//Set the output if not already set
+	//Set the output if not already set	
 	if(_registers[registerIndex].getBit(bitIndex) == value)
 	{
 		_debug.debugln(15, F("Output %d is already %d"), value);
@@ -134,6 +131,7 @@ void IO_DigitalWrite::setOutput(uint8_t out, bool value)
 	}
 	
 	_registers[registerIndex].setBitValue(bitIndex, value);
+	_changedOutputs.push_back(changedOutput(find->first, value));
 	_outputsChanged = true;
 }
 
@@ -156,44 +154,58 @@ void IO_DigitalWrite::stopOuts()
 
 void IO_DigitalWrite::updateOuts()
 {
-	_debug.debugln(50, F("updateOuts begin"));
-	
-	updateIO();
+	_debug.debugln(30, F("updateOuts begin"));
 	updateDurations();
+	updateIO();	
 };
 
+#pragma GCC push_options
+#pragma GCC optimize("Ofast")
 void IO_DigitalWrite::updateDurations()
 {	
-	_debug.debugln(50, F("updateDurations begin"));
+	_debug.debugln(30, F("updateDurations begin"));
 	
 	for(int x = 0; x < _numRegisters; x++)
-	{
-		bool registerUpdated = _registers[x].updateDurations(MIDI_Periods::getResolution());
-		_outputsChanged = _outputsChanged || registerUpdated;
-	}
+		_registers[x].updateDurations(MIDI_Periods::getResolution());
 };
 
 void IO_DigitalWrite::updateIO()
 {	
-	_debug.debugln(50, F("updateIO begin"));
+	_debug.debugln(30, F("updateIO begin"));
 	
 	if(!_outputsChanged)
 	{
-		_debug.debugln(50, F("Registers have not changed"));		
+		_debug.debugln(20, F("Registers have not changed"));		
 		return;
 	}
 	
-	_debug.debugln(20, F("Registers have changed"));		
+	_debug.debugln(20, F("Registers have changed"));
 	
+	auto change = _changedOutputs.begin();
+	while(change != _changedOutputs.end())
+	{
+		_debug.debugln(5, F("Changing pin: %d to %d"), change->pin, change->state);
+		digitalWrite(change->pin, change->state);
+		change++;
+	}
+	
+	_changedOutputs.clear();
+	_outputsChanged = false;
+};
+#pragma GCC pop_options
+
+void IO_DigitalWrite::checkMaxDuration()
+{
 	auto out = _outputMap.begin();
 	while(out != _outputMap.end())
 	{
 		uint8_t registerIndex = out->second/8;
 		uint8_t bitIndex = out->second%8;
-		
-		digitalWrite(out->first, _registers[registerIndex].getBit(bitIndex));
+		if(_registers[registerIndex].isPastMaxDuration(bitIndex))
+		{
+			_registers[registerIndex].clearBit(bitIndex);
+			_changedOutputs.push_back(changedOutput(out->first, false));
+		}
 		out++;
 	}
-	
-	_outputsChanged = false;
-};
+}
