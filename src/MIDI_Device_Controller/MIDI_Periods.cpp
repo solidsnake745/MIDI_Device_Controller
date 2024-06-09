@@ -1,10 +1,5 @@
 #include "MIDI_Periods.h"
 
-uint16_t MIDI_Periods::getOriginalPeriod(uint16_t index) 
-{ 
-	return pgm_read_dword(ORIGINAL_PERIODS + index); 
-}
-
 //Used to update and maintain calculatedPeriods with _currentResolution
 //Sets resolution and computes adjusted resolution to be used for note processing
 void MIDI_Periods::calculatePeriods(uint16_t resolution)
@@ -23,10 +18,6 @@ void MIDI_Periods::calculatePeriods(uint16_t resolution)
 	}
 }
 
-uint16_t MIDI_Periods::calculatedPeriods[];
-constexpr uint32_t MIDI_Periods::ORIGINAL_PERIODS[];
-uint32_t MIDI_Periods::_currentResolution;
-
 void MIDI_Periods::setResolution(uint32_t resolution) 
 {
 	if(resolution < MIN_RESOLUTION || resolution > MAX_RESOLUTION)
@@ -39,31 +30,4 @@ void MIDI_Periods::setResolution(uint32_t resolution)
 		_currentResolution = resolution;
 	
 	calculatePeriods(resolution);
-}
-
-void MIDI_Periods::setDebugResolution() 
-{ 
-	_currentResolution = 100000;
-}
-
-void MIDI_Periods::printOriginalPeriod(uint8_t note)
-{
-	_debug.println(F("Original period for %d: %d"), note, getOriginalPeriod(note));
-}	
-
-void MIDI_Periods::printOriginalPeriods()
-{
-	for(uint8_t i = 0; i < 128; i++)	
-		printOriginalPeriod(i);
-}
-
-void MIDI_Periods::printCalculatedPeriod(uint8_t note)
-{
-	_debug.println(F("Calculated period for %d: %d"), note, calculatedPeriods[note]);
-}
-
-void MIDI_Periods::printCalculatedPeriods()
-{
-	for(uint8_t i = 0; i < 128; i++)	
-		printCalculatedPeriod(i);
 }

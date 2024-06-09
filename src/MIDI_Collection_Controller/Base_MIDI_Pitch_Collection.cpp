@@ -168,10 +168,10 @@ bool Base_MIDI_Pitch_Collection::playNote(uint8_t note)
 	return true;
 };
 
-void Base_MIDI_Pitch_Collection::bendNote(uint16_t bend)
+void Base_MIDI_Pitch_Collection::bendNote(uint16_t bend, bool shiftRange)
 {
 	//Calculate factor once and use for bending all devices
-	float pitchFactor = pow(2.0, (bend - 8192.0) / 8192.0);
+	float pitchFactor = PitchBend::calculateFactor(bend, shiftRange);
 	
 	MIDI_Pitch_Node *node = start;
 	while(node)
@@ -192,21 +192,19 @@ void Base_MIDI_Pitch_Collection::testPitchBend()
 	MDC.setAutoPlay(true);
 	
 	for(uint8_t c = 0; c < _count; c++)
-		playNote(50);
+		playNote(48);
 
-	bendNote(1);
+	bendNote(0);
+	delayMicroseconds(500);
 	
-	//Note processing occurs every (_resolution) microseconds
-	//Thus effectively creating a delay between bendNote calls
-	//TODO: Verify above comment again
-	for(int16_t i = 2; i <= 16383; i+=1200)
+	for(int16_t i = 1; i <= 16383; i++)
 	{
 		bendNote(i);
-		delay(50);
+		delayMicroseconds(500);
 	}
 	
 	for(uint8_t c = 0; c < _count; c++)
-		stopNote(50);
+		stopNote(48);
 	
 	MDC.stopPlaying();
 	MDC.setAutoPlay(currentSetting);

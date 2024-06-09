@@ -9,11 +9,11 @@
 	#include "../IO_Factory/IO_Factory.h"
 	
 	//Resolve map dependency
-	#if defined(ARDUINO_ARCH_AVR)
+	#if ARDUINO_ARCH_AVR
 		#include "../../ArduinoSTLClone/map"
 	#elif defined(CORE_TEENSY)
 		#include <map>
-	#elif defined(ESP32)
+	#elif ARDUINO_ARCH_ESP32
 		#include <map>
 	#endif
 			

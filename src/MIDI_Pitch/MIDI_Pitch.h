@@ -2,6 +2,7 @@
 	#define MIDI_Pitch_h
 
 	#include <Arduino.h>
+	#include "../Common/PitchBend.h"
 	#include "../MIDI_Device_Controller/MIDI_Periods.h"
 	#include "../IO_Devices/IO_Device.h"
 	#include "../IO_Factory/IO_Factory.h"
@@ -140,7 +141,7 @@
 			
 			void playNote(uint8_t note);		
 			void playPeriod(uint16_t period);
-			void bendNote(uint16_t bend);
+			void bendNote(uint16_t bend, bool shiftRange = false);
 			void bendNoteByFactor(float pitchFactor);
 			void stopNote();
 			

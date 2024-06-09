@@ -1,3 +1,5 @@
+//Example sketch for playing MIDI from a serial input from Hairless MIDI
+//Hairless MIDI: https://projectgus.github.io/hairless-midiserial/
 #include <MIDI_Device_Controller.h>
 #include "Hairless_MIDI_Serial.h"
 
@@ -7,7 +9,7 @@
   const uint8_t pins[] = {2, 3, 4};
 #elif defined(CORE_TEENSY)
   const uint8_t pins[] = {0, 1, 2};
-  #if ARDUINO_TEENSY32 || ARDUINO
+  #if ARDUINO_TEENSY32
     #warning "Compiling for Teensy 3.2"
     const int resolution = 20;
   #elif ARDUINO_TEENSY40 || ARDUINO_TEENSY41

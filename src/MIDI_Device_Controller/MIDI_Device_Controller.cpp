@@ -421,16 +421,17 @@ void MIDI_Device_Controller::testPitchBend(uint8_t index)
 	MIDI_Pitch *d = getDevice(index);
 	if(!d) return;
 	
-	bool currentSetting = _autoPlayNotes;		
+	bool currentSetting = _autoPlayNotes;
 	setAutoPlay(true);	
 	
-	d->playNote(50);
-	d->bendNote(1);
+	d->playNote(48);
+	d->bendNote(0);
+	delayMicroseconds(500);
 	
-	for(int16_t i = 2; i <= 16383; i += 1) 
+	for(int16_t i = 0; i <= 16383; i++) 
 	{
-		d->bendNote(i);
-		delayMicroseconds(100);
+		d->bendNote(i, true);
+		delayMicroseconds(500);
 	}
 	
 	d->stopNote();

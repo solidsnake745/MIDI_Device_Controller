@@ -13,9 +13,9 @@ IO_SN74HC595N::IO_SN74HC595N(uint8_t numRegisters, uint8_t latchPin)
 	_maxOutput = (numRegisters * 8) - 1;
 	
 	//Initialize collections
-	_registers = new byteNoteRegister[_numRegisters];
+	_registers = new ByteNoteRegister[_numRegisters];
 	for(int x = 0; x < _numRegisters; x++)
-		_registers[x] = byteNoteRegister();
+		_registers[x] = ByteNoteRegister();
 	
 	//Setup SPI
 	setLatchPin(latchPin);

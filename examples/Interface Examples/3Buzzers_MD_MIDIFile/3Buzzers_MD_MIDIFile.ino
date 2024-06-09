@@ -1,3 +1,5 @@
+//Example sketch for playing MIDI files from an SD card using the MD_MIDIFile library
+//MD_MIDIFile: https://github.com/MajicDesigns/MD_MIDIFile
 #include <SdFat.h>
 #include <MD_MIDIFile.h>
 #include <MIDI_Device_Controller.h>
@@ -98,7 +100,7 @@ void setup()
 
   delay(200);
   MDC.playStartupSequence(); //Complicated end beep
-  delay(200);  
+  delay(200);
 }
 
 static bool sdInitialized = false;

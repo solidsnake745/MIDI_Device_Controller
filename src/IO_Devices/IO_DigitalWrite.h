@@ -7,18 +7,18 @@
 	#include "../SerialDebug/SerialDebug.h"
 	#include "../MIDI_Device_Controller/MIDI_Periods.h"
 	#include "IO_Device.h"
-	#include "../Common/byteNoteRegister.h"
+	#include "../Common/ByteNoteRegister.h"
 	#include "../Common/noteDuration.h"
 	#include <stdint.h>	
 	#include <SPI.h>
 
 	//Resolve STL dependency
-	#if defined(ARDUINO_ARCH_AVR)
+	#if ARDUINO_ARCH_AVR
 		#include "../../ArduinoSTLClone/map"
 		#include "../../ArduinoSTLClone/vector"
 	#elif defined(CORE_TEENSY)
 		#include <map>
-	#elif defined(ESP32)
+	#elif ARDUINO_ARCH_ESP32
 		#include <map>
 	#endif
 	
@@ -47,7 +47,7 @@
 		
 		uint8_t _numRegisters;		
 		volatile bool _outputsChanged = false;
-		inline static byteNoteRegister *_registers;
+		inline static ByteNoteRegister *_registers;
 		uint16_t _maxOutputs = 0;
 		uint16_t _usedOutputs = 0;
 		inline static std::map<uint8_t, uint8_t> _outputMap;

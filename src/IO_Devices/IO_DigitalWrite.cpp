@@ -10,9 +10,9 @@ IO_DigitalWrite::IO_DigitalWrite(uint8_t numOutputs)
 	_numRegisters = (numOutputs/8) + 1;
 	
 	//Initialize collections
-	_registers = new byteNoteRegister[_numRegisters];
+	_registers = new ByteNoteRegister[_numRegisters];
 	for(int x = 0; x < _numRegisters; x++)
-		_registers[x] = byteNoteRegister();
+		_registers[x] = ByteNoteRegister();
 	
 	//Setup IO
 	//Nothing to do here without mappings

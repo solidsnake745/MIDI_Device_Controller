@@ -1,31 +1,31 @@
-#ifndef noteDurationTracker_h
-	#define noteDurationTracker_h
+#ifndef NoteDuration_h
+	#define NoteDuration_h
 	
 	#include <stdint.h>
 	#include "../Settings.h"
 	#include "../SerialDebug/SerialDebug.h"
 
 	//Resolve STL dependency
-	#if defined(ARDUINO_ARCH_AVR)
+	#if ARDUINO_ARCH_AVR
 		#include "../../ArduinoSTLClone/cstdlib"		
 	#elif defined(CORE_TEENSY)
 		// Already included
-	#elif defined(ESP32)
+	#elif ARDUINO_ARCH_ESP32
 		// Already included
 	#endif
 	
 	//@private
-	struct noteDuration
+	struct NoteDuration
 	{
 		private:
 			inline static SerialDebug _debug = SerialDebug(5);
 			uint16_t _seconds = 0, _millis = 0, _micros = 0;
 			
 		public:
-			noteDuration(){};
+			NoteDuration(){};
 
 			//Create new object with microsonds, milliseconds, and/or seconds
-			noteDuration(uint16_t us, uint16_t ms = 0, uint16_t s = 0)
+			NoteDuration(uint16_t us, uint16_t ms = 0, uint16_t s = 0)
 			{
 				addSeconds(s);
 				addMillis(ms);
@@ -44,7 +44,7 @@
 				return _seconds == 0 && _millis == 0 && _micros == 0;
 			};
 
-			bool operator <(noteDuration &nd) 
+			bool operator <(NoteDuration &nd) 
 			{
 				if(_seconds > nd._seconds)
 					return false;
@@ -103,10 +103,10 @@
 			#if INCLUDE_TESTS			
 			inline static void runTest()
 			{
-				noteDuration test;
+				NoteDuration test;
 				
 				_debug.debugln(5, F("Test microsecond rollover"));
-				test = noteDuration(998);
+				test = NoteDuration(998);
 				for(uint16_t x = 0; x < 3; x++)
 				{
 					test.addMicros(1);
@@ -114,7 +114,7 @@
 				}
 				
 				_debug.debugln(5, F("Test millisecond rollover"));
-				test = noteDuration(0, 998);
+				test = NoteDuration(0, 998);
 				for(uint16_t x = 0; x < 3; x++)
 				{
 					test.addMillis(1);

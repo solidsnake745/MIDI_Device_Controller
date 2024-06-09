@@ -13,7 +13,7 @@
 
 	#include "MIDI_Device_Controller/ITimer/ITimer.h"
 	//Resolve timer interrupt implementation
-	#if defined(ARDUINO_ARCH_AVR)		
+	#if ARDUINO_ARCH_AVR
 		#include "MIDI_Device_Controller/ITimer/TimerOne_Timer.h"
 	#elif defined(CORE_TEENSY)
 		#include "MIDI_Device_Controller/ITimer/TimerOne_Timer.h"
@@ -102,11 +102,11 @@
 			bool _autoPlayNotes = true;
 
 			//Resolve timer interrupt implementation
-			#if defined(ARDUINO_ARCH_AVR)
+			#if ARDUINO_ARCH_AVR
 				ITimer *_timer = new TimerOne_Timer();
 			#elif defined(CORE_TEENSY)
 				ITimer *_timer = new TimerOne_Timer();
-			#elif defined(ESP32)
+			#elif ARDUINO_ARCH_ESP32
 				//TODO: Implement ESP32 timer
 				ITimer *_timer;
 			#endif	

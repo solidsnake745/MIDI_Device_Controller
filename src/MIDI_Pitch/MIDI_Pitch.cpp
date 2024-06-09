@@ -111,14 +111,14 @@ void MIDI_Pitch::playPeriod(uint16_t period)
 	if(_belongsTo) _belongsTo->noteAssigned();
 }
 
-void MIDI_Pitch::bendNote(uint16_t bend)
+void MIDI_Pitch::bendNote(uint16_t bend, bool shiftRange)
 { 
 	if (!(_currentNote > 0 && _currentNote < 256))
 		return;
 	
 	_debug.debugln(20, F("%d - Bending by value: %d"), _id, bend);
 	
-	float pitchFactor = pow(2.0, (bend - 8192.0) / 8192.0);
+	float pitchFactor = PitchBend::calculateFactor(bend, shiftRange);
 	_debug.debugln(20, F("%d - Factor: %f"), _id, pitchFactor);
 	
 	uint16_t basePeriod = getBasePeriod();

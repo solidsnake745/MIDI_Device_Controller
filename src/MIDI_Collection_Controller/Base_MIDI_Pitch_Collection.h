@@ -1,6 +1,7 @@
 #ifndef Base_MIDI_Device_Collection_h
 	#define Base_MIDI_Device_Collection_h
 	
+	#include "../Common/PitchBend.h"
 	#include "../MIDI_Pitch/MIDI_Pitch.h"
 	#include "../Settings.h"
 	#include "../SerialDebug/SerialDebug.h"
@@ -45,7 +46,7 @@
 			virtual bool playNote(uint8_t note);			
 			
 			///Pitch bend all active notes in the collection
-			virtual void bendNote(uint16_t bend);
+			virtual void bendNote(uint16_t bend, bool shiftRange = false);
 			
 			///Stops the given note
 			virtual void stopNote(uint8_t note);

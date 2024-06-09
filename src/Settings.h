@@ -1,5 +1,5 @@
 #ifndef Settings_h
-	#define Settings_h
+	#define Settings_h	
 	
 	#define MIN_RESOLUTION 1
 	#define MAX_RESOLUTION 200
@@ -19,9 +19,20 @@
 	//Longest any one device can be playing (must be in microseconds)
 	#define MAX_DURATION_DEFAULT 10 * 1000000
 	
-	//Debugging areas and levels
-	#define INCLUDE_TESTS 1
+	//Pitchbend settings (Would advise not changing)
+	#define BEND_SEMITONES 2
+	#define SEMITONES_PER_OCTAVE 12
+		
+	//Setting this to 1 includes various test methods for verifying logic
+	//Tests output information to serial and rely on SerialDebug debug methods being enabled
+	//Below are some examples of calling those tests
+	#define INCLUDE_TESTS 0
+	//NoteDuration::runTest();
+	//MIDI_Message::runTest();
+	//ByteNoteRegister::runTest();
+	//PitchBend::runTest();
 	
+	//Debugging areas and levels
 	#define DEBUG_DEVICECONTROLLER 0
 	#define DEBUG_MIDIPITCH 0
 	#define DEBUG_MIDIPERIODS 0	

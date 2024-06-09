@@ -31,7 +31,7 @@
 		uint8_t _numRegisters;
 		uint8_t _latchPin;
 		volatile bool _registersChanged = false;
-		byteNoteRegister *_registers;
+		ByteNoteRegister *_registers;
 		uint16_t _maxOutput = 0;
 		bool _writeDirection = false;	
 		
