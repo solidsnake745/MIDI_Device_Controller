@@ -24,33 +24,33 @@ Hairless_MIDI_Serial &Hairless_MIDI_Serial::getInstance()
 //_______________________________________________________________________________________________________
 MIDI_Message Hairless_MIDI_Serial::parseSerial()
 {
-  uint8_t stat = Serial.read();
-  MIDI_Message msg = MIDI_Message(stat);
-  
-  char buf[2];
-  switch(msg.getType())
-  {
-      case NoteOn:
-      case NoteOff:
-      case PitchBend:
-      case ControlChange:
-      case PolyPressure:
-        if(Serial.readBytes(buf, 2) == 2)
-          msg.setData(uint8_t(buf[0]), uint8_t(buf[1]));
-        else
-          msg = MIDI_Message(0);
-        break;
+	uint8_t stat = Serial.read();
+	MIDI_Message msg = MIDI_Message(stat);
 
-      case ProgramChange:
-      case ChannelPressure:
-        msg.setData(Serial.read());
-        break;
-      
-      case Undefined:
-        break;
-  }
+	char buf[2];
+	switch(msg.getType())
+	{
+		case NoteOn:
+		case NoteOff:
+		case PitchBend:
+		case ControlChange:
+		case PolyPressure:
+			if(Serial.readBytes(buf, 2) == 2)
+				msg.setData(uint8_t(buf[0]), uint8_t(buf[1]));
+			else
+				msg = MIDI_Message(0);
+			break;
 
-  return msg;
+		case ProgramChange:
+		case ChannelPressure:
+			msg.setData(Serial.read());
+			break;
+
+		case Undefined:
+			break;
+	}
+
+	return msg;
 }
 
 void Hairless_MIDI_Serial::process()

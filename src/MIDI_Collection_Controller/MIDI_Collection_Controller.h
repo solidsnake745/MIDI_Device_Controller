@@ -68,7 +68,7 @@
 				\param index Index to bend the notes of
 				\param bend Value to pitch bend by
 			*/
-			void bendNote(int8_t index, uint16_t bend);
+			void bendNote(int8_t index, uint16_t bend, bool shiftRange = false);
 			
 			///Stops the given note on a collection
 			/*!

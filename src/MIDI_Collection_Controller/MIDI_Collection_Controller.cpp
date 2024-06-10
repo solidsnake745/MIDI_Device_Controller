@@ -102,11 +102,11 @@ void MIDI_Collection_Controller::playNote(int8_t index, uint8_t note)
 	c->playNote(note);
 }
 
-void MIDI_Collection_Controller::bendNote(int8_t index, uint16_t bend)
+void MIDI_Collection_Controller::bendNote(int8_t index, uint16_t bend, bool shiftRange)
 {
 	Base_MIDI_Pitch_Collection *c = getCollection(index);
 	if(!c) return;
-	c->bendNote(bend);
+	c->bendNote(bend, shiftRange);
 }
 
 void MIDI_Collection_Controller::stopNote(int8_t index, uint8_t note)

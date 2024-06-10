@@ -250,5 +250,8 @@ void onPitchBend(uint8_t channel, uint16_t pitch)
 {
   //Distribute notes except for the drum track
   if(channel == 9) return;
-  MCC.bendNote(0, pitch);
+  
+  //pitch value is original MIDI data which can be from 0 to 16383
+  //Passing in true for shiftRange to shift it to the expected range of -8192 to 8191
+  MCC.bendNote(0, pitch, true);
 }

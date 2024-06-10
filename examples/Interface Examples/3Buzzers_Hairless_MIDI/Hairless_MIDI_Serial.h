@@ -2,7 +2,7 @@
 	#define Hairless_MIDI_Serial_h
 
 	#include <Arduino.h>
-  #include <MIDI_Device_Controller.h>
+	#include <MIDI_Device_Controller.h>
 	
 	class Hairless_MIDI_Serial
 	{
