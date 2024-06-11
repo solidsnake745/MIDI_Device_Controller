@@ -50,8 +50,8 @@
 		inline static ByteNoteRegister *_registers;
 		uint16_t _maxOutputs = 0;
 		uint16_t _usedOutputs = 0;
-		inline static std::map<uint8_t, uint8_t> _outputMap;
-		inline static std::vector<changedOutput> _changedOutputs;		
+		static std::map<uint8_t, uint8_t> _outputMap;
+		static std::vector<changedOutput> _changedOutputs;		
 		
 		void updateDurations();
 		void updateIO();

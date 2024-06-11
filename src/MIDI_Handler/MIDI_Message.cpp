@@ -99,7 +99,7 @@ void MIDI_Message::setBendValue(uint16_t bv)
 	}
 	
 	//0 to 16,383 (14 bits)
-	//Convert 16 bit value to two 7 bit bytes
+	//Convert 16 bit value into two 7 bit bytes
 	setData1(bv & 0x7F); //LSB of bv
 	setData2(bv >> 7); //MSB of bv
 };

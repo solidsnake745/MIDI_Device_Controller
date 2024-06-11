@@ -1,10 +1,12 @@
 #ifndef SerialDebug_h
 #define SerialDebug_h
 
-#define DEBUG_ENABLED 1
+#define DEBUG_ENABLED 0
+#define PRINT_ENABLED 0
+#define ANY_OUTPUT_ENABLED (DEBUG_ENABLED || PRINT_ENABLED)
 #define FLASH_STRING_BUFFERSIZE 64
 
-#include <Arduino.h>	
+#include <Arduino.h>
 
 // Functions utilizing templates and argument packs need to be defined inline here
 // Technical reason: original definition needs to be available for compiler to interpert types
@@ -12,7 +14,7 @@
 /// @private
 class SerialDebug
 {
-#ifndef CORE_TEENSY
+#if (!defined(CORE_TEENSY) && ANY_OUTPUT_ENABLED)
 	static FILE serial_out;
 	static int writeChar(char c, FILE *f);
 	static void setup();
@@ -37,18 +39,22 @@ class SerialDebug
 		template<typename... Args>
 		inline void print(const char *format, Args... args)
 		{			
-		#ifdef CORE_TEENSY
-			Serial.printf(format, args...);
-		#else
-			printf(format, args...);
+		#if ANY_OUTPUT_ENABLED		
+			#ifdef CORE_TEENSY
+				Serial.printf(format, args...);
+			#else
+				printf(format, args...);
+			#endif
 		#endif
 		};
 		
 		template<typename... Args>
 		inline void println(const char *format, Args... args)
 		{
+		#if PRINT_ENABLED
 			print(format, args...);
 			Serial.println();
+		#endif
 		};
 		
 		//Strings from flash
@@ -58,16 +64,20 @@ class SerialDebug
 		template<typename... Args>
 		inline void print(const __FlashStringHelper *format, Args... args)
 		{
+		#if PRINT_ENABLED
 			char buffer[FLASH_STRING_BUFFERSIZE];
 			readToBuffer(buffer, format);
 			print(buffer, args...);
+		#endif
 		};
 		
 		template<typename... Args>
 		inline void println(const __FlashStringHelper *format, Args... args)
 		{
+		#if PRINT_ENABLED
 			print(format, args...);
 			Serial.println();
+		#endif
 		};
 
 		//Debug

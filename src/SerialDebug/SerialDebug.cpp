@@ -2,14 +2,14 @@
 
 SerialDebug::SerialDebug()
 {
-#ifndef CORE_TEENSY
+#if (!defined(CORE_TEENSY) && ANY_OUTPUT_ENABLED)
 	setup();
 #endif
 }
 
 SerialDebug::SerialDebug(uint8_t level)
 {
-#ifndef CORE_TEENSY
+#if (!defined(CORE_TEENSY) && ANY_OUTPUT_ENABLED)
 	setup();
 #endif
 	_debugLevel = level;
@@ -25,7 +25,7 @@ uint8_t SerialDebug::getDebugLevel()
 	return _debugLevel;
 }
 
-#ifndef CORE_TEENSY
+#if (!defined(CORE_TEENSY) && ANY_OUTPUT_ENABLED)
 
 	FILE SerialDebug::serial_out;
 
@@ -64,26 +64,34 @@ void SerialDebug::readToBuffer(char *buffer, const __FlashStringHelper *string)
 
 void SerialDebug::print(const char *string)
 {
+#if PRINT_ENABLED
 	Serial.print(string);
+#endif
 }
 
 void SerialDebug::println(const char *string)
 {
+#if PRINT_ENABLED
 	Serial.println(string);
+#endif
 }
 
 void SerialDebug::print(const __FlashStringHelper *string)
-{		
+{
+#if PRINT_ENABLED
 	char buffer[FLASH_STRING_BUFFERSIZE];
 	readToBuffer(buffer, string);
 	print(buffer);
+#endif
 }
 
 void SerialDebug::println(const __FlashStringHelper *string)
 {		
+#if PRINT_ENABLED
 	char buffer[FLASH_STRING_BUFFERSIZE];
 	readToBuffer(buffer, string);
 	println(buffer);
+#endif
 }
 
 void SerialDebug::debug(uint8_t level, const char *string) 

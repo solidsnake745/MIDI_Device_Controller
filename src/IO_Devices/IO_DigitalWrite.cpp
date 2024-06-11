@@ -1,5 +1,8 @@
 #include "IO_DigitalWrite.h"
 
+std::map<uint8_t, uint8_t> IO_DigitalWrite::_outputMap;
+std::vector<IO_DigitalWrite::changedOutput> IO_DigitalWrite::_changedOutputs;
+ 
 IO_DigitalWrite::IO_DigitalWrite(uint8_t numOutputs) 
 {
 	if(numOutputs == 0)
