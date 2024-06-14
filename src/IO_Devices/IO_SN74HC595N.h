@@ -33,14 +33,16 @@
 		volatile bool _registersChanged = false;
 		ByteNoteRegister *_registers;
 		uint16_t _maxOutput = 0;
-		bool _writeDirection = false;	
+		bool _reverseOutput = false;
 		
 		void checkMaxDuration();
 		void updateOuts(); //Operates the SPI bus per desired MIDI output
-					
+		
 		void updateDurations();
 		void updateSN74HC595N();			
 		
+		//NOTE: According to tutorials, you're supposed to set the latch pin high before the transmission of data and then low afterwards
+		//	However, I've found that just toggling it afterwards seems to work fine? Not sure if I'm doing something wrong so leaving it as is
 		inline void latchRegisters()
 		{
 			digitalWrite(_latchPin, HIGH);
@@ -60,7 +62,7 @@
 				digitalWrite(_latchPin, LOW);
 			};
 			
-			inline void setWriteDirection(bool value) { _writeDirection = value; };			
+			inline void setReverseOutput(bool value) { _reverseOutput = value; };			
 			
 			bool isValidMapping(uint8_t out);
 			void setMaxDuration(uint8_t out, uint32_t us);

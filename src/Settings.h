@@ -31,6 +31,7 @@
 	//MIDI_Message::runTest();
 	//ByteNoteRegister::runTest();
 	//PitchBend::runTest();
+	//SerialDebug::runTest();
 	
 	//Debugging areas and levels
 	#define DEBUG_DEVICECONTROLLER 0

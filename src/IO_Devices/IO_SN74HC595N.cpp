@@ -151,14 +151,14 @@ void IO_SN74HC595N::updateSN74HC595N()
 	
 	_debug.debugln(20, F("Registers have changed"));		
 	uint8_t newValues[_numRegisters];
-	uint8_t newIndex = !_writeDirection ? _numRegisters - 1 : 0;
+	uint8_t newIndex = !_reverseOutput ? _numRegisters - 1 : 0;
 	
 	_debug.debug(3, F("New register values: "));
 	for(int x = 0; x < _numRegisters; x++)
 	{
-		newValues[newIndex] = !_writeDirection ? _registers[x].getByteValue() : reverseByte(_registers[x].getByteValue());
+		newValues[newIndex] = !_reverseOutput ? _registers[x].getByteValue() : reverseByte(_registers[x].getByteValue());
 		_debug.debug(3, F("%d (%d), "), _registers[x].getByteValue(), newValues[newIndex]);
-		newIndex = !_writeDirection ? newIndex - 1 : newIndex + 1;
+		newIndex = !_reverseOutput ? newIndex - 1 : newIndex + 1;
 	}
 	_debug.debugln(3);
 	
@@ -170,5 +170,13 @@ void IO_SN74HC595N::updateSN74HC595N()
 
 void IO_SN74HC595N::checkMaxDuration()
 {
-	
+	for(int registerIndex = 0; registerIndex < _numRegisters; registerIndex++)
+		for(int bitIndex = 0; bitIndex < 8; bitIndex++)
+		{
+			if(_registers[registerIndex].isPastMaxDuration(bitIndex))
+			{
+				_registers[registerIndex].clearBit(bitIndex);
+				_registersChanged = true;
+			}			
+		}	
 };
