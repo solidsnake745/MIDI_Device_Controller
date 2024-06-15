@@ -1,3 +1,5 @@
+#warning "This has not been tested with Moppy2 yet as I'm having issues with running it"
+
 //Example sketch for playing MIDI from Moppy2 serial input
 //Moppy2: https://github.com/Sammy1Am/Moppy2
 #include <MIDI_Device_Controller.h>

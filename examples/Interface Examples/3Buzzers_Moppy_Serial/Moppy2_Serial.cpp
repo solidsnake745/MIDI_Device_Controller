@@ -22,12 +22,6 @@ Moppy2_Serial &Moppy2_Serial::getInstance()
 
 //Serial Handling
 //_______________________________________________________________________________________________________
-void Moppy2_Serial::process()
-{
-	if(Serial.available() >= 4)	
-		parseSerial();
-}
-
 void Moppy2_Serial::parseSerial()
 {
 	if(Serial.read() != START_BYTE)
@@ -58,6 +52,12 @@ void Moppy2_Serial::parseSerial()
     handleSystemMessage(&msg);
   else
     handleDeviceMessage(&msg);	
+}
+
+void Moppy2_Serial::process()
+{
+	if(Serial.available() >= 4)	
+		parseSerial();
 }
 
 //Message Handling
