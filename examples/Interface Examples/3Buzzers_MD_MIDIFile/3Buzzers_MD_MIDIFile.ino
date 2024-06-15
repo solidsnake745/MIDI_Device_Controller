@@ -246,7 +246,7 @@ void onNoteOn(uint8_t channel, uint8_t note, uint8_t velocity)
     MCC.stopNote(0, note);
 }
 
-void onPitchBend(uint8_t channel, uint16_t pitch)
+void onPitchBend(uint8_t channel, int pitch)
 {
   //Distribute notes except for the drum track
   if(channel == 9) return;

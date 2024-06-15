@@ -14,11 +14,13 @@
 /// @private
 class SerialDebug
 {
-#if (!defined(CORE_TEENSY) && ANY_OUTPUT_ENABLED)
-	static FILE serial_out;
-	static int writeChar(char c, FILE *f);	
-#endif
+	uint8_t _debugLevel = 0;
 
+#if (!defined(CORE_TEENSY) && ANY_OUTPUT_ENABLED)
+	inline static FILE serial_out;
+	inline static int writeChar(char c, FILE *f);	
+#endif
+	
 	inline static void setup()
 	{
 	#if (!defined(CORE_TEENSY) && ANY_OUTPUT_ENABLED)
@@ -40,8 +42,7 @@ class SerialDebug
 			if (c == 0) break;
 		}
 	};
-	
-	uint8_t _debugLevel = 0;
+		
 	inline bool shouldDebug(uint8_t level)
 	{
 		if(_debugLevel == 0) return false;
@@ -85,8 +86,13 @@ class SerialDebug
 	};
 		
 	public:
-		SerialDebug();
-		SerialDebug(uint8_t level);
+		SerialDebug() { setup(); };
+
+		SerialDebug(uint8_t level)
+		{
+			setup();
+			_debugLevel = level;
+		};
 	
 		inline void setDebugLevel(uint8_t level) { _debugLevel = level; };
 		inline uint8_t getDebugLevel() { return _debugLevel; };

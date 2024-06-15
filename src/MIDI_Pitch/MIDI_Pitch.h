@@ -141,7 +141,7 @@
 			
 			void playNote(uint8_t note);		
 			void playPeriod(uint16_t period);
-			void bendNote(uint16_t bend, bool shiftRange = false);
+			void bendNote(int bend, bool shiftRange = false);
 			void bendNoteByFactor(float pitchFactor);
 			void stopNote();
 			

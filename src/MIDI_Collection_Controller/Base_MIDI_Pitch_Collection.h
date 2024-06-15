@@ -46,7 +46,7 @@
 			virtual bool playNote(uint8_t note);			
 			
 			///Pitch bend all active notes in the collection
-			virtual void bendNote(uint16_t bend, bool shiftRange = false);
+			virtual void bendNote(int bend, bool shiftRange = false);
 			
 			///Stops the given note
 			virtual void stopNote(uint8_t note);
