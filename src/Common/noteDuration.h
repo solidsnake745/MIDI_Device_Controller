@@ -3,7 +3,7 @@
 	
 	#include <stdint.h>
 	#include "../Settings.h"
-	#include "../SerialDebug/SerialDebug.h"
+	#include "../Common/SerialDebug.h"
 
 	//Resolve STL dependency
 	#if ARDUINO_ARCH_AVR

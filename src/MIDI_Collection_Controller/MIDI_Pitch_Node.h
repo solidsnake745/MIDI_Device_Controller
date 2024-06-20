@@ -3,7 +3,7 @@
 
 	#include <Arduino.h>
 	#include "../Settings.h"
-	#include "../SerialDebug/SerialDebug.h"	
+	#include "../Common/SerialDebug.h"	
 	
 	//Forward declaration for compiling
 	class MIDI_Pitch;

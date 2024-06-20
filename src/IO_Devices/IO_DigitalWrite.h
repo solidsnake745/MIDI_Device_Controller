@@ -4,7 +4,7 @@
 	#include <Arduino.h>
 	
 	#include "../Settings.h"
-	#include "../SerialDebug/SerialDebug.h"
+	#include "../Common/SerialDebug.h"
 	#include "../MIDI_Device_Controller/MIDI_Periods.h"
 	#include "IO_Device.h"
 	#include "../Common/ByteNoteRegister.h"

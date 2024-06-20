@@ -2,7 +2,7 @@
 	#define MIDI_Periods_h
 	
 	#include "../Settings.h"
-	#include "../SerialDebug/SerialDebug.h"
+	#include "../Common/SerialDebug.h"
 	
 	//Resolve pgmspace dependency
 	#if ARDUINO_ARCH_AVR

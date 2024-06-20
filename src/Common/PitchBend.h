@@ -2,7 +2,7 @@
 	#define PitchBend_h
 	
 	#include "../Settings.h"
-	#include "../SerialDebug/SerialDebug.h"
+	#include "../Common/SerialDebug.h"
 	
 	#if INCLUDE_TESTS
 		#include "../MIDI_Device_Controller/MIDI_Periods.h"

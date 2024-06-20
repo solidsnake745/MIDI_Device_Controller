@@ -2,7 +2,7 @@
 	#define MIDI_Collection_Factory_h
 
 	#include "../Settings.h"
-	#include "../SerialDebug/SerialDebug.h"
+	#include "../Common/SerialDebug.h"
 	#include "../MIDI_Device_Controller.h"
 	#include "../MIDI_Collection_Controller/Base_MIDI_Pitch_Collection.h"
 	#include "../MIDI_Collection_Controller/Collections/Direct_Collection.h"

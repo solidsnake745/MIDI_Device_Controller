@@ -3,7 +3,7 @@
 	
 	#include "MIDI_Enums.h"
 	#include <Arduino.h>
-	#include "../SerialDebug/SerialDebug.h"
+	#include "../Common/SerialDebug.h"
 	
 	//Standard MIDI message interface
 	//MIDI messages are 3 byte messages 

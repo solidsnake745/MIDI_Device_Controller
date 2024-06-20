@@ -2,7 +2,7 @@
 	#define MIDI_Device_Controller_h
 
 	#include "Settings.h"
-	#include "SerialDebug/SerialDebug.h"
+	#include "Common/SerialDebug.h"
 	#include "MDC_Extras.h"
 	#include <Arduino.h>	
 	#include "MIDI_Device_Controller/MIDI_Periods.h"

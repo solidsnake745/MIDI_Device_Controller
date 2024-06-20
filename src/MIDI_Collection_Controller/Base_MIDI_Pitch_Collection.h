@@ -4,7 +4,7 @@
 	#include "../Common/PitchBend.h"
 	#include "../MIDI_Pitch/MIDI_Pitch.h"
 	#include "../Settings.h"
-	#include "../SerialDebug/SerialDebug.h"
+	#include "../Common/SerialDebug.h"
 
 	struct MIDI_Pitch_Node;
 

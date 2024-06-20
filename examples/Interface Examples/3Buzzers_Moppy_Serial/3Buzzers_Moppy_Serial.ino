@@ -19,7 +19,7 @@
   const int resolution = 100;
   const uint8_t pins[] = {2, 3, 4};
 #elif defined(CORE_TEENSY)
-  const uint8_t pins[] = {0, 1, 2, 3, 4, 5};
+  const uint8_t pins[] = {0, 1, 2};
   #if ARDUINO_TEENSY32
     #warning "Compiling for Teensy 3.2"
     const int resolution = 20;

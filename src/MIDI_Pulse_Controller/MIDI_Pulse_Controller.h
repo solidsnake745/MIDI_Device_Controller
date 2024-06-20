@@ -3,7 +3,7 @@
 	
 	#include "../MIDI_Device_Controller.h"
 	#include "../Settings.h"
-	#include "../SerialDebug/SerialDebug.h"
+	#include "../Common/SerialDebug.h"
 	#include "../MIDI_Device_Controller.h"
 	#include "../IO_Devices/IO_Device.h"
 	#include "../IO_Factory/IO_Factory.h"

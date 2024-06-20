@@ -7,7 +7,7 @@
 	#include "../IO_Devices/IO_Device.h"
 	#include "../IO_Factory/IO_Factory.h"
 	#include "../Settings.h"
-	#include "../SerialDebug/SerialDebug.h"
+	#include "../Common/SerialDebug.h"
 
 	//Forward declaration for compiling
 	class MIDI_Device_Controller;

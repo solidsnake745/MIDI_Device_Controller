@@ -3,7 +3,7 @@
 
 	#include "NoteDuration.h"
 	#include "../Settings.h"
-	#include "../SerialDebug/SerialDebug.h"
+	#include "../Common/SerialDebug.h"
 
 	class ByteNoteRegister
 	{
