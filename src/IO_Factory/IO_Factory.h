@@ -26,7 +26,7 @@
 			/// @private
 			static IO_Factory &getInstance();			
 			
-			IO_Device *getDevice(IO_DeviceEnum device);
+			IO_Device *getIO(IOType type);
 			
 			///Creates a new digital IO device and adds it to the controller
 			/*!
@@ -39,7 +39,7 @@
 				\param numRegisters Number of shift registers
 				\param latchPin Pin to use for latching the registers
 			*/
-			IO_SN74HC595N *createSN74HC595N(uint8_t numRegisters, uint8_t latchPin);
+			IO_74HC595 *create74HC595(uint8_t numRegisters, uint8_t latchPin);
 	};
 	
 	//Defines a global instance of our class for users to consume

@@ -70,10 +70,10 @@
 			inline bool isTrackingPosition() { return _maxPosition > 0; }; 
 
 			//Sets the associated step pin
-			void setStepPin(IO_DeviceEnum device, int8_t pin);
+			void setStepPin(IOType type, int8_t pin);
 			
 			//Sets the associated direction pin
-			void setDirPin(IO_DeviceEnum device, int8_t pin);
+			void setDirPin(IOType type, int8_t pin);
 			
 			inline void setMaxPosition(int32_t value) { _maxPosition = value; };
 			

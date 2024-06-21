@@ -1,9 +1,9 @@
 #include "IO_SN74HC595N.h"
 #include "../MIDI_Device_Controller.h" //Need the definition of noteAssigned()
 
-constexpr uint8_t IO_SN74HC595N::reverseLookup[];
+constexpr uint8_t IO_74HC595::reverseLookup[];
 
-IO_SN74HC595N::IO_SN74HC595N(uint8_t numRegisters, uint8_t latchPin) 
+IO_74HC595::IO_74HC595(uint8_t numRegisters, uint8_t latchPin) 
 {
 	if(numRegisters == 0)
 		numRegisters = 1;
@@ -29,7 +29,7 @@ IO_SN74HC595N::IO_SN74HC595N(uint8_t numRegisters, uint8_t latchPin)
 	latchRegisters();
 }
 
-void IO_SN74HC595N::checkMaxDuration()
+void IO_74HC595::checkMaxDuration()
 {
 	for(int registerIndex = 0; registerIndex < _numRegisters; registerIndex++)
 		for(int bitIndex = 0; bitIndex < 8; bitIndex++)
@@ -42,7 +42,7 @@ void IO_SN74HC595N::checkMaxDuration()
 		}	
 }
 
-void IO_SN74HC595N::updateOutputs()
+void IO_74HC595::updateOutputs()
 {
 	_debug.debugln(50, F("updateOuts begin"));
 	
@@ -50,7 +50,7 @@ void IO_SN74HC595N::updateOutputs()
 	updateDurations();
 }
 
-void IO_SN74HC595N::updateDurations()
+void IO_74HC595::updateDurations()
 {	
 	_debug.debugln(50, F("updateDurations begin"));
 	
@@ -58,7 +58,7 @@ void IO_SN74HC595N::updateDurations()
 		_registers[x].updateDurations(MIDI_Periods::getResolution());
 }
 
-void IO_SN74HC595N::updateSN74HC595N()
+void IO_74HC595::updateSN74HC595N()
 {	
 	_debug.debugln(50, F("updateSN74HC595N begin"));
 	
@@ -87,14 +87,14 @@ void IO_SN74HC595N::updateSN74HC595N()
 	_registersChanged = false;
 }
 
-uint8_t IO_SN74HC595N::reverseByte(uint8_t n)
+uint8_t IO_74HC595::reverseByte(uint8_t n)
 {
 	// Taken from https://stackoverflow.com/a/2603254
 	// Reverse the top and bottom nibble then swap them
 	return (reverseLookup[n&0b1111] << 4) | reverseLookup[n>>4];
 }
 
-bool IO_SN74HC595N::isValidMapping(uint8_t out)
+bool IO_74HC595::isValidMapping(uint8_t out)
 {
 	bool isWithinRange = out <= _maxOutput;
 	if(!isWithinRange)
@@ -103,7 +103,7 @@ bool IO_SN74HC595N::isValidMapping(uint8_t out)
 	return isWithinRange;
 }
 
-void IO_SN74HC595N::setMaxDuration(uint8_t out, uint32_t us)
+void IO_74HC595::setMaxDuration(uint8_t out, uint32_t us)
 {
 	if(out > _maxOutput)
 	{
@@ -118,12 +118,12 @@ void IO_SN74HC595N::setMaxDuration(uint8_t out, uint32_t us)
 	_registers[registerIndex].setMaxDuration(bitIndex, us);
 }
 
-void IO_SN74HC595N::setOutputInverted(uint8_t out, bool value)
+void IO_74HC595::setOutputInverted(uint8_t out, bool value)
 {
 	
 }
 
-void IO_SN74HC595N::setOutput(uint8_t out, bool value)
+void IO_74HC595::setOutput(uint8_t out, bool value)
 {
 	_debug.debugln(20, F("Attempting to set output: %d"), out);
 	
@@ -149,7 +149,7 @@ void IO_SN74HC595N::setOutput(uint8_t out, bool value)
 	_registersChanged = true;
 }
 
-void IO_SN74HC595N::stopOutputs()
+void IO_74HC595::stopOutputs()
 {
 	_debug.debugln(20, F("Attempting to stop all actives notes"));
 	
@@ -161,7 +161,7 @@ void IO_SN74HC595N::stopOutputs()
 	updateSN74HC595N();
 }
 
-void IO_SN74HC595N::testOutputs()
+void IO_74HC595::testOutputs()
 {	
 	//Enable each output on each register gradually
 	_debug.println(F("Testing each register's individual outputs"));

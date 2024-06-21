@@ -53,10 +53,10 @@
 			///Adds a mapping between note and pulse device output
 			/*!
 				\param note MIDI note to map
-				\param device IO device to map to
+				\param type IO device to map to
 				\param output Output of the device to map to
 			*/
-			void addMapping(uint8_t note, IO_DeviceEnum device, uint8_t output);
+			void addMapping(uint8_t note, IOType type, uint8_t output);
 			
 			void deleteMapping(uint8_t note);			
 			

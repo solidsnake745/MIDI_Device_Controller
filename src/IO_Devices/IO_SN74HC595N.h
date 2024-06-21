@@ -14,12 +14,12 @@
 	class MIDI_Device_Controller;
 	
 	///MIDI device class for pulsing shift register outputs via SPI
-	class IO_SN74HC595N : public IO_Device
+	class IO_74HC595 : public IO_Device
 	{
 		//Give MIDI_DeviceController access to all private members
 		friend class MIDI_Device_Controller;
 		
-		inline static SerialDebug _debug = SerialDebug(DEBUG_SN74HC595N);
+		inline static SerialDebug _debug = SerialDebug(DEBUG_74HC595);
 		
 		//Lookup table for the reverse values of 4 bits
 		//Index is the value you want to reverse
@@ -52,7 +52,7 @@
 		
 		public:
 			//Constructors/properties
-			IO_SN74HC595N(uint8_t numRegisters, uint8_t latchPin);
+			IO_74HC595(uint8_t numRegisters, uint8_t latchPin);
 
 			inline uint8_t getRegisterCount() { return _numRegisters; };
 			inline uint8_t getLatchPin() { return _latchPin; };

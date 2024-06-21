@@ -19,7 +19,7 @@ MIDI_Pulse_Controller &MIDI_Pulse_Controller::getInstance()
 	return *_instance;
 }
 
-void MIDI_Pulse_Controller::addMapping(uint8_t note, IO_DeviceEnum device, uint8_t output)
+void MIDI_Pulse_Controller::addMapping(uint8_t note, IOType type, uint8_t output)
 {
 	//Check note is not already mapped
 	if(_noteMap.count(note) > 0)
@@ -29,14 +29,14 @@ void MIDI_Pulse_Controller::addMapping(uint8_t note, IO_DeviceEnum device, uint8
 	}
 	
 	//Retrieve device to map to
-	IO_Device* d = IOF.getDevice(device);
+	IO_Device* d = IOF.getIO(type);
 	
 	//Check the device is populated
 	if(!d)
 	{
 		_debug.debugln(15, F("Device not populated"));
 		return;
-	}		
+	}
 
 	if(d->isValidMapping(output))
 	{
@@ -87,11 +87,11 @@ void MIDI_Pulse_Controller::stopNote(uint8_t note)
 void MIDI_Pulse_Controller::stopNotes()
 {
 	IO_Device* d;
-	d = IOF.getDevice(DigitalWrite);;
+	d = IOF.getIO(IODigital);;
 	if(d)
 		d->stopOutputs();
 	
-	d = IOF.getDevice(SN74HC595N);
+	d = IOF.getIO(IO74HC595);
 	if(d)
 		d->stopOutputs();
 }

@@ -21,12 +21,12 @@ void MIDI_Pitch::setController(MIDI_Device_Controller *controller)
 	_belongsTo = controller;
 }
 
-void MIDI_Pitch::setStepPin(IO_DeviceEnum device, int8_t pin) 
+void MIDI_Pitch::setStepPin(IOType type, int8_t pin) 
 { 
 	_stepPinMap = pin; 
 	if (_stepPinMap >= 0)
 	{
-		_stepIO = IOF.getDevice(device);
+		_stepIO = IOF.getIO(type);
 		if(_stepIO && _stepIO->isValidMapping(_stepPinMap))
 			_stepIO->setMaxDuration(_stepPinMap, 0);
 		else
@@ -34,13 +34,13 @@ void MIDI_Pitch::setStepPin(IO_DeviceEnum device, int8_t pin)
 	}
 }
 
-void MIDI_Pitch::setDirPin(IO_DeviceEnum device, int8_t pin) 
+void MIDI_Pitch::setDirPin(IOType type, int8_t pin) 
 { 
 	_dirPinMap = pin;
 	if (_dirPinMap < 0)
 		return;
 	
-	_dirIO = IOF.getDevice(device);
+	_dirIO = IOF.getIO(type);
 	if(_dirIO && _dirIO->isValidMapping(_dirPinMap))
 		_dirIO->setMaxDuration(_dirPinMap, 0);
 	else

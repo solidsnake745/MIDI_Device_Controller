@@ -18,11 +18,11 @@ IO_Factory &IO_Factory::getInstance()
 	//Single instance check, instantiation, and return
 	if (_instance == NULL) _instance = new IO_Factory();
 	return *_instance;
-};
+}
 
-IO_Device *IO_Factory::getDevice(IO_DeviceEnum device)
+IO_Device *IO_Factory::getIO(IOType type)
 {
-	uint8_t i = static_cast<uint8_t>(device);
+	uint8_t i = static_cast<uint8_t>(type);
 	if(_ioDevices[i])
 		return _ioDevices[i];
 	
@@ -31,7 +31,7 @@ IO_Device *IO_Factory::getDevice(IO_DeviceEnum device)
 
 IO_DigitalWrite *IO_Factory::createDigitalIO(uint8_t numOutputs)
 {
-	uint8_t i = static_cast<uint8_t>(DigitalWrite);
+	uint8_t i = static_cast<uint8_t>(IODigital);
 	if(_ioDevices[i])
 		return (IO_DigitalWrite*) _ioDevices[i];
 	
@@ -39,21 +39,12 @@ IO_DigitalWrite *IO_Factory::createDigitalIO(uint8_t numOutputs)
 	return (IO_DigitalWrite*) _ioDevices[i];
 }
 
-IO_SN74HC595N *IO_Factory::createSN74HC595N(uint8_t numRegisters, uint8_t latchPin)
+IO_74HC595 *IO_Factory::create74HC595(uint8_t numRegisters, uint8_t latchPin)
 {
-	uint8_t i = static_cast<uint8_t>(SN74HC595N);
+	uint8_t i = static_cast<uint8_t>(IO74HC595);
 	if(_ioDevices[i])
-		return (IO_SN74HC595N*) _ioDevices[i];
+		return (IO_74HC595*) _ioDevices[i];
 	
-	_ioDevices[i] = new IO_SN74HC595N(numRegisters, latchPin);
-	return (IO_SN74HC595N*) _ioDevices[i];
+	_ioDevices[i] = new IO_74HC595(numRegisters, latchPin);
+	return (IO_74HC595*) _ioDevices[i];
 }
-
-// MIDI_SN74HC595N *IO_Factory::createSN74HC595N(uint8_t numOutputs, uint8_t latchPin)
-// {
-	// if(MDC.getSN74HC595N())
-		// return MDC.getSN74HC595N();
-	
-	// MDC.setSN74HC595N(new MIDI_SN74HC595N(numOutputs, latchPin));
-	// return MDC.getSN74HC595N();
-// }
