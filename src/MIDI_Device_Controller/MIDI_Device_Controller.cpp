@@ -256,7 +256,7 @@ void MIDI_Device_Controller::processNotes()
 	for(i = 0; i < MAX_IO_DEVICES; i++)
 	{
 		if(IO_Factory::_ioDevices[i])
-			IO_Factory::_ioDevices[i]->updateOuts();
+			IO_Factory::_ioDevices[i]->updateOutputs();
 	}
 
 #if ISR_TESTING >= 2
@@ -334,7 +334,7 @@ void MIDI_Device_Controller::stopPlaying()
 	{
 		IO_Device *io = IO_Factory::_ioDevices[i];
 		if(io)
-			io->stopOuts();
+			io->stopOutputs();
 	}
 	
 	_isPlayingNotes = false;

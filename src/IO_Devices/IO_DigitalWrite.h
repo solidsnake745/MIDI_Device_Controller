@@ -53,24 +53,30 @@
 		static std::map<uint8_t, uint8_t> _outputMap;
 		static std::vector<changedOutput> _changedOutputs;		
 		
+		//Interface implementations
+		void checkMaxDuration();
+		void updateOutputs(); //Operates the digital IO per desired MIDI output
+		
+		//Unique methods
 		void updateDurations();
 		void updateIO();
-
-		void checkMaxDuration();
 		
 		public:
+			//Constructors/properties
 			IO_DigitalWrite(uint8_t numOutputs);
 
-			inline uint8_t getRegisterCount() { return _numRegisters; };
+			inline uint8_t getRegisterCount() { return _numRegisters; };		
 			
-			void addOutput(uint8_t pin);
-			void deleteOutput(uint8_t pin);
+			//Interface implementations
 			bool isValidMapping(uint8_t out);
 			void setMaxDuration(uint8_t out, uint32_t us);
+			void setOutputInverted(uint8_t out, bool value);
 			void setOutput(uint8_t out, bool value);
-			void stopOuts();
-			void updateOuts(); //Operates the digital IO per desired MIDI output
+			void stopOutputs();
 			
+			//Unique methods
+			void addOutput(uint8_t pin);
+			void deleteOutput(uint8_t pin);
 			void testOutputs();
 	};
 #endif

@@ -21,13 +21,14 @@ class IO_Device
 	friend class MIDI_Device_Controller;
 	
 	virtual void checkMaxDuration() = 0;
-	virtual void updateOuts() = 0;
+	virtual void updateOutputs() = 0;
 	
 	public:
 		virtual bool isValidMapping(uint8_t out) = 0;
 		virtual void setMaxDuration(uint8_t out, uint32_t us) = 0;
-		virtual void setOutput(uint8_t out, bool value) = 0;
-		virtual void stopOuts() = 0;
+		virtual void setOutputInverted(uint8_t out, bool value) = 0;
+		virtual void setOutput(uint8_t out, bool value) = 0;		
+		virtual void stopOutputs() = 0;		
 };
 
 #endif

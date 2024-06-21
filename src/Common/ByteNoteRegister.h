@@ -33,10 +33,8 @@
 		
 			inline uint8_t getByteValue() 
 			{ 
-				if(_invert > 0)
-					return ((~_data & _invert) + (_data & ~_invert));
-				
-				return _data;
+				//If there any bits set to be inverted, return the inverted value
+				return _invert > 0 ? ((~_data & _invert) + (_data & ~_invert)) : _data;
 			};
 			
 			inline void setBit(uint8_t i) { bitSet(_data, i); };

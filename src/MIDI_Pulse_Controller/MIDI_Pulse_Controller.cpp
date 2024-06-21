@@ -89,9 +89,9 @@ void MIDI_Pulse_Controller::stopNotes()
 	IO_Device* d;
 	d = IOF.getDevice(DigitalWrite);;
 	if(d)
-		d->stopOuts();
+		d->stopOutputs();
 	
 	d = IOF.getDevice(SN74HC595N);
 	if(d)
-		d->stopOuts();
+		d->stopOutputs();
 }
