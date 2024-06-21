@@ -3,7 +3,7 @@
 
 	#include "../IO_Devices/IO_Device.h"
 	#include "../IO_Devices/IO_DigitalWrite.h"
-	#include "../IO_Devices/IO_SN74HC595N.h"
+	#include "../IO_Devices/IO_74HC595.h"
 	
 	#define MAX_IO_DEVICES 2
 	

@@ -1,4 +1,4 @@
-#include "IO_SN74HC595N.h"
+#include "IO_74HC595.h"
 #include "../MIDI_Device_Controller.h" //Need the definition of noteAssigned()
 
 constexpr uint8_t IO_74HC595::reverseLookup[];

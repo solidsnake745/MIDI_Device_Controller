@@ -1,5 +1,5 @@
-#ifndef IO_SN74HC595N_h
-	#define IO_SN74HC595N_h
+#ifndef IO_74HC595_h
+	#define IO_74HC595_h
 	
 	#include "../Settings.h"	
 	#include "../Common/SerialDebug.h"
