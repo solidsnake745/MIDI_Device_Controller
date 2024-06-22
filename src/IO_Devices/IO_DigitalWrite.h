@@ -71,6 +71,7 @@
 			bool isValidMapping(uint8_t out);
 			void setMaxDuration(uint8_t out, uint32_t us);
 			void setOutputInverted(uint8_t out, bool value);
+			bool getOutput(uint8_t out);
 			void setOutput(uint8_t out, bool value);
 			void stopOutputs();
 			

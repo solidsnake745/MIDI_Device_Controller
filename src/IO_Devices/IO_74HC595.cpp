@@ -139,6 +139,25 @@ void IO_74HC595::setOutputInverted(uint8_t out, bool value)
 	update74HC595();
 }
 
+bool IO_74HC595::getOutput(uint8_t out)
+{
+	_debug.debugln(20, F("Attempting to get output: %d"), out);
+	
+	if(out > _maxOutput)
+	{
+		_debug.debugln(15, F("Output %d is out of range; Max is %d"), out, _maxOutput);
+		return;
+	}
+	
+	//Calculate which register and bit this output correlates to
+	uint8_t registerIndex = out/8;
+	uint8_t bitIndex = out%8;
+	_debug.debugln(15, F("Calculated register %d and output %d"), registerIndex, bitIndex);
+	
+	//Return that outputs value
+	return _registers[registerIndex].getBit(bitIndex);
+}
+
 void IO_74HC595::setOutput(uint8_t out, bool value)
 {
 	_debug.debugln(20, F("Attempting to set output: %d"), out);

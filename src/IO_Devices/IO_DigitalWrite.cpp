@@ -130,6 +130,26 @@ void IO_DigitalWrite::setOutputInverted(uint8_t out, bool value)
 	updateIO();
 }
 
+bool IO_DigitalWrite::getOutput(uint8_t out)
+{
+	_debug.debugln(20, F("Attempting to get output: %d"), out);
+	
+	auto find = _outputMap.find(out);
+	if(find == _outputMap.end())
+	{
+		_debug.debugln(20, F("Pin %d is not an added output"), out);
+		return false; //Have to return something
+	}
+	
+	//Calculate which register and bit this output correlates to
+	uint8_t registerIndex = find->second/8;
+	uint8_t bitIndex = find->second%8;
+	_debug.debugln(15, F("Calculated register %d and output %d"), registerIndex, bitIndex);
+	
+	//Return that outputs value
+	return _registers[registerIndex].getBit(bitIndex); //Ignores invert setting
+}
+
 void IO_DigitalWrite::setOutput(uint8_t out, bool value)
 {
 	_debug.debugln(20, F("Attempting to set output: %d"), out);

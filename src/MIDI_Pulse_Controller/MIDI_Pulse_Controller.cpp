@@ -72,6 +72,19 @@ void MIDI_Pulse_Controller::pulseNote(uint8_t note)
 	}
 }
 
+void MIDI_Pulse_Controller::toggleNote(uint8_t note)
+{
+	auto find = _noteMap.find(note);
+	if(find == _noteMap.end())
+		_debug.debugln(15, F("Note %d is not mapped"), note);
+	else
+	{
+		mapEntry* e = find->second;
+		e->device->setOutput(e->out, !(e->device->getOutput(e->out)));
+		MDC.noteAssigned();
+	}
+}
+
 void MIDI_Pulse_Controller::stopNote(uint8_t note)
 {
 	auto find = _noteMap.find(note);

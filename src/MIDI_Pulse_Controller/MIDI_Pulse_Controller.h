@@ -61,6 +61,7 @@
 			void deleteMapping(uint8_t note);			
 			
 			void pulseNote(uint8_t note);
+			void toggleNote(uint8_t note);
 			void stopNote(uint8_t note);
 			void stopNotes();
 	};

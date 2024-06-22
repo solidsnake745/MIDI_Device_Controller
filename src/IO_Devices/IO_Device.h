@@ -29,7 +29,8 @@
 			virtual bool isValidMapping(uint8_t out) = 0;
 			virtual void setMaxDuration(uint8_t out, uint32_t us) = 0;
 			virtual void setOutputInverted(uint8_t out, bool value) = 0;
-			virtual void setOutput(uint8_t out, bool value) = 0;		
+			virtual bool getOutput(uint8_t out) = 0;
+			virtual void setOutput(uint8_t out, bool value) = 0;
 			virtual void stopOutputs() = 0;		
 	};
 #endif
