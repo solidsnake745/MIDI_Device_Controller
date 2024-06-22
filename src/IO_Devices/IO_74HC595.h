@@ -39,7 +39,7 @@
 		
 		//Unique methods
 		void updateDurations();
-		void updateSN74HC595N();
+		void update74HC595();
 		uint8_t reverseByte(uint8_t n);
 		
 		//NOTE: According to tutorials, you're supposed to set the latch pin high before the transmission of data and then low afterwards

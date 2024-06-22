@@ -17,8 +17,6 @@ IO_74HC595::IO_74HC595(uint8_t numRegisters, uint8_t latchPin)
 	for(int x = 0; x < _numRegisters; x++)
 		_registers[x] = ByteNoteRegister();
 	
-	// for(int x = 0; x < 8; x++) _registers[0].setInverted(x, true);
-		
 	//Setup SPI
 	setLatchPin(latchPin);
 	SPI.begin();
@@ -46,7 +44,7 @@ void IO_74HC595::updateOutputs()
 {
 	_debug.debugln(50, F("updateOuts begin"));
 	
-	updateSN74HC595N();
+	update74HC595();
 	updateDurations();
 }
 
@@ -58,9 +56,9 @@ void IO_74HC595::updateDurations()
 		_registers[x].updateDurations(MIDI_Periods::getResolution());
 }
 
-void IO_74HC595::updateSN74HC595N()
+void IO_74HC595::update74HC595()
 {	
-	_debug.debugln(50, F("updateSN74HC595N begin"));
+	_debug.debugln(50, F("update74HC595 begin"));
 	
 	if(!_registersChanged)
 	{
@@ -135,6 +133,10 @@ void IO_74HC595::setOutputInverted(uint8_t out, bool value)
 	
 	//Set setting on the calculated output
 	_registers[registerIndex].setInverted(bitIndex, value);
+	
+	//Update registers as this changes the output's initial/current value
+	_registersChanged = true;
+	update74HC595();
 }
 
 void IO_74HC595::setOutput(uint8_t out, bool value)
@@ -172,32 +174,29 @@ void IO_74HC595::stopOutputs()
 			_registers[registerIndex].clearBit(bitIndex);
 	
 	_registersChanged = true;
-	updateSN74HC595N();
+	update74HC595();
 }
 
 void IO_74HC595::testOutputs()
-{	
-	//Enable each output on each register gradually
+{		
 	_debug.println(F("Testing each register's individual outputs"));
 	
-	for(int x = 0; x < 8; x++)
+	//Enable each output on each register	
+	for(int x = 0; x < _numRegisters; x++)
 	{
-		int z = 1 << x;
-		_debug.println(F("Testing output %d"), x);
-		
-		for(int y = 0; y < _numRegisters; y++)
+		for(int y = 0; y < 8; y++)
 		{
-			SPI.transfer(z);
-			latchRegisters();			
+			_registers[x].setBitValue(y, true);
+			_registersChanged = true;
+			update74HC595();
+			delay(250);
+			
+			_registers[x].setBitValue(y, false);
+			_registersChanged = true;
+			update74HC595();			
 		}
-		
-		delay(250);
 	}
 	
 	//Clear registers
-	for(int y = 0; y < _numRegisters; y++)
-	{
-		SPI.transfer(0);
-		latchRegisters();
-	}
+	stopOutputs();
 }

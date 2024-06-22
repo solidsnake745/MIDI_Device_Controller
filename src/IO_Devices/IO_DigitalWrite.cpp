@@ -60,16 +60,16 @@ void IO_DigitalWrite::updateIO()
 	
 	if(!_outputsChanged)
 	{
-		_debug.debugln(20, F("Registers have not changed"));		
+		_debug.debugln(20, F("Outputs have not changed"));		
 		return;
 	}
 	
-	_debug.debugln(20, F("Registers have changed"));
+	_debug.debugln(20, F("Outputs have changed"));
 	
 	auto change = _changedOutputs.begin();
 	while(change != _changedOutputs.end())
 	{
-		_debug.debugln(5, F("Changing pin: %d to %d"), change->pin, change->state);
+		_debug.debugln(20, F("Changing pin: %d to %d"), change->pin, change->state);
 		digitalWrite(change->pin, change->state);
 		change++;
 	}
@@ -122,6 +122,12 @@ void IO_DigitalWrite::setOutputInverted(uint8_t out, bool value)
 	
 	//Set setting on the calculated output
 	_registers[registerIndex].setInverted(bitIndex, value);
+	
+	//Update IO as this changes the output's initial/current value
+	bool newValue = _registers[registerIndex].getBitValue(bitIndex);
+	_changedOutputs.push_back(changedOutput(find->first, newValue));
+	_outputsChanged = true;
+	updateIO();
 }
 
 void IO_DigitalWrite::setOutput(uint8_t out, bool value)
@@ -140,15 +146,20 @@ void IO_DigitalWrite::setOutput(uint8_t out, bool value)
 	uint8_t bitIndex = find->second%8;
 	_debug.debugln(15, F("Calculated register %d and output %d"), registerIndex, bitIndex);
 	
-	//Set the output if not already set	
+	//Set the output if not already set
+	//getBit to get the actual value without invert setting
 	if(_registers[registerIndex].getBit(bitIndex) == value)
 	{
 		_debug.debugln(15, F("Output %d is already %d"), value);
 		return;
 	}
 	
+	//Update value in data and queue updating the IO
 	_registers[registerIndex].setBitValue(bitIndex, value);
-	_changedOutputs.push_back(changedOutput(find->first, value));
+	
+	//getBitValue applies the invert setting
+	bool newValue = _registers[registerIndex].getBitValue(bitIndex);
+	_changedOutputs.push_back(changedOutput(find->first, newValue));
 	_outputsChanged = true;
 }
 
@@ -225,10 +236,12 @@ void IO_DigitalWrite::testOutputs()
 	auto out = _outputMap.begin();
 	while(out != _outputMap.end())
 	{
-		digitalWrite(out->first, HIGH);
+		setOutput(out->first, HIGH);
+		updateIO();		
 		delay(250);
-		digitalWrite(out->first, LOW);
-		delay(250);
+		
+		setOutput(out->first, LOW);
+		updateIO();
 		out++;
 	}
 }
