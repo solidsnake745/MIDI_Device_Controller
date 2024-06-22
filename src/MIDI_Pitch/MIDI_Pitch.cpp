@@ -111,7 +111,7 @@ void MIDI_Pitch::playPeriod(uint16_t period)
 	if(_belongsTo) _belongsTo->noteAssigned();
 }
 
-void MIDI_Pitch::bendNote(int bend, bool shiftRange)
+void MIDI_Pitch::bendNote(int16_t bend, bool shiftRange)
 {
 	if (!(_currentNote > 0 && _currentNote < 256))
 		return;

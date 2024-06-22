@@ -31,6 +31,6 @@
 			virtual void setOutputInverted(uint8_t out, bool value) = 0;
 			virtual bool getOutput(uint8_t out) = 0;
 			virtual void setOutput(uint8_t out, bool value) = 0;
-			virtual void stopOutputs() = 0;		
+			virtual void stopOutputs() = 0;
 	};
 #endif

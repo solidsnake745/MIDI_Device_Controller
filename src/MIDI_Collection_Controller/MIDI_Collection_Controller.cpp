@@ -95,21 +95,21 @@ void MIDI_Collection_Controller::deleteCollection(uint8_t index)
 	}
 }
 
-void MIDI_Collection_Controller::playNote(int8_t index, uint8_t note)
+void MIDI_Collection_Controller::playNote(uint8_t index, uint8_t note)
 {	
 	Base_MIDI_Pitch_Collection *c = getCollection(index);
 	if(!c) return;
 	c->playNote(note);
 }
 
-void MIDI_Collection_Controller::bendNote(int8_t index, uint16_t bend, bool shiftRange)
+void MIDI_Collection_Controller::bendNote(uint8_t index, int16_t bend, bool shiftRange)
 {
 	Base_MIDI_Pitch_Collection *c = getCollection(index);
 	if(!c) return;
 	c->bendNote(bend, shiftRange);
 }
 
-void MIDI_Collection_Controller::stopNote(int8_t index, uint8_t note)
+void MIDI_Collection_Controller::stopNote(uint8_t index, uint8_t note)
 {
 	Base_MIDI_Pitch_Collection *c = getCollection(index);
 	if(!c) return;

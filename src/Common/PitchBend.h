@@ -17,7 +17,7 @@
 		PitchBend(){}; //Disallow creating an instance
 		
 		public:
-			inline static float calculateFactor(int bend, bool shiftRange = false)
+			inline static float calculateFactor(int16_t bend, bool shiftRange = false)
 			{
 				if(shiftRange) bend -= 8192;
 				float result = pow(2.0, (BEND_PER_OCTAVE * (bend / 8192.0)));

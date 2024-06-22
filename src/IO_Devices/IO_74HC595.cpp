@@ -146,7 +146,7 @@ bool IO_74HC595::getOutput(uint8_t out)
 	if(out > _maxOutput)
 	{
 		_debug.debugln(15, F("Output %d is out of range; Max is %d"), out, _maxOutput);
-		return;
+		return false; //Have to return something
 	}
 	
 	//Calculate which register and bit this output correlates to

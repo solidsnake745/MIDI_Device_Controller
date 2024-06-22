@@ -61,21 +61,21 @@
 				\param index Index to play the note on
 				\param note MIDI note to play
 			*/
-			void playNote(int8_t index, uint8_t note);
+			void playNote(uint8_t index, uint8_t note);
 			
 			///Pitch bends all active notes in a collection
 			/*!
 				\param index Index to bend the notes of
 				\param bend Value to pitch bend by
 			*/
-			void bendNote(int8_t index, uint16_t bend, bool shiftRange = false);
+			void bendNote(uint8_t index, int16_t bend, bool shiftRange = false);
 			
 			///Stops the given note on a collection
 			/*!
 				\param index Index to stop the note on
 				\param note MIDI note to stop
 			*/
-			void stopNote(int8_t index, uint8_t note);
+			void stopNote(uint8_t index, uint8_t note);
 	};
 
 	//Defines a global instance of our class for users to consume

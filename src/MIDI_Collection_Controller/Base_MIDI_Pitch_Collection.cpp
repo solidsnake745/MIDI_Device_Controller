@@ -168,7 +168,7 @@ bool Base_MIDI_Pitch_Collection::playNote(uint8_t note)
 	return true;
 };
 
-void Base_MIDI_Pitch_Collection::bendNote(int bend, bool shiftRange)
+void Base_MIDI_Pitch_Collection::bendNote(int16_t bend, bool shiftRange)
 {
 	//Calculate factor once and use for bending all devices
 	float pitchFactor = PitchBend::calculateFactor(bend, shiftRange);
