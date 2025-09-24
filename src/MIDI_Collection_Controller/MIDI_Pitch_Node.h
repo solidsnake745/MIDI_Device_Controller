@@ -18,19 +18,20 @@
 		inline static SerialDebug _debug = SerialDebug(DEBUG_PITCHNODE);
 		
 		private:
-			MIDI_Pitch_Node(MIDI_Pitch *d, Base_MIDI_Pitch_Collection *dc);
-			Base_MIDI_Pitch_Collection *parent = NULL;		
+			MIDI_Pitch_Node(MIDI_Pitch* d, Base_MIDI_Pitch_Collection *dc);
+			Base_MIDI_Pitch_Collection* _parent = NULL;		
 			
 		public:
 			//Devices exist and are stored in MIDI_DeviceController
-			MIDI_Pitch *device = NULL;
-			MIDI_Pitch_Node *next = NULL;
-			MIDI_Pitch_Node *prev = NULL;
+			MIDI_Pitch* _device = NULL;
+			MIDI_Pitch_Node* next = NULL;
+			MIDI_Pitch_Node* prev = NULL;
 			
 			//Millisecond timestamp when this was last assigned a note
 			// uint32_t lastAssignStamp = 0;
 			
 			void playNote(uint8_t note);
+			void bendNoteByFactor(float pitchFactor);
 			void stopNote();
 			bool tryPlayNote(uint8_t note);
 			bool tryStopNote(uint8_t note);

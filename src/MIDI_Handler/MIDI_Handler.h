@@ -16,13 +16,13 @@
 		typedef void (*PitchBend) (uint8_t, int);
 
 		//Pointers to handlers, defaults to null to indicate no handler set
-		NoteOff _noteOff = NULL;
-		NoteOn _noteOn = NULL;  
-		PolyPressure _polyPressure = NULL;  
-		ControlChange _controlChange = NULL;
-		ProgramChange _programChange = NULL;
-		ChannelPressure _channelPressure = NULL;
-		PitchBend _pitchBend = NULL;
+		NoteOff _noteOff = nullptr;
+		NoteOn _noteOn = nullptr;  
+		PolyPressure _polyPressure = nullptr;  
+		ControlChange _controlChange = nullptr;
+		ProgramChange _programChange = nullptr;
+		ChannelPressure _channelPressure = nullptr;
+		PitchBend _pitchBend = nullptr;
 		
 		public:
 			//Handles MIDI_Messages based on type

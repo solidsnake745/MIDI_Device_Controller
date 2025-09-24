@@ -2,27 +2,17 @@
 
 //Constructors and instance management
 //_______________________________________________________________________________________________________
+MIDI_Collection_Controller::MIDI_Collection_Controller() {}
 
-//Global singleton instance
-MIDI_Collection_Controller MCC = MIDI_Collection_Controller::getInstance();
-
-MIDI_Collection_Controller *MIDI_Collection_Controller::_instance = NULL;
-
-MIDI_Collection_Controller::MIDI_Collection_Controller()
-{
-}
-
-MIDI_Collection_Controller &MIDI_Collection_Controller::getInstance()
+MIDI_Collection_Controller& MIDI_Collection_Controller::getInstance()
 {
 	//Single instance check, instantiation, and return
-	if (_instance == NULL) _instance = new MIDI_Collection_Controller();
+	if (_instance == nullptr) _instance = new MIDI_Collection_Controller();
 	return *_instance;
 }
 
 //Device management
 //_______________________________________________________________________________________________________
-Base_MIDI_Pitch_Collection *MIDI_Collection_Controller::_collections[MAX_COLLECTIONS];
-
 void MIDI_Collection_Controller::printStatus()
 {
 	int i = 0;
@@ -45,7 +35,7 @@ void MIDI_Collection_Controller::printStatus()
 	}
 }
 
-void MIDI_Collection_Controller::addCollection(uint8_t index, Base_MIDI_Pitch_Collection *c)
+void MIDI_Collection_Controller::addCollection(uint8_t index, Base_MIDI_Pitch_Collection* c)
 {
 	if(index > MAX_COLLECTIONS - 1)
 	{
@@ -54,7 +44,7 @@ void MIDI_Collection_Controller::addCollection(uint8_t index, Base_MIDI_Pitch_Co
 		return;
 	}
 
-	if(_collections[index] != NULL)
+	if(_collections[index] != nullptr)
 	{		
 		_debug.println(F("Collection already exists at index %d"), index);
 		return;
@@ -63,12 +53,12 @@ void MIDI_Collection_Controller::addCollection(uint8_t index, Base_MIDI_Pitch_Co
 	_collections[index] = c;
 }
 
-Base_MIDI_Pitch_Collection *MIDI_Collection_Controller::getCollection(uint8_t index)
+Base_MIDI_Pitch_Collection* MIDI_Collection_Controller::getCollection(uint8_t index)
 {
 	if(index > MAX_COLLECTIONS - 1)
 	{
 		// _debug.debugln(3, F("Max index is %d"), MAX_COLLECTIONS - 1);
-		return NULL;
+		return nullptr;
 	}
 	
 	return _collections[index];
@@ -86,7 +76,7 @@ void MIDI_Collection_Controller::deleteCollection(uint8_t index)
 	{
 		_debug.debugln(2, F("Deleting collection at %d"), index);
 		delete _collections[index];
-		_collections[index] = NULL;
+		_collections[index] = nullptr;
 		return;
 	}
 	else
@@ -97,21 +87,35 @@ void MIDI_Collection_Controller::deleteCollection(uint8_t index)
 
 void MIDI_Collection_Controller::playNote(uint8_t index, uint8_t note)
 {	
-	Base_MIDI_Pitch_Collection *c = getCollection(index);
+	Base_MIDI_Pitch_Collection* c = getCollection(index);
 	if(!c) return;
 	c->playNote(note);
 }
 
 void MIDI_Collection_Controller::bendNote(uint8_t index, int16_t bend, bool shiftRange)
 {
-	Base_MIDI_Pitch_Collection *c = getCollection(index);
+	Base_MIDI_Pitch_Collection* c = getCollection(index);
 	if(!c) return;
 	c->bendNote(bend, shiftRange);
 }
 
 void MIDI_Collection_Controller::stopNote(uint8_t index, uint8_t note)
 {
-	Base_MIDI_Pitch_Collection *c = getCollection(index);
+	Base_MIDI_Pitch_Collection* c = getCollection(index);
 	if(!c) return;
 	c->stopNote(note);
+}
+
+void MIDI_Collection_Controller::reset(uint8_t index)
+{
+	Base_MIDI_Pitch_Collection* c = getCollection(index);
+	if(!c) return;
+	c->reset();
+}
+
+void MIDI_Collection_Controller::resetAll()
+{
+	int i = 0;
+	while(i != MAX_COLLECTIONS)
+		reset(i++);
 }

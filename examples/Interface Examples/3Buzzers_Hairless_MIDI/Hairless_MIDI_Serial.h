@@ -10,12 +10,12 @@
 		//_______________________________________________________________________________________________________
 		private:
 			Hairless_MIDI_Serial();
-			static Hairless_MIDI_Serial *_instance;
+			inline static Hairless_MIDI_Serial* _instance = nullptr;
 			
 		public:
 			//Used to populate our single instance MS for consumption
 			/// @private
-			static Hairless_MIDI_Serial &getInstance();
+			static Hairless_MIDI_Serial& getInstance();
 			
 		//Serial Handling
 		//_______________________________________________________________________________________________________
@@ -38,5 +38,5 @@
 	};
 
 	//Defines a global instance of our class for users to consume
-	extern Hairless_MIDI_Serial HMS;
+	inline Hairless_MIDI_Serial HMS = Hairless_MIDI_Serial::getInstance();;
 #endif

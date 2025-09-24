@@ -18,30 +18,30 @@
 		
 		//Constructor(s)
 		IO_Factory(); //Disallow creating an instance
-		static IO_Factory *_instance;
-		static IO_Device *_ioDevices[MAX_IO_DEVICES];
+		inline static IO_Factory* _instance = nullptr;
+		inline static IO_Device* _ioDevices[MAX_IO_DEVICES];
 		
 		public:
 			//Used to populate our single instance MDF for consumption
 			/// @private
-			static IO_Factory &getInstance();			
+			static IO_Factory& getInstance();			
 			
-			IO_Device *getIO(IOType type);
+			IO_Device* getIO(IOType type);
 			
 			///Creates a new digital IO device and adds it to the controller
 			/*!
 				\param size Number of digital outputs
 			*/
-			IO_DigitalWrite *createDigitalIO(uint8_t numOutputs);
+			IO_DigitalWrite* createDigitalIO(uint8_t numOutputs);
 			
 			///Creates a new shift register device and adds it to the controller
 			/*!
 				\param numRegisters Number of shift registers
 				\param latchPin Pin to use for latching the registers
 			*/
-			IO_74HC595 *create74HC595(uint8_t numRegisters, uint8_t latchPin);
+			IO_74HC595* create74HC595(uint8_t numRegisters, uint8_t latchPin);
 	};
 	
-	//Defines a global instance of our class for users to consume
-	extern IO_Factory IOF;
+	//Defines a global singleton instance of our class for users to consume
+	inline IO_Factory IOF = IO_Factory::getInstance();
 #endif

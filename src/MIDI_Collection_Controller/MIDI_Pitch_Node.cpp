@@ -2,30 +2,37 @@
 #include "../MIDI_Pitch/MIDI_Pitch.h"
 #include "Base_MIDI_Pitch_Collection.h"
 
-MIDI_Pitch_Node::MIDI_Pitch_Node(MIDI_Pitch *d, Base_MIDI_Pitch_Collection *dc)
+MIDI_Pitch_Node::MIDI_Pitch_Node(MIDI_Pitch* d, Base_MIDI_Pitch_Collection* dc)
 {
-	device = d;
-	parent = dc;
+	_device = d;
+	_parent = dc;
 }
 
 void MIDI_Pitch_Node::playNote(uint8_t note)
 {
-	device->playNote(note);	
+	_device->playNote(note, _parent);	
 	// lastAssignStamp = millis();
+}
+
+void MIDI_Pitch_Node::bendNoteByFactor(float pitchFactor)
+{
+	if(_device->_lastAssignedBy == _parent)
+		_device->bendNoteByFactor(pitchFactor);
 }
 
 void MIDI_Pitch_Node::stopNote()
 {
-	device->stopNote();	
+	if(_device->_lastAssignedBy == _parent)
+		_device->stopNote();	
 	// lastAssignStamp = 0;
 }
 
 bool MIDI_Pitch_Node::tryPlayNote(uint8_t note)
 {
-	if(device->isAvailable())
+	if(_device->isAvailable())
 	{
 		//DEBUG2(device->getID(), F(" - Available"))
-		device->playNote(note);
+		_device->playNote(note, _parent);
 		return true;
 	}
 	
@@ -35,10 +42,10 @@ bool MIDI_Pitch_Node::tryPlayNote(uint8_t note)
 
 bool MIDI_Pitch_Node::tryStopNote(uint8_t note)
 {
-	if(device->getCurrentNote() == note)
+	if(_device->getCurrentNote() == note && _device->_lastAssignedBy == _parent)
 	{
 		//DEBUG2(device->getID(), F(" - Matches"))
-		device->stopNote();
+		_device->stopNote();
 		return true;
 	}
 	

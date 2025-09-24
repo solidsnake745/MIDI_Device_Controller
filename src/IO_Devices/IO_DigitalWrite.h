@@ -5,7 +5,7 @@
 	
 	#include "../Settings.h"
 	#include "../Common/SerialDebug.h"
-	#include "../MIDI_Device_Controller/MIDI_Periods.h"
+	#include "../Common/MIDI_Periods.h"
 	#include "IO_Device.h"
 	#include "../Common/ByteNoteRegister.h"
 	#include "../Common/noteDuration.h"
@@ -31,12 +31,27 @@
 		//Give MIDI_DeviceController access to all private members
 		friend class MIDI_Device_Controller;
 		
-		struct changedOutput
+		struct pinOut
 		{
-			changedOutput(uint8_t p, bool s)
+			pinOut(uint8_t p, ByteNoteRegister* r, uint8_t b)
 			{
 				pin = p;
-				state = s;
+				reg = r;								
+				bitIndex = b;
+			};
+			
+			uint8_t pin;
+			ByteNoteRegister* reg;
+			uint8_t bitIndex;
+			bool shouldBeStopped = true;
+		};
+		
+		struct changedOutput
+		{
+			changedOutput(pinOut* p)
+			{
+				pin = p->pin;
+				state = p->reg->getBitValue(p->bitIndex); //getBitValue applies the invert setting
 			};
 			
 			uint8_t pin;
@@ -46,19 +61,18 @@
 		inline static SerialDebug _debug = SerialDebug(DEBUG_DIGITALIO);
 		
 		uint8_t _numRegisters;		
-		volatile bool _outputsChanged = false;
-		inline static ByteNoteRegister *_registers;
+		bool _outputsChanged = false;		
 		uint16_t _maxOutputs = 0;
 		uint16_t _usedOutputs = 0;
-		static std::map<uint8_t, uint8_t> _outputMap;
-		static std::vector<changedOutput> _changedOutputs;		
+		inline static ByteNoteRegister* _registers;
+		inline static pinOut** _outputs;
+		static std::map<uint8_t, pinOut*> _pinMap;
+		static std::vector<changedOutput> _changedOutputs;
 		
 		//Interface implementations
-		void checkMaxDuration();
 		void updateOutputs(); //Operates the digital IO per desired MIDI output
 		
 		//Unique methods
-		void updateDurations();
 		void updateIO();
 		
 		public:
@@ -69,15 +83,17 @@
 			
 			//Interface implementations
 			bool isValidMapping(uint8_t out);
-			void setMaxDuration(uint8_t out, uint32_t us);
-			void setOutputInverted(uint8_t out, bool value);
+			void setInverted(uint8_t out, bool value);
+			void setShouldStop(uint8_t out, bool value);
 			bool getOutput(uint8_t out);
 			void setOutput(uint8_t out, bool value);
+			void toggleOutput(uint8_t out);
+			void testOutputs();
 			void stopOutputs();
+			void resetOutputs();
 			
 			//Unique methods
-			void addOutput(uint8_t pin);
-			void deleteOutput(uint8_t pin);
-			void testOutputs();
+			void addPin(uint8_t pin);
+			void deletePin(uint8_t pin);
 	};
 #endif

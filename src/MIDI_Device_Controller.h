@@ -4,27 +4,28 @@
 	#include "Settings.h"
 	#include "Common/SerialDebug.h"
 	#include "MDC_Extras.h"
-	#include <Arduino.h>	
-	#include "MIDI_Device_Controller/MIDI_Periods.h"
-	#include "MIDI_Pitch/MIDI_Pitch.h"	
-
+	#include <Arduino.h>
+	#include "Common/MIDI_Periods.h"
+	#include "MIDI_Pitch/MIDI_Pitch.h"
+	#include "MIDI_Pulse/Base_MIDI_Pulse.h"
+	#include "MIDI_Pulse/MIDI_Pulse.h"
+	#include "MIDI_Pulse/MIDI_Toggle.h"
+	
 	#include "IO_Factory/IO_Factory.h"
 	#include "IO_Devices/IO_Device.h"
 
 	#include "MIDI_Device_Controller/ITimer/ITimer.h"
 	//Resolve timer interrupt implementation
-	#if ARDUINO_ARCH_AVR
-		#include "MIDI_Device_Controller/ITimer/TimerOne_Timer.h"
-	#elif defined(CORE_TEENSY)
+	#if ARDUINO_ARCH_AVR || defined(CORE_TEENSY)
 		#include "MIDI_Device_Controller/ITimer/TimerOne_Timer.h"
 	#elif ARDUINO_ARCH_ESP32
-		#warning "TODO: Implement ESP32"
+		#include "MIDI_Device_Controller/ITimer/ESP32_Timer.h"
 	#endif
 
 	//0 - Off
 	//1 - Make methods public
 	//2 - Serial print execution time
-	#define ISR_TESTING 1
+	#define ISR_TESTING 0
 	
 	//Forward declaration for compiling
 	class MIDI_Pulse_Controller;
@@ -33,7 +34,9 @@
 	class MIDI_Device_Controller
 	{
 		// Give Device access to all private members
-		friend class MIDI_Pitch;		
+		friend class MIDI_Pitch;
+		friend class MIDI_Pulse;
+		friend class MIDI_Toggle;
 		friend class MIDI_Pulse_Controller;
 		
 		inline static SerialDebug _debug = SerialDebug(DEBUG_DEVICECONTROLLER);
@@ -42,19 +45,20 @@
 		//_______________________________________________________________________________________________________
 		private:
 			MIDI_Device_Controller();
-			static MIDI_Device_Controller *_instance;
+			inline static MIDI_Device_Controller* _instance = nullptr;;
 			
 		public:
 			//Used to populate our single instance MDC for consumption
 			/// @private
-			static MIDI_Device_Controller &getInstance();
+			static MIDI_Device_Controller& getInstance();
 		
 		//Device management/operation
 		//_______________________________________________________________________________________________________
 		private:
-			static MIDI_Pitch *_pitchDevices[MAX_PITCH_DEVICES];
-			static MIDI_Pitch *_enabledPitchDevices[MAX_PITCH_DEVICES];
-			static uint8_t _numEnabled;
+			inline static MIDI_Pitch* _pitchDevices[MAX_PITCH_DEVICES];
+			inline static MIDI_Pitch* _enabledPitchDevices[MAX_PITCH_DEVICES];
+			inline static uint8_t _numEnabled = 0;
+			inline static Base_MIDI_Pulse* _pulseDevices[MAX_PULSE_DEVICES];			
 
 	#if ISR_TESTING
 		//Make reloadEnabledDevices public so we can call it for testing
@@ -68,24 +72,60 @@
 			///Prints status information about this controller to Serial
 			void printStatus();
 			
-			///Adds a device to the controller
+			///Adds a MIDI_Pitch device to the controller
 			/*!
 				\param index Index to assign the device to
 				\param d Device to add
 			*/
-			void addDevice(uint8_t index, MIDI_Pitch *d);
+			bool addPitchDevice(uint8_t index, MIDI_Pitch* d);
 			
-			///Retrieves a device from the controller
+			///Adds a MIDI_Pitch device to the controller at the first available index
+			/*!
+				\param d Device to add
+			*/
+			int8_t addPitchDevice(MIDI_Pitch* d);
+			
+			///Adds a Base_MIDI_Pulse device to the controller
+			/*!
+				\param index Index to assign the device to
+				\param d Device to add
+			*/
+			bool addPulseDevice(uint8_t index, Base_MIDI_Pulse* d);
+			
+			///Adds a Base_MIDI_Pulse device to the controller at the first available index
+			/*!				
+				\param d Device to add
+			*/
+			int8_t addPulseDevice(Base_MIDI_Pulse* d);
+			
+			///Retrieves a MIDI_Pitch device from the controller
 			/*!
 				\param index Index to retrieve the device from
 			*/
-			MIDI_Pitch *getDevice(uint8_t index);
+			MIDI_Pitch* getPitchDevice(uint8_t index);
 			
-			///Deletes a device from the controller
+			///Retrieves a Base_MIDI_Pulse device from the controller
+			/*!
+				\param index Index to retrieve the device from
+			*/
+			Base_MIDI_Pulse* getPulseDevice(uint8_t index);
+			
+			//A note about deleting devices: I know I haven't throughly vetted and built out this functionality and it's very likely that it will lead to memory leaks
+			//But I'm not really worried about it because ideally users shouldn't be changing configuration at all past setup() so the delete functionality is pretty optional
+			//Really I should take it out completely and just document to make sure they're setup correctly at the start
+			//Not at all sure the use case of being able to delete and re-create devices for this library
+			
+			///Deletes a MIDI_Pitch device from the controller
 			/*!
 				\param index Index to try deleting the device from
 			*/
-			void deleteDevice(uint8_t index);
+			void deletePitchDevice(uint8_t index);
+			
+			///Deletes a Base_MIDI_Pulse device from the controller
+			/*!
+				\param index Index to try deleting the device from
+			*/
+			void deletePulseDevice(uint8_t index);
 			
 			void resetDevicePositions();
 			void calibrateDevicePositions();
@@ -96,23 +136,21 @@
 			
 		//Note Processing
 		//_______________________________________________________________________________________________________
-			
 		private:
 			bool _isPlayingNotes = false;
 			bool _autoPlayNotes = true;
 
 			//Resolve timer interrupt implementation
-			#if ARDUINO_ARCH_AVR
-				ITimer *_timer = new TimerOne_Timer();
-			#elif defined(CORE_TEENSY)
-				ITimer *_timer = new TimerOne_Timer();
+			#if ARDUINO_ARCH_AVR || defined(CORE_TEENSY)
+				ITimer* _timer = new TimerOne_Timer();
+				
+				//Named on a whim, it's inconsequential and not visible to end users
+				//Static method for interrupt to attach to
+				inline static void lawl() { _instance->processNotes(); };
 			#elif ARDUINO_ARCH_ESP32
-				//TODO: Implement ESP32 timer
-				ITimer *_timer;
-			#endif	
-			
-			//Static method for interrupt to attach to
-			static void lawl();
+				ITimer* _timer = new ESP32_Timer();
+				static void lawl();
+			#endif
 		
 			void noteAssigned();
 		
@@ -142,7 +180,6 @@
 		//_______________________________________________________________________________________________________
 		private:
 			uint32_t _lastAssign = 0;
-			uint32_t _maxDuration = MAX_DURATION_DEFAULT;
 			uint16_t _idleTimeout = IDLE_TIMEOUT_DEFAULT;
 
 		public:
@@ -150,14 +187,13 @@
 			inline bool isAutoPlayEnabled() { return _autoPlayNotes; };
 			
 			inline uint8_t getMaxPitchDevices() { return MAX_PITCH_DEVICES; };
-			inline uint32_t getMaxDuration() { return _maxDuration; };
 			inline void setResolution(uint16_t resolution = DEFAULT_RESOLUTION) { MIDI_Periods::setResolution(resolution); };
 			
 			///@private
 			inline void setDebugResolution() { MIDI_Periods::setDebugResolution(); };
 			
 			///@private
-			inline void setMaxDuration(uint32_t value = MAX_DURATION_DEFAULT) { _maxDuration = value; };
+			// inline void setMaxDuration(uint32_t value = MAX_DURATION_DEFAULT) { _maxDuration = value; };
 			
 			///Sets the timeout period in milliseconds
 			/*!
@@ -195,6 +231,6 @@
 			void playStartupSequence(uint8_t version = 0);
 	};
 
-	//Defines a global instance of our class for users to consume
-	extern MIDI_Device_Controller MDC;
+	//Defines a global singleton instance of our class for users to consume
+	inline MIDI_Device_Controller MDC = MIDI_Device_Controller::getInstance();
 #endif

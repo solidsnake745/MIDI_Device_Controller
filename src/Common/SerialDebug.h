@@ -18,7 +18,7 @@
 
 	#if (!defined(CORE_TEENSY) && ANY_OUTPUT_ENABLED)
 		inline static FILE serial_out;
-		inline static int writeChar(char c, FILE *f);	
+		inline static int writeChar(char c, FILE* f) { return !Serial.write(c); };
 	#endif
 		
 		inline static void setup()
@@ -50,14 +50,14 @@
 		};	
 		
 		//Internal methods for printing
-		inline void internalPrint(const char *string)
+		inline void internalPrint(const char* string)
 		{
 		#if ANY_OUTPUT_ENABLED
 			Serial.print(string);
 		#endif
 		};
 		
-		inline void internalPrintln(const char *string = "")
+		inline void internalPrintln(const char* string = "")
 		{
 		#if ANY_OUTPUT_ENABLED
 			Serial.println(string);
@@ -65,7 +65,7 @@
 		};
 			
 		template<typename... Args>
-		inline void internalPrint(const char *format, Args... args)
+		inline void internalPrint(const char* format, Args... args)
 		{
 		#if ANY_OUTPUT_ENABLED		
 			#ifdef CORE_TEENSY
@@ -77,7 +77,7 @@
 		};
 		
 		template<typename... Args>
-		inline void internalPrintln(const char *format, Args... args)
+		inline void internalPrintln(const char* format, Args... args)
 		{
 		#if ANY_OUTPUT_ENABLED
 			internalPrint(format, args...);
@@ -99,14 +99,14 @@
 		
 			//Print
 			//Regular strings
-			inline void print(const char *string)
+			inline void print(const char* string)
 			{
 			#if PRINT_ENABLED
 				internalPrint(string);
 			#endif
 			};
 			
-			inline void println(const char *string = "")
+			inline void println(const char* string = "")
 			{
 			#if PRINT_ENABLED
 				internalPrintln(string);
@@ -114,7 +114,7 @@
 			};
 			
 			template<typename... Args>
-			inline void print(const char *format, Args... args)
+			inline void print(const char* format, Args... args)
 			{			
 			#if PRINT_ENABLED
 				internalPrint(format, args...);
@@ -122,7 +122,7 @@
 			};
 			
 			template<typename... Args>
-			inline void println(const char *format, Args... args)
+			inline void println(const char* format, Args... args)
 			{
 			#if PRINT_ENABLED
 				internalPrintln(format, args...);
@@ -131,7 +131,7 @@
 			
 			//Print
 			//Strings from flash
-			inline void print(const __FlashStringHelper *string)
+			inline void print(const __FlashStringHelper* string)
 			{
 			#if PRINT_ENABLED
 				char buffer[FLASH_STRING_BUFFERSIZE];
@@ -140,7 +140,7 @@
 			#endif
 			};
 			
-			void println(const __FlashStringHelper *string)
+			void println(const __FlashStringHelper* string)
 			{		
 			#if PRINT_ENABLED
 				char buffer[FLASH_STRING_BUFFERSIZE];
@@ -150,7 +150,7 @@
 			};
 			
 			template<typename... Args>
-			inline void print(const __FlashStringHelper *format, Args... args)
+			inline void print(const __FlashStringHelper* format, Args... args)
 			{
 			#if PRINT_ENABLED
 				char buffer[FLASH_STRING_BUFFERSIZE];
@@ -160,7 +160,7 @@
 			};
 			
 			template<typename... Args>
-			inline void println(const __FlashStringHelper *format, Args... args)
+			inline void println(const __FlashStringHelper* format, Args... args)
 			{
 			#if PRINT_ENABLED
 				char buffer[FLASH_STRING_BUFFERSIZE];
@@ -179,7 +179,7 @@
 			#endif
 			};
 			
-			void debugln(uint8_t level, const char *string = "")
+			void debugln(uint8_t level, const char* string = "")
 			{
 			#if DEBUG_ENABLED
 				if(!shouldDebug(level)) return;
@@ -188,7 +188,7 @@
 			};
 			
 			template<typename... Args>
-			inline void debug(uint8_t level, const char *format, Args... args)
+			inline void debug(uint8_t level, const char* format, Args... args)
 			{
 			#if DEBUG_ENABLED
 				if(!shouldDebug(level)) return;
@@ -197,7 +197,7 @@
 			};
 			
 			template<typename... Args>
-			inline void debugln(uint8_t level, const char *format, Args... args)
+			inline void debugln(uint8_t level, const char* format, Args... args)
 			{
 			#if DEBUG_ENABLED
 				if(!shouldDebug(level)) return;
@@ -207,7 +207,7 @@
 			
 			//Debug
 			//Strings from flash
-			inline void debug(uint8_t level, const __FlashStringHelper *string)
+			inline void debug(uint8_t level, const __FlashStringHelper* string)
 			{
 			#if DEBUG_ENABLED
 				if(!shouldDebug(level)) return;
@@ -217,7 +217,7 @@
 			#endif
 			};
 			
-			void debugln(uint8_t level, const __FlashStringHelper *string)
+			void debugln(uint8_t level, const __FlashStringHelper* string)
 			{
 			#if DEBUG_ENABLED
 				if(!shouldDebug(level)) return;
@@ -228,7 +228,7 @@
 			};
 			
 			template<typename... Args>
-			void debug(uint8_t level, const __FlashStringHelper *format, Args... args)
+			void debug(uint8_t level, const __FlashStringHelper* format, Args... args)
 			{
 			#if DEBUG_ENABLED
 				if(!shouldDebug(level)) return;
@@ -239,7 +239,7 @@
 			};
 			
 			template<typename... Args>
-			void debugln(uint8_t level, const __FlashStringHelper *format, Args... args)
+			void debugln(uint8_t level, const __FlashStringHelper* format, Args... args)
 			{
 			#if DEBUG_ENABLED
 				if(!shouldDebug(level)) return;

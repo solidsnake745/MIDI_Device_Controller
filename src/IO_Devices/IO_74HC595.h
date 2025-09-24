@@ -3,7 +3,7 @@
 	
 	#include "../Settings.h"	
 	#include "../Common/SerialDebug.h"
-	#include "../MIDI_Device_Controller/MIDI_Periods.h"
+	#include "../Common/MIDI_Periods.h"
 	#include "IO_Device.h"
 	#include "../Common/byteNoteRegister.h"
 	#include "../Common/noteDuration.h"
@@ -24,21 +24,33 @@
 		//Lookup table for the reverse values of 4 bits
 		//Index is the value you want to reverse
 		//Example: Reverse of 0001 (1) is 1000 (8) so index 1 has the value 8
-		constexpr static uint8_t reverseLookup[16] = {0x0, 0x8, 0x4, 0xc, 0x2, 0xa, 0x6, 0xe, 0x1, 0x9, 0x5, 0xd, 0x3, 0xb, 0x7, 0xf};
+		inline constexpr static uint8_t reverseLookup[16] = {0x0, 0x8, 0x4, 0xc, 0x2, 0xa, 0x6, 0xe, 0x1, 0x9, 0x5, 0xd, 0x3, 0xb, 0x7, 0xf};
+		
+		struct regOut
+		{
+			regOut(ByteNoteRegister* r, uint8_t b)
+			{
+				reg = r;
+				bitIndex = b;
+			};
+			
+			ByteNoteRegister* reg;
+			uint8_t bitIndex;
+			bool shouldBeStopped = true;
+		};
 		
 		uint8_t _numRegisters;
 		uint8_t _latchPin;
-		volatile bool _registersChanged = false;
-		ByteNoteRegister *_registers;
-		uint16_t _maxOutput = 0;
 		bool _reverseOutput = false;
+		bool _registersChanged = false;
+		uint16_t _maxOutputs = 0;
+		inline static ByteNoteRegister* _registers;
+		inline static regOut** _outputs;
 		
 		//Interface implementations
-		void checkMaxDuration();
 		void updateOutputs(); //Operates the SPI bus per desired MIDI output
 		
 		//Unique methods
-		void updateDurations();
 		void update74HC595();
 		uint8_t reverseByte(uint8_t n);
 		
@@ -60,11 +72,14 @@
 			
 			//Interface implementations
 			bool isValidMapping(uint8_t out);
-			void setMaxDuration(uint8_t out, uint32_t us);
-			void setOutputInverted(uint8_t out, bool value);
+			void setInverted(uint8_t out, bool value);
+			void setShouldStop(uint8_t out, bool value);
 			bool getOutput(uint8_t out);
 			void setOutput(uint8_t out, bool value);
+			void toggleOutput(uint8_t out);
+			void testOutputs();
 			void stopOutputs();
+			void resetOutputs();
 			
 			//Unique methods
 			inline void setLatchPin(uint8_t pin) 
@@ -73,7 +88,5 @@
 				pinMode(_latchPin, OUTPUT);
 				digitalWrite(_latchPin, LOW);
 			};
-
-			void testOutputs();
 	};
 #endif

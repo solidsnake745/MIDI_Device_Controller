@@ -4,7 +4,7 @@
 	#include "../Common/PitchBend.h"
 	#include "../MIDI_Pitch/MIDI_Pitch.h"
 	#include "../Settings.h"
-	#include "../Common/SerialDebug.h"
+	#include "../Common/SerialDebug.h"	
 
 	struct MIDI_Pitch_Node;
 
@@ -14,12 +14,12 @@
 		//Give MIDI_Pitch_Node access to all private members
 		friend class MIDI_Pitch_Node;
 		
-		void deleteNode(MIDI_Pitch_Node *node);
+		void deleteNode(MIDI_Pitch_Node* node);
 		
 		protected:
 			inline static SerialDebug _debug = SerialDebug(DEBUG_BASEPITCHCOLLECTION);
-			MIDI_Pitch_Node *start = NULL;
-			MIDI_Pitch_Node *end = NULL;
+			MIDI_Pitch_Node* start = NULL;
+			MIDI_Pitch_Node* end = NULL;
 			uint8_t _count = 0;			
 			
 		public:
@@ -29,7 +29,7 @@
 			/*!
 				\param d Pitch device to be added
 			*/
-			void addDevice(MIDI_Pitch *d);
+			void addDevice(MIDI_Pitch* d);
 			
 			///Removes a given MIDI_Pitch device by ID from this collection
 			/*!
@@ -38,6 +38,7 @@
 			void removeDevice(uint8_t id);
 			
 			//Overrideable methods
+			inline virtual void reset() {};
 			
 			///Prints status information about this collection to Serial
 			virtual void printStatus();

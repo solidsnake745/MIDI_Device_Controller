@@ -2,21 +2,15 @@
 
 //Constructors and instance management
 //_______________________________________________________________________________________________________
-
-//Global singleton instance
-Hairless_MIDI_Serial HMS = Hairless_MIDI_Serial::getInstance();
-
-Hairless_MIDI_Serial *Hairless_MIDI_Serial::_instance = NULL;
-
 Hairless_MIDI_Serial::Hairless_MIDI_Serial()
 {
 	Serial.setTimeout(10);
 }
 
-Hairless_MIDI_Serial &Hairless_MIDI_Serial::getInstance()
+Hairless_MIDI_Serial& Hairless_MIDI_Serial::getInstance()
 {
 	//Single instance check, instantiation, and return
-	if (_instance == NULL) _instance = new Hairless_MIDI_Serial();
+	if (_instance == nullptr) _instance = new Hairless_MIDI_Serial();
 	return *_instance;
 }
 

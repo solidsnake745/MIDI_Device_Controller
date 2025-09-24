@@ -11,10 +11,11 @@
 	class RoundRobin_Collection : public Base_MIDI_Pitch_Collection
 	{	
 		private:
-			MIDI_Pitch_Node *lastAssign;
+			MIDI_Pitch_Node* lastAssign;
 			
 		public:
-			//Abstract implementations		
+			//Abstract implementations
+			void reset();
 			bool playNote(uint8_t note);
 			void stopNote(uint8_t note);
 	};

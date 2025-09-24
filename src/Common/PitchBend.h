@@ -5,31 +5,48 @@
 	#include "../Common/SerialDebug.h"
 	
 	#if INCLUDE_TESTS
-		#include "../MIDI_Device_Controller/MIDI_Periods.h"
-		#define MIDDLE_C_NOTE 48
+		#include "MIDI_Periods.h"
 	#endif
 	
 	//@private
 	class PitchBend
 	{		
-		inline static SerialDebug _debug = SerialDebug(5);
-		inline constexpr static float BEND_PER_OCTAVE = ((float)BEND_SEMITONES/(float)SEMITONES_PER_OCTAVE);
+		inline static SerialDebug _debug = SerialDebug(DEBUG_PITCHBEND);
+		#if BEND_MODE == 1
+			inline constexpr static float BEND_PER_OCTAVE = ((float)BEND_SEMITONES/(float)SEMITONES_PER_OCTAVE);
+		#endif
 		PitchBend(){}; //Disallow creating an instance
 		
 		public:
+			//shiftRange: True indicates incoming values need to be shifted from 0 to 16383 to -8192 to 8191
 			inline static float calculateFactor(int16_t bend, bool shiftRange = false)
 			{
+				//Expecting values in the range of -8192 to 8191
+				//Depending on the framework supplying MIDI data, values could instead range from 0 to 16383
+				//Shift them down to the expected range for this to work
 				if(shiftRange) bend -= 8192;
-				float result = pow(2.0, (BEND_PER_OCTAVE * (bend / 8192.0)));
+				
+				#if BEND_MODE == 0
+					//Original formula I used in past versions which assumes BEND_PER_OCTAVE = 1
+					//Has worked for all my purposes
+					float result = pow(2.0, bend / 8192.0);
+				#elif BEND_MODE == 1
+					//More technically correct formula for calculating pitchbends, configurable through Settings.h
+					float result = pow(2.0, (BEND_PER_OCTAVE * (bend / 8192.0)));
+				#else
+					//Default in case some invalid value is specified
+					float result = pow(2.0, bend / 8192.0);
+				#endif
 				return result;
 			}
 			
 			#if INCLUDE_TESTS
 			inline static void runTest()
 			{
-				_debug.debugln(5, F("BEND_PER_OCTAVE: %f"), BEND_PER_OCTAVE);
-				
-				//Bending by these values should result in -2, -1, 0, 1, and 2 notes over (when BEND_SEMITONES = 2)
+				#if BEND_MODE == 1
+					_debug.debugln(5, F("BEND_PER_OCTAVE: %f"), BEND_PER_OCTAVE);
+				#endif
+	
 				int16_t testBendValues[] = { -8192, -4096, 0, 4096, 8191 };
 				
 				uint32_t middleCPeriod = MIDI_Periods::getOriginalPeriod(MIDDLE_C_NOTE);

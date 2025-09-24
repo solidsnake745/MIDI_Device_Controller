@@ -9,26 +9,22 @@
 #ifdef CORE_TEENSY  
   const uint8_t pins[] = {0, 1, 2};
   #if ARDUINO_TEENSY32
-    #warning "Compiling for Teensy 3.2"
-    const int resolution = 20;
+    // #warning "Compiling for Teensy 3.2"
   #elif ARDUINO_TEENSY40 || ARDUINO_TEENSY41
-    #warning "Compiling for Teensy 4.0/4.1"
-    const int resolution = 5;
+    // #warning "Compiling for Teensy 4.0/4.1"
   #else
-    //Default to a standard value for other teensy boards
-    const int resolution = 40;
+    // #warning "Compiling for some Teensy board"
   #endif
 #else
   #error "Only for Teensy boards"
 #endif
 
-void setup() {
+void setup() 
+{
   Serial.begin(115200);
 
   //Setup MIDI_Device_Controller
-  MDC.setResolution(resolution);
   MDC.setLEDPin(LED_BUILTIN);
-  MDC.setMaxDuration(0); //No limit on how long any one device can play a note
 
   int numPins = (sizeof(pins)/sizeof(uint8_t));
   IO_DigitalWrite *io = IOF.createDigitalIO(numPins);  
@@ -36,15 +32,15 @@ void setup() {
   for(int x = 0; x < numPins; x++)
   {
     //Add pin to IO
-    io->addOutput(pins[x]);
+    io->addPin(pins[x]);
 
     //Setup MIDI pitch device
     MIDI_Pitch *d = new MIDI_Pitch();
-    d->setStepPin(DigitalWrite, pins[x]);
-    MDC.addDevice(x, d);
+    d->setStepPin(IODigital, pins[x]);
+    MDC.addPitchDevice(x, d);
 
     //Add device to our collection
-    c->addDevice(MDC.getDevice(x));
+    c->addDevice(MDC.getPitchDevice(x));
   }
 
   //Setup MIDI Serial handlers  
@@ -53,9 +49,7 @@ void setup() {
   usbMIDI.setHandleControlChange(onControlChange);
   usbMIDI.setHandlePitchChange(onPitchChange);
 
-  delay(200);
   MDC.playStartupSequence(); //Complicated end beep
-  delay(200);
 }
 
 void loop() {

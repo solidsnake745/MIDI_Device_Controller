@@ -1,9 +1,9 @@
 #ifndef MIDI_Pitch_h
 	#define MIDI_Pitch_h
 
-	#include <Arduino.h>
 	#include "../Common/PitchBend.h"
-	#include "../MIDI_Device_Controller/MIDI_Periods.h"
+	#include "../Common/NoteDuration.h"
+	#include "../Common/MIDI_Periods.h"
 	#include "../IO_Devices/IO_Device.h"
 	#include "../IO_Factory/IO_Factory.h"
 	#include "../Settings.h"
@@ -15,8 +15,11 @@
 	///MIDI device class for anything needing a pitch signal (FDD, HDD, Stepper motors, etc.)
 	class MIDI_Pitch
 	{	
-		//Give MIDI_DeviceController access to all private members
-		friend class MIDI_Device_Controller;
+		//Give access to all private members to the below classes
+		friend class MIDI_Device_Controller;		
+		friend class MIDI_Pitch_Node;
+		friend class Base_MIDI_Pitch_Collection;
+		friend class Direct_Collection;
 		
 		inline static SerialDebug _debug = SerialDebug(DEBUG_MIDIPITCH);
 		
@@ -36,20 +39,17 @@
 		
 			//Designated step pin mapping where -1 indicates no pin is assigned
 			int8_t _stepPinMap = -1;
-			IO_Device* _stepIO = NULL;
+			IO_Device* _stepIO = nullptr;
 
 			//Designated direction pin mapping where -1 indicates no pin is assigned					
 			int8_t _dirPinMap = -1;
-			IO_Device* _dirIO = NULL;
+			IO_Device* _dirIO = nullptr;
 			
 			//Max number of steps the device can take before needing to switch directions where -1 indicates it does not have a max
 			//NOTE: Setting to -1 disables position tracking functionality all together
 			int16_t _maxPosition = -1;
 			
-			MIDI_Device_Controller *_belongsTo = NULL;
-			
-			void setController(MIDI_Device_Controller *controller);
-			inline void setID(uint8_t value) { _id = value; };
+			MIDI_Device_Controller* _parent = nullptr;
 			
 			//Indicates whether a device is at or beyond it's max position    	
 			inline bool isAtMaxPosition() { return _currentPosition >= _maxPosition; };
@@ -81,14 +81,10 @@
 		//_____________________________________________________________________________________________
 		private:
 			//Calculated microperiods based on the set resolution for each note
-			static uint16_t *_referencePeriods;
-		
-			//Current step pin state
-			volatile bool _stepState = LOW;
+			inline static uint16_t* _referencePeriods = MIDI_Periods::calculatedPeriods;
 			
-			//Current direction pin state
-			volatile bool _dirState = LOW;
-		
+			//TODO: volatile modifier may not be necessary or useful, have to research further
+
 			//Current assigned note where -1 indicates available and 0 indicates awaiting reset
 			volatile int8_t _currentNote = -1;
 
@@ -98,11 +94,14 @@
 			//Current tick value
 			volatile uint16_t _currentTick = 0;
 
-			//How long the current note has been playing in microseconds
-			volatile uint32_t _currentDuration = 0;
+			//How long the device has been playing
+			NoteDuration _currentDuration;
 			
 			//Current position value
 			volatile int16_t _currentPosition = 0;
+			
+			//The last object to assign a note to this device
+			void* _lastAssignedBy = nullptr;
 			
 			//Gets the base period of the note currently being played
 			inline int16_t getBasePeriod() { return *(_referencePeriods + _currentNote); };
@@ -126,10 +125,10 @@
 			void resetProperties(bool includePosition = false);
 			
 			//Operates device per desired MIDI output
-			void playNotes();
+			void processNotes();
 			
-			//Checks if deivce is past the max duration and stops playing the current note if so
-			void checkMaxDuration();
+			void playNote(uint8_t note, void* assignedBy);
+			void playPeriod(uint16_t period, void* assignedBy);
 			
 		public:
 			bool getStepState();
@@ -139,15 +138,14 @@
 			
 			inline bool isEnabled() { return (_stepPinMap >= 0); };
 			
-			void playNote(uint8_t note);		
-			void playPeriod(uint16_t period);
+			inline void playNote(uint8_t note) { playNote(note, nullptr); };
+			inline void playPeriod(uint16_t period) { playPeriod(period, nullptr); };
 			void bendNote(int16_t bend, bool shiftRange = false);
 			void bendNoteByFactor(float pitchFactor);
 			void stopNote();
 			
 			//Used to set the state of the direction pin associated with a given device
 			//Respects position and updates it accordingly
-			//TODO: rename to updateDirection
 			void setDirection(bool direction);
 			
 			void resetPosition();

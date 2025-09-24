@@ -29,7 +29,21 @@
 		
 		//Used to update and maintain calculatedPeriods with _currentResolution
 		//Sets resolution and computes adjusted resolution to be used for note processing
-		static void calculatePeriods(uint16_t resolution);
+		inline static void calculatePeriods(uint16_t resolution)
+		{
+			//Calculate actual periods to be used in operation
+			//There is some inaccuracy in this conversion, but that's OK
+			uint32_t dblResolution = 2 * _currentResolution; //We need to change state twice per period
+			
+			for(uint8_t i = 0; i < 128; i++) 
+			{
+				uint32_t basePeriod = getOriginalPeriod(i);	
+				
+				//If our resolution is greater than the period, the note will never play
+				//Disable that note by assigning 0, else calculate the corresponding period
+				calculatedPeriods[i] = basePeriod < dblResolution ? 0 : (basePeriod / dblResolution);
+			}
+		};
 
 		public:
 			// Overall properties
@@ -41,17 +55,17 @@
 			inline constexpr static uint32_t ORIGINAL_PERIODS[128] PROGMEM = 
 			{
 			//	C		C#		D		D#		E		F		F#		G		G#		A		A#		B
-				122312,	115447,	108968,	102852,	97079,	91631,	86488,	81634,	77052,	72727,	68645,	64793, 	//C0 - B0
-				61156,	57724,	54484,	51426,	48540,	45815,	43244,	40817,	38526,	36364,	34323,	32396, 	//C1 - B1
-				30578,	28862,	27242,	25713,	24270,	22908,	21622,	20408,	19263,	18182,	17161,	16198,	//C2 - B2
-				15289,	14431,	13621,	12856,	12135,	11454,	10811,	10204,	9631,	9091,	8581,	8099,	//C3 - B3
-				7645,	7215,	6810,	6428,	6067,	5727,	5405,	5102,	4816,	4545,	4290,	4050,	//C4 - B4 (Middle C = 48)
-				3822,	3608,	3405,	3214,	3034,	2863,	2703,	2551,	2408,	2273,	2145,	2025,	//C5 - B5
-				1911,	1804,	1703,	1607,	1517,	1432,	1351,	1276,	1204,	1136,	1073,	1012,	//C6 - B6
-				956,	902,	851,	804,	758,	716,	676,	638,	602,	568,	536,	506,	//C7 - B7
-				478,	451,	426,	402,	379,	358,	338,	319,	301,	284,	268,	253,	//C8 - B8
-				239,	225,	213,	201,	190,	179,	169,	159,	150,	142,	134,	127,	//C9 - B9
-				119,	113,	106,	100,	95,		89,		84,		80										//C10 - G10
+				122312,	115447,	108968,	102852,	97079,	91631,	86488,	81634,	77052,	72727,	68645,	64793, 	//Octave -1
+				61156,	57724,	54484,	51426,	48540,	45815,	43244,	40817,	38526,	36364,	34323,	32396, 	//Octave 0
+				30578,	28862,	27242,	25713,	24270,	22908,	21622,	20408,	19263,	18182,	17161,	16198,	//Octave 1
+				15289,	14431,	13621,	12856,	12135,	11454,	10811,	10204,	9631,	9091,	8581,	8099,	//Octave 2
+				7645,	7215,	6810,	6428,	6067,	5727,	5405,	5102,	4816,	4545,	4290,	4050,	//Octave 3
+				3822,	3608,	3405,	3214,	3034,	2863,	2703,	2551,	2408,	2273,	2145,	2025,	//Octave 4 (Middle C = 60)
+				1911,	1804,	1703,	1607,	1517,	1432,	1351,	1276,	1204,	1136,	1073,	1012,	//Octave 5
+				956,	902,	851,	804,	758,	716,	676,	638,	602,	568,	536,	506,	//Octave 6
+				478,	451,	426,	402,	379,	358,	338,	319,	301,	284,	268,	253,	//Octave 7
+				239,	225,	213,	201,	190,	179,	169,	159,	150,	142,	134,	127,	//Octave 8
+				119,	113,	106,	100,	95,		89,		84,		80										//Octave 9
 			};
 			
 			//Used to pull original microperiod values from program memory
@@ -59,7 +73,19 @@
 			inline static uint32_t getOriginalPeriod(uint16_t index) { return pgm_read_dword(ORIGINAL_PERIODS + index); };
 			
 			inline static uint32_t getResolution() { return _currentResolution; };
-			static void setResolution(uint32_t resolution = DEFAULT_RESOLUTION);
+			inline static void setResolution(uint32_t resolution = DEFAULT_RESOLUTION)
+			{
+				if(resolution < MIN_RESOLUTION || resolution > MAX_RESOLUTION)
+				{
+					_debug.debugln(1, F("Invalid resolution set: %d"), resolution);
+					_debug.println(F("Defaulting to: %d"), DEFAULT_RESOLUTION);
+					_currentResolution = DEFAULT_RESOLUTION;
+				}
+				else
+					_currentResolution = resolution;
+				
+				calculatePeriods(resolution);
+			};
 			
 			/// @private
 			inline static void setDebugResolution() { _currentResolution = 100000; };

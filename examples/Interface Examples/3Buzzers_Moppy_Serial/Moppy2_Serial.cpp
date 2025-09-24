@@ -2,18 +2,14 @@
 
 //Constructors and instance management
 //_______________________________________________________________________________________________________
-
-//Global singleton instance
-Moppy2_Serial M2S = Moppy2_Serial::getInstance();
-
-Moppy2_Serial *Moppy2_Serial::_instance = NULL;
+Moppy2_Serial* Moppy2_Serial::_instance = NULL;
 
 Moppy2_Serial::Moppy2_Serial()
 {
 	Serial.setTimeout(10);
 }
 
-Moppy2_Serial &Moppy2_Serial::getInstance()
+Moppy2_Serial& Moppy2_Serial::getInstance()
 {
 	//Single instance check, instantiation, and return
 	if (_instance == NULL) _instance = new Moppy2_Serial();
@@ -41,7 +37,7 @@ void Moppy2_Serial::parseSerial()
 
   Moppy_Message msg(deviceAddress, subAddress, payloadSize, payloadBuffer);
 
-  if(msg.getDeviceAddress() != SYSTEM_ADDRESS || msg.getDeviceAddress() != _deviceAddress)
+  if(msg.getDeviceAddress() != SYSTEM_ADDRESS && msg.getDeviceAddress() != _deviceAddress)
     return; //Message not meant for this device, carry on
 
   if(msg.getSubAddress() < _minSubAddress || msg.getSubAddress() > _maxSubAddress)
@@ -68,7 +64,7 @@ void Moppy2_Serial::sendPong()
   Serial.write(pongBytes, sizeof(pongBytes));
 }
 
-void Moppy2_Serial::handleSystemMessage(Moppy_Message *msg)
+void Moppy2_Serial::handleSystemMessage(Moppy_Message* msg)
 {
   switch(msg->getCommand())
   {
@@ -82,7 +78,7 @@ void Moppy2_Serial::handleSystemMessage(Moppy_Message *msg)
   }
 }
 
-void Moppy2_Serial::handleDeviceMessage(Moppy_Message *msg)
+void Moppy2_Serial::handleDeviceMessage(Moppy_Message* msg)
 {
   switch(msg->getCommand())
   {

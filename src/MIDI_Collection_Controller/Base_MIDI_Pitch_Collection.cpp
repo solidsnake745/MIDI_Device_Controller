@@ -2,11 +2,9 @@
 #include "Base_MIDI_Pitch_Collection.h"
 #include "MIDI_Pitch_Node.h"
 
-Base_MIDI_Pitch_Collection::~Base_MIDI_Pitch_Collection()
-{
-};
+Base_MIDI_Pitch_Collection::~Base_MIDI_Pitch_Collection() {}
 
-void Base_MIDI_Pitch_Collection::deleteNode(MIDI_Pitch_Node *node)
+void Base_MIDI_Pitch_Collection::deleteNode(MIDI_Pitch_Node* node)
 {	
 	//Handle deleting the start node
 	if(node == start)
@@ -17,7 +15,7 @@ void Base_MIDI_Pitch_Collection::deleteNode(MIDI_Pitch_Node *node)
 		if(start)
 		{
 			start->prev = NULL;
-			_debug.debugln(5, F("New start device ID: "), start->device->getID());
+			_debug.debugln(5, F("New start device ID: "), start->_device->getID());
 		}
 		else
 			_debug.debugln(5, F("Reassigned to nothing"));
@@ -36,7 +34,7 @@ void Base_MIDI_Pitch_Collection::deleteNode(MIDI_Pitch_Node *node)
 		if(end)
 		{
 			end->next = NULL;
-			_debug.debugln(5, F("New end device ID: %d"), end->device->getID());
+			_debug.debugln(5, F("New end device ID: %d"), end->_device->getID());
 		}
 		else
 			_debug.debugln(5, F("Reassigned to nothing"));
@@ -59,7 +57,7 @@ void Base_MIDI_Pitch_Collection::deleteNode(MIDI_Pitch_Node *node)
 	// PRINT(F("Deleted"))
 };
 
-void Base_MIDI_Pitch_Collection::addDevice(MIDI_Pitch *d)
+void Base_MIDI_Pitch_Collection::addDevice(MIDI_Pitch* d)
 {
 	//Handle first node insertion
 	if(!start)
@@ -71,12 +69,12 @@ void Base_MIDI_Pitch_Collection::addDevice(MIDI_Pitch *d)
 	}
 	
 	//Prevent adding duplicate devices
-	MIDI_Pitch_Node *node = start;
+	MIDI_Pitch_Node* node = start;
 	while(node)
 	{		
-		if(node->device->getID() == d->getID())
+		if(node->_device->getID() == d->getID())
 		{
-			_debug.debugln(5, F("Device ID %d already added"), node->device->getID());
+			_debug.debugln(5, F("Device ID %d already added"), node->_device->getID());
 			return;
 		}
 		
@@ -85,7 +83,7 @@ void Base_MIDI_Pitch_Collection::addDevice(MIDI_Pitch *d)
 	}
 	
 	//Create, setup, and add new node	
-	MIDI_Pitch_Node *newNode = new MIDI_Pitch_Node(d, this);
+	MIDI_Pitch_Node* newNode = new MIDI_Pitch_Node(d, this);
 	node->next = newNode;
 	newNode->prev = node;
 	end = newNode;
@@ -103,11 +101,11 @@ void Base_MIDI_Pitch_Collection::removeDevice(uint8_t id)
 	}
 	
 	//Find and delete node with given device ID
-	MIDI_Pitch_Node *node = start;
+	MIDI_Pitch_Node* node = start;
 	while(node)
 	{
-		_debug.debugln(5, F(" Searching - current ID: %d"), node->device->getID());
-		if(node->device->getID() != id)
+		_debug.debugln(5, F(" Searching - current ID: %d"), node->_device->getID());
+		if(node->_device->getID() != id)
 		{
 			node = node->next;
 			continue;
@@ -138,19 +136,19 @@ void Base_MIDI_Pitch_Collection::printStatus()
 	_debug.debugln(5);
 	
 	int i = 0;
-	MIDI_Pitch_Node *node = start;
+	MIDI_Pitch_Node* node = start;
 	while(node)
 	{
-		_debug.println(F("Device Node %d: ID %d"), i++, node->device->getID());
+		_debug.println(F("Device Node %d: ID %d"), i++, node->_device->getID());
 		//_debug.println(F("  Device ID: %d"), node->device->getID());
 		
 		if(node->prev)		
-			_debug.debugln(5, F("  Previous Device ID: %d"), node->prev->device->getID());
+			_debug.debugln(5, F("  Previous Device ID: %d"), node->prev->_device->getID());
 		else		
 			_debug.debugln(5, F("  Previous Device ID: NULL"));
 		
 		if(node->next)
-			_debug.debugln(5, F("  Next Device ID: %d"), node->next->device->getID());
+			_debug.debugln(5, F("  Next Device ID: %d"), node->next->_device->getID());
 		else
 			_debug.debugln(5, F("  Next Device ID: NULL"));
 
@@ -173,10 +171,10 @@ void Base_MIDI_Pitch_Collection::bendNote(int16_t bend, bool shiftRange)
 	//Calculate factor once and use for bending all devices
 	float pitchFactor = PitchBend::calculateFactor(bend, shiftRange);
 	
-	MIDI_Pitch_Node *node = start;
+	MIDI_Pitch_Node* node = start;
 	while(node)
 	{
-		node->device->bendNoteByFactor(pitchFactor);
+		node->bendNoteByFactor(pitchFactor);
 		node = node->next;
 	}
 };
@@ -192,19 +190,19 @@ void Base_MIDI_Pitch_Collection::testPitchBend()
 	MDC.setAutoPlay(true);
 	
 	for(uint8_t c = 0; c < _count; c++)
-		playNote(48);
+		playNote(MIDDLE_C_NOTE);
 
 	bendNote(0);
 	delayMicroseconds(500);
 	
-	for(int16_t i = 1; i <= 16383; i++)
+	for(int16_t i = -8192; i <= 8191; i++)
 	{
 		bendNote(i);
 		delayMicroseconds(500);
 	}
 	
 	for(uint8_t c = 0; c < _count; c++)
-		stopNote(48);
+		stopNote(MIDDLE_C_NOTE);
 	
 	MDC.stopPlaying();
 	MDC.setAutoPlay(currentSetting);

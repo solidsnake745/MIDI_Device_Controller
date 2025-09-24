@@ -3,15 +3,11 @@
 
 bool FirstAvailable_Collection::playNote(uint8_t note)
 {
-	MIDI_Pitch_Node *node = start;
-	
+	MIDI_Pitch_Node* node = start;
 	while(node)
 	{
-		if(node->device->isAvailable())
-		{
-			node->playNote(note);
+		if(node->tryPlayNote(note))
 			return true;
-		}
 		
 		node = node->next;
 	}
@@ -21,15 +17,11 @@ bool FirstAvailable_Collection::playNote(uint8_t note)
 
 void FirstAvailable_Collection::stopNote(uint8_t note)
 {	
-	MIDI_Pitch_Node *node = start;
-	
+	MIDI_Pitch_Node* node = start;
 	while(node)
 	{
-		if(node->device->getCurrentNote() == note)
-		{
-			node->stopNote();
+		if(node->tryStopNote(note))
 			return;
-		}
 		
 		node = node->next;
 	}

@@ -4,9 +4,9 @@
 	#include "../MIDI_Device_Controller.h"
 	#include "../Settings.h"
 	#include "../Common/SerialDebug.h"
-	#include "../MIDI_Device_Controller.h"
-	#include "../IO_Devices/IO_Device.h"
-	#include "../IO_Factory/IO_Factory.h"
+	#include "../MIDI_Pulse/Base_MIDI_Pulse.h"
+	// #include "../IO_Devices/IO_Device.h"
+	// #include "../IO_Factory/IO_Factory.h"
 	
 	//Resolve map dependency
 	#if ARDUINO_ARCH_AVR
@@ -17,38 +17,26 @@
 		#include <map>
 	#endif
 			
-	///[MPC] Manages mapping MIDI notes to the outputs of pulse devices
+	///[MPC] Manages mapping MIDI notes to pulse devices
 	class MIDI_Pulse_Controller
 	{
 		inline static SerialDebug _debug = SerialDebug(DEBUG_PULSECONTROLLER);
 		
 		//Constructor(s)
 		MIDI_Pulse_Controller(); //Disallow creating an instance
-		static MIDI_Pulse_Controller *_instance;
+		inline static MIDI_Pulse_Controller* _instance  = nullptr;
 		
-		struct mapEntry
-		{
-			mapEntry() {};
-			mapEntry(IO_Device* d, uint8_t o) 
-			{
-				device = d;
-				out = o;
-			};
-			
-			IO_Device* device = NULL;
-			uint8_t out;
-		};
-	
-		static std::map<uint8_t, mapEntry*> _noteMap;
-		
-		uint32_t _defaultDuration = 5000;
+		static std::map<uint8_t, Base_MIDI_Pulse*> _noteMap;
 		
 		public:
 			//Used to populate our single instance MDF for consumption
 			/// @private
-			static MIDI_Pulse_Controller &getInstance();			
-			
-			inline void setDefaultDuration(uint32_t limit) { _defaultDuration = limit; };
+			inline static MIDI_Pulse_Controller& getInstance()
+			{
+				//Single instance check, instantiation, and return
+				if (_instance == nullptr) _instance = new MIDI_Pulse_Controller();
+				return *_instance;
+			};
 			
 			///Adds a mapping between note and pulse device output
 			/*!
@@ -56,16 +44,25 @@
 				\param type IO device to map to
 				\param output Output of the device to map to
 			*/
-			void addMapping(uint8_t note, IOType type, uint8_t output);
+			void addMapping(uint8_t note, Base_MIDI_Pulse* d);
 			
-			void deleteMapping(uint8_t note);			
+			///Removes an existing mapping for the given note
+			/*!
+				\param note MIDI note to unmap
+			*/
+			void deleteMapping(uint8_t note);
+			
+			///Retrieves the deviced mapped to the given note if there is one
+			/*!
+				\param note MIDI note to retrieve the device for
+			*/
+			Base_MIDI_Pulse* getMappedDevice(uint8_t note);
 			
 			void pulseNote(uint8_t note);
-			void toggleNote(uint8_t note);
 			void stopNote(uint8_t note);
 			void stopNotes();
 	};
 	
 	//Defines a global instance of our class for users to consume
-	extern MIDI_Pulse_Controller MPC;
+	inline MIDI_Pulse_Controller MPC = MIDI_Pulse_Controller::getInstance();
 #endif

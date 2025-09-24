@@ -1,25 +1,20 @@
 #include "MIDI_Collection_Factory.h"
 
-//Global singleton instance
-MIDI_Collection_Factory MCF = MIDI_Collection_Factory::getInstance();
-
-MIDI_Collection_Factory *MIDI_Collection_Factory::_instance = NULL;
-
 MIDI_Collection_Factory::MIDI_Collection_Factory(){}
 
-MIDI_Collection_Factory &MIDI_Collection_Factory::getInstance()
+MIDI_Collection_Factory& MIDI_Collection_Factory::getInstance()
 {
 	//Single instance check, instantiation, and return
-	if (_instance == NULL) _instance = new MIDI_Collection_Factory();
+	if (_instance == nullptr) _instance = new MIDI_Collection_Factory();
 	return *_instance;
 }
 
-MIDI_Pitch *MIDI_Collection_Factory::getDeviceFromMDC(uint8_t index)
+MIDI_Pitch* MIDI_Collection_Factory::getDeviceFromMDC(uint8_t index)
 {
-	return MDC.getDevice(index);
+	return MDC.getPitchDevice(index);
 }
 
-Base_MIDI_Pitch_Collection *MIDI_Collection_Factory::createCollection(uint8_t index, CollectionType type)
+Base_MIDI_Pitch_Collection* MIDI_Collection_Factory::createCollection(uint8_t index, CollectionType type)
 {
 	_debug.debugln(1, F("Adding collection at %d"), index);
 	
@@ -27,16 +22,16 @@ Base_MIDI_Pitch_Collection *MIDI_Collection_Factory::createCollection(uint8_t in
 	{
 		_debug.debugln(5, F("Can't add collection at index %d"), index);
 		_debug.debugln(5, F("Max collection index is %d"), MAX_COLLECTIONS - 1);
-		return NULL;
+		return nullptr;
 	}
 
-	if(MCC.getCollection(index) != NULL)
+	if(MCC.getCollection(index) != nullptr)
 	{		
 		_debug.debugln(5, F("Collection already exists at index %d"), index);
-		return NULL;
+		return nullptr;
 	}
 	
-	Base_MIDI_Pitch_Collection *newCollection;
+	Base_MIDI_Pitch_Collection* newCollection;
 	
 	switch(type)
 	{

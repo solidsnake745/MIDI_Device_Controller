@@ -2,40 +2,33 @@
 
 //Constructors and instance management
 //_______________________________________________________________________________________________________
-
-//Global singleton instance
-MIDI_Device_Controller MDC = MIDI_Device_Controller::getInstance();
-
-MIDI_Device_Controller *MIDI_Device_Controller::_instance = NULL;
-
 MIDI_Device_Controller::MIDI_Device_Controller()
 {
 	//Initialize device collection with nulls
-	for(int i = 0;i < MAX_PITCH_DEVICES;i++) _pitchDevices[i] = NULL;
+	for(int i = 0;i < MAX_PITCH_DEVICES;i++)
+		_pitchDevices[i] = nullptr;
 	
 	//Initialize resolution and periods to the default
 	setResolution();
 }
 
-MIDI_Device_Controller &MIDI_Device_Controller::getInstance()
+MIDI_Device_Controller& MIDI_Device_Controller::getInstance()
 {
 	//Single instance check, instantiation, and return
-	if (_instance == NULL) _instance = new MIDI_Device_Controller();
+	if (_instance == nullptr)
+		_instance = new MIDI_Device_Controller();
 	return *_instance;
 }
 
 //Device management
 //_______________________________________________________________________________________________________
-MIDI_Pitch *MIDI_Device_Controller::_pitchDevices[MAX_PITCH_DEVICES];
-MIDI_Pitch *MIDI_Device_Controller::_enabledPitchDevices[MAX_PITCH_DEVICES];
-uint8_t MIDI_Device_Controller::_numEnabled = 0;
-
 uint8_t MIDI_Device_Controller::reloadEnabledDevices()
 {
 	_debug.debugln(1, F("Reloading enabled pitch devices"));
 	
 	//Clear out current references
-	for(int i = 0; i < MAX_PITCH_DEVICES; i++) _enabledPitchDevices[i] = NULL;
+	for(int i = 0; i < MAX_PITCH_DEVICES; i++)
+		_enabledPitchDevices[i] = nullptr;
 	
 	//Look for populated devices that are enabled
 	uint8_t x = 0;
@@ -63,7 +56,7 @@ void MIDI_Device_Controller::printStatus()
 	int i = 0;
 	while(i != MAX_PITCH_DEVICES)
 	{
-		_debug.println(F("Pitch device Slot %d"), i);
+		_debug.println(F("Pitch device slot %d"), i);
 		if(_pitchDevices[i])
 		{
 			_debug.debugln(5, F("Populated"));
@@ -80,43 +73,109 @@ void MIDI_Device_Controller::printStatus()
 	}
 }
 
-void MIDI_Device_Controller::addDevice(uint8_t index, MIDI_Pitch *d)
+bool MIDI_Device_Controller::addPitchDevice(uint8_t index, MIDI_Pitch* d)
 {
 	if(!d)
 	{
 		_debug.println(F("NULL pitch device passed in"));
-		return;
+		return false;
 	}
 	
 	if(index > MAX_PITCH_DEVICES - 1)
 	{
 		_debug.println(F("Can't add pitch device at index %d; max index is %d"), index, MAX_PITCH_DEVICES - 1);
-		return;
+		return false;
 	}
 
-	if(_pitchDevices[index] != NULL)
+	if(_pitchDevices[index] != nullptr)
 	{		
 		_debug.println(F("Pitch device already exists at index %d"), index);
-		return;
+		return false;
 	}
 	
-	d->setController(this);
-	d->setID(index);
+	d->_parent = this;
+	d->_id = index;
 	_pitchDevices[index] = d;
+	return true;
 }
 
-MIDI_Pitch* MIDI_Device_Controller::getDevice(uint8_t index)
+int8_t MIDI_Device_Controller::addPitchDevice(MIDI_Pitch* d)
+{
+	int i = 0;
+	while(i < MAX_PITCH_DEVICES)
+	{
+		if(!_pitchDevices[i])
+			return addPitchDevice(i, d) ? i : -1;
+		i++;
+	}
+	
+	_debug.println(F("No available indexes; Pitch device not added"));
+	return -1;
+}
+
+bool MIDI_Device_Controller::addPulseDevice(uint8_t index, Base_MIDI_Pulse* d)
+{
+	if(!d)
+	{
+		_debug.println(F("NULL pulse device passed in"));
+		return false;
+	}
+	
+	if(index > MAX_PULSE_DEVICES - 1)
+	{
+		_debug.println(F("Can't add pulse device at index %d; max index is %d"), index, MAX_PULSE_DEVICES - 1);
+		return false;
+	}
+
+	if(_pulseDevices[index] != nullptr)
+	{		
+		_debug.println(F("Pulse device already exists at index %d"), index);
+		return false;
+	}
+	
+	d->_parent = this;
+	d->_id = index;
+	_pulseDevices[index] = d;
+	return true;
+}
+
+int8_t MIDI_Device_Controller::addPulseDevice(Base_MIDI_Pulse* d)
+{
+	int i = 0;
+	while(i < MAX_PULSE_DEVICES)
+	{
+		if(!_pulseDevices[i])
+			return addPulseDevice(i, d) ? i : -1;
+		i++;
+	}
+	
+	_debug.println(F("No available indexes; Pulse device not added"));
+	return -1;
+}
+
+MIDI_Pitch* MIDI_Device_Controller::getPitchDevice(uint8_t index)
 {
 	if(index > MAX_PITCH_DEVICES - 1)
 	{
 		_debug.debugln(3, F("Max index is %d"), MAX_PITCH_DEVICES - 1);
-		return NULL;
+		return nullptr;
 	}
 	
 	return _pitchDevices[index];
 }
 
-void MIDI_Device_Controller::deleteDevice(uint8_t index)
+Base_MIDI_Pulse* MIDI_Device_Controller::getPulseDevice(uint8_t index)
+{
+	if(index > MAX_PULSE_DEVICES - 1)
+	{
+		_debug.debugln(3, F("Max index is %d"), MAX_PULSE_DEVICES - 1);
+		return nullptr;
+	}
+	
+	return _pulseDevices[index];
+}
+
+void MIDI_Device_Controller::deletePitchDevice(uint8_t index)
 {
 	if(index > MAX_PITCH_DEVICES - 1)
 	{
@@ -128,7 +187,28 @@ void MIDI_Device_Controller::deleteDevice(uint8_t index)
 	{
 		_debug.debugln(2, F("Removing device at %d"), index);
 		delete _pitchDevices[index];
-		_pitchDevices[index] = NULL;
+		_pitchDevices[index] = nullptr;
+		return;
+	}
+	else
+	{
+		_debug.debugln(2, F("No device at %d"), index);
+	}
+}
+
+void MIDI_Device_Controller::deletePulseDevice(uint8_t index)
+{
+	if(index > MAX_PULSE_DEVICES - 1)
+	{
+		_debug.debugln(3, F("Max index is %d"), MAX_PULSE_DEVICES - 1);
+		return;
+	}
+	
+	if(_pulseDevices[index])
+	{
+		_debug.debugln(2, F("Removing device at %d"), index);
+		delete _pulseDevices[index];
+		_pulseDevices[index] = nullptr;
 		return;
 	}
 	else
@@ -146,7 +226,7 @@ void MIDI_Device_Controller::resetDevicePositions()
 	int i = 0;
 	while(i < numEnabled)
 	{
-		MIDI_Pitch *d = _enabledPitchDevices[i++];
+		MIDI_Pitch* d = _enabledPitchDevices[i++];
 		if(!d) break;
 		
 		d->setDirection(HIGH);
@@ -159,7 +239,7 @@ void MIDI_Device_Controller::resetDevicePositions()
 		resetDeviceCount = 0;
 		for(i = 0; i < numEnabled; i++)
 		{
-			MIDI_Pitch *d = _enabledPitchDevices[i];
+			MIDI_Pitch* d = _enabledPitchDevices[i];
 			
 			//TODO: refactor out check on isTrackingPosition
 			if(!d->isTrackingPosition() || d->isAtMaxPosition())
@@ -175,8 +255,7 @@ void MIDI_Device_Controller::resetDevicePositions()
 	i = 0;
 	while(i < numEnabled)
 	{
-		MIDI_Pitch *d = _enabledPitchDevices[i++];
-		
+		MIDI_Pitch* d = _enabledPitchDevices[i++];
 		d->setDirection(LOW);
 		d->setStepState(LOW);
 	}
@@ -190,8 +269,7 @@ void MIDI_Device_Controller::calibrateDevicePositions()
 	int i = 0;
 	while(i < numEnabled)
 	{
-		MIDI_Pitch *d = _enabledPitchDevices[i++];
-
+		MIDI_Pitch* d = _enabledPitchDevices[i++];
 		d->setDirState(HIGH);
 		d->_currentPosition = d->getMaxPosition();
 	}
@@ -204,21 +282,21 @@ void MIDI_Device_Controller::playDeviceNote(uint8_t index, uint8_t note)
 	_debug.debugln(8, F("Is processing: %d"), _isPlayingNotes);
 	_debug.debugln(8, F("Auto processing: %d"), _autoPlayNotes);
 	
-	MIDI_Pitch *d = getDevice(index);
+	MIDI_Pitch* d = getPitchDevice(index);
 	if(!d) return;
 	d->playNote(note);
 }
 
 void MIDI_Device_Controller::bendDeviceNote(uint8_t index, uint16_t bend)
 {
-	MIDI_Pitch *d = getDevice(index);
+	MIDI_Pitch* d = getPitchDevice(index);
 	if(!d) return;
 	d->bendNote(bend);
 }
 
 void MIDI_Device_Controller::stopDeviceNote(uint8_t index, uint8_t note)
 {
-	MIDI_Pitch *d = getDevice(index);
+	MIDI_Pitch* d = getPitchDevice(index);
 	if(!d) return;
 	if(d->getCurrentNote() == note) d->stopNote();
 }
@@ -238,27 +316,48 @@ void MIDI_Device_Controller::processNotes()
 #endif
 
 	//Process MIDI_Pitch devices
+	_debug.debugln(20, F("Pitch device processing start"));	
 	int i = 0;
 	while(i < _numEnabled && _numEnabled > 0)
 	{
-		MIDI_Pitch *d = _enabledPitchDevices[i++];
-		if(!d) continue;
-		d->playNotes();
+		MIDI_Pitch* d1 = _enabledPitchDevices[i++];
+		if(!d1) continue;
+		d1->processNotes();
 	}
+	_debug.debugln(20, F("Pitch device processing end"));
 	
 #if ISR_TESTING >= 2
 	endTime = micros();
 	_debug.println(F("Pitch device processing time: %u"), (endTime - startTime));
 	startTime = micros();
 #endif
+
+	//Process Base_MIDI_Pulse devices
+	_debug.debugln(20, F("Pulse device processing start"));	
+	i = 0;
+	while(i < MAX_PULSE_DEVICES)
+	{
+		Base_MIDI_Pulse* d2 = _pulseDevices[i++];
+		if(!d2) continue;
+		d2->processNotes();
+	}
+	_debug.debugln(20, F("Pulse device processing end"));
 	
+#if ISR_TESTING >= 2
+	endTime = micros();
+	_debug.println(F("Pulse device processing time: %u"), (endTime - startTime));
+	startTime = micros();
+#endif
+
 	//Update IO devices
+	_debug.debugln(20, F("IO processing start"));
 	for(i = 0; i < MAX_IO_DEVICES; i++)
 	{
 		if(IO_Factory::_ioDevices[i])
 			IO_Factory::_ioDevices[i]->updateOutputs();
 	}
-
+	_debug.debugln(20, F("IO processing end"));
+	
 #if ISR_TESTING >= 2
 	endTime = micros();
 	_debug.println(F("IO processing time: %u"), (endTime - startTime));
@@ -268,7 +367,9 @@ void MIDI_Device_Controller::processNotes()
 }
 #pragma GCC pop_options
 
-void MIDI_Device_Controller::lawl() { _instance->processNotes(); };
+#if ARDUINO_ARCH_ESP32
+	void IRAM_ATTR MIDI_Device_Controller::lawl() { _instance->processNotes(); };
+#endif
 
 void MIDI_Device_Controller::noteAssigned()
 {
@@ -298,19 +399,22 @@ bool MIDI_Device_Controller::startPlaying()
 	int numEnabled = reloadEnabledDevices();
 	while(i < numEnabled)
 	{
-		MIDI_Pitch *d = _enabledPitchDevices[i++];
+		MIDI_Pitch* d = _enabledPitchDevices[i++];
 		
-		//Make sure pitch devices are managing their own duration
+		//Make sure pitch devices stop when they are supposed to
 		if(d->_stepIO)
-			d->_stepIO->setMaxDuration(d->_stepPinMap, 0);
+			d->_stepIO->setShouldStop(d->_stepPinMap, true);
+
 		if(d->_dirIO)
-			d->_dirIO->setMaxDuration(d->_dirPinMap, 0);
+			d->_dirIO->setShouldStop(d->_dirPinMap, false);
 	}
 	
+	_debug.debugln(8, F("Starting interrupt process"));
 	_timer->setupOnce(MIDI_Periods::getResolution(), MIDI_Device_Controller::lawl);
 	_timer->start();
 	
 	LEDOn();
+	_debug.debugln(8, F("Started note processing"));
 	return true;
 }
 
@@ -326,16 +430,20 @@ void MIDI_Device_Controller::stopPlaying()
 	int numEnabled = reloadEnabledDevices();
 	while(i < numEnabled)
 	{
-		MIDI_Pitch *d = _enabledPitchDevices[i++];
+		MIDI_Pitch* d = _enabledPitchDevices[i++];
 		d->resetProperties();
 	}
 	
 	for(i = 0; i < MAX_IO_DEVICES; i++)
 	{
-		IO_Device *io = IO_Factory::_ioDevices[i];
+		IO_Device* io = IO_Factory::_ioDevices[i];
 		if(io)
 			io->stopOutputs();
 	}
+	
+	#ifdef MIDI_Collection_Controller_h	
+		MCC.resetAll();
+	#endif
 	
 	_isPlayingNotes = false;
 	LEDOff();
@@ -353,25 +461,7 @@ bool MIDI_Device_Controller::process()
 	if(timeSinceLastAssign >= _idleTimeout * 1000) 
 	{
 		stopPlaying();
-		
-		//Exit out as max durations don't matter if we've stopped playing
 		return true; //Indicates this method stopped processing
-	}
-	
-	//Stop any pitch devices over their max duration
-	int i = 0;	
-	while(i < _numEnabled)
-	{
-		MIDI_Pitch *d = _enabledPitchDevices[i++];
-		d->checkMaxDuration();
-	}
-	
-	//Stop any IO outputs over their max duration
-	for(i = 0; i < MAX_IO_DEVICES; i++)
-	{
-		IO_Device *io = IO_Factory::_ioDevices[i];
-		if(io)
-			io->checkMaxDuration();
 	}
 	
 	return false;
@@ -402,7 +492,7 @@ void MIDI_Device_Controller::setLEDPin(int8_t pin)
 //_______________________________________________________________________________________________________
 void MIDI_Device_Controller::testPitchDeviceInterrupt(uint8_t index) 
 {
-	MIDI_Pitch *d = getDevice(index);
+	MIDI_Pitch* d = getPitchDevice(index);
 	if(!d) return;
 	
 	startPlaying();
@@ -418,7 +508,7 @@ void MIDI_Device_Controller::testPitchDeviceInterrupt(uint8_t index)
 
 void MIDI_Device_Controller::testPitchBend(uint8_t index)
 {
-	MIDI_Pitch *d = getDevice(index);
+	MIDI_Pitch* d = getPitchDevice(index);
 	if(!d) return;
 	
 	bool currentSetting = _autoPlayNotes;
@@ -454,7 +544,7 @@ void MIDI_Device_Controller::loadTest(uint8_t numDevices)
 	//Start the test - Assign notes across active devices
 	for(int16_t i = 0; i < numDevices; i++) 
 	{
-		MIDI_Pitch *d = _pitchDevices[i];
+		MIDI_Pitch* d = _pitchDevices[i];
 		if(!d) continue;
 		
 		delay(250); //Staggers note assignments
@@ -484,7 +574,7 @@ void MIDI_Device_Controller::playStartupSequence(uint8_t version)
 			startPlaying();
 			while(i < numEnabled)
 			{
-				MIDI_Pitch *d = _enabledPitchDevices[i++];				
+				MIDI_Pitch* d = _enabledPitchDevices[i++];
 				
 				_debug.println(F("Single device sequence on %d"), d->_id);
 				for(uint8_t y = 0; y <= 15; y++) 

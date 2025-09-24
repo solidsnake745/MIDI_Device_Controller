@@ -27,7 +27,7 @@
 
   struct Moppy_Message
   {
-    Moppy_Message(uint8_t deviceAddress, uint8_t subAddress, uint8_t payloadSize, char *payload)
+    Moppy_Message(uint8_t deviceAddress, uint8_t subAddress, uint8_t payloadSize, char* payload)
     {
       _deviceAddress = deviceAddress;
       _subAddress = subAddress;
@@ -54,7 +54,7 @@
       inline uint8_t getSubAddress() { return _deviceAddress; };
       inline uint8_t getPayloadSize() { return _payloadSize; };
       inline uint8_t getCommand() { return (uint8_t)(*(_payload)); }; //Command byte is always the first byte in the payload
-      inline char *getPayload() { return _payload; }
+      inline char* getPayload() { return _payload; }
       inline uint8_t getPayloadByte(uint16_t index) 
       { 
         if(_payload && (index < _payloadSize))
@@ -70,12 +70,12 @@
 		//_______________________________________________________________________________________________________
 		private:
 			Moppy2_Serial();
-			static Moppy2_Serial *_instance;
+			static Moppy2_Serial* _instance;
 			
 		public:
 			//Used to populate our single instance MS for consumption
 			/// @private
-			static Moppy2_Serial &getInstance();
+			static Moppy2_Serial& getInstance();
 
     //Setup
     //_______________________________________________________________________________________________________
@@ -120,6 +120,6 @@
 			inline void setPitchBendHandle(void (*pitchBend)(uint8_t, int)) { _midiHandler.setPitchBendHandle(pitchBend); };
 	};
 
-	//Defines a global instance of our class for users to consume
-	extern Moppy2_Serial M2S;
+	//Defines a global singleton instance of our class for users to consume
+	inline Moppy2_Serial M2S = Moppy2_Serial::getInstance();
 #endif

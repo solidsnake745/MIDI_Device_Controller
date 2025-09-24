@@ -1,34 +1,35 @@
 #ifndef ByteNoteRegister_h
 	#define ByteNoteRegister_h
 
-	#include "NoteDuration.h"
+	//Refactored out and simplified duration tracking into device classes as it's mostly unnecessary
+	// #include "NoteDuration.h"
 	#include "../Settings.h"
-	#include "../Common/SerialDebug.h"
+	#include "SerialDebug.h"
 
 	class ByteNoteRegister
-	{
+	{		
 		inline static SerialDebug _debug = SerialDebug(DEBUG_BYTENOTEREGISTER);
 		
 		uint8_t _data = 0;
 		uint8_t _invert = 0;
-		NoteDuration _durations[8];
-		NoteDuration _maxDurations[8];
+		//NoteDuration _durations[8];
+		//NoteDuration _maxDurations[8];
 			
 		public:
 			ByteNoteRegister() {};
 			
 			#pragma GCC push_options
 			#pragma GCC optimize("Ofast")
-			inline void updateDurations(uint8_t period)
-			{
-				for(int x = 0; x < 8; x++)
-				{
-					if(_maxDurations[x].isZero() || !getBit(x))
-						continue;
+			// inline void updateDurations(uint8_t period)
+			// {
+				// for(int x = 0; x < 8; x++)
+				// {
+					// if(_maxDurations[x].isZero() || !getBit(x))
+						// continue;
 
-					_durations[x].addMicros(period);
-				}
-			};
+					// _durations[x].addMicros(period);
+				// }
+			// };
 			#pragma GCC pop_options
 		
 			inline uint8_t getByteValue() 
@@ -57,46 +58,48 @@
 			inline void clearBit(uint8_t i)
 			{
 				bitClear(_data, i);
-				_durations[i].reset();
+				// _durations[i].reset();
 			};
 		  
 			inline void setBitValue(uint8_t i, bool value) { value ? setBit(i) : clearBit(i); };		
 		  
-			inline void setMaxDuration(uint8_t i, uint32_t us)
-			{ 
-				_maxDurations[i].reset(); 
-				_maxDurations[i].addMicros(us); 
-			};
+			// inline void setMaxDuration(uint8_t i, uint32_t us)
+			// { 
+				// _maxDurations[i].reset(); 
+				// _maxDurations[i].addMicros(us); 
+			// };
 			
-			inline bool isPastMaxDuration(uint8_t i)
-			{
-				if(_maxDurations[i].isZero())
-					return false;
+			inline void toggleBit(uint8_t i) { setBitValue(i, !bitRead(_data, i)); }
+			
+			// inline bool isPastMaxDuration(uint8_t i)
+			// {
+				// if(_maxDurations[i].isZero())
+					// return false;
 				
-				return _maxDurations[i] < _durations[i];			
-			};
+				// return _maxDurations[i] < _durations[i];			
+			// };
 			
 			//TODO: This may not be necessary as isPastMaxDuration and related functions are available and provide more control over the process
-			inline void checkMaxDuration()
-			{
-				for(int x = 0; x < 8; x++)
-				{
-					if(_maxDurations[x].isZero())
-					{
-						_debug.debugln(30, F("ByteNoteRegister: %d - No max duration"), x);
-						continue;
-					}
+			// inline void checkMaxDuration()
+			// {
+				// for(int x = 0; x < 8; x++)
+				// {
+					// if(_maxDurations[x].isZero())
+					// {
+						// _debug.debugln(30, F("ByteNoteRegister: %d - No max duration"), x);
+						// continue;
+					// }
 					
-					if(_durations[x] < _maxDurations[x])
-					{
-						_debug.debugln(30, F("ByteNoteRegister: %d - Duration less than max"), x);
-						continue;
-					}					
+					// if(_durations[x] < _maxDurations[x])
+					// {
+						// _debug.debugln(30, F("ByteNoteRegister: %d - Duration less than max"), x);
+						// continue;
+					// }					
 
-					_debug.debugln(20, F("ByteNoteRegister: %d - Reached max duration"), x);
-					clearBit(x);
-				}
-			};
+					// _debug.debugln(20, F("ByteNoteRegister: %d - Reached max duration"), x);
+					// clearBit(x);
+				// }
+			// };
 			
 		#if INCLUDE_TESTS
 		private:

@@ -2,11 +2,14 @@
 	#define ITimer_h
 	
 	#include <stdint.h>
+	#include "../../Common/SerialDebug.h"
+	#include "../../Settings.h"
 	
 	/// @private
 	class ITimer
 	{
 		protected:
+			inline static SerialDebug _debug = SerialDebug(DEBUG_TIMER);
 			bool _isSetup = false;
 		
 		public:
