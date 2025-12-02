@@ -20,8 +20,10 @@
 	class IO_Device
 	{
 		friend class MIDI_Pitch;
+		// friend class Base_MIDI_Pulse;
 		friend class MIDI_Pulse;
 		friend class MIDI_Toggle;
+		friend class Base_MIDI_SoftPWM;
 		friend class MIDI_Device_Controller;
 		
 		virtual void updateOutputs() = 0;

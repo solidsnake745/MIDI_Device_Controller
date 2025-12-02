@@ -10,6 +10,8 @@
 	#include "MIDI_Pulse/Base_MIDI_Pulse.h"
 	#include "MIDI_Pulse/MIDI_Pulse.h"
 	#include "MIDI_Pulse/MIDI_Toggle.h"
+	#include "MIDI_Pulse/MIDI_SoftPWM.h"
+	#include "MIDI_Pulse/MIDI_Servo.h"
 	
 	#include "IO_Factory/IO_Factory.h"
 	#include "IO_Devices/IO_Device.h"
@@ -37,6 +39,9 @@
 		friend class MIDI_Pitch;
 		friend class MIDI_Pulse;
 		friend class MIDI_Toggle;
+		friend class Base_MIDI_SoftPWM;
+		friend class MIDI_SoftPWM;
+		friend class MIDI_Servo;
 		friend class MIDI_Pulse_Controller;
 		
 		inline static SerialDebug _debug = SerialDebug(DEBUG_DEVICECONTROLLER);

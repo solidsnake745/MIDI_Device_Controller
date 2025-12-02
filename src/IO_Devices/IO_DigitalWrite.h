@@ -18,8 +18,10 @@
 		#include "../../ArduinoSTLClone/vector"
 	#elif defined(CORE_TEENSY)
 		#include <map>
+		#include <vector>
 	#elif ARDUINO_ARCH_ESP32
 		#include <map>
+		#include <vector>
 	#endif
 	
 	//Forward declaration for compiling

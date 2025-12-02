@@ -69,7 +69,8 @@ void setup()
   MDC.playStartupSequence();
 }
 
-void loop() {
+void loop() 
+{
   M2S.process(); //Read incoming Moppy message data
   MDC.process(); //MIDI Device controller background tasks
 }

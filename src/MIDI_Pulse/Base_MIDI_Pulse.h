@@ -1,21 +1,13 @@
 #ifndef Base_MIDI_Pulse_h
 	#define Base_MIDI_Pulse_h
 
-	// #include <stdint.h>
 	#include "../IO_Devices/IO_Device.h"
 	#include "../IO_Factory/IO_Factory.h"
 	#include "../Settings.h"
 	#include "../Common/SerialDebug.h"
 	
-	//Types of MIDI_Pulse devices available
-	// enum PulseType
-	// {
-		// Simple = 0,
-		// PwmToggle = 1
-	// };
-
 	//Forward declaration for compiling	
-	class MIDI_Device_Controller;
+	// class MIDI_Device_Controller;
 
 	class Base_MIDI_Pulse
 	{

@@ -4,7 +4,7 @@
 	#include "Base_MIDI_Pulse.h"
 
 	//Forward declaration for compiling
-	class MIDI_Device_Controller;
+	// class MIDI_Device_Controller;
 
 	///MIDI device class for anything needing a pulse signal (Solenoids, relays, servos (to be implemented), etc.)
 	class MIDI_Toggle : public Base_MIDI_Pulse

@@ -33,7 +33,7 @@
 		public:
 			inline void setNoteOnHandle(void (*noteOn)(uint8_t, uint8_t, uint8_t)) { _midiHandler.setNoteOnHandle(noteOn); };
 			inline void setNoteOffHandle(void (*noteOff)(uint8_t, uint8_t, uint8_t)) { _midiHandler.setNoteOffHandle(noteOff); };
-      inline void setControlChangeHandle(void (*controlChange)(uint8_t, uint8_t, uint8_t)) { _midiHandler.setControlChangeHandle(controlChange); };
+			inline void setControlChangeHandle(void (*controlChange)(uint8_t, uint8_t, uint8_t)) { _midiHandler.setControlChangeHandle(controlChange); };
 			inline void setPitchBendHandle(void (*pitchBend)(uint8_t, int)) { _midiHandler.setPitchBendHandle(pitchBend); };
 	};
 

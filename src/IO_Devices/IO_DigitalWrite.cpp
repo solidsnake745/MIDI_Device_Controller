@@ -14,11 +14,11 @@ IO_DigitalWrite::IO_DigitalWrite(uint8_t numOutputs)
 	
 	//Initialize collections
 	_registers = new ByteNoteRegister[_numRegisters];
-	for(int x = 0; x < _numRegisters; x++)
+	for(uint8_t x = 0; x < _numRegisters; x++)
 		_registers[x] = ByteNoteRegister();
 	
 	_outputs = new pinOut*[_maxOutputs];
-	for(int x = 0; x < _maxOutputs; x++)
+	for(uint8_t x = 0; x < _maxOutputs; x++)
 		_outputs[x] = nullptr;
 	
 	//Setup IO
@@ -236,7 +236,7 @@ void IO_DigitalWrite::addPin(uint8_t pin)
 		return;
 	}
 	
-	for(int x = 0; x < _maxOutputs; x++)
+	for(uint8_t x = 0; x < _maxOutputs; x++)
 	{
 		if(_outputs[x] != nullptr)
 			continue;
@@ -263,7 +263,7 @@ void IO_DigitalWrite::deletePin(uint8_t pin)
 		_debug.debugln(20, F("Pin %d is not an added output"), pin);
 	else
 	{
-		for(int x = 0; x < _maxOutputs; x++)
+		for(uint8_t x = 0; x < _maxOutputs; x++)
 		{
 			if(_outputs[x] == nullptr)
 				continue;

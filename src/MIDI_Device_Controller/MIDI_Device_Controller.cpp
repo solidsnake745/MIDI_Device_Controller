@@ -5,8 +5,11 @@
 MIDI_Device_Controller::MIDI_Device_Controller()
 {
 	//Initialize device collection with nulls
-	for(int i = 0;i < MAX_PITCH_DEVICES;i++)
+	for(int i = 0; i < MAX_PITCH_DEVICES; i++)
 		_pitchDevices[i] = nullptr;
+	
+	for(int i = 0; i < MAX_PULSE_DEVICES; i++)
+		_pulseDevices[i] = nullptr;
 	
 	//Initialize resolution and periods to the default
 	setResolution();
