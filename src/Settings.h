@@ -1,5 +1,10 @@
 #ifndef Settings_h
 	#define Settings_h	
+		
+	//LED_BUILTIN is not defined in the ESP32 code as it is in other boards (Arduino/Teensy)
+	#if ARDUINO_ARCH_ESP32
+	  #define LED_BUILTIN 2  //This is accurate for at least the ESP32 dev module
+	#endif
 	
 	#define MIN_RESOLUTION 1
 	#define MAX_RESOLUTION 200
@@ -90,5 +95,6 @@
 	#define DEBUG_PULSECONTROLLER 0
 	
 	#define DEBUG_BYTENOTEREGISTER 0
-	#define DEBUG_PITCHBEND
+	#define DEBUG_PITCHBEND 0
+	#define DEBUG_SINWAVE 0
 #endif

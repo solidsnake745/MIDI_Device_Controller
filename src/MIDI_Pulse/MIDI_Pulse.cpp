@@ -38,7 +38,7 @@ void MIDI_Pulse::checkMaxDuration()
 	if(_maxDuration.isZero())
 		return;
 	
-	if(_maxDuration < _currentDuration)
+	if(_maxDuration <= _currentDuration)
 		stopPulse();
 }
 

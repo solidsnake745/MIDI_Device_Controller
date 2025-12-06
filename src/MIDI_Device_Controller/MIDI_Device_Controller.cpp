@@ -459,6 +459,16 @@ bool MIDI_Device_Controller::process()
 	if(!_isPlayingNotes)
 		return false;
 	
+	//Process vibrato
+	uint8_t i = 0;
+	while(i < _numEnabled)
+	{
+		MIDI_Pitch* d = _enabledPitchDevices[i++];		
+		if(d->shouldAutoStartVibrato())
+			d->startVibrato();
+		d->processVibrato();
+	}
+	
 	//Stop playing if past the idle timeout
 	uint32_t timeSinceLastAssign = (millis() - _lastAssign);	
 	if(timeSinceLastAssign >= _idleTimeout * 1000) 

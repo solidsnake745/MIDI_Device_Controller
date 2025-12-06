@@ -116,13 +116,13 @@
 				_outIO->setOutput(_outNum, _currentState);
 			};
 			
-			//Checks if deivce is past the max duration
+			//Checks if device is past the max duration
 			inline bool isPastMaxDuration()
 			{
 				if(_maxDuration.isZero())
 					return false;
 				
-				if(_maxDuration < _currentDuration)
+				if(_maxDuration <= _currentDuration)
 					return true;
 				
 				return false;

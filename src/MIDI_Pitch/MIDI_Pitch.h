@@ -4,6 +4,7 @@
 	#include "../Common/PitchBend.h"
 	#include "../Common/NoteDuration.h"
 	#include "../Common/MIDI_Periods.h"
+	#include "../Common/SinWave.h"
 	#include "../IO_Devices/IO_Device.h"
 	#include "../IO_Factory/IO_Factory.h"
 	#include "../Settings.h"
@@ -22,6 +23,13 @@
 		friend class Direct_Collection;
 		
 		inline static SerialDebug _debug = SerialDebug(DEBUG_MIDIPITCH);
+		
+		enum Effect
+		{
+			None = 0,
+			PitchBend = 1,
+			Vibrato = 2
+		};
 		
 		//Constructors
 		//_____________________________________________________________________________________________
@@ -100,6 +108,8 @@
 			//Current position value
 			volatile int16_t _currentPosition = 0;
 			
+			Effect _currentEffect = None;
+			
 			//The last object to assign a note to this device
 			void* _lastAssignedBy = nullptr;
 			
@@ -127,8 +137,55 @@
 			//Operates device per desired MIDI output
 			void processNotes();
 			
+			//Private methods for playing notes used by collections to indicate assignedBy
 			void playNote(uint8_t note, void* assignedBy);
 			void playPeriod(uint16_t period, void* assignedBy);
+			
+			//Vibrato related properties
+			//Used to track when to execute the next vibrato event
+			uint16_t _vibratoTick = 0;
+			
+			//Used to track the degree of vibrato to apply next
+			uint16_t _vibratoDegree = 0;
+			
+			//Amount of vibrato to apply in units of pitchbend (0 to 8192)
+			uint16_t _vibratoAmount = 0;
+			
+			//Frequency of vibrato changes in microseconds (change occurs every _vibratoRate microseconds)
+			uint16_t _vibratoRate = 0;
+			
+			//Controls whether vibrato is automatically applied after _vibratoDelay passes
+			bool _vibratoAutoStart = false;
+			
+			//How much to delay before applying vibrato
+			NoteDuration _vibratoDelay;
+			
+			inline bool shouldAutoStartVibrato()
+			{				
+				if(!_vibratoAutoStart || _currentEffect == Vibrato)
+					return false; //Not set to use auto start or already processing vibrato
+				
+				if(_currentDuration <= _vibratoDelay)
+					return false; //Vibrato delay has not yet been reached
+				
+				return true;
+			};
+			
+			inline void processVibrato()
+			{
+				if(_currentEffect != Vibrato)
+					return; //Vibrato not being applied
+				
+				if(_vibratoTick < _vibratoRate)
+					return; //Not yet time to increment
+				
+				if(_vibratoDegree > 359)
+					_vibratoDegree = 0;
+				
+				int16_t b = _vibratoAmount * SinWave::getSinValue(_vibratoDegree++);
+				_currentPeriod = getBasePeriod() / PitchBend::calculateFactor(b);
+				_vibratoTick = 0;
+			}
 			
 		public:
 			bool getStepState();
@@ -155,6 +212,42 @@
 			
 			//Sets the given device's position to 0
 			inline void zeroPosition() { _currentPosition = 0; };
+			
+			//Sets vibrato properties: amount (of pitchbend, 0 to 8191) and rate (delay between updates in microseconds)
+			inline void setVibrato(uint16_t amount, uint16_t rate) { _vibratoAmount = amount; _vibratoRate = rate; };
+			
+			//Sets auto start for vibrato where true enables it
+			inline void setVibratoAutoStart(bool value) { _vibratoAutoStart = value; };
+			
+			//Sets a delay of when to apply vibrato after a note starts playing
+			inline void setVibratoDelay(uint32_t us) { _vibratoDelay.reset(); _vibratoDelay.addMicros(us); }
+			
+			//Starts vibrato manually if setup, a note is playing, and another effect is not already in place
+			inline bool startVibrato() 
+			{
+				if(_vibratoAmount == 0 || _vibratoRate == 0)
+					return false; //Vibrato not completely setup
+				
+				if(_currentEffect != None)
+					return false; //Some other effect in place
+				
+				if (!(_currentNote > 0 && _currentNote < 256))
+					return false; //No note assigned
+				
+				_currentEffect = Vibrato;
+				return true;
+			};
+			
+			//Stops vibrato
+			inline void stopVibrato()
+			{ 
+				if(_currentEffect != Vibrato)
+					return;
+				
+				_currentEffect = None;
+				_vibratoTick = 0;
+				_vibratoDegree = 0;
+			};
 			
 		//Testing/debug
 		//_____________________________________________________________________________________________

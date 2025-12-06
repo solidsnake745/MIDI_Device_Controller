@@ -44,18 +44,26 @@
 				return _seconds == 0 && _millis == 0 && _micros == 0;
 			};
 
-			bool operator <(NoteDuration &nd) 
+			inline double convertToSeconds()
 			{
-				if(_seconds > nd._seconds)
-					return false;
+				double sec = _seconds;
+				double milli = _millis / 1000.0;
+				double micro = _micros / 1000000.0;
+				return sec + milli + micro;
+			}
 
-				if(_millis > nd._millis)
-					return false;
+			//This works but is horrifically inefficient
+			//bool operator <(NoteDuration &nd) { return convertToSeconds() < nd.convertToSeconds(); };
+			
+			bool operator <=(NoteDuration &nd)
+			{
+				if (_seconds != nd._seconds)
+					return _seconds < nd._seconds;
+				
+				if (_millis != nd._millis)
+					return _millis < nd._millis;
 
-				if(_micros > nd._micros)
-					return false;  
-
-				return true;
+				return _micros <= nd._micros;
 			};
 			
 			inline uint16_t getSeconds() { return _seconds; };
@@ -100,26 +108,49 @@
 				}
 			};
 			
-			#if INCLUDE_TESTS			
+			#if INCLUDE_TESTS
+			inline static void printTime(NoteDuration nd) { _debug.debugln(5, F("%d\t%d\t%d"), nd.getSeconds(), nd.getMillis(), nd.getMicros()); };
+			
 			inline static void runTest()
 			{
-				NoteDuration test;
+				NoteDuration test1;
 				
 				_debug.debugln(5, F("Test microsecond rollover"));
-				test = NoteDuration(998);
+				test1 = NoteDuration(998);
 				for(uint16_t x = 0; x < 3; x++)
 				{
-					test.addMicros(1);
-					_debug.debugln(5, F("%d\t%d\t%d"), test.getSeconds(), test.getMillis(), test.getMicros());
+					test1.addMicros(1);
+					printTime(test1);
 				}
+				_debug.debugln(5);
 				
 				_debug.debugln(5, F("Test millisecond rollover"));
-				test = NoteDuration(0, 998);
+				test1 = NoteDuration(0, 998);
 				for(uint16_t x = 0; x < 3; x++)
 				{
-					test.addMillis(1);
-					_debug.debugln(5, F("%d\t%d\t%d"), test.getSeconds(), test.getMillis(), test.getMicros());
+					test1.addMillis(1);
+					printTime(test1);
 				}
+				_debug.debugln(5);
+				
+				_debug.debugln(5, F("Test convert to seconds"));
+				test1 = NoteDuration(999, 999, 999);
+				_debug.debugln(5, "Converted: %6f", test1.convertToSeconds());
+				_debug.debugln(5);
+				
+				NoteDuration test2;
+				_debug.debugln(5, F("Test <= operator"));
+				test1.reset();
+				test1.addMicros(2 * 1000 * 1000);
+				
+				while(test2 <= test1)
+					test2.addMicros(1);
+				
+				_debug.debug(5, F("Test1 time: "));
+				printTime(test1);
+				
+				_debug.debug(5, F("Test2 time: "));
+				printTime(test2);
 			}
 			#endif
 	};

@@ -121,6 +121,14 @@ void MIDI_Pitch::bendNote(int16_t bend, bool shiftRange)
 	if (!(_currentNote > 0 && _currentNote < 256))
 		return;
 	
+	//If an effect other than pitchbend is in place, don't continue
+	if(_currentEffect != None && _currentEffect != PitchBend)
+		return;
+	
+	//Set the current effect so it's not interfered with
+	//Or clear it if the bend is 0 (bend back to original note)
+	_currentEffect = bend == 0 ? None : PitchBend;
+	
 	_debug.debugln(20, F("%d - Bending by value: %d"), _id, bend);
 	
 	float pitchFactor = PitchBend::calculateFactor(bend, shiftRange);
@@ -139,6 +147,14 @@ void MIDI_Pitch::bendNoteByFactor(float pitchFactor)
 { 
 	if (!(_currentNote > 0 && _currentNote < 256))
 		return;
+	
+	//If an effect other than pitchbend is in place, don't continue
+	if(_currentEffect != None && _currentEffect != PitchBend)
+		return;
+	
+	//Set the current effect so it's not interfered with
+	//Or clear it if the factor is 1 (bend back to original note)
+	_currentEffect = pitchFactor == 1.0 ? None : PitchBend;
 	
 	_debug.debugln(20, F("%d - Bending by factor: %f"), _id, pitchFactor);
 	
@@ -188,6 +204,9 @@ void MIDI_Pitch::resetProperties(bool includePosition)
 	_currentPeriod = 0;
 	_currentTick = 0;
 	_currentDuration = 0;
+	_currentEffect = None;
+	_vibratoTick = 0;
+	_vibratoDegree = 0;
 
 	if(!includePosition) return;  
 	setDirState(LOW);
@@ -276,6 +295,9 @@ void MIDI_Pitch::processNotes()
 	}
 	
 	_currentDuration.addMicros(MIDI_Periods::getResolution());
+	
+	if(_currentEffect == Vibrato)
+		_vibratoTick += MIDI_Periods::getResolution();
 }
 #pragma GCC pop_options
 

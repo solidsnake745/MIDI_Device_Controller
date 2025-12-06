@@ -214,7 +214,7 @@
 			int8_t _ledPin = -1;
 			
 		public: 
-			void setLEDPin(int8_t pin);
+			void setLEDPin(int8_t pin = LED_BUILTIN);
 			void LEDOn();
 			void LEDOff();
 			

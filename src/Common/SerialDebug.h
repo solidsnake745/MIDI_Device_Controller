@@ -9,7 +9,7 @@
 	#include <Arduino.h>
 
 	// Functions utilizing templates and argument packs need to be defined inline here
-	// Technical reason: original definition needs to be available for compiler to interpert types
+	// Technical reason: original definition needs to be available for compiler to interpret types
 
 	/// @private
 	class SerialDebug
