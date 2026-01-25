@@ -6,7 +6,8 @@
 	#include "MDC_Extras.h"
 	#include <Arduino.h>
 	#include "Common/MIDI_Periods.h"
-	#include "MIDI_Pitch/MIDI_Pitch.h"
+	#include "MIDI_Pitch/Base_MIDI_Pitch.h"
+	#include "MIDI_Pitch/MIDI_SquareWave.h"
 	#include "MIDI_Pulse/Base_MIDI_Pulse.h"
 	#include "MIDI_Pulse/MIDI_Pulse.h"
 	#include "MIDI_Pulse/MIDI_Toggle.h"
@@ -36,6 +37,7 @@
 	class MIDI_Device_Controller
 	{
 		// Give Device access to all private members
+		friend class Base_MIDI_Pitch;
 		friend class MIDI_Pitch;
 		friend class MIDI_Pulse;
 		friend class MIDI_Toggle;
@@ -60,8 +62,8 @@
 		//Device management/operation
 		//_______________________________________________________________________________________________________
 		private:
-			inline static MIDI_Pitch* _pitchDevices[MAX_PITCH_DEVICES];
-			inline static MIDI_Pitch* _enabledPitchDevices[MAX_PITCH_DEVICES];
+			inline static Base_MIDI_Pitch* _pitchDevices[MAX_PITCH_DEVICES];
+			inline static Base_MIDI_Pitch* _enabledPitchDevices[MAX_PITCH_DEVICES];
 			inline static uint8_t _numEnabled = 0;
 			inline static Base_MIDI_Pulse* _pulseDevices[MAX_PULSE_DEVICES];			
 
@@ -82,13 +84,13 @@
 				\param index Index to assign the device to
 				\param d Device to add
 			*/
-			bool addPitchDevice(uint8_t index, MIDI_Pitch* d);
+			bool addPitchDevice(uint8_t index, Base_MIDI_Pitch* d);
 			
 			///Adds a MIDI_Pitch device to the controller at the first available index
 			/*!
 				\param d Device to add
 			*/
-			int8_t addPitchDevice(MIDI_Pitch* d);
+			int8_t addPitchDevice(Base_MIDI_Pitch* d);
 			
 			///Adds a Base_MIDI_Pulse device to the controller
 			/*!
@@ -107,7 +109,7 @@
 			/*!
 				\param index Index to retrieve the device from
 			*/
-			MIDI_Pitch* getPitchDevice(uint8_t index);
+			Base_MIDI_Pitch* getPitchDevice(uint8_t index);
 			
 			///Retrieves a Base_MIDI_Pulse device from the controller
 			/*!
@@ -132,11 +134,11 @@
 			*/
 			void deletePulseDevice(uint8_t index);
 			
-			void resetDevicePositions();
-			void calibrateDevicePositions();
+			// void resetDevicePositions();
+			// void calibrateDevicePositions();
 		
 			void playDeviceNote(uint8_t index, uint8_t note);
-			void bendDeviceNote(uint8_t index, uint16_t bend);
+			void bendDeviceNote(uint8_t index, int16_t bend, bool shiftRange = false);
 			void stopDeviceNote(uint8_t index, uint8_t note);
 			
 		//Note Processing
@@ -233,7 +235,7 @@
 			void loadTest(uint8_t numDevices = MAX_PITCH_DEVICES);
 			
 			//Plays a sequence across all devices to test set configuration
-			void playStartupSequence(uint8_t version = 0);
+			// void playStartupSequence(uint8_t version = 0);
 	};
 
 	//Defines a global singleton instance of our class for users to consume

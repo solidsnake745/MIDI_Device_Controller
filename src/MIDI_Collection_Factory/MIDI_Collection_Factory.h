@@ -26,13 +26,13 @@
 		MIDI_Collection_Factory(); //Disallow creating an instance
 		inline static MIDI_Collection_Factory* _instance = nullptr;
 		
-		MIDI_Pitch* getDeviceFromMDC(uint8_t index);
+		Base_MIDI_Pitch* getDeviceFromMDC(uint8_t index);
 		
 		//Recursive template method for populating a device Collection from an argument pack of IDs
 		template<typename... IDs>
 		inline void populateCollection(Base_MIDI_Pitch_Collection* c, uint8_t id, IDs... ids)
 		{
-			MIDI_Pitch* d = getDeviceFromMDC(id);
+			Base_MIDI_Pitch* d = getDeviceFromMDC(id);
 			if(d) c->addDevice(d);
 			populateCollection(c, ids...);
 		};

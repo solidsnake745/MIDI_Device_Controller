@@ -1,7 +1,6 @@
 #ifndef Direct_Collection_h
 	#define Direct_Collection_h
-
-	#include "../../MIDI_Pitch/MIDI_Pitch.h"
+	
 	#include "../Base_MIDI_Pitch_Collection.h"
 
 	//Forward declaration for compiling

@@ -3,14 +3,14 @@
 
 	#include "../Settings.h"
 	#include "../MIDI_Device_Controller.h"
-	#include "../MIDI_Pitch/MIDI_Pitch.h"
+	#include "../MIDI_Pitch/Base_MIDI_Pitch.h"
 	#include "Base_MIDI_Pitch_Collection.h"
 
 	///[MCC] Controls and manages collections of MIDI Pitch objects
 	class MIDI_Collection_Controller
 	{
 		// Give Device access to all private members
-		friend class MIDI_Pitch;
+		friend class Base_MIDI_Pitch;
 		
 		inline static SerialDebug _debug = SerialDebug(DEBUG_COLLECTIONCONTROLLER);
 		

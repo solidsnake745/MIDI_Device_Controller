@@ -76,7 +76,7 @@ void MIDI_Device_Controller::printStatus()
 	}
 }
 
-bool MIDI_Device_Controller::addPitchDevice(uint8_t index, MIDI_Pitch* d)
+bool MIDI_Device_Controller::addPitchDevice(uint8_t index, Base_MIDI_Pitch* d)
 {
 	if(!d)
 	{
@@ -102,7 +102,7 @@ bool MIDI_Device_Controller::addPitchDevice(uint8_t index, MIDI_Pitch* d)
 	return true;
 }
 
-int8_t MIDI_Device_Controller::addPitchDevice(MIDI_Pitch* d)
+int8_t MIDI_Device_Controller::addPitchDevice(Base_MIDI_Pitch* d)
 {
 	int i = 0;
 	while(i < MAX_PITCH_DEVICES)
@@ -156,7 +156,7 @@ int8_t MIDI_Device_Controller::addPulseDevice(Base_MIDI_Pulse* d)
 	return -1;
 }
 
-MIDI_Pitch* MIDI_Device_Controller::getPitchDevice(uint8_t index)
+Base_MIDI_Pitch* MIDI_Device_Controller::getPitchDevice(uint8_t index)
 {
 	if(index > MAX_PITCH_DEVICES - 1)
 	{
@@ -221,85 +221,85 @@ void MIDI_Device_Controller::deletePulseDevice(uint8_t index)
 }
 
 //TODO: Verify logic
-void MIDI_Device_Controller::resetDevicePositions()
-{
-	uint8_t numEnabled = reloadEnabledDevices();
-	startPlaying();
+// void MIDI_Device_Controller::resetDevicePositions()
+// {
+	// uint8_t numEnabled = reloadEnabledDevices();
+	// startPlaying();
 	
-	int i = 0;
-	while(i < numEnabled)
-	{
-		MIDI_Pitch* d = _enabledPitchDevices[i++];
-		if(!d) break;
+	// int i = 0;
+	// while(i < numEnabled)
+	// {
+		// Base_MIDI_Pitch* d = _enabledPitchDevices[i++];
+		// if(!d) break;
 		
-		d->setDirection(HIGH);
-		d->setStepState(LOW);
-	}
+		// d->setDirection(HIGH);
+		// d->setStepState(LOW);
+	// }
 
-	int16_t resetDeviceCount = 0;
-	while(resetDeviceCount != numEnabled)
-	{
-		resetDeviceCount = 0;
-		for(i = 0; i < numEnabled; i++)
-		{
-			MIDI_Pitch* d = _enabledPitchDevices[i];
+	// int16_t resetDeviceCount = 0;
+	// while(resetDeviceCount != numEnabled)
+	// {
+		// resetDeviceCount = 0;
+		// for(i = 0; i < numEnabled; i++)
+		// {
+			// Base_MIDI_Pitch* d = _enabledPitchDevices[i];
 			
-			//TODO: refactor out check on isTrackingPosition
-			if(!d->isTrackingPosition() || d->isAtMaxPosition())
-				resetDeviceCount++;
-			else
-				d->toggleStep();
+			// //TODO: refactor out check on isTrackingPosition
+			// if(!d->isTrackingPosition() || d->isAtMaxPosition())
+				// resetDeviceCount++;
+			// else
+				// d->toggleStep();
 			
-			//This specific delay makes it sounds cool. That is all.
-			delayMicroseconds(1530);
-		}
-	}
+			// //This specific delay makes it sounds cool. That is all.
+			// delayMicroseconds(1530);
+		// }
+	// }
 	
-	i = 0;
-	while(i < numEnabled)
-	{
-		MIDI_Pitch* d = _enabledPitchDevices[i++];
-		d->setDirection(LOW);
-		d->setStepState(LOW);
-	}
-}
+	// i = 0;
+	// while(i < numEnabled)
+	// {
+		// Base_MIDI_Pitch* d = _enabledPitchDevices[i++];
+		// d->setDirection(LOW);
+		// d->setStepState(LOW);
+	// }
+// }
 
-void MIDI_Device_Controller::calibrateDevicePositions()
-{
-	uint8_t numEnabled = reloadEnabledDevices();
-	startPlaying();
+// void MIDI_Device_Controller::calibrateDevicePositions()
+// {
+	// uint8_t numEnabled = reloadEnabledDevices();
+	// startPlaying();
 	
-	int i = 0;
-	while(i < numEnabled)
-	{
-		MIDI_Pitch* d = _enabledPitchDevices[i++];
-		d->setDirState(HIGH);
-		d->_currentPosition = d->getMaxPosition();
-	}
+	// int i = 0;
+	// while(i < numEnabled)
+	// {
+		// Base_MIDI_Pitch* d = _enabledPitchDevices[i++];
+		// d->setDirState(HIGH);
+		// d->_currentPosition = d->getMaxPosition();
+	// }
 	
-	resetDevicePositions();
-}
+	// resetDevicePositions();
+// }
 
 void MIDI_Device_Controller::playDeviceNote(uint8_t index, uint8_t note)
 {
 	_debug.debugln(8, F("Is processing: %d"), _isPlayingNotes);
 	_debug.debugln(8, F("Auto processing: %d"), _autoPlayNotes);
 	
-	MIDI_Pitch* d = getPitchDevice(index);
+	Base_MIDI_Pitch* d = getPitchDevice(index);
 	if(!d) return;
 	d->playNote(note);
 }
 
-void MIDI_Device_Controller::bendDeviceNote(uint8_t index, uint16_t bend)
+void MIDI_Device_Controller::bendDeviceNote(uint8_t index, int16_t bend, bool shiftRange)
 {
-	MIDI_Pitch* d = getPitchDevice(index);
+	Base_MIDI_Pitch* d = getPitchDevice(index);
 	if(!d) return;
-	d->bendNote(bend);
+	d->bendNote(bend, shiftRange);
 }
 
 void MIDI_Device_Controller::stopDeviceNote(uint8_t index, uint8_t note)
 {
-	MIDI_Pitch* d = getPitchDevice(index);
+	Base_MIDI_Pitch* d = getPitchDevice(index);
 	if(!d) return;
 	if(d->getCurrentNote() == note) d->stopNote();
 }
@@ -323,7 +323,7 @@ void MIDI_Device_Controller::processNotes()
 	int i = 0;
 	while(i < _numEnabled && _numEnabled > 0)
 	{
-		MIDI_Pitch* d1 = _enabledPitchDevices[i++];
+		Base_MIDI_Pitch* d1 = _enabledPitchDevices[i++];
 		if(!d1) continue;
 		d1->processNotes();
 	}
@@ -402,14 +402,16 @@ bool MIDI_Device_Controller::startPlaying()
 	int numEnabled = reloadEnabledDevices();
 	while(i < numEnabled)
 	{
-		MIDI_Pitch* d = _enabledPitchDevices[i++];
+		Base_MIDI_Pitch* d = _enabledPitchDevices[i++];
+		if(d)
+			d->startPlaying();
 		
 		//Make sure pitch devices stop when they are supposed to
-		if(d->_stepIO)
-			d->_stepIO->setShouldStop(d->_stepPinMap, true);
+		// if(d->_stepIO)
+			// d->_stepIO->setShouldStop(d->_stepPinMap, true);
 
-		if(d->_dirIO)
-			d->_dirIO->setShouldStop(d->_dirPinMap, false);
+		// if(d->_dirIO)
+			// d->_dirIO->setShouldStop(d->_dirPinMap, false);
 	}
 	
 	_debug.debugln(8, F("Starting interrupt process"));
@@ -433,7 +435,7 @@ void MIDI_Device_Controller::stopPlaying()
 	int numEnabled = reloadEnabledDevices();
 	while(i < numEnabled)
 	{
-		MIDI_Pitch* d = _enabledPitchDevices[i++];
+		Base_MIDI_Pitch* d = _enabledPitchDevices[i++];
 		d->resetProperties();
 	}
 	
@@ -463,7 +465,7 @@ bool MIDI_Device_Controller::process()
 	uint8_t i = 0;
 	while(i < _numEnabled)
 	{
-		MIDI_Pitch* d = _enabledPitchDevices[i++];		
+		Base_MIDI_Pitch* d = _enabledPitchDevices[i++];		
 		if(d->shouldAutoStartVibrato())
 			d->startVibrato();
 		d->processVibrato();
@@ -505,7 +507,7 @@ void MIDI_Device_Controller::setLEDPin(int8_t pin)
 //_______________________________________________________________________________________________________
 void MIDI_Device_Controller::testPitchDeviceInterrupt(uint8_t index) 
 {
-	MIDI_Pitch* d = getPitchDevice(index);
+	Base_MIDI_Pitch* d = getPitchDevice(index);
 	if(!d) return;
 	
 	startPlaying();
@@ -521,7 +523,7 @@ void MIDI_Device_Controller::testPitchDeviceInterrupt(uint8_t index)
 
 void MIDI_Device_Controller::testPitchBend(uint8_t index)
 {
-	MIDI_Pitch* d = getPitchDevice(index);
+	Base_MIDI_Pitch* d = getPitchDevice(index);
 	if(!d) return;
 	
 	bool currentSetting = _autoPlayNotes;
@@ -557,7 +559,7 @@ void MIDI_Device_Controller::loadTest(uint8_t numDevices)
 	//Start the test - Assign notes across active devices
 	for(int16_t i = 0; i < numDevices; i++) 
 	{
-		MIDI_Pitch* d = _pitchDevices[i];
+		Base_MIDI_Pitch* d = _pitchDevices[i];
 		if(!d) continue;
 		
 		delay(250); //Staggers note assignments
@@ -573,49 +575,49 @@ void MIDI_Device_Controller::loadTest(uint8_t numDevices)
 	setIdleTimeout(currentTimeout);
 }
 
-void MIDI_Device_Controller::playStartupSequence(uint8_t version)
-{
-	uint8_t numEnabled = reloadEnabledDevices();
-	LEDOn();
+// void MIDI_Device_Controller::playStartupSequence(uint8_t version)
+// {
+	// uint8_t numEnabled = reloadEnabledDevices();
+	// LEDOn();
 	
-	switch(version)
-	{
-		case 0:
-		{
-			int i = 0;
-			int magicValue = 4500; //I don't know how I got this number and other values just don't work well
-			startPlaying();
-			while(i < numEnabled)
-			{
-				MIDI_Pitch* d = _enabledPitchDevices[i++];
+	// switch(version)
+	// {
+		// case 0:
+		// {
+			// int i = 0;
+			// int magicValue = 4500; //I don't know how I got this number and other values just don't work well
+			// startPlaying();
+			// while(i < numEnabled)
+			// {
+				// MIDI_Pitch* d = _enabledPitchDevices[i++];
 				
-				_debug.println(F("Single device sequence on %d"), d->_id);
-				for(uint8_t y = 0; y <= 15; y++) 
-				{
-					d->toggleStep();
-					delayMicroseconds(magicValue);
-				}
-			}
+				// _debug.println(F("Single device sequence on %d"), d->_id);
+				// for(uint8_t y = 0; y <= 15; y++) 
+				// {
+					// d->toggleStep();
+					// delayMicroseconds(magicValue);
+				// }
+			// }
 
-			_debug.println(F("Parallel device sequence"));
-			for(int16_t x = 0; x <= 25; x++) {
-				i = 0;
-				while(i < numEnabled)
-					_enabledPitchDevices[i++]->toggleStep();
+			// _debug.println(F("Parallel device sequence"));
+			// for(int16_t x = 0; x <= 25; x++) {
+				// i = 0;
+				// while(i < numEnabled)
+					// _enabledPitchDevices[i++]->toggleStep();
 				
-				delayMicroseconds(magicValue);
-			}
+				// delayMicroseconds(magicValue);
+			// }
 			
-			_debug.println(F("Pause and reset"));
-			delay(500);	
-			resetDevicePositions();
-			stopPlaying();
-		}
-		break;
+			// _debug.println(F("Pause and reset"));
+			// delay(500);	
+			// resetDevicePositions();
+			// stopPlaying();
+		// }
+		// break;
 		
-		default:
-			break;
-	}
+		// default:
+			// break;
+	// }
 	
-	LEDOff();
-}
+	// LEDOff();
+// }

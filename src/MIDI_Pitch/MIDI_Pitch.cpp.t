@@ -208,7 +208,7 @@ void MIDI_Pitch::resetProperties(bool includePosition)
 	_vibratoTick = 0;
 	_vibratoDegree = 0;
 
-	if(!includePosition) return;  
+	if(!includePosition) return;
 	setDirState(LOW);
 	zeroPosition();
 }
@@ -280,7 +280,7 @@ void MIDI_Pitch::processNotes()
 	}
 		
 	_currentTick++;
-	if(_currentTick >= _currentPeriod) 
+	if(_currentTick >= _currentPeriod)
 	{
 		_debug.debugln(20, F("%d - Toggling step"), _id);
 		toggleStep();

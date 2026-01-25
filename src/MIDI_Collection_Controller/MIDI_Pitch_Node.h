@@ -6,7 +6,7 @@
 	#include "../Common/SerialDebug.h"	
 	
 	//Forward declaration for compiling
-	class MIDI_Pitch;
+	class Base_MIDI_Pitch;
 	class Base_MIDI_Pitch_Collection;
 
 	/// @private
@@ -18,12 +18,12 @@
 		inline static SerialDebug _debug = SerialDebug(DEBUG_PITCHNODE);
 		
 		private:
-			MIDI_Pitch_Node(MIDI_Pitch* d, Base_MIDI_Pitch_Collection *dc);
+			MIDI_Pitch_Node(Base_MIDI_Pitch* d, Base_MIDI_Pitch_Collection *dc);
 			Base_MIDI_Pitch_Collection* _parent = NULL;		
 			
 		public:
 			//Devices exist and are stored in MIDI_DeviceController
-			MIDI_Pitch* _device = NULL;
+			Base_MIDI_Pitch* _device = NULL;
 			MIDI_Pitch_Node* next = NULL;
 			MIDI_Pitch_Node* prev = NULL;
 			

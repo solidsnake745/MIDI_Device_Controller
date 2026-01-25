@@ -2,7 +2,7 @@
 	#define Base_MIDI_Device_Collection_h
 	
 	#include "../Common/PitchBend.h"
-	#include "../MIDI_Pitch/MIDI_Pitch.h"
+	#include "../MIDI_Pitch/Base_MIDI_Pitch.h"
 	#include "../Settings.h"
 	#include "../Common/SerialDebug.h"	
 
@@ -29,7 +29,7 @@
 			/*!
 				\param d Pitch device to be added
 			*/
-			void addDevice(MIDI_Pitch* d);
+			void addDevice(Base_MIDI_Pitch* d);
 			
 			///Removes a given MIDI_Pitch device by ID from this collection
 			/*!

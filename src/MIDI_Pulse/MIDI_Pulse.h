@@ -52,7 +52,7 @@
 			//Operates device per desired MIDI output
 			void processNotes();
 			
-			//Checks if deivce is past the max duration and stops playing the current note if so
+			//Checks if device is past the max duration and stops playing the current note if so
 			void checkMaxDuration();
 			
 		public:			
@@ -65,7 +65,7 @@
 			//Nothing here
 			
 		public:
-			//Tests turning the associated output on and off for the given duration in microseconds via directio IO manipulation
+			//Tests turning the associated output on and off for the given duration in microseconds via direct IO manipulation
 			void testOutputDirect(uint32_t duration = 250);
 	};
 #endif

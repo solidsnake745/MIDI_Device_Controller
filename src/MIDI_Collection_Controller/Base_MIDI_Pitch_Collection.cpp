@@ -57,7 +57,7 @@ void Base_MIDI_Pitch_Collection::deleteNode(MIDI_Pitch_Node* node)
 	// PRINT(F("Deleted"))
 };
 
-void Base_MIDI_Pitch_Collection::addDevice(MIDI_Pitch* d)
+void Base_MIDI_Pitch_Collection::addDevice(Base_MIDI_Pitch* d)
 {
 	//Handle first node insertion
 	if(!start)

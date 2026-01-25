@@ -9,7 +9,7 @@ MIDI_Collection_Factory& MIDI_Collection_Factory::getInstance()
 	return *_instance;
 }
 
-MIDI_Pitch* MIDI_Collection_Factory::getDeviceFromMDC(uint8_t index)
+Base_MIDI_Pitch* MIDI_Collection_Factory::getDeviceFromMDC(uint8_t index)
 {
 	return MDC.getPitchDevice(index);
 }

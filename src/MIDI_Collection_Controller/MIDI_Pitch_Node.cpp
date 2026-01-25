@@ -1,8 +1,8 @@
 #include "MIDI_Pitch_Node.h"
-#include "../MIDI_Pitch/MIDI_Pitch.h"
+#include "../MIDI_Pitch/Base_MIDI_Pitch.h"
 #include "Base_MIDI_Pitch_Collection.h"
 
-MIDI_Pitch_Node::MIDI_Pitch_Node(MIDI_Pitch* d, Base_MIDI_Pitch_Collection* dc)
+MIDI_Pitch_Node::MIDI_Pitch_Node(Base_MIDI_Pitch* d, Base_MIDI_Pitch_Collection* dc)
 {
 	_device = d;
 	_parent = dc;
