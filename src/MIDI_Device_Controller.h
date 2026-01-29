@@ -8,6 +8,7 @@
 	#include "Common/MIDI_Periods.h"
 	#include "MIDI_Pitch/Base_MIDI_Pitch.h"
 	#include "MIDI_Pitch/MIDI_SquareWave.h"
+	#include "MIDI_Pitch/MIDI_SquareWave_Direction.h"
 	#include "MIDI_Pulse/Base_MIDI_Pulse.h"
 	#include "MIDI_Pulse/MIDI_Pulse.h"
 	#include "MIDI_Pulse/MIDI_Toggle.h"
@@ -39,6 +40,7 @@
 		// Give Device access to all private members
 		friend class Base_MIDI_Pitch;
 		friend class MIDI_Pitch;
+		friend class MIDI_SquareWave_Direction;
 		friend class MIDI_Pulse;
 		friend class MIDI_Toggle;
 		friend class Base_MIDI_SoftPWM;
@@ -117,7 +119,7 @@
 			*/
 			Base_MIDI_Pulse* getPulseDevice(uint8_t index);
 			
-			//A note about deleting devices: I know I haven't throughly vetted and built out this functionality and it's very likely that it will lead to memory leaks
+			//A note about deleting devices: I know I haven't thoroughly vetted and built out this functionality and it's very likely that it will lead to memory leaks
 			//But I'm not really worried about it because ideally users shouldn't be changing configuration at all past setup() so the delete functionality is pretty optional
 			//Really I should take it out completely and just document to make sure they're setup correctly at the start
 			//Not at all sure the use case of being able to delete and re-create devices for this library
@@ -134,8 +136,8 @@
 			*/
 			void deletePulseDevice(uint8_t index);
 			
-			// void resetDevicePositions();
-			// void calibrateDevicePositions();
+			void resetDevicePositions();
+			void calibrateDevicePositions();
 		
 			void playDeviceNote(uint8_t index, uint8_t note);
 			void bendDeviceNote(uint8_t index, int16_t bend, bool shiftRange = false);
@@ -199,9 +201,6 @@
 			///@private
 			inline void setDebugResolution() { MIDI_Periods::setDebugResolution(); };
 			
-			///@private
-			// inline void setMaxDuration(uint32_t value = MAX_DURATION_DEFAULT) { _maxDuration = value; };
-			
 			///Sets the timeout period in milliseconds
 			/*!
 				When idle, all processing and outputs are turned off.
@@ -215,10 +214,34 @@
 		private: 
 			int8_t _ledPin = -1;
 			
+			//Counter for MIDI clock events
+			//Every 24 events is a quarter note
+			int8_t _clockCount = 0;
+			
 		public: 
-			void setLEDPin(int8_t pin = LED_BUILTIN);
-			void LEDOn();
-			void LEDOff();
+			inline void setLEDPin(int8_t pin = LED_BUILTIN)
+			{
+				_ledPin = pin;
+				if(_ledPin > -1)
+					pinMode(_ledPin, OUTPUT);
+			};
+			
+			inline void LEDOn() { if(_ledPin > -1) digitalWrite(_ledPin, HIGH); };			
+			inline void LEDOff() { if(_ledPin > -1) digitalWrite(_ledPin, LOW); };
+			inline void toggleLED() { if(_ledPin > -1) digitalWrite(_ledPin, !digitalRead(_ledPin)); };
+			
+			inline void midiClockEvent()
+			{
+				if(!_isPlayingNotes)
+					return;
+				
+				_clockCount++;
+				if(_clockCount != 24) //Every quarter note
+					return;
+				
+				toggleLED();
+				_clockCount = 0;
+			};
 			
 		//Tests/Debug 
 		//_______________________________________________________________________________________________________
@@ -235,7 +258,7 @@
 			void loadTest(uint8_t numDevices = MAX_PITCH_DEVICES);
 			
 			//Plays a sequence across all devices to test set configuration
-			// void playStartupSequence(uint8_t version = 0);
+			void playStartupSequence(uint8_t version = 0);
 	};
 
 	//Defines a global singleton instance of our class for users to consume

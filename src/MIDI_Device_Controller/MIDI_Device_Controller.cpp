@@ -221,64 +221,84 @@ void MIDI_Device_Controller::deletePulseDevice(uint8_t index)
 }
 
 //TODO: Verify logic
-// void MIDI_Device_Controller::resetDevicePositions()
-// {
-	// uint8_t numEnabled = reloadEnabledDevices();
-	// startPlaying();
-	
-	// int i = 0;
-	// while(i < numEnabled)
-	// {
-		// Base_MIDI_Pitch* d = _enabledPitchDevices[i++];
-		// if(!d) break;
+void MIDI_Device_Controller::resetDevicePositions()
+{
+	uint8_t numEnabled = reloadEnabledDevices();
+	startPlaying();
 		
-		// d->setDirection(HIGH);
-		// d->setStepState(LOW);
-	// }
+	int x = -1; //Track max index for _dirDevices
+	Base_MIDI_Pitch_Direction* _dirDevices[MAX_PITCH_DEVICES];
+	Base_MIDI_Pitch_Direction* dd;
+	
+	int y = 0;
+	while(y < numEnabled)
+	{
+		Base_MIDI_Pitch* d = _enabledPitchDevices[y++];
+		if(!d || !d->hasDirection()) break;
+		
+		dd = d->asDir();
+		dd->setDirection(HIGH);
+		_dirDevices[++x] = dd;
+	}
 
-	// int16_t resetDeviceCount = 0;
-	// while(resetDeviceCount != numEnabled)
-	// {
-		// resetDeviceCount = 0;
-		// for(i = 0; i < numEnabled; i++)
-		// {
-			// Base_MIDI_Pitch* d = _enabledPitchDevices[i];
-			
-			// //TODO: refactor out check on isTrackingPosition
-			// if(!d->isTrackingPosition() || d->isAtMaxPosition())
-				// resetDeviceCount++;
-			// else
-				// d->toggleStep();
-			
-			// //This specific delay makes it sounds cool. That is all.
-			// delayMicroseconds(1530);
-		// }
-	// }
-	
-	// i = 0;
-	// while(i < numEnabled)
-	// {
-		// Base_MIDI_Pitch* d = _enabledPitchDevices[i++];
-		// d->setDirection(LOW);
-		// d->setStepState(LOW);
-	// }
-// }
+	if(x == -1)
+		return;
 
-// void MIDI_Device_Controller::calibrateDevicePositions()
-// {
-	// uint8_t numEnabled = reloadEnabledDevices();
-	// startPlaying();
+	//Filter out devices not tracking position
+	int16_t resetDeviceCount = 0;
+	for(y = 0; y <= x; y++)
+	{
+		if(!dd->isTrackingPosition())
+		{
+			resetDeviceCount++;
+			dd->setDirection(LOW);
+			_dirDevices[y] = nullptr;
+		}
+	}
 	
-	// int i = 0;
-	// while(i < numEnabled)
-	// {
-		// Base_MIDI_Pitch* d = _enabledPitchDevices[i++];
-		// d->setDirState(HIGH);
-		// d->_currentPosition = d->getMaxPosition();
-	// }
+	while(resetDeviceCount != x + 1)
+	{
+		for(y = 0; y <= x; y++)
+		{
+			dd = _dirDevices[y];
+			if(!dd)
+				continue;
+			
+			if(dd->isAtMaxPosition())
+			{
+				resetDeviceCount++;
+				dd->setDirection(LOW);
+				_dirDevices[y] = nullptr;
+			}
+			else
+			{
+				dd->stepOnce();
+				dd->_currentPosition++;
+			}
+		}
+		
+		delayMicroseconds(12500);
+	}
+}
+
+void MIDI_Device_Controller::calibrateDevicePositions()
+{
+	uint8_t numEnabled = reloadEnabledDevices();
+	startPlaying();
 	
-	// resetDevicePositions();
-// }
+	int i = 0;
+	while(i < numEnabled)
+	{
+		Base_MIDI_Pitch_Direction* dd = _enabledPitchDevices[i++]->asDir();
+		if(dd)
+		{
+			dd->setDirOutputState(HIGH);
+			dd->_currentPosition = dd->getMaxPosition();
+		}		
+	}
+	
+	resetDevicePositions();
+}
 
 void MIDI_Device_Controller::playDeviceNote(uint8_t index, uint8_t note)
 {
@@ -394,6 +414,7 @@ bool MIDI_Device_Controller::startPlaying()
 	}
 	
 	_isPlayingNotes = true;
+	_lastAssign = millis();
 	
 	_debug.debugln(1, F("Starting note processing"));
 	_debug.debugln(2, F("Resolution set to %d"), MIDI_Periods::getResolution());
@@ -401,23 +422,13 @@ bool MIDI_Device_Controller::startPlaying()
 	int i = 0;
 	int numEnabled = reloadEnabledDevices();
 	while(i < numEnabled)
-	{
-		Base_MIDI_Pitch* d = _enabledPitchDevices[i++];
-		if(d)
-			d->startPlaying();
-		
-		//Make sure pitch devices stop when they are supposed to
-		// if(d->_stepIO)
-			// d->_stepIO->setShouldStop(d->_stepPinMap, true);
-
-		// if(d->_dirIO)
-			// d->_dirIO->setShouldStop(d->_dirPinMap, false);
-	}
+		_enabledPitchDevices[i++]->startPlaying();
 	
 	_debug.debugln(8, F("Starting interrupt process"));
 	_timer->setupOnce(MIDI_Periods::getResolution(), MIDI_Device_Controller::lawl);
 	_timer->start();
 	
+	_clockCount = 0; //Reset counter for MIDI clock events
 	LEDOn();
 	_debug.debugln(8, F("Started note processing"));
 	return true;
@@ -434,10 +445,7 @@ void MIDI_Device_Controller::stopPlaying()
 	int i = 0;
 	int numEnabled = reloadEnabledDevices();
 	while(i < numEnabled)
-	{
-		Base_MIDI_Pitch* d = _enabledPitchDevices[i++];
-		d->resetProperties();
-	}
+		_enabledPitchDevices[i++]->resetProperties();
 	
 	for(i = 0; i < MAX_IO_DEVICES; i++)
 	{
@@ -449,6 +457,10 @@ void MIDI_Device_Controller::stopPlaying()
 	#ifdef MIDI_Collection_Controller_h	
 		MCC.resetAll();
 	#endif
+	
+	i = 0;
+	while(i < numEnabled)
+		_enabledPitchDevices[i++]->stopPlaying();
 	
 	_isPlayingNotes = false;
 	LEDOff();
@@ -480,27 +492,6 @@ bool MIDI_Device_Controller::process()
 	}
 	
 	return false;
-}
-
-//LED pin functionality
-//_______________________________________________________________________________________________________
-void MIDI_Device_Controller::LEDOn()
-{
-	if(_ledPin > -1)
-		digitalWrite(_ledPin, HIGH);
-}
-
-void MIDI_Device_Controller::LEDOff()
-{
-	if(_ledPin > -1)
-		digitalWrite(_ledPin, LOW);
-}
-
-void MIDI_Device_Controller::setLEDPin(int8_t pin) 
-{
-	_ledPin = pin;
-	if(_ledPin > -1)
-		pinMode(_ledPin, OUTPUT);
 }
 
 //Tests/Debug
@@ -575,49 +566,50 @@ void MIDI_Device_Controller::loadTest(uint8_t numDevices)
 	setIdleTimeout(currentTimeout);
 }
 
-// void MIDI_Device_Controller::playStartupSequence(uint8_t version)
-// {
-	// uint8_t numEnabled = reloadEnabledDevices();
-	// LEDOn();
+void MIDI_Device_Controller::playStartupSequence(uint8_t version)
+{
+	uint8_t numEnabled = reloadEnabledDevices();
+	LEDOn();
 	
-	// switch(version)
-	// {
-		// case 0:
-		// {
-			// int i = 0;
-			// int magicValue = 4500; //I don't know how I got this number and other values just don't work well
-			// startPlaying();
-			// while(i < numEnabled)
-			// {
-				// MIDI_Pitch* d = _enabledPitchDevices[i++];
+	switch(version)
+	{
+		case 0:
+		{
+			int i = 0;
+			int magicValue = 6250; //I don't know how I got this number and other values just don't work well
+			startPlaying();
+			while(i < numEnabled)
+			{
+				Base_MIDI_Pitch* d = _enabledPitchDevices[i++];
 				
-				// _debug.println(F("Single device sequence on %d"), d->_id);
-				// for(uint8_t y = 0; y <= 15; y++) 
-				// {
-					// d->toggleStep();
-					// delayMicroseconds(magicValue);
-				// }
-			// }
+				_debug.println(F("Single device sequence on %d"), d->_id);
+				for(uint8_t y = 0; y <= 15; y++) 
+				{
+					d->cycleOutput();
+					delayMicroseconds(magicValue);
+				}
+			}
 
-			// _debug.println(F("Parallel device sequence"));
-			// for(int16_t x = 0; x <= 25; x++) {
-				// i = 0;
-				// while(i < numEnabled)
-					// _enabledPitchDevices[i++]->toggleStep();
+			_debug.println(F("Parallel device sequence"));
+			for(int16_t x = 0; x <= 25; x++) 
+			{
+				i = 0;
+				while(i < numEnabled)
+					_enabledPitchDevices[i++]->cycleOutput();
 				
-				// delayMicroseconds(magicValue);
-			// }
+				delayMicroseconds(magicValue);
+			}
 			
-			// _debug.println(F("Pause and reset"));
-			// delay(500);	
-			// resetDevicePositions();
-			// stopPlaying();
-		// }
-		// break;
+			_debug.println(F("Pause and reset"));
+			delay(500);	
+			resetDevicePositions();
+			stopPlaying();
+		}
+		break;
 		
-		// default:
-			// break;
-	// }
+		default:
+			break;
+	}
 	
-	// LEDOff();
-// }
+	LEDOff();
+}

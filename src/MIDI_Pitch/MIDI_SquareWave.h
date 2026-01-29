@@ -5,12 +5,7 @@
 
 	//Pitch device that generates a square wave on the specified output. Used for devices like HDDs or piezo buzzers.
 	class MIDI_SquareWave : public Base_MIDI_Pitch
-	{	
-		//Give access to all private members to the below classes
-		// friend class MIDI_Device_Controller;
-		// friend class MIDI_Pitch_Node;
-		// friend class Base_MIDI_Pitch_Collection;
-		
+	{
 		//Constructors
 		//_____________________________________________________________________________________________
 		public:
@@ -22,11 +17,17 @@
 		
 		//Configuration
 		//_____________________________________________________________________________________________
-		private:
+		protected:
 			//Designated output mapping where -1 indicates nothing is assigned
 			int8_t _outNum = -1;
 			IO_Device* _outIO = nullptr;
 		
+			inline void setOutputState(bool state)
+			{
+				if(_outNum < 0 || !_outIO) return;
+				_outIO->setOutput(_outNum, state);
+			}
+			
 		public:
 			//Print out this device's configuration
 			inline void printStatus()
@@ -41,23 +42,22 @@
 			{ 
 				_outNum = outNum;
 				if (_outNum < 0)
-				{		
+				{
+					_debug.debugln(7, F("%d - Output was negative"), _id);
 					_outIO = nullptr;
 					return;
 				}
 				
 				_outIO = IOF.getIO(type);
-				if(!_outNum || !_outIO->isValidMapping(_outNum))
+				if(!_outIO || !_outIO->isValidMapping(_outNum))
+				{
+					_debug.debugln(7, F("%d - IO (%d) not found or invalid mapping (%d)"), _id, type, _outNum);
+					_outIO = nullptr;
 					_outNum = -1;
+				}
 			}
 
 			inline int8_t getOutputNum() { return _outNum; };
-			
-			inline void setOutputState(bool state)
-			{
-				if(_outNum < 0 || !_outIO) return;
-				_outIO->setOutput(_outNum, state);
-			}
 
 			inline bool getOutputState() 
 			{
@@ -69,7 +69,7 @@
 			
 		//Operation
 		//_____________________________________________________________________________________________
-		private:
+		protected:
 			//Resets a device's operational properties
 			inline virtual void resetProperties(bool includeExtra = false)
 			{
@@ -82,9 +82,6 @@
 				//Reset extra properties here
 			};
 			
-			//Gets the base period of the note currently being played
-			inline virtual int32_t getBasePeriod() { return *(_referencePeriods + _currentNote); };
-			
 			//Sets up anything necessary before note playing begins
 			inline void startPlaying()
 			{
@@ -93,35 +90,7 @@
 					_outIO->setShouldStop(_outNum, true);
 			};
 			
-			//Operates device per desired MIDI output
-			inline void processNotes()
-			{
-				if(_currentNote < 0)
-				{
-					_debug.debugln(20, F("%d - No note"), _id);
-					return;
-				}
-				
-				if(_currentNote == 0)
-				{			
-					_debug.debugln(20, F("%d - Resetting properties"), _id);
-					resetProperties();
-					return;
-				}
-					
-				_currentTick++;
-				if(_currentTick >= _currentPeriod)
-				{
-					_debug.debugln(20, F("%d - Toggling step"), _id);
-					_outIO->toggleOutput(_outNum);
-					_currentTick = 0;
-				}
-				
-				_currentDuration.addMicros(MIDI_Periods::getResolution());
-				
-				if(_currentEffect == Vibrato)
-					_vibratoTick += MIDI_Periods::getResolution();
-			};
+			inline void cycleOutput() { _outIO->toggleOutput(_outNum); };
 			
 		public:
 			inline bool isEnabled() { return _outNum >= 0; };
@@ -129,13 +98,11 @@
 		//Testing/debug
 		//_____________________________________________________________________________________________
 		public:
-			//Plays Do-Re-Mi scale via the interrupt process
-			//virtual void testDoReMi(uint8_t ocatve = 0, uint16_t noteDuration = 150, uint16_t noteGap = 50);
+			//Test via the interrupt process
+			virtual void testInterrupt();
 
-			//Tests stepping via the interrupt process
-			//virtual void testStepInterrupt(uint32_t steps, bool direction);
-
-			//Tests stepping via direct IO manipulation
-			//virtual void testStepDirect(int32_t steps, bool direction);
+			//Test via direct IO manipulation
+			virtual void testDirect();
 	};
+	
 #endif

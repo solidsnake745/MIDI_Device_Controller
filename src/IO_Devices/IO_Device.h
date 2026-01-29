@@ -8,6 +8,7 @@
 	//Also can't match the class name so underscore is not included
 	enum IOType
 	{
+		NoValue = -1,
 		IODigital = 0,
 		IO74HC595 = 1
 	};
@@ -19,8 +20,8 @@
 	/// @private
 	class IO_Device
 	{
-		friend class MIDI_Pitch;
-		// friend class Base_MIDI_Pulse;
+		friend class MIDI_SquareWave;
+		friend class MIDI_SquareWave_Direction;
 		friend class MIDI_Pulse;
 		friend class MIDI_Toggle;
 		friend class Base_MIDI_SoftPWM;
@@ -39,4 +40,5 @@
 			virtual void stopOutputs() = 0;
 			virtual void resetOutputs() = 0;
 	};
+	
 #endif

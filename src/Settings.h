@@ -11,9 +11,9 @@
 	
 	//Determine default resolution based on the board we're compiling for
 	#if ARDUINO_ARCH_AVR
-		//This library trades optmization for configurability and advanced features
+		//This library trades optimization for configurability and advanced features
 		//The Uno/Nano are pretty old and vastly out performed by recent microcontrollers that are better suited for this library
-		//My recommondation is to get a Teensy
+		//My recommendation is to get a Teensy
 		//#warning "Compiling for Uno/Nano/etc."
 		#define DEFAULT_RESOLUTION 100
 	#elif defined(CORE_TEENSY)
@@ -64,6 +64,11 @@
 	#define SEMITONES_PER_OCTAVE 12
 	
 	#define MIDDLE_C_NOTE 60
+	
+	//Controls delay (in microseconds) between output state changes during manual operations
+	//I.E. The delay between toggling the output pin when calling test methods or methods like resetPosition/calibratePosition
+	//Mainly aesthetic - for synchronizing/tuning the sound of these operations
+	#define MANUAL_CHANGE_DELAY 5000
 	
 	//Setting this to 1 includes various test methods for verifying logic
 	//Tests output information to serial and rely on SerialDebug debug methods being enabled

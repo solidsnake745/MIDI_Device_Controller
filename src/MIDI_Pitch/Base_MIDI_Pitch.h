@@ -9,9 +9,10 @@
 	#include "../IO_Factory/IO_Factory.h"
 	#include "../Settings.h"
 	#include "../Common/SerialDebug.h"
-
+	
 	//Forward declaration for compiling
 	class MIDI_Device_Controller;
+	class Base_MIDI_Pitch_Direction;
 
 	///MIDI device class for anything needing a pitch signal (FDD, HDD, Stepper motors, etc.)
 	class Base_MIDI_Pitch
@@ -20,7 +21,7 @@
 		friend class MIDI_Device_Controller;		
 		friend class MIDI_Pitch_Node;
 		friend class Base_MIDI_Pitch_Collection;
-		friend class Direct_Collection;
+		friend class Base_MIDI_Pitch_Direction;
 		
 		protected:		
 			enum Effect
@@ -58,6 +59,9 @@
 			
 			//Indicates whether a device is available for note assignment
 			inline bool isAvailable() { return _currentNote == -1; };
+			
+			inline virtual bool hasDirection() { return false; };
+			inline virtual Base_MIDI_Pitch_Direction* asDir() { return nullptr; };
 
 		//Operation
 		//_____________________________________________________________________________________________
@@ -124,11 +128,45 @@
 			//Gets the period currently being played
 			inline int16_t getCurrentPeriod() { return _currentPeriod; };			
 			
-			//Sets up anything necessary before note playing begins
-			virtual void startPlaying();
+			//Executes before note playing begins
+			inline virtual void startPlaying() {};
+			
+			//Executes after note playing stops
+			inline virtual void stopPlaying() {};
+			
+			//Operates the devices output for one cycle/step (when current period has elapsed)
+			virtual void cycleOutput() = 0;
 			
 			//Operates device per desired MIDI output
-			virtual void processNotes() = 0;
+			//Operates device per desired MIDI output
+			inline void processNotes()
+			{
+				if(_currentNote < 0)
+				{
+					_debug.debugln(20, F("%d - No note"), _id);
+					return;
+				}
+				
+				if(_currentNote == 0) //Reset pending
+				{			
+					_debug.debugln(20, F("%d - Resetting properties"), _id);
+					resetProperties();
+					return;
+				}
+				
+				_currentTick++;
+				if(_currentTick >= _currentPeriod) //Update pending
+				{
+					_debug.debugln(20, F("%d - Cycling output"), _id);
+					cycleOutput();
+					_currentTick = 0; //Reset counter
+				}
+				
+				_currentDuration.addMicros(MIDI_Periods::getResolution());
+				
+				if(_currentEffect == Vibrato)
+					_vibratoTick += MIDI_Periods::getResolution();
+			};
 			
 			//Private methods for playing notes used by collections to indicate assignedBy
 			void playNote(uint8_t note, void* assignedBy);
@@ -295,11 +333,5 @@
 				stopNote(); delay(noteGap);
 				_debug.debugln(7, F("%d - Finished DoReMi test"), _id);
 			};
-
-			//Tests stepping via the interrupt process
-			//void testStepInterrupt(uint32_t steps, bool direction);
-
-			//Tests stepping via direct IO manipulation
-			//void testStepDirect(int32_t steps, bool direction);
 	};
 #endif
