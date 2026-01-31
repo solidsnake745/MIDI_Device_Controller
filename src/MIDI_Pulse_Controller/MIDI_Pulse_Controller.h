@@ -5,8 +5,6 @@
 	#include "../Settings.h"
 	#include "../Common/SerialDebug.h"
 	#include "../MIDI_Pulse/Base_MIDI_Pulse.h"
-	// #include "../IO_Devices/IO_Device.h"
-	// #include "../IO_Factory/IO_Factory.h"
 	
 	//Resolve map dependency
 	#if ARDUINO_ARCH_AVR
@@ -52,7 +50,7 @@
 			*/
 			void deleteMapping(uint8_t note);
 			
-			///Retrieves the deviced mapped to the given note if there is one
+			///Retrieves the device mapped to the given note if there is one
 			/*!
 				\param note MIDI note to retrieve the device for
 			*/

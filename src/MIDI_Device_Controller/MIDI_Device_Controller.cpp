@@ -292,7 +292,7 @@ void MIDI_Device_Controller::calibrateDevicePositions()
 		Base_MIDI_Pitch_Direction* dd = _enabledPitchDevices[i++]->asDir();
 		if(dd)
 		{
-			dd->setDirOutputState(HIGH);
+			dd->setDirState(HIGH);
 			dd->_currentPosition = dd->getMaxPosition();
 		}		
 	}

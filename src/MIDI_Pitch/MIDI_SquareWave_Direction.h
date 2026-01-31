@@ -22,19 +22,40 @@
 				setMaxPosition(maxPosition);
 			};
 		
+		inline Base_MIDI_Pitch_Direction* asDir() { return static_cast<Base_MIDI_Pitch_Direction*>(this); };
+		
 		//Configuration
 		//_____________________________________________________________________________________________
+		private:
+			//Designated output mapping where -1 indicates nothing is assigned
+			int8_t _dirOutNum = -1;
+			IO_Device* _dirOutIO = nullptr;
+			
 		public:
 			//Print out this device's configuration
 			inline void printStatus()
 			{
 				MIDI_SquareWave::printStatus();
 				_debug.println(F("  Dir Output Number: %d"), getDirOutputNum());
-				_debug.println(F("  Dir Output State: %d"), getDirOutputState());
+				_debug.println(F("  Dir Output State: %d"), getDirState());
 			};
 			
-			inline bool hasDirection() { return true; };
-			inline Base_MIDI_Pitch_Direction* asDir() { return static_cast<Base_MIDI_Pitch_Direction*>(this); };
+			//Sets the mapping to the output
+			inline void setDirOutput(IOType type, int8_t outNum)
+			{
+				_dirOutNum = outNum;
+				if (_dirOutNum < 0)
+				{		
+					_dirOutIO = nullptr;
+					return;
+				}
+				
+				_dirOutIO = IOF.getIO(type);
+				if(!_dirOutIO || !_dirOutIO->isValidMapping(_dirOutNum))
+					_dirOutNum = -1;
+			};
+			
+			inline int8_t getDirOutputNum() { return _dirOutNum; };
 			
 		//Operation
 		//_____________________________________________________________________________________________
@@ -96,6 +117,27 @@
 						zeroPosition();
 					}
 				}
+			};
+			
+			inline bool getDirState()
+			{
+				if(_dirOutNum < 0 || !_dirOutIO)
+					return LOW; //Have to return something
+				
+				return _dirOutIO->getOutput(_dirOutNum);
+			};
+			
+			inline void setDirState(bool state)
+			{
+				if(_dirOutNum < 0 || !_dirOutIO) return;
+				_dirOutIO->setOutput(_dirOutNum, state);
+			}
+			
+			//Toggle state of direction output
+			inline void toggleDirection()
+			{				
+				if(_dirOutIO)
+					_dirOutIO->toggleOutput(_dirOutNum);
 			};
 			
 		public:
