@@ -16,9 +16,11 @@
 		
 		//Constructors
 		//_____________________________________________________________________________________________
-		private:
-			//Nothing here
-		
+		public:
+			using Base_MIDI_Pulse::Base_MIDI_Pulse; //Inherit constructors
+			
+			inline Base_MIDI_SoftPWM(IOType type, int8_t outNum) : Base_MIDI_Pulse(type, outNum) {};
+			
 		//Configuration
 		//_____________________________________________________________________________________________
 		private:
@@ -135,7 +137,22 @@
 			//Indicates whether a device is available for note assignment
 			inline bool isAvailable() { return _currentLength == 0; };
 			
-			void pulse();
+			inline void pulse()
+			{
+				if(!_outIO)
+				{
+					_debug.debugln(7, F("%d - Pulse output not setup"), _id);
+					return;
+				}
+				
+				if(_currentPWMState != Running)
+					_currentPWMState = Starting;
+				
+				setLengthOnPulse();
+				_currentDuration.reset();
+				
+				noteAssigned();
+			};
 			
 			inline void stopPulse()
 			{
@@ -176,16 +193,34 @@
 				for(uint8_t x = 0; x < numPulses; x++)
 				{
 					_outIO->setOutput(_outNum, HIGH);
-					_outIO->updateOutputs();
+					callUpdateOutputs(_outIO);
 					delayMicroseconds(length);
 					_outIO->setOutput(_outNum, LOW);
-					_outIO->updateOutputs();
+					callUpdateOutputs(_outIO);
 					delayMicroseconds(period - length);
 				}
 			};
 			
 			//Tests generating PWM pulses with the given length and period in microseconds via interrupt process for the specified duration in milliseconds
-			void testInterrupt(uint32_t length = 1000, uint32_t period = 20000, uint16_t duration = 500);
+			inline void testInterrupt(uint32_t length = 1000, uint32_t period = 20000, uint16_t duration = 500)
+			{
+				if(!_outIO)
+				{
+					_debug.debugln(7, F("%d - Pulse output not setup"), _id);
+					return;
+				}
+				
+				_currentLength = length;
+				_currentTick = 0;
+				_currentPeriod = period;
+				_currentPWMState = Starting;
+				
+				noteAssigned();
+				delay(duration);
+				_currentLength = 0;
+				_currentTick = 0;
+				_currentPeriod = 0;
+			};
 	};
 	
 #endif

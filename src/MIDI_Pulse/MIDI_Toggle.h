@@ -14,13 +14,9 @@
 		
 		//Constructors
 		//_____________________________________________________________________________________________
-		private:
-			//Nothing here
-			
 		public:
-			MIDI_Toggle();
-			~MIDI_Toggle();
-		
+			using Base_MIDI_Pulse::Base_MIDI_Pulse; //Inherit constructors
+			
 		//Configuration
 		//_____________________________________________________________________________________________
 		private:
@@ -37,11 +33,22 @@
 		//_____________________________________________________________________________________________
 		private:
 			//Operates device per desired MIDI output
-			void processNotes();
+			inline void processNotes() {}; //Nothing to do here
 			
 		public:
-			void pulse();
-			void stopPulse();
+			inline void pulse() 
+			{
+				if(!_outIO)
+				{
+					_debug.debugln(7, F("%d - Pulse output not setup"), _id);
+					return;
+				}
+				
+				_outIO->toggleOutput(_outNum);
+				noteAssigned();
+			};
+			
+			inline void stopPulse() {}; //Nothing to do here
 			
 		//Testing/debug
 		//_____________________________________________________________________________________________
@@ -49,7 +56,21 @@
 			//Nothing here
 			
 		public:
-			//Tests turning the associated output on and off for the given duration in microseconds via directio IO manipulation
-			void testOutputDirect(uint32_t duration = 250);
+			//Tests turning the associated output on and off for the given duration in microseconds via direction IO manipulation
+			inline void testOutputDirect(uint32_t duration = 250)
+			{
+				if(!_outIO)
+				{
+					_debug.debugln(7, F("%d - Pulse output not setup"), _id);
+					return;
+				}
+				
+				_outIO->setOutput(_outNum, HIGH);
+				callUpdateOutputs(_outIO);
+				delayMicroseconds(duration);
+				_outIO->setOutput(_outNum, LOW);
+				callUpdateOutputs(_outIO);
+			};
 	};
+	
 #endif

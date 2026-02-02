@@ -36,8 +36,7 @@
 		//#warning "Compiling for some unrecognized board"
 		//Catch all for anything else
 		//Can probably use a lower value as recent boards are much faster than the Arduino Uno/Nano
-		//This value is pretty safe though
-		#define DEFAULT_RESOLUTION 40
+		#define DEFAULT_RESOLUTION 100
 	#endif
 	
 	//Max limit of pitch devices that can be managed by the MIDI_DeviceController

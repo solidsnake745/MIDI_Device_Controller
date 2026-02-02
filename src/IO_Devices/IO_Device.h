@@ -14,17 +14,13 @@
 	};
 
 	//Forward declaration for compiling
-	//class MIDI_Pitch;
 	class MIDI_Device_Controller;
 
 	/// @private
 	class IO_Device
 	{
-		friend class MIDI_SquareWave;
-		friend class MIDI_SquareWave_Direction;
-		friend class MIDI_Pulse;
-		friend class MIDI_Toggle;
-		friend class Base_MIDI_SoftPWM;
+		friend class Base_MIDI_Pitch;
+		friend class Base_MIDI_Pulse;
 		friend class MIDI_Device_Controller;
 		
 		virtual void updateOutputs() = 0;

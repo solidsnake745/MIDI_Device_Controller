@@ -11,7 +11,6 @@
 	#include "../Common/SerialDebug.h"
 	
 	//Forward declaration for compiling
-	class MIDI_Device_Controller;
 	class Base_MIDI_Pitch_Direction;
 
 	///MIDI device class for anything needing a pitch signal (FDD, HDD, Stepper motors, etc.)
@@ -23,7 +22,7 @@
 		friend class Base_MIDI_Pitch_Collection;
 		friend class Base_MIDI_Pitch_Direction;
 		
-		protected:		
+		protected:
 			enum Effect
 			{
 				None = 0,
@@ -31,14 +30,17 @@
 				Vibrato = 2
 			};
 			
-			inline static SerialDebug _debug = SerialDebug(DEBUG_MIDIPITCH);
+			inline static SerialDebug _debug = SerialDebug(DEBUG_MIDIPITCH);			
+			inline void callUpdateOutputs(IO_Device* io) { io->updateOutputs(); };
+			inline virtual bool hasDirection() { return false; };
+			
+		public:
+			inline virtual Base_MIDI_Pitch_Direction* asDir() { return nullptr; };
 		
 		//Constructors
 		//_____________________________________________________________________________________________
-		protected:
-			inline Base_MIDI_Pitch() { resetProperties(true); };
-			
 		public:
+			inline Base_MIDI_Pitch() {};
 			virtual ~Base_MIDI_Pitch() {};
 		
 		//Configuration
@@ -46,6 +48,10 @@
 		protected:
 			uint8_t _id;	
 			MIDI_Device_Controller* _parent = nullptr;
+			void mdcStartPlaying();
+			void mdcStopPlaying();
+			bool mdcIsPlayingNotes();
+			void mdcNoteAssigned();
 			
 		public:
 			//Print out this device's configuration
@@ -59,9 +65,6 @@
 			
 			//Indicates whether a device is available for note assignment
 			inline bool isAvailable() { return _currentNote == -1; };
-			
-			inline virtual bool hasDirection() { return false; };
-			inline virtual Base_MIDI_Pitch_Direction* asDir() { return nullptr; };
 
 		//Operation
 		//_____________________________________________________________________________________________
@@ -123,10 +126,10 @@
 			};
 			
 			//Gets the base period of the note currently being played
-			inline virtual int32_t getBasePeriod() { return *(_referencePeriods + _currentNote); };
+			inline virtual uint32_t getBasePeriod() { return *(_referencePeriods + _currentNote); };
 			
 			//Gets the period currently being played
-			inline int16_t getCurrentPeriod() { return _currentPeriod; };			
+			inline uint32_t getCurrentPeriod() { return _currentPeriod; };
 			
 			//Executes before note playing begins
 			inline virtual void startPlaying() {};
@@ -169,8 +172,39 @@
 			};
 			
 			//Private methods for playing notes used by collections to indicate assignedBy
-			void playNote(uint8_t note, void* assignedBy);
-			void playPeriod(uint32_t period, void* assignedBy);
+			inline void playNote(uint8_t note, void* assignedBy)
+			{
+				if(!isEnabled()) 
+				{
+					_debug.debugln(7, F("%d - Not enabled"), _id);
+					return;
+				}
+				
+				_currentNote = note;
+				_currentPeriod = getBasePeriod();
+				_lastAssignedBy = assignedBy;
+				
+				_debug.debugln(7, F("%d - Note %d (%d) assigned"), _id, _currentNote, _currentPeriod);
+				
+				mdcNoteAssigned();
+			};
+			
+			inline void playPeriod(uint32_t period, void* assignedBy)
+			{
+				if(!isEnabled()) 
+				{
+					_debug.debugln(7, F("%d - Not enabled"), _id);
+					return;
+				}
+				
+				_currentNote = 255;	
+				_currentPeriod = period;
+				_lastAssignedBy = assignedBy;
+				
+				_debug.debugln(7, F("%d - Period %d assigned"), _id, _currentPeriod);
+
+				mdcNoteAssigned();
+			};
 			
 			inline bool shouldAutoStartVibrato()
 			{				
@@ -334,4 +368,5 @@
 				_debug.debugln(7, F("%d - Finished DoReMi test"), _id);
 			};
 	};
+	
 #endif

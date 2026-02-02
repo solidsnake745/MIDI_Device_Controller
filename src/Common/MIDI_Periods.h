@@ -33,7 +33,9 @@
 		{
 			//Calculate actual periods to be used in operation
 			//There is some inaccuracy in this conversion, but that's OK
-			uint32_t dblResolution = 2 * _currentResolution; //We need to change state twice per period
+			//We need to change state twice per period so we double the resolution
+			//Some devices do not need to do this, but we just need to double it again if so
+			uint32_t dblResolution = 2 * _currentResolution;
 			
 			for(uint8_t i = 0; i < 128; i++) 
 			{
@@ -46,8 +48,8 @@
 		};
 
 		public:
-			// Overall properties
-			// Calculated microperiods based on the set resolution for each note
+			//Calculated microperiods based on the set resolution for each note
+			//The largest value will be ORIGINAL_PERIODS[0]/2 = 61156 which is just under 2^16 (65535)
 			inline static uint16_t calculatedPeriods[128];
 			
 			//Original microperiods of notes based on the MIDI note system (0 - 127)

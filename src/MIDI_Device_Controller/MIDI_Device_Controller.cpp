@@ -430,7 +430,7 @@ bool MIDI_Device_Controller::startPlaying()
 	
 	_clockCount = 0; //Reset counter for MIDI clock events
 	LEDOn();
-	_debug.debugln(8, F("Started note processing"));
+	_debug.println(F("Started note processing"));
 	return true;
 }
 
@@ -465,7 +465,7 @@ void MIDI_Device_Controller::stopPlaying()
 	_isPlayingNotes = false;
 	LEDOff();
 	
-	_debug.debugln(5, F("Stopped processing"));
+	_debug.println(F("Stopped processing"));
 }
 
 bool MIDI_Device_Controller::process()

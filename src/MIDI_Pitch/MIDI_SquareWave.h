@@ -1,18 +1,20 @@
 #ifndef MIDI_SquareWave_h
 	#define MIDI_SquareWave_h
 
-	#include "Base_MIDI_Pitch.h"	
+	#include "Base_MIDI_Pitch.h"
 
-	//Pitch device that generates a square wave on the specified output. Used for devices like HDDs or piezo buzzers.
+	//Pitch device that generates a square wave on the specified output. Used for devices like HDDs or piezo buzzers
 	class MIDI_SquareWave : public Base_MIDI_Pitch
 	{
 		//Constructors
 		//_____________________________________________________________________________________________
 		public:
-			inline MIDI_SquareWave(IOType type, int8_t outNum) : Base_MIDI_Pitch() 
+			using Base_MIDI_Pitch::Base_MIDI_Pitch; //Inherit constructors
+		
+			inline MIDI_SquareWave(IOType type, int8_t outNum)
 			{ 
 				setOutput(type, outNum);
-				//resetProperties(true);
+				resetProperties(true);
 			};
 		
 		//Configuration
@@ -99,10 +101,65 @@
 		//_____________________________________________________________________________________________
 		public:
 			//Test via the interrupt process
-			virtual void testInterrupt();
+			inline virtual void testInterrupt()
+			{
+				//Nothing to test if no valid step output set
+				if(!_outIO)
+				{
+					_debug.debugln(7, F("%d - Output not setup"), _id);
+					return;
+				}
+				
+				mdcStartPlaying();
+
+				//Initial state should be off, set it if not
+				if(_outIO->getOutput(_outNum))
+				{
+					_outIO->setOutput(_outNum, LOW);
+					delayMicroseconds(50);
+				}
+				
+				uint32_t t = millis();
+				while(millis() - t < 3000)
+				{		
+					_outIO->toggleOutput(_outNum); //Toggle on (step)
+					delayMicroseconds(MANUAL_CHANGE_DELAY);
+					_outIO->toggleOutput(_outNum); //Toggle back off
+					delayMicroseconds(MANUAL_CHANGE_DELAY);
+				}
+				
+				mdcStopPlaying();
+			};
 
 			//Test via direct IO manipulation
-			virtual void testDirect();
+			inline virtual void testDirect()
+			{
+				//Nothing to test if no valid step output set
+				if(!_outIO)
+				{
+					_debug.debugln(7, F("%d - Output not setup"), _id);
+					return;
+				}
+				
+				//Initial state should be off, set it if not
+				if(_outIO->getOutput(_outNum))
+				{
+					_outIO->setOutput(_outNum, LOW);
+					delayMicroseconds(50);
+				}
+				
+				uint32_t t = millis();
+				while(millis() - t < 3000)
+				{		
+					_outIO->toggleOutput(_outNum); //Toggle on (step)
+					callUpdateOutputs(_outIO);
+					delayMicroseconds(MANUAL_CHANGE_DELAY);
+					
+					_outIO->toggleOutput(_outNum); //Toggle back off
+					callUpdateOutputs(_outIO);
+					delayMicroseconds(MANUAL_CHANGE_DELAY);
+				}
+			};
 	};
 	
 #endif

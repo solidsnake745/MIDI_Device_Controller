@@ -4,16 +4,10 @@
 	#include "Settings.h"
 	#include "Common/SerialDebug.h"
 	#include "MDC_Extras.h"
-	#include <Arduino.h>
+	#include <Arduino.h> //SerialDebug also includes this, but in case for some reason we ever change that
 	#include "Common/MIDI_Periods.h"
 	#include "MIDI_Pitch/Base_MIDI_Pitch.h"
-	#include "MIDI_Pitch/MIDI_SquareWave.h"
-	#include "MIDI_Pitch/MIDI_SquareWave_Direction.h"
-	#include "MIDI_Pulse/Base_MIDI_Pulse.h"
-	#include "MIDI_Pulse/MIDI_Pulse.h"
-	#include "MIDI_Pulse/MIDI_Toggle.h"
-	#include "MIDI_Pulse/MIDI_SoftPWM.h"
-	#include "MIDI_Pulse/MIDI_Servo.h"
+	#include "MIDI_Pulse/Base_MIDI_Pulse.h"	
 	
 	#include "IO_Factory/IO_Factory.h"
 	#include "IO_Devices/IO_Device.h"
@@ -39,13 +33,7 @@
 	{
 		// Give Device access to all private members
 		friend class Base_MIDI_Pitch;
-		friend class MIDI_Pitch;
-		friend class MIDI_SquareWave_Direction;
-		friend class MIDI_Pulse;
-		friend class MIDI_Toggle;
-		friend class Base_MIDI_SoftPWM;
-		friend class MIDI_SoftPWM;
-		friend class MIDI_Servo;
+		friend class Base_MIDI_Pulse;	
 		friend class MIDI_Pulse_Controller;
 		
 		inline static SerialDebug _debug = SerialDebug(DEBUG_DEVICECONTROLLER);

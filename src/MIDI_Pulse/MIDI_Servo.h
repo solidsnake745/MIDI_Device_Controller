@@ -15,11 +15,22 @@
 		
 		//Constructors
 		//_____________________________________________________________________________________________
-		private:
-			//Nothing here
-			
 		public:
+			using Base_MIDI_SoftPWM::Base_MIDI_SoftPWM; //Inherit constructors
+			
 			inline MIDI_Servo(uint8_t numPositions = 2, uint16_t minLength = 1000, uint16_t maxLength = 2000, uint16_t maxAngle = 180)
+			{
+				setup(numPositions, minLength, maxLength, maxAngle);
+			};
+			
+			inline MIDI_Servo(IOType type, int8_t outNum, uint8_t numPositions = 2, uint16_t minLength = 1000, uint16_t maxLength = 2000, uint16_t maxAngle = 180) 
+			: Base_MIDI_SoftPWM(type, outNum)
+			{
+				setup(numPositions, minLength, maxLength, maxAngle);
+			};
+			
+		private:
+			inline void setup(uint8_t numPositions = 2, uint16_t minLength = 1000, uint16_t maxLength = 2000, uint16_t maxAngle = 180)
 			{
 				if(numPositions == 0)
 					numPositions = 1;
@@ -44,8 +55,6 @@
 						setPositionByAngle(x, (x * increment));
 				}
 			};
-			
-			// ~MIDI_Servo();
 		
 		//Configuration
 		//_____________________________________________________________________________________________
@@ -131,7 +140,7 @@
 				}
 				
 				testDirect(min, period, 10);
-				delay(500);
+				delay(1000);
 				testDirect(max, period, 10);
 				
 				// uint8_t numPulses = 1;

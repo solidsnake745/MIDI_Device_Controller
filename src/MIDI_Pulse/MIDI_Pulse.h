@@ -4,9 +4,6 @@
 	#include "Base_MIDI_Pulse.h"
 	#include "../Common/NoteDuration.h"
 
-	//Forward declaration for compiling
-	// class MIDI_Device_Controller;
-
 	///MIDI device class for anything needing a pulse signal (Solenoids, relays, servos (to be implemented), etc.)
 	class MIDI_Pulse : public Base_MIDI_Pulse
 	{	
@@ -15,13 +12,9 @@
 		
 		//Constructors
 		//_____________________________________________________________________________________________
-		private:
-			//Nothing here
-			
 		public:
-			MIDI_Pulse();
-			~MIDI_Pulse();
-		
+			using Base_MIDI_Pulse::Base_MIDI_Pulse; //Inherit constructors
+			
 		//Configuration
 		//_____________________________________________________________________________________________
 		private:
@@ -50,14 +43,54 @@
 			NoteDuration _maxDuration = NoteDuration(0, 50, 0);
 			
 			//Operates device per desired MIDI output
-			void processNotes();
+			inline void processNotes()
+			{
+				if(!_outIO)
+				{
+					_debug.debugln(20, F("%d - Pulse output not setup"), _id);
+					return;
+				}
+				
+				if(_outIO->getOutput(_outNum))
+					_currentDuration.addMicros(MIDI_Periods::getResolution());
+				
+				checkMaxDuration();
+			};
 			
 			//Checks if device is past the max duration and stops playing the current note if so
-			void checkMaxDuration();
+			inline void checkMaxDuration()
+			{
+				if(_maxDuration.isZero())
+					return;
+				
+				if(_maxDuration <= _currentDuration)
+					stopPulse();
+			};
 			
 		public:			
-			void pulse();
-			void stopPulse();
+			inline void pulse()
+			{
+				if(!_outIO)
+				{
+					_debug.debugln(7, F("%d - Pulse output not setup"), _id);
+					return;
+				}
+				
+				_outIO->setOutput(_outNum, HIGH);
+				noteAssigned();
+			};
+			
+			inline void stopPulse()
+			{
+				if(!_outIO)
+				{
+					_debug.debugln(7, F("%d - Pulse output not setup"), _id);
+					return;
+				}
+				
+				_outIO->setOutput(_outNum, LOW);
+				_currentDuration.reset();
+			};
 			
 		//Testing/debug
 		//_____________________________________________________________________________________________
@@ -66,6 +99,20 @@
 			
 		public:
 			//Tests turning the associated output on and off for the given duration in microseconds via direct IO manipulation
-			void testOutputDirect(uint32_t duration = 250);
+			inline void testOutputDirect(uint32_t duration = 250)
+			{
+				if(!_outIO)
+				{
+					_debug.debugln(7, F("%d - Pulse output not setup"), _id);
+					return;
+				}
+				
+				_outIO->setOutput(_outNum, HIGH);
+				callUpdateOutputs(_outIO);
+				delayMicroseconds(duration);
+				_outIO->setOutput(_outNum, LOW);
+				callUpdateOutputs(_outIO);
+			};
 	};
+	
 #endif

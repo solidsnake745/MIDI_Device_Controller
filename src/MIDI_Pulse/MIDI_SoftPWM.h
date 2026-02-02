@@ -15,13 +15,9 @@
 		
 		//Constructors
 		//_____________________________________________________________________________________________
-		private:
-			//Nothing here
-			
 		public:
-			// MIDI_PWM();
-			// ~MIDI_PWM();
-		
+			using Base_MIDI_SoftPWM::Base_MIDI_SoftPWM; //Inherit constructors
+			
 		//Configuration
 		//_____________________________________________________________________________________________
 		private:

@@ -7,26 +7,30 @@
 	#include "../Common/SerialDebug.h"
 	
 	//Forward declaration for compiling	
-	// class MIDI_Device_Controller;
+	class MIDI_Device_Controller;
 
 	class Base_MIDI_Pulse
 	{
+		//Give access to all private members to the below classes
 		friend class MIDI_Device_Controller;
-		
-		// virtual void checkMaxDuration() = 0;		
+
 		virtual void processNotes() = 0;
 		
 		protected:
 			inline static SerialDebug _debug = SerialDebug(DEBUG_MIDIPULSE);
+			inline void callUpdateOutputs(IO_Device* io) { io->updateOutputs(); };
 			
 			uint8_t _id;
 			MIDI_Device_Controller* _parent = nullptr;
+			void noteAssigned();
 			
 			//Designated output mapping where -1 indicates no out is assigned
 			int8_t _outNum = -1;
 			IO_Device* _outIO = nullptr;
 			
 		public:
+			inline Base_MIDI_Pulse() {};
+			inline Base_MIDI_Pulse(IOType type, int8_t outNum) { setOutput(type, outNum); };
 			virtual ~Base_MIDI_Pulse() {};
 			
 			inline uint8_t getID() { return _id; };
@@ -43,12 +47,7 @@
 				}
 				
 				_outIO = IOF.getIO(type);
-				if(_outIO && _outIO->isValidMapping(_outNum))
-				{
-					//Below taken from MIDI_Pitch logic, but starting to lean towards refactoring out duration tracking in favor of relying on idle timeout to stop playback
-					//_outIO->setMaxDuration(_outNum, 0);
-				}
-				else
+				if(!_outIO || _outIO->isValidMapping(_outNum))
 					_outNum = -1;
 			};
 			
@@ -66,4 +65,5 @@
 			virtual void pulse() = 0;
 			virtual void stopPulse() = 0;
 	};
+	
 #endif
