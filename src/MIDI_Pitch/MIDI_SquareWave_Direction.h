@@ -97,7 +97,7 @@
 					_currentPosition++;
 					if(isAtMaxPosition()) //Direction update pending
 					{
-						_debug.debugln(20, F("%d - Toggling direction"), _id);
+						_debug.debugln(ISR, F("%d - Toggling direction"), _id);
 						toggleDirection();
 						zeroPosition();
 					}
@@ -154,7 +154,7 @@
 				//Nothing to test if no valid step output set
 				if(!_outIO)
 				{
-					_debug.debugln(7, F("%d - Output not setup"), _id);
+					_debug.println(F("%d - Output not setup"), _id);
 					return;
 				}
 				
@@ -185,7 +185,7 @@
 				//Nothing to test if no valid step output set
 				if(!_outIO)
 				{
-					_debug.debugln(7, F("%d - Output not setup"), _id);
+					_debug.println(F("%d - Output not setup"), _id);
 					return;
 				}
 				
@@ -217,34 +217,34 @@
 				//Nothing to test if no valid step output set
 				if(!_outIO)
 				{
-					_debug.debugln(7, F("%d - Output not setup"), _id);
+					_debug.println(F("%d - Output not setup"), _id);
 					return;
 				}
 				
 				//Nothing to test if no valid max position set
 				if(!isTrackingPosition()) 
 				{
-					_debug.debugln(7, F("%d - Not tracking position"), _id);
+					_debug.println(F("%d - Not tracking position"), _id);
 					return;
 				}
 				
-				_debug.debugln(7, F("%d - Testing max direction part 1"), _id);
+				_debug.debugln(TRACE, F("%d - Testing max direction part 1"), _id);
 				mdcStartPlaying();
 				while(!isAtMaxPosition()) 
 				{
-					_debug.debugln(7, F("%d - Testing max direction part 1a"), _id);
+					_debug.debugln(TRACE, F("%d - Testing max direction part 1a"), _id);
 					stepOnce(true);
 					_currentPosition++;
 					delayMicroseconds(MANUAL_CHANGE_DELAY);
 				}
 
-				_debug.debugln(7, F("%d - Testing max direction part 2"), _id);
+				_debug.debugln(TRACE, F("%d - Testing max direction part 2"), _id);
 				toggleDirection();
 				zeroPosition();
 
 				delay(1000);
 				
-				_debug.debugln(7, F("%d - Testing max direction part 3"), _id);
+				_debug.debugln(TRACE, F("%d - Testing max direction part 3"), _id);
 				while(!isAtMaxPosition()) 
 				{
 					stepOnce(true);
@@ -263,7 +263,7 @@
 				//Nothing to test if no valid step output set
 				if(!_outIO)
 				{
-					_debug.debugln(7, F("%d - Output not setup"), _id);
+					_debug.println(F("%d - Output not setup"), _id);
 					return;
 				}
 				
@@ -305,7 +305,7 @@
 				// Nothing to test if no valid step output set
 				if(!_outIO)
 				{
-					_debug.debugln(7, F("%d - Output not setup"), _id);
+					_debug.println(F("%d - Output not setup"), _id);
 					return;
 				}
 				

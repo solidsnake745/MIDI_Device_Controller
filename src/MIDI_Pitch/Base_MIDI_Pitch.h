@@ -141,18 +141,17 @@
 			virtual void cycleOutput() = 0;
 			
 			//Operates device per desired MIDI output
-			//Operates device per desired MIDI output
 			inline void processNotes()
 			{
 				if(_currentNote < 0)
 				{
-					_debug.debugln(20, F("%d - No note"), _id);
+					_debug.debugln(ISR, F("%d - No note"), _id);
 					return;
 				}
 				
 				if(_currentNote == 0) //Reset pending
 				{			
-					_debug.debugln(20, F("%d - Resetting properties"), _id);
+					_debug.debugln(ISR, F("%d - Resetting properties"), _id);
 					resetProperties();
 					return;
 				}
@@ -160,7 +159,7 @@
 				_currentTick++;
 				if(_currentTick >= _currentPeriod) //Update pending
 				{
-					_debug.debugln(20, F("%d - Cycling output"), _id);
+					_debug.debugln(ISR, F("%d - Cycling output"), _id);
 					cycleOutput();
 					_currentTick = 0; //Reset counter
 				}
@@ -176,7 +175,7 @@
 			{
 				if(!isEnabled()) 
 				{
-					_debug.debugln(7, F("%d - Not enabled"), _id);
+					_debug.println(F("%d - Not enabled"), _id);
 					return;
 				}
 				
@@ -184,8 +183,7 @@
 				_currentPeriod = getBasePeriod();
 				_lastAssignedBy = assignedBy;
 				
-				_debug.debugln(7, F("%d - Note %d (%d) assigned"), _id, _currentNote, _currentPeriod);
-				
+				_debug.println(F("%d - Note %d (%d) assigned"), _id, _currentNote, _currentPeriod);
 				mdcNoteAssigned();
 			};
 			
@@ -193,7 +191,7 @@
 			{
 				if(!isEnabled()) 
 				{
-					_debug.debugln(7, F("%d - Not enabled"), _id);
+					_debug.println(F("%d - Not enabled"), _id);
 					return;
 				}
 				
@@ -201,8 +199,7 @@
 				_currentPeriod = period;
 				_lastAssignedBy = assignedBy;
 				
-				_debug.debugln(7, F("%d - Period %d assigned"), _id, _currentPeriod);
-
+				_debug.println(F("%d - Period %d assigned"), _id, _currentPeriod);
 				mdcNoteAssigned();
 			};
 			
@@ -242,58 +239,65 @@
 			inline void bendNote(int16_t bend, bool shiftRange = false)
 			{
 				if (!(_currentNote > 0 && _currentNote < 256))
+				{
+					_debug.println(F("%d - Not bending; no note assigned"), _id);
 					return;
+				}
 				
 				//If an effect other than pitchbend is in place, don't continue
 				if(_currentEffect != None && _currentEffect != PitchBend)
+				{
+					_debug.println(F("%d - Not bending; processing some other effect"), _id);
 					return;
+				}
 				
 				//Set the current effect so it's not interfered with
 				//Or clear it if the bend is 0 (bend back to original note)
 				_currentEffect = bend == 0 ? None : PitchBend;
 				
-				_debug.debugln(20, F("%d - Bending by value: %d"), _id, bend);
-				
 				float pitchFactor = PitchBend::calculateFactor(bend, shiftRange);
-				_debug.debugln(20, F("%d - Factor: %f"), _id, pitchFactor);
-				
-				uint16_t basePeriod = getBasePeriod();
-				_debug.debugln(20, F("%d - Base: %d"), _id, basePeriod);
-				
-				uint16_t newPeriod = basePeriod / pitchFactor;
-				_debug.debugln(20, F("%d - New Period: %d"), _id, newPeriod);
-
+				uint32_t basePeriod = getBasePeriod();
+				uint32_t newPeriod = basePeriod / pitchFactor;
 				_currentPeriod = newPeriod;
+				_debug.debugln(DEBUG, F("%d - Bending note %d by %d (%f) from %d to %d"), _id, _currentNote, bend, pitchFactor, basePeriod, newPeriod);
 			};
 			
 			inline void bendNoteByFactor(float pitchFactor)
 			{
 				if (!(_currentNote > 0 && _currentNote < 256))
+				{
+					_debug.println(F("%d - Not bending; no note assigned"), _id);
 					return;
+				}
 				
 				//If an effect other than pitchbend is in place, don't continue
 				if(_currentEffect != None && _currentEffect != PitchBend)
+				{
+					_debug.println(F("%d - Not bending; processing some other effect"), _id);
 					return;
+				}
 				
 				//Set the current effect so it's not interfered with
 				//Or clear it if the factor is 1 (bend back to original note)
 				_currentEffect = pitchFactor == 1.0 ? None : PitchBend;
 				
-				_debug.debugln(20, F("%d - Bending by factor: %f"), _id, pitchFactor);
-				
-				uint16_t basePeriod = getBasePeriod();
-				_debug.debugln(20, F("%d - Base: %d"), _id, basePeriod);
-				
-				uint16_t newPeriod = basePeriod / pitchFactor;
-				_debug.debugln(20, F("%d - New Period: %d"), _id, newPeriod);
-
+				uint32_t basePeriod = getBasePeriod();
+				uint32_t newPeriod = basePeriod / pitchFactor;
 				_currentPeriod = newPeriod;
+				_debug.debugln(DEBUG, F("%d - Bending note %d by factor %f from %d to %d"), _id, _currentNote, pitchFactor, basePeriod, newPeriod);
 			};
 			
-			inline void stopNote()
+			inline void stopNote(int16_t note = -1)
 			{
-				_debug.debugln(7, F("%d - Clearing note"), _id);
-				_currentNote = 0;
+				if(note == -1 || _currentNote == note)
+				{
+					_debug.debugln(DEBUG, F("%d - Clearing note"), _id);
+					_currentNote = 0;
+				}
+				else
+				{
+					_debug.println(F("%d - Not clearing note; doesn't match current note"));
+				}
 			};
 			
 			//Sets vibrato properties: amount (of pitchbend, 0 to 8191) and rate (delay between updates in microseconds)
@@ -338,34 +342,35 @@
 			//Plays Do-Re-Mi scale via the interrupt process
 			inline virtual void testDoReMi(uint8_t octave = 0, uint16_t noteDuration = 150, uint16_t noteGap = 50)
 			{
-				uint8_t noteShift = octave * 12;	
-	
-				_debug.debugln(7, F("%d - Starting DoReMi test"), _id);
-				playNote(48 + noteShift); delay(noteDuration);
+				_debug.println(F("%d - Starting DoReMi test"), _id);
+				uint8_t noteShift = octave * 12;
+				uint8_t baseNote = MIDDLE_C_NOTE + noteShift;
+				
+				playNote(baseNote); delay(noteDuration); //48 60
 				stopNote(); delay(noteGap);
 				
-				playNote(50 + noteShift); delay(noteDuration);
+				playNote(baseNote + 2); delay(noteDuration); //50 62
 				stopNote(); delay(noteGap);
 				
-				playNote(52 + noteShift); delay(noteDuration);
+				playNote(baseNote + 4); delay(noteDuration); //52 64
 				stopNote(); delay(noteGap);
 				
-				playNote(53 + noteShift); delay(noteDuration);
+				playNote(baseNote + 5); delay(noteDuration); //53 65
 				stopNote(); delay(noteGap);
 				
-				_debug.debugln(7, F("%d - Half point DoReMi test"), _id);
-				playNote(55 + noteShift); delay(noteDuration);
+				_debug.println(F("%d - Half point DoReMi test"), _id);
+				playNote(baseNote + 7); delay(noteDuration); //55 67
 				stopNote(); delay(noteGap);
 				
-				playNote(57 + noteShift); delay(noteDuration);
+				playNote(baseNote + 9); delay(noteDuration); //57 69
 				stopNote(); delay(noteGap);
 				
-				playNote(59 + noteShift); delay(noteDuration);
+				playNote(baseNote + 11); delay(noteDuration); //59 71
 				stopNote(); delay(noteGap);
 				
-				playNote(60 + noteShift); delay(noteDuration);
+				playNote(baseNote + 12); delay(noteDuration); //60 72
 				stopNote(); delay(noteGap);
-				_debug.debugln(7, F("%d - Finished DoReMi test"), _id);
+				_debug.println(F("%d - Finished DoReMi test"), _id);
 			};
 	};
 	

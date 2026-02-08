@@ -45,7 +45,7 @@
 				_outNum = outNum;
 				if (_outNum < 0)
 				{
-					_debug.debugln(7, F("%d - Output was negative"), _id);
+					_debug.println(F("%d - Output was negative"), _id);
 					_outIO = nullptr;
 					return;
 				}
@@ -53,7 +53,7 @@
 				_outIO = IOF.getIO(type);
 				if(!_outIO || !_outIO->isValidMapping(_outNum))
 				{
-					_debug.debugln(7, F("%d - IO (%d) not found or invalid mapping (%d)"), _id, type, _outNum);
+					_debug.println(F("%d - IO (%d) not found or invalid mapping (%d)"), _id, type, _outNum);
 					_outIO = nullptr;
 					_outNum = -1;
 				}
@@ -106,7 +106,7 @@
 				//Nothing to test if no valid step output set
 				if(!_outIO)
 				{
-					_debug.debugln(7, F("%d - Output not setup"), _id);
+					_debug.println(F("%d - Output not setup"), _id);
 					return;
 				}
 				
@@ -137,7 +137,7 @@
 				//Nothing to test if no valid step output set
 				if(!_outIO)
 				{
-					_debug.debugln(7, F("%d - Output not setup"), _id);
+					_debug.println(F("%d - Output not setup"), _id);
 					return;
 				}
 				

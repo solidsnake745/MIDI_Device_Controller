@@ -183,7 +183,7 @@
 					}
 				}
 				
-				_debug.println(F("Updated %d IO(s)"), updateCount);
+				_debug.debugln(DEBUG, F("Updated %d IO(s)"), updateCount);
 			}
 			
 			inline void updateOutputs(uint8_t seq)
@@ -193,7 +193,7 @@
 				bool o3 = ((seq >> 1) & 1);
 				bool o4 = ((seq >> 0) & 1);
 				
-				_debug.debugln(7, F("New outputs: %d %d %d %d"), o1, o2, o3, o4);
+				_debug.debugln(ISR, F("New outputs: %d %d %d %d"), o1, o2, o3, o4);
 
 				_outIO1->setOutput(_outNum1, o1);
 				_outIO2->setOutput(_outNum2, o2);
@@ -236,7 +236,7 @@
 				_currentPosition++; //Every state change for unipolar stepper motors will cause a step
 				if(isAtMaxPosition()) //Direction update pending
 				{
-					_debug.debugln(20, F("%d - Toggling direction"), _id);
+					_debug.debugln(ISR, F("%d - Toggling direction"), _id);
 					toggleDirection();
 					zeroPosition();
 				}
@@ -251,7 +251,7 @@
 			{
 				if(_mode == mode)
 				{
-					_debug.debugln(7, F("%d - Already set to mode: %d"), _id, mode);
+					_debug.println( F("%d - Already set to step mode: %d"), _id, mode);
 					return;
 				};
 				
@@ -287,6 +287,8 @@
 					manualIOUpdate();
 					delayMicroseconds(50);
 				}
+				
+				_debug.println( F("%d - Updated step mode to: %d"), _id, mode);
 			};
 			
 		public:
@@ -304,11 +306,12 @@
 				if(!_outputsActive)
 				{
 					updateOutputs(_sequence[_currentIndex]);
+					manualIOUpdate();
 					delayMicroseconds(50);
 				}
 				
 				updateOutputs(getNextSequence());
-				//update all IOs ->updateOutputs();
+				manualIOUpdate();
 				
 				if(includeDelay)
 					delayMicroseconds(MANUAL_CHANGE_DELAY);

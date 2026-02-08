@@ -1,6 +1,11 @@
 #ifndef Settings_h
-	#define Settings_h	
-		
+	#define Settings_h
+	
+	//Settings wrapped in ifndef allow overriding from sketch level
+	//Place #define above library include, example below
+	//#define DEBUG_DEVICECONTROLLER 0
+	//#include <MIDI_Device_Controller.h>
+	
 	//LED_BUILTIN is not defined in the ESP32 code as it is in other boards (Arduino/Teensy)
 	#if ARDUINO_ARCH_ESP32
 	  #define LED_BUILTIN 2  //This is accurate for at least the ESP32 dev module
@@ -79,26 +84,54 @@
 	//PitchBend::runTest();
 	//SerialDebug::runTest();
 	
+	//Log levels: OFF, DEBUG, TRACE, ISR, ISR_TRACE, ALL
 	//Debugging areas and levels
-	#define DEBUG_TIMER 0
-	#define DEBUG_DEVICECONTROLLER 0
-	#define DEBUG_MIDIPITCH 0
-	#define DEBUG_MIDIPULSE 0
-	#define DEBUG_MIDIPERIODS 0	
+	#ifndef DEBUG_TIMER
+		#define DEBUG_TIMER OFF
+	#endif
+	#ifndef DEBUG_DEVICECONTROLLER
+		#define DEBUG_DEVICECONTROLLER OFF
+	#endif
+	#ifndef DEBUG_MIDIPITCH
+		#define DEBUG_MIDIPITCH OFF
+	#endif
+	#ifndef DEBUG_MIDIPULSE
+		#define DEBUG_MIDIPULSE OFF
+	#endif
+	#ifndef DEBUG_MIDIPERIODS
+		#define DEBUG_MIDIPERIODS OFF
+	#endif
+	#ifndef DEBUG_BASEPITCHCOLLECTION
+		//The SerialDebug instance for this is shared with derived classes so you'll get any logging from the derived classes
+		//No additional logging currently exists in derived classes, but just FYI future me
+		#define DEBUG_BASEPITCHCOLLECTION OFF
+	#endif
+	#ifndef DEBUG_PITCHNODE
+		#define DEBUG_PITCHNODE OFF
+	#endif
+	#ifndef DEBUG_COLLECTIONCONTROLLER
+		#define DEBUG_COLLECTIONCONTROLLER OFF
+	#endif
+	#ifndef DEBUG_COLLECTION_FACTORY
+		#define DEBUG_COLLECTION_FACTORY OFF
+	#endif
+	#ifndef DEBUG_DIGITALIO
+		#define DEBUG_DIGITALIO OFF
+	#endif
+	#ifndef DEBUG_74HC595
+		#define DEBUG_74HC595 OFF
+	#endif
+	#ifndef DEBUG_PULSECONTROLLER
+		#define DEBUG_PULSECONTROLLER OFF
+	#endif
+	#ifndef DEBUG_BYTENOTEREGISTER
+		#define DEBUG_BYTENOTEREGISTER OFF
+	#endif
+	#ifndef DEBUG_PITCHBEND
+		#define DEBUG_PITCHBEND OFF
+	#endif
+	#ifndef DEBUG_SINWAVE
+		#define DEBUG_SINWAVE OFF
+	#endif
 	
-	//The SerialDebug instance for this is shared with derived classes so you'll get any logging from the derived classes
-	//No additional logging currently exists in derived classes, but just FYI future me
-	#define DEBUG_BASEPITCHCOLLECTION 0
-	
-	#define DEBUG_PITCHNODE 0
-	#define DEBUG_COLLECTIONCONTROLLER 0
-	#define DEBUG_COLLECTION_FACTORY 0
-	
-	#define DEBUG_DIGITALIO 0
-	#define DEBUG_74HC595 0
-	#define DEBUG_PULSECONTROLLER 0
-	
-	#define DEBUG_BYTENOTEREGISTER 0
-	#define DEBUG_PITCHBEND 0
-	#define DEBUG_SINWAVE 0
 #endif

@@ -112,24 +112,28 @@
 			//Really I should take it out completely and just document to make sure they're setup correctly at the start
 			//Not at all sure the use case of being able to delete and re-create devices for this library
 			
+			//Really not supporting delete at this time as it's really unnecessary
+			//Commenting them out so it doesn't seem like you should
 			///Deletes a MIDI_Pitch device from the controller
 			/*!
 				\param index Index to try deleting the device from
 			*/
-			void deletePitchDevice(uint8_t index);
+			// void deletePitchDevice(uint8_t index);
 			
 			///Deletes a Base_MIDI_Pulse device from the controller
 			/*!
 				\param index Index to try deleting the device from
 			*/
-			void deletePulseDevice(uint8_t index);
+			// void deletePulseDevice(uint8_t index);
 			
 			void resetDevicePositions();
 			void calibrateDevicePositions();
 		
-			void playDeviceNote(uint8_t index, uint8_t note);
-			void bendDeviceNote(uint8_t index, int16_t bend, bool shiftRange = false);
-			void stopDeviceNote(uint8_t index, uint8_t note);
+			//Opting to just have users call these methods directly from the device rather than have a bunch of specific methods
+			//Usually they'll just be using collections or the pulse controller anyway
+			// void playDeviceNote(uint8_t index, uint8_t note);
+			// void bendDeviceNote(uint8_t index, int16_t bend, bool shiftRange = false);
+			// void stopDeviceNote(uint8_t index, uint8_t note);
 			
 		//Note Processing
 		//_______________________________________________________________________________________________________

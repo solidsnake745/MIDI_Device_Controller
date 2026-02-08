@@ -66,20 +66,20 @@
 				//Check user is actually changing the direction from the current state
 				if(getDirState() == direction)
 				{
-					_parentDebug->debugln(7, F("%d - Direction is already: %d"), _base->_id, direction);
+					_parentDebug->println(F("%d - Direction is already: %d"), _base->_id, direction);
 					return;
 				}
 				
 				//Set the desired state for the given device
 				setDirState(direction);
-				_parentDebug->debugln(7, F("%d - New direction: %d"), _base->_id, direction);
+				_parentDebug->println(F("%d - Set new direction: %d"), _base->_id, direction);
 
 				//Update it's current position if device is tracking it
 				if(isTrackingPosition())
 				{
-					_parentDebug->debugln(7, F("%d - Updating position from: %d"), _base->_id, _currentPosition);
+					_parentDebug->debugln(DEBUG, F("%d - Updating position from: %d"), _base->_id, _currentPosition);
 					_currentPosition = (_maxPosition - _currentPosition);
-					_parentDebug->debugln(7, F("%d - New position: %d"), _base->_id, _currentPosition);
+					_parentDebug->debugln(DEBUG, F("%d - New position: %d"), _base->_id, _currentPosition);
 				}
 			};
 			
