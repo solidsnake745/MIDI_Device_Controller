@@ -4,9 +4,10 @@
 	#include <Arduino.h>
 	#include "../Settings.h"
 	#include "../Common/SerialDebug.h"	
+	#include "../MIDI_Pitch/Base_MIDI_Pitch.h"
 	
 	//Forward declaration for compiling
-	class Base_MIDI_Pitch;
+	//class Base_MIDI_Pitch;
 	class Base_MIDI_Pitch_Collection;
 
 	/// @private
@@ -18,7 +19,12 @@
 		inline static SerialDebug _debug = SerialDebug(DEBUG_PITCHNODE);
 		
 		private:
-			MIDI_Pitch_Node(Base_MIDI_Pitch* d, Base_MIDI_Pitch_Collection *dc);
+			inline MIDI_Pitch_Node(Base_MIDI_Pitch* d, Base_MIDI_Pitch_Collection *dc)
+			{
+				_device = d;
+				_parent = dc;
+			};
+			
 			Base_MIDI_Pitch_Collection* _parent = NULL;		
 			
 		public:
@@ -30,10 +36,40 @@
 			//Millisecond timestamp when this was last assigned a note
 			// uint32_t lastAssignStamp = 0;
 			
-			void playNote(uint8_t note);
-			void bendNoteByFactor(float pitchFactor);
-			void stopNote();
-			bool tryPlayNote(uint8_t note);
-			bool tryStopNote(uint8_t note);
+			inline void playNote(uint8_t note) { _device->playNote(note, _parent); };
+			inline void bendNoteByFactor(float pitchFactor)
+			{
+				if(_device->_lastAssignedBy == _parent)
+					_device->bendNoteByFactor(pitchFactor);
+			};
+			
+			inline void stopNote() 
+			{
+				if(_device->_lastAssignedBy == _parent)
+					_device->stopNote();
+			};
+			
+			inline bool tryPlayNote(uint8_t note)
+			{
+				if(_device->isAvailable())
+				{
+					_device->playNote(note, _parent);
+					return true;
+				}
+				
+				return false;
+			};
+			
+			inline bool tryStopNote(uint8_t note)
+			{
+				if(_device->getCurrentNote() == note && _device->_lastAssignedBy == _parent)
+				{
+					_device->stopNote();
+					return true;
+				}
+				
+				return false;
+			};
 	};
+	
 #endif

@@ -27,7 +27,7 @@ IO_DigitalWrite::IO_DigitalWrite(uint8_t numOutputs)
 
 void IO_DigitalWrite::updateOutputs()
 {
-	_debug.debugln(30, F("updateOuts begin"));
+	_debug.debugln(ISR_TRACE, F("updateOuts begin"));
 	updateIO();	
 }
 
@@ -35,21 +35,22 @@ void IO_DigitalWrite::updateOutputs()
 #pragma GCC optimize("Ofast")
 void IO_DigitalWrite::updateIO()
 {	
-	_debug.debugln(30, F("updateIO begin"));
+	_debug.debugln(ISR_TRACE, F("updateIO begin"));
 	
 	if(!_outputsChanged)
 	{
-		_debug.debugln(30, F("Outputs have not changed"));		
+		_debug.debugln(ISR_TRACE, F("Outputs have not changed"));		
 		return;
 	}
 	
-	_debug.debugln(30, F("Outputs have changed"));
+	_debug.debugln(ISR, F("Outputs have changed"));
 	
 	auto change = _changedOutputs.begin();
 	while(change != _changedOutputs.end())
 	{
-		_debug.debugln(30, F("Changing pin: %d to %d"), change->pin, change->state);
+		_debug.debugln(ISR, F("Changing pin: %d to %d"), change->pin, change->state);
 		#if defined(CORE_TEENSY)
+			//TODO: Looking back at this, this probably has no advantage since we're not using it on a constant value; confirm and remove
 			digitalWriteFast(change->pin, change->state);
 		#else
 			digitalWrite(change->pin, change->state);
@@ -62,29 +63,29 @@ void IO_DigitalWrite::updateIO()
 }
 #pragma GCC pop_options
 
-bool IO_DigitalWrite::isValidMapping(uint8_t out)
+bool IO_DigitalWrite::isValidMapping(uint8_t out) { return (findOutput(out) != nullptr); }
+
+IO_DigitalWrite::pinOut* IO_DigitalWrite::findOutput(uint8_t out)
 {
-	bool hasBeenAdded = _pinMap.count(out) > 0;
-	if(!hasBeenAdded)
-		_debug.debugln(20, F("Pin %d is not an added output"), out);
+	auto find = _pinMap.find(out);
+	if(find == _pinMap.end())
+	{
+		_debug.println(F("DigitalIO pin %d has not been added"), out);
+		return nullptr;
+	}
 	
-	return hasBeenAdded;
+	return find->second;
 }
 
 void IO_DigitalWrite::setInverted(uint8_t out, bool value)
 {
-	_debug.debugln(20, F("Attempting to set invert on output : %d"), out);
+	_debug.debugln(TRACE, F("Attempting to set output %d's inverted setting"), out);
 	
-	auto find = _pinMap.find(out);
-	if(find == _pinMap.end())
-	{
-		_debug.debugln(20, F("Pin %d is not an added output"), out);
-		return;
-	}
-		
-	//Set setting on the output
-	pinOut* p = find->second;
+	pinOut* p = findOutput(out);
+	if(!p) return;
+
 	p->reg->setInverted(p->bitIndex, value);
+	_debug.println(F("DigitalIO pin %d inverted set to: %s"), out, toString(value));
 	
 	//Update IO as this changes the output's initial/current value
 	_changedOutputs.push_back(changedOutput(p));
@@ -94,52 +95,37 @@ void IO_DigitalWrite::setInverted(uint8_t out, bool value)
 
 void IO_DigitalWrite::setShouldStop(uint8_t out, bool value)
 {
-	_debug.debugln(20, F("Attempting to set shouldStop on output: %d"), out);
+	_debug.debugln(TRACE, F("Attempting to set output %d's shouldBeStopped setting"), out);
 	
-	auto find = _pinMap.find(out);
-	if(find == _pinMap.end())
-	{
-		_debug.debugln(20, F("Pin %d is not an added output"), out);
-		return;
-	}
+	pinOut* p = findOutput(out);
+	if(!p) return;
 	
-	pinOut* p = find->second;
 	p->shouldBeStopped = value;
+	_debug.println(F("DigitalIO pin %d shouldBeStopped set to: %s"), out, toString(value));
 }
 
 bool IO_DigitalWrite::getOutput(uint8_t out)
 {
-	_debug.debugln(30, F("Attempting to get output: %d"), out);
+	_debug.debugln(TRACE, F("Attempting to get output %d's state"), out);
 	
-	auto find = _pinMap.find(out);
-	if(find == _pinMap.end())
-	{
-		_debug.debugln(20, F("Pin %d is not an added output"), out);
-		return false; //Have to return something
-	}
-	
-	//Return that outputs value
-	pinOut* p = find->second;
+	pinOut* p = findOutput(out);
+	if(!p) return false; //Have to return something
+		
 	return p->reg->getBit(p->bitIndex); //Ignores invert setting
 }
 
 void IO_DigitalWrite::setOutput(uint8_t out, bool value)
 {
-	_debug.debugln(30, F("Attempting to set output: %d"), out);
+	_debug.debugln(TRACE, F("Attempting to set output %d's state"), out);
 	
-	auto find = _pinMap.find(out);
-	if(find == _pinMap.end())
-	{
-		_debug.debugln(20, F("Pin %d is not an added output"), out);
-		return;
-	}
+	pinOut* p = findOutput(out);
+	if(!p) return;
 	
 	//Set the output if not already set
 	//getBit to get the actual value without invert setting
-	pinOut* p = find->second;
 	if(p->reg->getBit(p->bitIndex) == value)
 	{
-		_debug.debugln(15, F("Output %d is already %d"), out, value);
+		_debug.debugln(DEBUG, F("DigitalIO pin %d is already %d"), out, value);
 		return;
 	}
 	
@@ -151,17 +137,12 @@ void IO_DigitalWrite::setOutput(uint8_t out, bool value)
 
 void IO_DigitalWrite::toggleOutput(uint8_t out)
 {
-	_debug.debugln(30, F("Attempting to toggle output: %d"), out);
+	_debug.debugln(TRACE, F("Attempting to toggle output %d"), out);
 	
-	auto find = _pinMap.find(out);
-	if(find == _pinMap.end())
-	{
-		_debug.debugln(20, F("Pin %d is not an added output"), out);
-		return;
-	}
+	pinOut* p = findOutput(out);
+	if(!p) return;
 	
 	//Update value in data and queue updating the IO
-	pinOut* p = find->second;
 	p->reg->toggleBit(p->bitIndex);
 	_changedOutputs.push_back(changedOutput(p));
 	_outputsChanged = true;
@@ -169,6 +150,8 @@ void IO_DigitalWrite::toggleOutput(uint8_t out)
 
 void IO_DigitalWrite::testOutputs()
 {
+	_debug.println(F("Testing each added DigitalIO pin"));
+	
 	auto out = _pinMap.begin();
 	while(out != _pinMap.end())
 	{
@@ -184,13 +167,13 @@ void IO_DigitalWrite::testOutputs()
 
 void IO_DigitalWrite::stopOutputs()
 {
-	_debug.debugln(20, F("Attempting to stop outputs"));
+	_debug.debugln(TRACE, F("Attempting to stop outputs"));
 	
 	auto out = _pinMap.begin();
 	while(out != _pinMap.end())
 	{
 		pinOut* p = out->second;
-		_debug.debugln(10, F("Output %d shouldBeStopped set to %d"), p->pin, p->shouldBeStopped);
+		_debug.debugln(DEBUG, F("DigitalIO pin %d shouldBeStopped set to %s"), p->pin, toString(p->shouldBeStopped));
 		if(p->shouldBeStopped)
 		{			
 			p->reg->clearBit(p->bitIndex);
@@ -201,11 +184,12 @@ void IO_DigitalWrite::stopOutputs()
 	
 	_outputsChanged = true;
 	updateIO();
+	_debug.println(F("DigitalIO outputs stopped"));
 }
 
 void IO_DigitalWrite::resetOutputs()
 {
-	_debug.debugln(20, F("Attempting to reset outputs"));
+	_debug.debugln(TRACE, F("Attempting to reset outputs"));
 	
 	auto out = _pinMap.begin();
 	while(out != _pinMap.end())
@@ -218,6 +202,7 @@ void IO_DigitalWrite::resetOutputs()
 	
 	_outputsChanged = true;
 	updateIO();
+	_debug.println(F("DigitalIO outputs reset"));
 }
 
 void IO_DigitalWrite::addPin(uint8_t pin)
@@ -225,14 +210,14 @@ void IO_DigitalWrite::addPin(uint8_t pin)
 	//Check there are outputs available
 	if(_usedOutputs == _maxOutputs)
 	{
-		_debug.debugln(15, F("No available outputs to add to; Max is %d"), _maxOutputs);
+		_debug.println(F("No available outputs to add to; Max is %d"), _maxOutputs);
 		return;
 	}
 	
 	//Check pin is not already mapped
 	if(isValidMapping(pin))
 	{
-		_debug.debugln(15, F("Pin %d is already added"), pin);
+		_debug.println(F("DigitalIO pin %d has already been added"), pin);
 		return;
 	}
 	
@@ -241,7 +226,6 @@ void IO_DigitalWrite::addPin(uint8_t pin)
 		if(_outputs[x] != nullptr)
 			continue;
 		
-		_debug.debugln(15, F("Adding pin %d to output %d"), pin, x);
 		uint8_t registerIndex = x / 8;
 		uint8_t bitIndex = x % 8;
 		ByteNoteRegister* r = &_registers[registerIndex];
@@ -252,6 +236,7 @@ void IO_DigitalWrite::addPin(uint8_t pin)
 		pinMode(pin, OUTPUT);
 		digitalWrite(pin, LOW);
 		_usedOutputs++;
+		_debug.println(F("Added pin %d to DigitalIO outputs; %d additional pin(s) can be added"), pin, (_maxOutputs - _usedOutputs));
 		return;
 	}
 }
@@ -260,7 +245,7 @@ void IO_DigitalWrite::deletePin(uint8_t pin)
 {
 	auto find = _pinMap.find(pin);
 	if(find == _pinMap.end())
-		_debug.debugln(20, F("Pin %d is not an added output"), pin);
+		_debug.println(F("DigitalIO pin %d has not been added"), pin);
 	else
 	{
 		for(uint8_t x = 0; x < _maxOutputs; x++)

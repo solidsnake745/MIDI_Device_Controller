@@ -13,31 +13,31 @@
 		public:
 			inline void setupOnce(uint16_t interval, void (*action)())
 			{
-				_debug.debugln(8, F("Starting setupOnce()"));
+				_debug.debugln(TRACE, F("Starting setupOnce()"));
 				if(_isSetup)
 				{
-					_debug.debugln(8, F("Timer already setup"));
+					_debug.debugln(DEBUG, F("Timer already setup"));
 					return;
 				}
 				
 				#if ESP_ARDUINO_VERSION_MAJOR == 2
 					//ESP32 version 2.x implementation
-					_debug.debugln(8, F("Create timer"));
+					_debug.debugln(TRACE, F("Create timer"));
 					_timer = timerBegin(0, 80, true); //1 MHz (1 microsecond per tick)
 					
-					_debug.debugln(8, F("Attach interrupt"));
+					_debug.debugln(TRACE, F("Attach interrupt"));
 					timerAttachInterrupt(_timer, action, true);
 				
-					_debug.debugln(8, F("Set interval"));
+					_debug.debugln(TRACE, F("Set interval"));
 					timerAlarmWrite(_timer, interval, true);
 				#elif ESP_ARDUINO_VERSION_MAJOR == 3
-					_debug.debugln(8, F("Create timer"));
+					_debug.debugln(TRACE, F("Create timer"));
 					_timer = timerBegin(1000000); //1 MHz (1 microsecond per tick)
 					
-					_debug.debugln(8, F("Attach interrupt"));
+					_debug.debugln(TRACE, F("Attach interrupt"));
 					timerAttachInterrupt(_timer, action);
 					
-					_debug.debugln(8, F("Set interval"));
+					_debug.debugln(TRACE, F("Set interval"));
 					timerAlarm(_timer, interval, true, 0);
 				#endif
 				
@@ -46,29 +46,29 @@
 				//Shouldn't happen realistically as resolution is kind of a constant, but it is technically possible to change it
 				//TODO: Address this potential problem if it actually matters
 				_isSetup = true;
-				_debug.debugln(8, F("Finished setupOnce()"));
+				_debug.debugln(TRACE, F("Finished setupOnce()"));
 			};
 			
 			inline void start()
 			{
-				_debug.debugln(8, F("Starting timer"));
+				_debug.debugln(TRACE, F("Starting timer"));
 				#if ESP_ARDUINO_VERSION_MAJOR == 2
 					timerAlarmEnable(_timer);
 				#elif ESP_ARDUINO_VERSION_MAJOR == 3
 					timerStart(_timer);
 				#endif				
-				_debug.debugln(8, F("Timer started"));
+				_debug.debugln(TRACE, F("Timer started"));
 			};
 			
 			inline void stop()
 			{
-				_debug.debugln(8, F("Stopping timer"));
+				_debug.debugln(TRACE, F("Stopping timer"));
 				#if ESP_ARDUINO_VERSION_MAJOR == 2
 					timerAlarmDisable(_timer);
 				#elif ESP_ARDUINO_VERSION_MAJOR == 3
 					timerStop(_timer);
 				#endif				
-				_debug.debugln(8, F("Timer stopped"));
+				_debug.debugln(TRACE, F("Timer stopped"));
 			};
 	};
 	

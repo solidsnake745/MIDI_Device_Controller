@@ -75,6 +75,7 @@
 		void updateOutputs(); //Operates the digital IO per desired MIDI output
 		
 		//Unique methods
+		pinOut* findOutput(uint8_t out);
 		void updateIO();
 		
 		public:

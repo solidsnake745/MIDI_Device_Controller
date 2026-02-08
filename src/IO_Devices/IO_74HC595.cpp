@@ -37,32 +37,32 @@ IO_74HC595::IO_74HC595(uint8_t numRegisters, uint8_t latchPin)
 
 void IO_74HC595::updateOutputs()
 {
-	_debug.debugln(50, F("updateOuts begin"));
+	_debug.debugln(ISR_TRACE, F("updateOutputs begin"));
 	update74HC595();
 }
 
 void IO_74HC595::update74HC595()
 {	
-	_debug.debugln(50, F("update74HC595 begin"));
+	_debug.debugln(ISR_TRACE, F("update74HC595 begin"));
 	
 	if(!_registersChanged)
 	{
-		_debug.debugln(50, F("Registers have not changed"));		
+		_debug.debugln(ISR_TRACE, F("Registers have not changed"));		
 		return;
 	}
 	
-	_debug.debugln(20, F("Registers have changed"));		
+	_debug.debugln(ISR, F("Registers have changed"));		
 	uint8_t newValues[_numRegisters];
 	uint8_t newIndex = !_reverseOutput ? _numRegisters - 1 : 0;
 	
-	_debug.debug(20, F("New register values: "));
+	_debug.debug(ISR, F("New register values: "));
 	for(int x = 0; x < _numRegisters; x++)
 	{
 		newValues[newIndex] = !_reverseOutput ? _registers[x].getByteValue() : reverseByte(_registers[x].getByteValue());
-		_debug.debug(20, F("%d (%d), "), _registers[x].getByteValue(), newValues[newIndex]);
+		_debug.debug(ISR, F("%d (%d)%s"), _registers[x].getByteValue(), newValues[newIndex], x == (_numRegisters - 1) ? EMPTY_STRING : F(", "));
 		newIndex = !_reverseOutput ? newIndex - 1 : newIndex + 1;
 	}
-	_debug.debugln(20);
+	_debug.debugln(ISR);
 	
 	SPI.transfer(&newValues, _numRegisters);
 	latchRegisters();
@@ -70,25 +70,18 @@ void IO_74HC595::update74HC595()
 	_registersChanged = false;
 }
 
-uint8_t IO_74HC595::reverseByte(uint8_t n)
-{
-	// Taken from https://stackoverflow.com/a/2603254
-	// Reverse the top and bottom nibble then swap them
-	return (reverseLookup[n&0b1111] << 4) | reverseLookup[n>>4];
-}
-
 bool IO_74HC595::isValidMapping(uint8_t out)
 {
 	bool isWithinRange = out < _maxOutputs;
 	if(!isWithinRange)
-		_debug.debugln(20, F("Output %d is not valid; Max is %d"), out, (_maxOutputs - 1));
+		_debug.println(F("74HC595 output %d is not valid; Max is %d"), out, (_maxOutputs - 1));
 	
 	return isWithinRange;
 }
 
 void IO_74HC595::setInverted(uint8_t out, bool value)
 {
-	_debug.debugln(20, F("Attempting to set output: %d"), out);
+	_debug.debugln(TRACE, F("Attempting to set output %d's inverted setting"), out);
 	
 	if(!isValidMapping(out))
 		return;
@@ -96,6 +89,7 @@ void IO_74HC595::setInverted(uint8_t out, bool value)
 	//Set setting on the output
 	regOut* r = _outputs[out];
 	r->reg->setInverted(r->bitIndex, value);
+	_debug.println(F("74HC595 output %d inverted set to: %s"), out, toString(value));
 	
 	//Update registers as this changes the output's initial/current value
 	_registersChanged = true;
@@ -104,7 +98,7 @@ void IO_74HC595::setInverted(uint8_t out, bool value)
 
 void IO_74HC595::setShouldStop(uint8_t out, bool value)
 {
-	_debug.debugln(20, F("Attempting to set shouldStop on output: %d"), out);
+	_debug.debugln(TRACE, F("Attempting to set output %d's shouldBeStopped setting"), out);
 	
 	if(!isValidMapping(out))
 		return;
@@ -112,11 +106,12 @@ void IO_74HC595::setShouldStop(uint8_t out, bool value)
 	//Set setting on the output
 	regOut* r = _outputs[out];
 	r->shouldBeStopped = value;
+	_debug.println(F("74HC595 output %d shouldBeStopped set to: %s"), out, toString(value));
 }
 
 bool IO_74HC595::getOutput(uint8_t out)
 {
-	_debug.debugln(20, F("Attempting to get output: %d"), out);
+	_debug.debugln(TRACE, F("Attempting to get output %d's state"), out);
 	
 	if(!isValidMapping(out))
 		return false; //Have to return something
@@ -128,7 +123,7 @@ bool IO_74HC595::getOutput(uint8_t out)
 
 void IO_74HC595::setOutput(uint8_t out, bool value)
 {
-	_debug.debugln(20, F("Attempting to set output: %d"), out);
+	_debug.debugln(TRACE, F("Attempting to set output %d's state"), out);
 	
 	if(!isValidMapping(out))
 		return;
@@ -137,7 +132,7 @@ void IO_74HC595::setOutput(uint8_t out, bool value)
 	regOut* r = _outputs[out];
 	if(r->reg->getBit(r->bitIndex) == value)
 	{
-		_debug.debugln(15, F("Output %d is already %d"), value);
+		_debug.debugln(DEBUG, F("74HC595 output %d is already %d"), out, value);
 		return;
 	}
 	
@@ -147,7 +142,7 @@ void IO_74HC595::setOutput(uint8_t out, bool value)
 
 void IO_74HC595::toggleOutput(uint8_t out)
 {
-	_debug.debugln(20, F("Attempting to toggle output: %d"), out);
+	_debug.debugln(TRACE, F("Attempting to toggle output %d"), out);
 	
 	if(!isValidMapping(out))
 		return;
@@ -180,7 +175,7 @@ void IO_74HC595::testOutputs()
 
 void IO_74HC595::stopOutputs()
 {
-	_debug.debugln(20, F("Attempting to stop outputs"));
+	_debug.debugln(TRACE, F("Attempting to stop outputs"));
 	
 	for(int x = 0; x < _maxOutputs; x++)
 	{
@@ -191,11 +186,12 @@ void IO_74HC595::stopOutputs()
 	
 	_registersChanged = true;
 	update74HC595();
+	_debug.println(F("74HC595 outputs stopped"));
 }
 
 void IO_74HC595::resetOutputs()
 {
-	_debug.debugln(20, F("Attempting to reset outputs"));
+	_debug.debugln(TRACE, F("Attempting to reset outputs"));
 	
 	for(int x = 0; x < _maxOutputs; x++)
 	{
@@ -205,4 +201,5 @@ void IO_74HC595::resetOutputs()
 	
 	_registersChanged = true;
 	update74HC595();
+	_debug.println(F("74HC595 outputs reset"));
 }

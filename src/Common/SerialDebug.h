@@ -5,13 +5,14 @@
 	#define DEBUG_ENABLED 1
 	#define PRINT_ENABLED 1
 	#define ANY_OUTPUT_ENABLED (DEBUG_ENABLED || PRINT_ENABLED)
-	#define FLASH_STRING_BUFFERSIZE 64
+	#define FLASH_STRING_BUFFERSIZE 128
 
 	#include <Arduino.h>	
 
 	enum LogLevel : uint16_t
 	{
 		OFF = 0,
+		PRINT = 1,
 		DEBUG = 13106,
 		TRACE = 26213,
 		ISR = 39320,
@@ -22,6 +23,11 @@
 	//Functions utilizing templates and argument packs need to be defined inline here
 	//Technical reason: original definition needs to be available for compiler to interpret types
 	
+	inline const __FlashStringHelper* EMPTY_STRING = F("");	
+	inline const __FlashStringHelper* TRUE_STRING = F("true");
+	inline const __FlashStringHelper* FALSE_STRING = F("false");
+	inline const __FlashStringHelper* toString(bool value) { return value ? TRUE_STRING : FALSE_STRING; };
+	
 	/// @private
 	class SerialDebug
 	{
@@ -30,7 +36,7 @@
 		
 		public:
 		#if DEBUG_ENABLED
-			inline bool shouldDebug(uint16_t level) 
+			inline bool shouldDebug(uint16_t level)
 			{
 				//Serial.print(level); Serial.print(" <= "); Serial.println(_level);
 				//Serial.println(level <= _level ? "should debug true" : "should debug false");
@@ -38,8 +44,13 @@
 			};
 			inline bool shouldDebug(LogLevel level) { return shouldDebug((uint16_t) level); };
 		#else
-			inline bool shouldDebug(uint16_t level) { return false; };
-			inline bool shouldDebug(LogLevel level) { return false; };
+			constexpr bool shouldDebug(uint16_t level) { return false; };
+			constexpr bool shouldDebug(LogLevel level) { return false; };
+		#endif
+		#if PRINT_ENABLED
+			inline bool shouldPrint() { return _level >= PRINT; };
+		#else
+			constexpr bool shouldPrint() { return false; };
 		#endif
 		
 		public:
@@ -65,7 +76,7 @@
 			#endif
 			};
 			
-			inline void readToBuffer(char *buffer, const __FlashStringHelper *string)
+			inline void readToBuffer(char* buffer, const __FlashStringHelper* string)
 			{
 				PGM_P p = reinterpret_cast<PGM_P>(string);
 			
@@ -120,6 +131,7 @@
 			inline void print(const char* string)
 			{
 			#if PRINT_ENABLED
+				if(!shouldPrint()) return;
 				internalPrint(string);
 			#endif
 			};
@@ -127,6 +139,7 @@
 			inline void println(const char* string = "")
 			{
 			#if PRINT_ENABLED
+				if(!shouldPrint()) return;
 				internalPrintln(string);
 			#endif
 			};
@@ -135,6 +148,7 @@
 			inline void print(const char* format, Args... args)
 			{			
 			#if PRINT_ENABLED
+				if(!shouldPrint()) return;
 				internalPrint(format, args...);
 			#endif
 			};
@@ -143,6 +157,7 @@
 			inline void println(const char* format, Args... args)
 			{
 			#if PRINT_ENABLED
+				if(!shouldPrint()) return;
 				internalPrintln(format, args...);
 			#endif
 			};
@@ -152,6 +167,7 @@
 			inline void print(const __FlashStringHelper* string)
 			{
 			#if PRINT_ENABLED
+				if(!shouldPrint()) return;
 				char buffer[FLASH_STRING_BUFFERSIZE];
 				readToBuffer(buffer, string);
 				internalPrint(buffer);
@@ -161,6 +177,7 @@
 			void println(const __FlashStringHelper* string)
 			{		
 			#if PRINT_ENABLED
+				if(!shouldPrint()) return;
 				char buffer[FLASH_STRING_BUFFERSIZE];
 				readToBuffer(buffer, string);
 				internalPrintln(buffer);
@@ -171,6 +188,7 @@
 			inline void print(const __FlashStringHelper* format, Args... args)
 			{
 			#if PRINT_ENABLED
+				if(!shouldPrint()) return;
 				char buffer[FLASH_STRING_BUFFERSIZE];
 				readToBuffer(buffer, format);
 				internalPrint(buffer, args...);
@@ -181,6 +199,7 @@
 			inline void println(const __FlashStringHelper* format, Args... args)
 			{
 			#if PRINT_ENABLED
+				if(!shouldPrint()) return;
 				char buffer[FLASH_STRING_BUFFERSIZE];
 				readToBuffer(buffer, format);
 				internalPrintln(buffer, args...);
@@ -189,7 +208,7 @@
 
 			//Debug - level = uint16_t
 			//Regular strings
-			inline void debug(uint16_t level, const char *string)
+			inline void debug(uint16_t level, const char* string)
 			{
 			#if DEBUG_ENABLED
 				if(!shouldDebug(level)) return;
@@ -225,7 +244,7 @@
 			
 			//Debug - level = LogLevel
 			//Regular strings
-			inline void debug(LogLevel level, const char *string)
+			inline void debug(LogLevel level, const char* string)
 			{
 			#if DEBUG_ENABLED
 				if(!shouldDebug(level)) return;

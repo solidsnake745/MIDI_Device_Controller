@@ -23,7 +23,7 @@
 		inline static SerialDebug _debug = SerialDebug(DEBUG_COLLECTION_FACTORY);
 		
 		//Constructor(s)
-		MIDI_Collection_Factory(); //Disallow creating an instance
+		inline MIDI_Collection_Factory() {}; //Disallow creating an instance
 		inline static MIDI_Collection_Factory* _instance = nullptr;
 		
 		Base_MIDI_Pitch* getDeviceFromMDC(uint8_t index);
@@ -43,7 +43,12 @@
 		public:
 			//Used to populate our single instance MDF for consumption
 			/// @private
-			static MIDI_Collection_Factory& getInstance();
+			inline static MIDI_Collection_Factory& getInstance()
+			{
+				//Single instance check, instantiation, and return
+				if (_instance == nullptr) _instance = new MIDI_Collection_Factory();
+				return *_instance;
+			};
 			
 			//Creates a new collection and adds it to the controller (MCC)
 			Base_MIDI_Pitch_Collection* createCollection(uint8_t index, CollectionType type);
@@ -65,11 +70,11 @@
 				
 				if(newCollection)
 				{
-					_debug.println(F("Populating Collection"));
+					_debug.println(F("Populating collection from device IDs"));
 					populateCollection(newCollection, firstId, ids...);
 				}
 				else
-					_debug.println(F("Failed to create new Collection"));
+					_debug.println(F("Failed to create new collection"));
 			};
 	};
 	

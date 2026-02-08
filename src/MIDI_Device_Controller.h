@@ -1,10 +1,10 @@
 #ifndef MIDI_Device_Controller_h
 	#define MIDI_Device_Controller_h
 
+	#include <Arduino.h>
 	#include "Settings.h"
-	#include "Common/SerialDebug.h"
+	#include "Common/SerialDebug.h" //Also includes <Arduino.h> in case it's used separately
 	#include "MDC_Extras.h"
-	#include <Arduino.h> //SerialDebug also includes this, but in case for some reason we ever change that
 	#include "Common/MIDI_Periods.h"
 	#include "MIDI_Pitch/Base_MIDI_Pitch.h"
 	#include "MIDI_Pulse/Base_MIDI_Pulse.h"	
@@ -22,7 +22,7 @@
 
 	//0 - Off
 	//1 - Make methods public
-	//2 - Serial print execution time
+	//2 - Tracks and prints execution time
 	#define ISR_TESTING 0
 	
 	//Forward declaration for compiling

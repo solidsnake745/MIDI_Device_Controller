@@ -52,10 +52,17 @@
 		
 		//Unique methods
 		void update74HC595();
-		uint8_t reverseByte(uint8_t n);
+		
+		inline uint8_t reverseByte(uint8_t n)
+		{ 
+			//Taken from https://stackoverflow.com/a/2603254
+			//Reverse the top and bottom nibble then swap them
+			return (reverseLookup[n&0b1111] << 4) | reverseLookup[n>>4];
+		};
 		
 		//NOTE: According to tutorials, you're supposed to set the latch pin high before the transmission of data and then low afterwards
-		//	However, I've found that just toggling it afterwards seems to work fine? Not sure if I'm doing something wrong so leaving it as is
+		//	However, I've found that just toggling it afterwards seems to work fine also
+		//	If there's something wrong with that or something else needs to change, let me know
 		inline void latchRegisters()
 		{
 			digitalWrite(_latchPin, HIGH);

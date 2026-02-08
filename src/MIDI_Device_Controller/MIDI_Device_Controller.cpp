@@ -70,7 +70,7 @@ void MIDI_Device_Controller::printStatus()
 			_debug.println(F("Empty"));
 		}
 		
-		_debug.println(F(""));
+		_debug.println();
 		delay(10);
 		i++;
 	}
