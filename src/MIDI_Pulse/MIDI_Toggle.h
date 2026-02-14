@@ -3,9 +3,6 @@
 	
 	#include "Base_MIDI_Pulse.h"
 
-	//Forward declaration for compiling
-	// class MIDI_Device_Controller;
-
 	///MIDI device class for anything needing a pulse signal (Solenoids, relays, servos (to be implemented), etc.)
 	class MIDI_Toggle : public Base_MIDI_Pulse
 	{	
@@ -18,17 +15,10 @@
 			using Base_MIDI_Pulse::Base_MIDI_Pulse; //Inherit constructors
 			
 		//Configuration
-		//_____________________________________________________________________________________________
-		private:
+		//_____________________________________________________________________________________________		
+		public:
 			//Nothing here
 			
-		public:
-			//Print out this device's configuration
-			//void printStatus();
-			
-			//Indicates whether a device is available for note assignment
-			//inline bool isAvailable() { return true; };
-
 		//Operation
 		//_____________________________________________________________________________________________
 		private:

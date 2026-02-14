@@ -70,15 +70,15 @@
 			void printStatus();
 			
 			///Adds a MIDI_Pitch device to the controller
-			/*!
-				\param index Index to assign the device to
-				\param d Device to add
+			/*
+				@param index Index to assign the device to
+				@param d Device to add
 			*/
 			bool addPitchDevice(uint8_t index, Base_MIDI_Pitch* d);
 			
 			///Adds a MIDI_Pitch device to the controller at the first available index
 			/*!
-				\param d Device to add
+				@param d Device to add
 			*/
 			int8_t addPitchDevice(Base_MIDI_Pitch* d);
 			
