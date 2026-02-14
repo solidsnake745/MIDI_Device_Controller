@@ -21,12 +21,6 @@
 			//Nothing here
 			
 		public:
-			//Print out this device's configuration
-			//void printStatus();
-			
-			//Indicates whether a device is available for note assignment
-			//inline bool isAvailable() { return true; };
-			
 			inline void setMaxDuration(uint32_t us)
 			{ 
 				_maxDuration.reset(); 
@@ -47,7 +41,7 @@
 			{
 				if(!_outIO)
 				{
-					_debug.debugln(20, F("%d - Pulse output not setup"), _id);
+					_debug.debugln(ISR, F("%d - Pulse output not setup"), _id);
 					return;
 				}
 				
@@ -72,7 +66,7 @@
 			{
 				if(!_outIO)
 				{
-					_debug.debugln(7, F("%d - Pulse output not setup"), _id);
+					_debug.println(F("%d - Pulse output not setup"), _id);
 					return;
 				}
 				
@@ -84,7 +78,7 @@
 			{
 				if(!_outIO)
 				{
-					_debug.debugln(7, F("%d - Pulse output not setup"), _id);
+					_debug.println(F("%d - Pulse output not setup"), _id);
 					return;
 				}
 				
@@ -103,7 +97,7 @@
 			{
 				if(!_outIO)
 				{
-					_debug.debugln(7, F("%d - Pulse output not setup"), _id);
+					_debug.println(F("%d - Pulse output not setup"), _id);
 					return;
 				}
 				

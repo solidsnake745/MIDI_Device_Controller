@@ -78,13 +78,14 @@
 				
 				if(!_outIO)
 				{
-					_debug.debugln(50, F("%d - Pulse output not setup"), _id);
+					_debug.debugln(ISR_TRACE, F("%d - Pulse output not setup"), _id);
 					return;
 				}
 				
 				//We want the interrupt to handle starting the pulse so that we can accurately track the duration of the signal
 				if(_currentPWMState == Starting)
 				{
+					_debug.debugln(ISR_TRACE, F("%d - Starting pulse"), _id);
 					_currentPWMState = Running;
 					_currentState = HIGH; //HIGH == true (1)
 					_outIO->setOutput(_outNum, _currentState);
@@ -94,6 +95,7 @@
 				//Wait until the current pulse is finished and then stop
 				if(_currentPWMState == Stopping && !_currentState)
 				{
+					_debug.debugln(ISR_TRACE, F("%d - Stopping pulse"), _id);
 					_currentPWMState = Stopped;
 					_currentTick = 0;
 					_currentLength = 0;
@@ -141,7 +143,7 @@
 			{
 				if(!_outIO)
 				{
-					_debug.debugln(7, F("%d - Pulse output not setup"), _id);
+					_debug.println(F("%d - Pulse output not setup"), _id);
 					return;
 				}
 				
@@ -158,7 +160,7 @@
 			{
 				if(!_outIO)
 				{
-					_debug.debugln(7, F("%d - Pulse output not setup"), _id);
+					_debug.println(F("%d - Pulse output not setup"), _id);
 					return;
 				}
 				
@@ -183,7 +185,7 @@
 			{
 				if(!_outIO)
 				{
-					_debug.debugln(7, F("%d - Pulse output not setup"), _id);
+					_debug.println(F("%d - Pulse output not setup"), _id);
 					return;
 				}
 				
@@ -206,7 +208,7 @@
 			{
 				if(!_outIO)
 				{
-					_debug.debugln(7, F("%d - Pulse output not setup"), _id);
+					_debug.println(F("%d - Pulse output not setup"), _id);
 					return;
 				}
 				

@@ -2,8 +2,8 @@
 	#define SerialDebug_h
 	
 	//This is a precompiled header therefore these defines must be resolved here
-	#define DEBUG_ENABLED 1
-	#define PRINT_ENABLED 1
+	#define DEBUG_ENABLED 0
+	#define PRINT_ENABLED 0
 	#define ANY_OUTPUT_ENABLED (DEBUG_ENABLED || PRINT_ENABLED)
 	#define FLASH_STRING_BUFFERSIZE 128
 

@@ -38,11 +38,6 @@
 				//If percentage is 100, this class basically behaves like MIDI_Pulse that consumes more processing power
 				//Unless you're changing duty cycle in other calls, you're better off using switching to that device
 				
-				//Approximate pulse length based on the total period
-				//float pulseLength = ((float) percentage / 100.0) * _currentPeriod;
-				//_lengthOnPulse = (uint16_t) pulseLength;
-				
-				//Arduino map is perfect for this!
 				_lengthOnPulse = map(percentage, 0, 100, 0, _currentPeriod);
 			};
 			
@@ -54,11 +49,9 @@
 			inline void setLengthOnPulse() { _currentLength = _lengthOnPulse; };
 			
 		//Testing/debug
-		//_____________________________________________________________________________________________
-		private:
-			//Nothing here
-			
+		//_____________________________________________________________________________________________		
 		public:
+			//Nothing here
 
 	};
 	

@@ -3,11 +3,8 @@
 	
 	#include "Base_MIDI_SoftPWM.h"
 	#include "../Common/NoteDuration.h"
-	
-	//Forward declaration for compiling
-	// class MIDI_Device_Controller;
 
-	///MIDI device class for anything needing a pulse signal (Solenoids, relays, servos (to be implemented), etc.)
+	///MIDI device class for anything needing a pulse signal (Solenoids, relays, servos, etc.)
 	class MIDI_Servo : public Base_MIDI_SoftPWM
 	{	
 		//Give MIDI_DeviceController access to all private members
@@ -77,7 +74,11 @@
 			inline void setPosition(uint8_t index, uint16_t length) 
 			{
 				if(index >= _maxPositions)
+				{
+					_debug.println(F("%d - Can't set position at index %d; max is %d"), _id, index, _maxPositions);
 					return;
+				}
+					
 				
 				_positions[index] = length;
 			};
@@ -85,10 +86,17 @@
 			inline void setPositionByAngle(uint8_t index, uint16_t angle)
 			{	
 				if(index >= _maxPositions)
+				{
+					_debug.println(F("%d - Can't set position at index %d; max is %d"), _id, index, _maxPositions);
 					return;
+				}
 				
 				if(angle > _maxAngle)
+				{
+					_debug.println(F("%d - Can't set angle %d; max is %d"), _id, angle, _maxAngle);
 					angle = _maxAngle;
+				}
+					
 				
 				uint16_t length = map(angle, 0, _maxAngle, _minLength, _maxLength);
 				_positions[index] = length;
@@ -135,7 +143,7 @@
 			{
 				if(!_outIO)
 				{
-					_debug.debugln(7, F("%d - Pulse output not setup"), _id);
+					_debug.println(F("%d - Pulse output not setup"), _id);
 					return;
 				}
 				

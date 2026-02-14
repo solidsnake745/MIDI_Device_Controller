@@ -42,6 +42,7 @@
 				_outNum = outNum;
 				if (_outNum < 0)
 				{
+					_debug.println(F("%d - Clearing currently configured output"), _id);
 					_outIO = nullptr;
 					return;
 				}
@@ -55,7 +56,7 @@
 			{
 				if(!_outIO)
 				{
-					_debug.debugln(7, F("%d - Pulse output not setup"), _id);
+					_debug.println(F("%d - Pulse output not setup"), _id);
 					return false;
 				}
 				

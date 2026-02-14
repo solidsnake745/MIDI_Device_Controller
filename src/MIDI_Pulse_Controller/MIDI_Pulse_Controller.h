@@ -26,6 +26,8 @@
 		
 		static std::map<uint8_t, Base_MIDI_Pulse*> _noteMap;
 		
+		// Base_MIDI_Pulse* findDevice(uint8_t note);
+		
 		public:
 			//Used to populate our single instance MDF for consumption
 			/// @private
