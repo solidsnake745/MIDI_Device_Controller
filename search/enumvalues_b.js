@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['trace_0',['TRACE',['../SerialDebug_8h.html#a4c69a863b86b4a46d4ce8ad7ba465186a7fa27e82c6c4f69434225ed81e5d151e',1,'SerialDebug.h']]]
+  ['vibrato_0',['Vibrato',['../classBase__MIDI__Pitch.html#ab8798ee221130d8e049d317d2e1ee00caa332177d64a93268e13ec8dd9be6390d',1,'Base_MIDI_Pitch']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['loglevel_0',['LogLevel',['../SerialDebug_8h.html#a4c69a863b86b4a46d4ce8ad7ba465186',1,'SerialDebug.h']]]
+  ['msgtype_0',['MsgType',['../MIDI__Enums_8h.html#a2ea0bb09adcce7f655e8f8ee8d30561b',1,'MIDI_Enums.h']]]
 ];

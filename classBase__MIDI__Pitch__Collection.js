@@ -11,6 +11,7 @@ var classBase__MIDI__Pitch__Collection =
     [ "testPitchBend", "classBase__MIDI__Pitch__Collection.html#a5198febd187f883fd272a9de597a6c51", null ],
     [ "MIDI_Pitch_Node", "classBase__MIDI__Pitch__Collection.html#a586ba26a5c9fabb8c3ed59c7e7a25d80", null ],
     [ "_count", "classBase__MIDI__Pitch__Collection.html#a8b1b1ab2d107486cac19a186575baeac", null ],
+    [ "_debug", "classBase__MIDI__Pitch__Collection.html#a6e274f8654d9e7b1ccec1b8002ee567c", null ],
     [ "end", "classBase__MIDI__Pitch__Collection.html#acee44c2a7a19702a9070befb03bdcd29", null ],
     [ "start", "classBase__MIDI__Pitch__Collection.html#a2729c5f9e62793890614e430c57af182", null ]
 ];

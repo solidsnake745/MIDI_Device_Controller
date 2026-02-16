@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['pwmstate_0',['PWMState',['../classBase__MIDI__SoftPWM.html#ae058496dedd953f00425383105aa100b',1,'Base_MIDI_SoftPWM']]]
+  ['unipolarstepmode_0',['UnipolarStepMode',['../MIDI__Unipolar_8h.html#aaed2f3be5f303cb264b284816fe493cf',1,'MIDI_Unipolar.h']]]
 ];

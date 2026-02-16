@@ -42,7 +42,6 @@ var NAVTREE =
       [ "File List", "files.html", "files_dup" ],
       [ "File Members", "globals.html", [
         [ "All", "globals.html", null ],
-        [ "Functions", "globals_func.html", null ],
         [ "Variables", "globals_vars.html", null ],
         [ "Enumerations", "globals_enum.html", null ],
         [ "Enumerator", "globals_eval.html", null ],
@@ -55,8 +54,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "Base__MIDI__Pitch_8cpp.html",
-"classBase__MIDI__Pitch__Direction.html#ad8296cb0b41b9880f2626e0ea4135f59",
-"dir_539557f706d2b6839a9a5bf0cb9d9762.html"
+"classBase__MIDI__Pulse.html#a26287dcb388a8c3fc5737c3401124f77",
+"classNoteDuration.html#a311258ddd554f5f400c97a7829981f87"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

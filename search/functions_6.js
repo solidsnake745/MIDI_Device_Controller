@@ -11,5 +11,5 @@ var searchData=
   ['isplayingnotes_8',['isPlayingNotes',['../classMIDI__Device__Controller.html#abcba68e5c868edd8888227749c8b5298',1,'MIDI_Device_Controller']]],
   ['istrackingposition_9',['isTrackingPosition',['../classBase__MIDI__Pitch__Direction.html#af6f7427f272ef35a96b14a42826b9802',1,'Base_MIDI_Pitch_Direction']]],
   ['isvalidmapping_10',['isValidMapping',['../classIO__74HC595.html#a73d9dfc158936e7183abf25ff5fea7de',1,'IO_74HC595::isValidMapping()'],['../classIO__DigitalWrite.html#abe792d487899373385ba999583969598',1,'IO_DigitalWrite::isValidMapping()']]],
-  ['iszero_11',['isZero',['../structNoteDuration.html#aa9925fbeac3b0ac760dbf6f6478e57c7',1,'NoteDuration']]]
+  ['iszero_11',['isZero',['../classNoteDuration.html#aa9925fbeac3b0ac760dbf6f6478e57c7',1,'NoteDuration']]]
 ];

@@ -1,4 +1,4 @@
 var PitchBend_8h =
 [
-    [ "PitchBend", "classPitchBend.html", null ]
+    [ "PitchBend", "classPitchBend.html", "classPitchBend" ]
 ];

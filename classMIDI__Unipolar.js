@@ -9,5 +9,11 @@ var classMIDI__Unipolar =
     [ "printStatus", "classMIDI__Unipolar.html#a1fe35c8fbeb34a9506c24b42fd312776", null ],
     [ "setOutput", "classMIDI__Unipolar.html#a6d12604bb4a19026b59806ebfd70b0c6", null ],
     [ "stepOnce", "classMIDI__Unipolar.html#ab983c7416320f3b70d6510b4172a2d87", null ],
-    [ "testMaxDirection", "classMIDI__Unipolar.html#a7e33437dbf0a91a558b37ae67ec8e1d8", null ]
+    [ "testMaxDirection", "classMIDI__Unipolar.html#a7e33437dbf0a91a558b37ae67ec8e1d8", null ],
+    [ "AltFullStepSequence", "classMIDI__Unipolar.html#a0acb332f2a7fbbdecc89279b4e02d0ce", null ],
+    [ "FullStepSequence", "classMIDI__Unipolar.html#a526005e4cda3c73620c264ba2374b0c8", null ],
+    [ "HalfStepSequence", "classMIDI__Unipolar.html#a706903a7f472db11fd8ec2ef7a7bafb2", null ],
+    [ "Max_FullStepIndex", "classMIDI__Unipolar.html#a49f1204c897f576b5192332dfd63e096", null ],
+    [ "MaxAltFullStepIndex", "classMIDI__Unipolar.html#a0dbcfd8d4f990f114b74f3bebab25548", null ],
+    [ "MaxHalfStepIndex", "classMIDI__Unipolar.html#ad97f24e2e655596a80e7eecb7fadeb6a", null ]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.6"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>MIDI Device Controller: NoteDuration Struct Reference</title>
+<title>MIDI Device Controller: NoteDuration Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -70,7 +70,7 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(document).ready(function(){initNavTree('structNoteDuration.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('classNoteDuration.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -98,41 +98,55 @@ $(document).ready(function(){initNavTree('structNoteDuration.html',''); initResi
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="structNoteDuration-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">NoteDuration Struct Reference</div></div>
+<a href="classNoteDuration-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">NoteDuration Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Class that represents a note's duration.  
+ <a href="classNoteDuration.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="NoteDuration_8h_source.html">NoteDuration.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a9b95178a566ff3b5cc0bba13db2ff46b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structNoteDuration.html#a9b95178a566ff3b5cc0bba13db2ff46b">NoteDuration</a> ()</td></tr>
+<tr class="memitem:a9b95178a566ff3b5cc0bba13db2ff46b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNoteDuration.html#a9b95178a566ff3b5cc0bba13db2ff46b">NoteDuration</a> ()</td></tr>
+<tr class="memdesc:a9b95178a566ff3b5cc0bba13db2ff46b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <br /></td></tr>
 <tr class="separator:a9b95178a566ff3b5cc0bba13db2ff46b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a57c6cc4fc0c360a83f899291c8ddacdd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structNoteDuration.html#a57c6cc4fc0c360a83f899291c8ddacdd">NoteDuration</a> (uint16_t us, uint16_t ms=0, uint16_t s=0)</td></tr>
+<tr class="memitem:a57c6cc4fc0c360a83f899291c8ddacdd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNoteDuration.html#a57c6cc4fc0c360a83f899291c8ddacdd">NoteDuration</a> (uint16_t us, uint16_t ms=0, uint16_t s=0)</td></tr>
+<tr class="memdesc:a57c6cc4fc0c360a83f899291c8ddacdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new <a class="el" href="classNoteDuration.html" title="Class that represents a note&#39;s duration.">NoteDuration</a> with microseconds, milliseconds, and/or seconds.  <br /></td></tr>
 <tr class="separator:a57c6cc4fc0c360a83f899291c8ddacdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a78159db2cc34eb6a2129d9322df394ec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structNoteDuration.html#a78159db2cc34eb6a2129d9322df394ec">reset</a> ()</td></tr>
-<tr class="separator:a78159db2cc34eb6a2129d9322df394ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa9925fbeac3b0ac760dbf6f6478e57c7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structNoteDuration.html#aa9925fbeac3b0ac760dbf6f6478e57c7">isZero</a> ()</td></tr>
-<tr class="separator:aa9925fbeac3b0ac760dbf6f6478e57c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a7f9098fd55e7143a7c457f2302c76f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structNoteDuration.html#a2a7f9098fd55e7143a7c457f2302c76f">convertToSeconds</a> ()</td></tr>
-<tr class="separator:a2a7f9098fd55e7143a7c457f2302c76f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f9fd643ac8050c867030f873ff5a199"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structNoteDuration.html#a8f9fd643ac8050c867030f873ff5a199">operator&lt;=</a> (<a class="el" href="structNoteDuration.html">NoteDuration</a> &amp;nd)</td></tr>
-<tr class="separator:a8f9fd643ac8050c867030f873ff5a199"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ada6e60ebf5b3b7d70d28edb6c42523cd"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structNoteDuration.html#ada6e60ebf5b3b7d70d28edb6c42523cd">getSeconds</a> ()</td></tr>
+<tr class="memitem:ada6e60ebf5b3b7d70d28edb6c42523cd"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNoteDuration.html#ada6e60ebf5b3b7d70d28edb6c42523cd">getSeconds</a> ()</td></tr>
+<tr class="memdesc:ada6e60ebf5b3b7d70d28edb6c42523cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the second component of duration.  <br /></td></tr>
 <tr class="separator:ada6e60ebf5b3b7d70d28edb6c42523cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7b685a8043025fec6ffa415421556f9"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structNoteDuration.html#ac7b685a8043025fec6ffa415421556f9">getMillis</a> ()</td></tr>
+<tr class="memitem:ac7b685a8043025fec6ffa415421556f9"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNoteDuration.html#ac7b685a8043025fec6ffa415421556f9">getMillis</a> ()</td></tr>
+<tr class="memdesc:ac7b685a8043025fec6ffa415421556f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the millisecond component of duration.  <br /></td></tr>
 <tr class="separator:ac7b685a8043025fec6ffa415421556f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a58b7a5f2408114ab2e617099469e21dd"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structNoteDuration.html#a58b7a5f2408114ab2e617099469e21dd">getMicros</a> ()</td></tr>
+<tr class="memitem:a58b7a5f2408114ab2e617099469e21dd"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNoteDuration.html#a58b7a5f2408114ab2e617099469e21dd">getMicros</a> ()</td></tr>
+<tr class="memdesc:a58b7a5f2408114ab2e617099469e21dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the microsecond component of duration.  <br /></td></tr>
 <tr class="separator:a58b7a5f2408114ab2e617099469e21dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf32e3a244d5dd0996e04a2b728346df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structNoteDuration.html#adf32e3a244d5dd0996e04a2b728346df">addSeconds</a> (uint32_t s)</td></tr>
-<tr class="separator:adf32e3a244d5dd0996e04a2b728346df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a311258ddd554f5f400c97a7829981f87"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structNoteDuration.html#a311258ddd554f5f400c97a7829981f87">addMillis</a> (uint32_t ms)</td></tr>
+<tr class="memitem:a78159db2cc34eb6a2129d9322df394ec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNoteDuration.html#a78159db2cc34eb6a2129d9322df394ec">reset</a> ()</td></tr>
+<tr class="memdesc:a78159db2cc34eb6a2129d9322df394ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets duration to 0.  <br /></td></tr>
+<tr class="separator:a78159db2cc34eb6a2129d9322df394ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9925fbeac3b0ac760dbf6f6478e57c7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNoteDuration.html#aa9925fbeac3b0ac760dbf6f6478e57c7">isZero</a> ()</td></tr>
+<tr class="memdesc:aa9925fbeac3b0ac760dbf6f6478e57c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates if duration is 0.  <br /></td></tr>
+<tr class="separator:aa9925fbeac3b0ac760dbf6f6478e57c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f9fd643ac8050c867030f873ff5a199"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNoteDuration.html#a8f9fd643ac8050c867030f873ff5a199">operator&lt;=</a> (<a class="el" href="classNoteDuration.html">NoteDuration</a> &amp;nd)</td></tr>
+<tr class="separator:a8f9fd643ac8050c867030f873ff5a199"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a619f03a70c6bde4de734d2a7809a6f35"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNoteDuration.html#a619f03a70c6bde4de734d2a7809a6f35">addSeconds</a> (uint16_t s)</td></tr>
+<tr class="memdesc:a619f03a70c6bde4de734d2a7809a6f35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds seconds to duration.  <br /></td></tr>
+<tr class="separator:a619f03a70c6bde4de734d2a7809a6f35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a311258ddd554f5f400c97a7829981f87"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNoteDuration.html#a311258ddd554f5f400c97a7829981f87">addMillis</a> (uint32_t ms)</td></tr>
+<tr class="memdesc:a311258ddd554f5f400c97a7829981f87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds milliseconds to duration.  <br /></td></tr>
 <tr class="separator:a311258ddd554f5f400c97a7829981f87"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e25b95adb03ffb950d26a5f78e1914c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structNoteDuration.html#a3e25b95adb03ffb950d26a5f78e1914c">addMicros</a> (uint32_t us)</td></tr>
+<tr class="memitem:a3e25b95adb03ffb950d26a5f78e1914c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNoteDuration.html#a3e25b95adb03ffb950d26a5f78e1914c">addMicros</a> (uint32_t us)</td></tr>
+<tr class="memdesc:a3e25b95adb03ffb950d26a5f78e1914c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds microseconds to duration.  <br /></td></tr>
 <tr class="separator:a3e25b95adb03ffb950d26a5f78e1914c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Class that represents a note's duration. </p>
+<p>Used to track how long notes have been playing Used for max duration functionality in various places </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a9b95178a566ff3b5cc0bba13db2ff46b" name="a9b95178a566ff3b5cc0bba13db2ff46b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9b95178a566ff3b5cc0bba13db2ff46b">&#9670;&#160;</a></span>NoteDuration() <span class="overload">[1/2]</span></h2>
 
@@ -156,6 +170,8 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Default constructor. </p>
+
 </div>
 </div>
 <a id="a57c6cc4fc0c360a83f899291c8ddacdd" name="a57c6cc4fc0c360a83f899291c8ddacdd"></a>
@@ -163,9 +179,6 @@ Public Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">NoteDuration::NoteDuration </td>
@@ -191,12 +204,9 @@ Public Member Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+
+<p>Create a new <a class="el" href="classNoteDuration.html" title="Class that represents a note&#39;s duration.">NoteDuration</a> with microseconds, milliseconds, and/or seconds. </p>
 
 </div>
 </div>
@@ -206,9 +216,6 @@ Public Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void NoteDuration::addMicros </td>
@@ -218,12 +225,15 @@ Public Member Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+
+<p>Adds microseconds to duration. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s</td><td>Microseconds to add </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -232,9 +242,6 @@ Public Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void NoteDuration::addMillis </td>
@@ -244,63 +251,41 @@ Public Member Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+
+<p>Adds milliseconds to duration. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s</td><td>Milliseconds to add </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
-<a id="adf32e3a244d5dd0996e04a2b728346df" name="adf32e3a244d5dd0996e04a2b728346df"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf32e3a244d5dd0996e04a2b728346df">&#9670;&#160;</a></span>addSeconds()</h2>
+<a id="a619f03a70c6bde4de734d2a7809a6f35" name="a619f03a70c6bde4de734d2a7809a6f35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a619f03a70c6bde4de734d2a7809a6f35">&#9670;&#160;</a></span>addSeconds()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void NoteDuration::addSeconds </td>
           <td>(</td>
-          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramtype">uint16_t&#160;</td>
           <td class="paramname"><em>s</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a id="a2a7f9098fd55e7143a7c457f2302c76f" name="a2a7f9098fd55e7143a7c457f2302c76f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2a7f9098fd55e7143a7c457f2302c76f">&#9670;&#160;</a></span>convertToSeconds()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">double NoteDuration::convertToSeconds </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
+<p>Adds seconds to duration. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s</td><td>Seconds to add </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -327,6 +312,8 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Gets the microsecond component of duration. </p>
+
 </div>
 </div>
 <a id="ac7b685a8043025fec6ffa415421556f9" name="ac7b685a8043025fec6ffa415421556f9"></a>
@@ -351,6 +338,8 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Gets the millisecond component of duration. </p>
 
 </div>
 </div>
@@ -377,6 +366,8 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Gets the second component of duration. </p>
+
 </div>
 </div>
 <a id="aa9925fbeac3b0ac760dbf6f6478e57c7" name="aa9925fbeac3b0ac760dbf6f6478e57c7"></a>
@@ -402,6 +393,15 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Indicates if duration is 0. </p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>if zero </td></tr>
+    <tr><td class="paramname">false</td><td>if not zero </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a8f9fd643ac8050c867030f873ff5a199" name="a8f9fd643ac8050c867030f873ff5a199"></a>
@@ -409,23 +409,15 @@ Public Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool NoteDuration::operator&lt;= </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structNoteDuration.html">NoteDuration</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classNoteDuration.html">NoteDuration</a> &amp;&#160;</td>
           <td class="paramname"><em>nd</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 </div>
@@ -453,17 +445,20 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Resets duration to 0. </p>
+
 </div>
 </div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>src/Common/<a class="el" href="NoteDuration_8h_source.html">NoteDuration.h</a></li>
+<li>src/Common/<a class="el" href="NoteDuration_8cpp.html">NoteDuration.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="structNoteDuration.html">NoteDuration</a></li>
+    <li class="navelem"><a class="el" href="classNoteDuration.html">NoteDuration</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
   </ul>
 </div>

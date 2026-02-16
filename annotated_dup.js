@@ -15,6 +15,7 @@ var annotated_dup =
     [ "MIDI_Collection_Factory", "classMIDI__Collection__Factory.html", "classMIDI__Collection__Factory" ],
     [ "MIDI_Device_Controller", "classMIDI__Device__Controller.html", "classMIDI__Device__Controller" ],
     [ "MIDI_Handler", "classMIDI__Handler.html", "classMIDI__Handler" ],
+    [ "MIDI_Periods", "classMIDI__Periods.html", "classMIDI__Periods" ],
     [ "MIDI_Pulse", "classMIDI__Pulse.html", "classMIDI__Pulse" ],
     [ "MIDI_Pulse_Controller", "classMIDI__Pulse__Controller.html", "classMIDI__Pulse__Controller" ],
     [ "MIDI_Servo", "classMIDI__Servo.html", "classMIDI__Servo" ],
@@ -23,7 +24,8 @@ var annotated_dup =
     [ "MIDI_SquareWave_Direction", "classMIDI__SquareWave__Direction.html", "classMIDI__SquareWave__Direction" ],
     [ "MIDI_Toggle", "classMIDI__Toggle.html", "classMIDI__Toggle" ],
     [ "MIDI_Unipolar", "classMIDI__Unipolar.html", "classMIDI__Unipolar" ],
-    [ "NoteDuration", "structNoteDuration.html", "structNoteDuration" ],
-    [ "PitchBend", "classPitchBend.html", null ],
-    [ "RoundRobin_Collection", "classRoundRobin__Collection.html", "classRoundRobin__Collection" ]
+    [ "NoteDuration", "classNoteDuration.html", "classNoteDuration" ],
+    [ "PitchBend", "classPitchBend.html", "classPitchBend" ],
+    [ "RoundRobin_Collection", "classRoundRobin__Collection.html", "classRoundRobin__Collection" ],
+    [ "SinWave", "classSinWave.html", "classSinWave" ]
 ];

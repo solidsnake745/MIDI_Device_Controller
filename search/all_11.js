@@ -14,8 +14,5 @@ var searchData=
   ['timerone_5ftimer_2eh_11',['TimerOne_Timer.h',['../TimerOne__Timer_8h.html',1,'']]],
   ['togglebit_12',['toggleBit',['../classByteNoteRegister.html#ae7391a6c74909251e5f4998e4b59729b',1,'ByteNoteRegister']]],
   ['toggleled_13',['toggleLED',['../classMIDI__Device__Controller.html#a7c069ae8e07e658c65c688e65aa2535d',1,'MIDI_Device_Controller']]],
-  ['toggleoutput_14',['toggleOutput',['../classIO__74HC595.html#a9bbec3a19e3f2217c38dc4c914d03025',1,'IO_74HC595::toggleOutput()'],['../classIO__DigitalWrite.html#affefebefd5f6accfc6fc150c81a42976',1,'IO_DigitalWrite::toggleOutput()']]],
-  ['tostring_15',['toString',['../SerialDebug_8h.html#a4faf7e75a5cc30b26ea3a1c4d5f2115f',1,'SerialDebug.h']]],
-  ['trace_16',['TRACE',['../SerialDebug_8h.html#a4c69a863b86b4a46d4ce8ad7ba465186a7fa27e82c6c4f69434225ed81e5d151e',1,'SerialDebug.h']]],
-  ['true_5fstring_17',['TRUE_STRING',['../SerialDebug_8h.html#a08d26343c98c0703bd0f0cddec8d8a4c',1,'SerialDebug.h']]]
+  ['toggleoutput_14',['toggleOutput',['../classIO__74HC595.html#a9bbec3a19e3f2217c38dc4c914d03025',1,'IO_74HC595::toggleOutput()'],['../classIO__DigitalWrite.html#affefebefd5f6accfc6fc150c81a42976',1,'IO_DigitalWrite::toggleOutput()']]]
 ];

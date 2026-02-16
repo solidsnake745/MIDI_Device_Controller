@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['halfstepsequence_0',['HalfStepSequence',['../classMIDI__Unipolar.html#a706903a7f472db11fd8ec2ef7a7bafb2',1,'MIDI_Unipolar']]]
+  ['fullstepsequence_0',['FullStepSequence',['../classMIDI__Unipolar.html#a526005e4cda3c73620c264ba2374b0c8',1,'MIDI_Unipolar']]]
 ];

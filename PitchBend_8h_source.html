@@ -109,77 +109,59 @@ $(document).ready(function(){initNavTree('PitchBend_8h_source.html',''); initRes
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">        #include &quot;<a class="code" href="MIDI__Periods_8h.html">MIDI_Periods.h</a>&quot;</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">    #endif</span></div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    </div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    <span class="comment">//@private</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="classPitchBend.html">   12</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classPitchBend.html">PitchBend</a></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    {       </div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        <span class="keyword">inline</span> <span class="keyword">static</span> SerialDebug _debug = SerialDebug(<a class="code hl_define" href="Settings_8h.html#a7e5f26f80a64fc32da077c391f4e4a21">DEBUG_PITCHBEND</a>);</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="classPitchBend.html">   13</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classPitchBend.html">PitchBend</a></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    {</div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">        #if BEND_MODE == 1</span></div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>            <span class="keyword">inline</span> <span class="keyword">constexpr</span> <span class="keyword">static</span> <span class="keywordtype">float</span> BEND_PER_OCTAVE = ((float)<a class="code hl_define" href="Settings_8h.html#a4f778c2a108ef34f1a46111adff00f38">BEND_SEMITONES</a>/(<span class="keywordtype">float</span>)<a class="code hl_define" href="Settings_8h.html#a3c0d7bc6c63a17ff4af1c0a7ec366be9">SEMITONES_PER_OCTAVE</a>);</div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">        #endif</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        <a class="code hl_class" href="classPitchBend.html">PitchBend</a>(){}; <span class="comment">//Disallow creating an instance</span></div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>            <span class="comment">//shiftRange: True indicates incoming values need to be shifted from 0 to 16383 to -8192 to 8191</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="classPitchBend.html#a4c3655819b9ab5237d2214b19623e54e">   22</a></span>            <span class="keyword">inline</span> <span class="keyword">static</span> <span class="keywordtype">float</span> <a class="code hl_function" href="classPitchBend.html#a4c3655819b9ab5237d2214b19623e54e">calculateFactor</a>(int16_t bend, <span class="keywordtype">bool</span> shiftRange = <span class="keyword">false</span>)</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>            {</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>                <span class="comment">//Expecting values in the range of -8192 to 8191</span></div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>                <span class="comment">//Depending on the framework supplying MIDI data, values could instead range from 0 to 16383</span></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>                <span class="comment">//Shift them down to the expected range for this to work</span></div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>                <span class="keywordflow">if</span>(shiftRange) bend -= 8192;</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>                </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">                #if BEND_MODE == 0</span></div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>                    <span class="comment">//Original formula I used in past versions which assumes BEND_PER_OCTAVE = 1</span></div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>                    <span class="comment">//Has worked for all my purposes</span></div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>                    <span class="keywordtype">float</span> result = pow(2.0, bend / 8192.0);</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">                #elif BEND_MODE == 1</span></div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>                    <span class="comment">//More technically correct formula for calculating pitchbends, configurable through Settings.h</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>                    <span class="keywordtype">float</span> result = pow(2.0, (BEND_PER_OCTAVE * (bend / 8192.0)));</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">                #else</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>                    <span class="comment">//Default in case some invalid value is specified</span></div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>                    <span class="keywordtype">float</span> result = pow(2.0, bend / 8192.0);</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">                #endif</span></div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>                <span class="keywordflow">return</span> result;</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>            }</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            </div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">            #if INCLUDE_TESTS</span></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            <span class="keyword">inline</span> <span class="keyword">static</span> <span class="keywordtype">void</span> runTest()</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>            {</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">                #if BEND_MODE == 1</span></div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>                    _debug.debugln(5, F(<span class="stringliteral">&quot;BEND_PER_OCTAVE: %f&quot;</span>), BEND_PER_OCTAVE);</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">                #endif</span></div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>                int16_t testBendValues[] = { -8192, -4096, 0, 4096, 8191 };</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>                </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>                uint32_t middleCPeriod = MIDI_Periods::getOriginalPeriod(<a class="code hl_define" href="Settings_8h.html#aefa5ffdf52fc19fb23a5d68ecbc39cec">MIDDLE_C_NOTE</a>);</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>                _debug.debugln(5, F(<span class="stringliteral">&quot;Bend test for middle C - Period: %d&quot;</span>), middleCPeriod);</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>                </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>                uint8_t numTestValues = (<span class="keyword">sizeof</span>(testBendValues)/<span class="keyword">sizeof</span>(int16_t));</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>                <span class="keywordflow">for</span>(uint8_t x = 0; x &lt; numTestValues; x++)</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>                {</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>                    int16_t testValue = testBendValues[x];</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                    _debug.debugln(5, F(<span class="stringliteral">&quot;Bend value: %d&quot;</span>), testValue);</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>                    </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>                    <span class="comment">//Factors should be exactly the same</span></div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>                    <span class="keywordtype">float</span> factorNormal = <a class="code hl_function" href="classPitchBend.html#a4c3655819b9ab5237d2214b19623e54e">calculateFactor</a>(testValue);</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                    <span class="keywordtype">float</span> factorShifted = <a class="code hl_function" href="classPitchBend.html#a4c3655819b9ab5237d2214b19623e54e">calculateFactor</a>(testValue + 8192, <span class="keyword">true</span>);</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>                    _debug.debugln(5, F(<span class="stringliteral">&quot;\tFactors: %f/%f&quot;</span>), factorNormal, factorShifted);</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>                    </div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>                    <span class="comment">//Period after calculating with the new factor</span></div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>                    uint32_t expectedPeriod = MIDI_Periods::getOriginalPeriod(<a class="code hl_define" href="Settings_8h.html#aefa5ffdf52fc19fb23a5d68ecbc39cec">MIDDLE_C_NOTE</a> + (x - 2));</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>                    _debug.debugln(5, F(<span class="stringliteral">&quot;\tNew/Expected period: %d (%d)&quot;</span>), (uint16_t)(middleCPeriod/factorNormal), expectedPeriod);</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>                }</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>            }</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="preprocessor">            #endif</span></div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    };</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    </div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        <a class="code hl_class" href="classPitchBend.html">PitchBend</a>(){}; <span class="comment">//Disallow creating an instance</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="keyword">public</span>:         </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>            <span class="keyword">static</span> <span class="keywordtype">float</span> <a class="code hl_function" href="classPitchBend.html#a983de6a35f043974666567995fa3d501">calculateFactor</a>(int16_t bend, <span class="keywordtype">bool</span> shiftRange = <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>            </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">            #if INCLUDE_TESTS</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>            <span class="keyword">inline</span> <span class="keyword">static</span> SerialDebug _debug = SerialDebug(<a class="code hl_define" href="Settings_8h.html#a7e5f26f80a64fc32da077c391f4e4a21">DEBUG_PITCHBEND</a>);</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>            </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>            <span class="keyword">inline</span> <span class="keyword">static</span> <span class="keywordtype">void</span> runTest()</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>            {</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">                #if BEND_MODE == 1</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>                    _debug.println(F(<span class="stringliteral">&quot;BEND_PER_OCTAVE: %f&quot;</span>), BEND_PER_OCTAVE);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">                #endif</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>                int16_t testBendValues[] = { -8192, -4096, 0, 4096, 8191 };</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>                </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>                uint32_t middleCPeriod = <a class="code hl_function" href="classMIDI__Periods.html#aba1b69febfd3ef885929c04d202c73dc">MIDI_Periods::getOriginalPeriod</a>(<a class="code hl_define" href="Settings_8h.html#aefa5ffdf52fc19fb23a5d68ecbc39cec">MIDDLE_C_NOTE</a>);</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>                _debug.println(F(<span class="stringliteral">&quot;Bend test for middle C - Period: %d&quot;</span>), middleCPeriod);</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>                </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>                uint8_t numTestValues = (<span class="keyword">sizeof</span>(testBendValues)/<span class="keyword">sizeof</span>(int16_t));</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>                <span class="keywordflow">for</span>(uint8_t x = 0; x &lt; numTestValues; x++)</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>                {</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>                    int16_t testValue = testBendValues[x];</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>                    _debug.println(F(<span class="stringliteral">&quot;Bend value: %d&quot;</span>), testValue);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>                    </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>                    <span class="comment">//Factors should be exactly the same</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>                    <span class="keywordtype">float</span> factorNormal = <a class="code hl_function" href="classPitchBend.html#a983de6a35f043974666567995fa3d501">calculateFactor</a>(testValue);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>                    <span class="keywordtype">float</span> factorShifted = <a class="code hl_function" href="classPitchBend.html#a983de6a35f043974666567995fa3d501">calculateFactor</a>(testValue + 8192, <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>                    _debug.println(F(<span class="stringliteral">&quot;\tFactors: %f/%f&quot;</span>), factorNormal, factorShifted);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>                    </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>                    <span class="comment">//Period after calculating with the new factor</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>                    uint32_t expectedPeriod = <a class="code hl_function" href="classMIDI__Periods.html#aba1b69febfd3ef885929c04d202c73dc">MIDI_Periods::getOriginalPeriod</a>(<a class="code hl_define" href="Settings_8h.html#aefa5ffdf52fc19fb23a5d68ecbc39cec">MIDDLE_C_NOTE</a> + (x - 2));</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>                    _debug.println(F(<span class="stringliteral">&quot;\tNew/Expected period: %d (%d)&quot;</span>), (uint16_t)(middleCPeriod/factorNormal), expectedPeriod);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>                }</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            }</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">            #endif</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    };</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aMIDI__Periods_8h_html"><div class="ttname"><a href="MIDI__Periods_8h.html">MIDI_Periods.h</a></div></div>
 <div class="ttc" id="aSettings_8h_html_a3c0d7bc6c63a17ff4af1c0a7ec366be9"><div class="ttname"><a href="Settings_8h.html#a3c0d7bc6c63a17ff4af1c0a7ec366be9">SEMITONES_PER_OCTAVE</a></div><div class="ttdeci">#define SEMITONES_PER_OCTAVE</div><div class="ttdef"><b>Definition:</b> Settings.h:68</div></div>
 <div class="ttc" id="aSettings_8h_html_a4f778c2a108ef34f1a46111adff00f38"><div class="ttname"><a href="Settings_8h.html#a4f778c2a108ef34f1a46111adff00f38">BEND_SEMITONES</a></div><div class="ttdeci">#define BEND_SEMITONES</div><div class="ttdef"><b>Definition:</b> Settings.h:67</div></div>
 <div class="ttc" id="aSettings_8h_html_a7e5f26f80a64fc32da077c391f4e4a21"><div class="ttname"><a href="Settings_8h.html#a7e5f26f80a64fc32da077c391f4e4a21">DEBUG_PITCHBEND</a></div><div class="ttdeci">#define DEBUG_PITCHBEND</div><div class="ttdef"><b>Definition:</b> Settings.h:131</div></div>
 <div class="ttc" id="aSettings_8h_html_aefa5ffdf52fc19fb23a5d68ecbc39cec"><div class="ttname"><a href="Settings_8h.html#aefa5ffdf52fc19fb23a5d68ecbc39cec">MIDDLE_C_NOTE</a></div><div class="ttdeci">#define MIDDLE_C_NOTE</div><div class="ttdef"><b>Definition:</b> Settings.h:70</div></div>
-<div class="ttc" id="aclassPitchBend_html"><div class="ttname"><a href="classPitchBend.html">PitchBend</a></div><div class="ttdef"><b>Definition:</b> PitchBend.h:13</div></div>
-<div class="ttc" id="aclassPitchBend_html_a4c3655819b9ab5237d2214b19623e54e"><div class="ttname"><a href="classPitchBend.html#a4c3655819b9ab5237d2214b19623e54e">PitchBend::calculateFactor</a></div><div class="ttdeci">static float calculateFactor(int16_t bend, bool shiftRange=false)</div><div class="ttdef"><b>Definition:</b> PitchBend.h:22</div></div>
+<div class="ttc" id="aclassMIDI__Periods_html_aba1b69febfd3ef885929c04d202c73dc"><div class="ttname"><a href="classMIDI__Periods.html#aba1b69febfd3ef885929c04d202c73dc">MIDI_Periods::getOriginalPeriod</a></div><div class="ttdeci">static uint32_t getOriginalPeriod(uint16_t index)</div><div class="ttdoc">Gets the original period for the given note from program memory</div><div class="ttdef"><b>Definition:</b> MIDI_Periods.cpp:34</div></div>
+<div class="ttc" id="aclassPitchBend_html"><div class="ttname"><a href="classPitchBend.html">PitchBend</a></div><div class="ttdoc">Shared class for pitch bending.</div><div class="ttdef"><b>Definition:</b> PitchBend.h:14</div></div>
+<div class="ttc" id="aclassPitchBend_html_a983de6a35f043974666567995fa3d501"><div class="ttname"><a href="classPitchBend.html#a983de6a35f043974666567995fa3d501">PitchBend::calculateFactor</a></div><div class="ttdeci">static float calculateFactor(int16_t bend, bool shiftRange=false)</div><div class="ttdoc">Calculates pitch bend factor based on settings.</div><div class="ttdef"><b>Definition:</b> PitchBend.cpp:3</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

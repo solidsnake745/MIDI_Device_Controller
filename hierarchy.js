@@ -31,7 +31,9 @@ var hierarchy =
     [ "MIDI_Collection_Factory", "classMIDI__Collection__Factory.html", null ],
     [ "MIDI_Device_Controller", "classMIDI__Device__Controller.html", null ],
     [ "MIDI_Handler", "classMIDI__Handler.html", null ],
+    [ "MIDI_Periods", "classMIDI__Periods.html", null ],
     [ "MIDI_Pulse_Controller", "classMIDI__Pulse__Controller.html", null ],
-    [ "NoteDuration", "structNoteDuration.html", null ],
-    [ "PitchBend", "classPitchBend.html", null ]
+    [ "NoteDuration", "classNoteDuration.html", null ],
+    [ "PitchBend", "classPitchBend.html", null ],
+    [ "SinWave", "classSinWave.html", null ]
 ];

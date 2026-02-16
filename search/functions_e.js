@@ -13,6 +13,5 @@ var searchData=
   ['teststepinterrupt_10',['testStepInterrupt',['../classMIDI__SquareWave__Direction.html#af411c11db4304fc15a6280b77e7d628b',1,'MIDI_SquareWave_Direction']]],
   ['togglebit_11',['toggleBit',['../classByteNoteRegister.html#ae7391a6c74909251e5f4998e4b59729b',1,'ByteNoteRegister']]],
   ['toggleled_12',['toggleLED',['../classMIDI__Device__Controller.html#a7c069ae8e07e658c65c688e65aa2535d',1,'MIDI_Device_Controller']]],
-  ['toggleoutput_13',['toggleOutput',['../classIO__74HC595.html#a9bbec3a19e3f2217c38dc4c914d03025',1,'IO_74HC595::toggleOutput()'],['../classIO__DigitalWrite.html#affefebefd5f6accfc6fc150c81a42976',1,'IO_DigitalWrite::toggleOutput()']]],
-  ['tostring_14',['toString',['../SerialDebug_8h.html#a4faf7e75a5cc30b26ea3a1c4d5f2115f',1,'SerialDebug.h']]]
+  ['toggleoutput_13',['toggleOutput',['../classIO__74HC595.html#a9bbec3a19e3f2217c38dc4c914d03025',1,'IO_74HC595::toggleOutput()'],['../classIO__DigitalWrite.html#affefebefd5f6accfc6fc150c81a42976',1,'IO_DigitalWrite::toggleOutput()']]]
 ];

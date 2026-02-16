@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['noteduration_0',['NoteDuration',['../structNoteDuration.html',1,'']]]
+  ['noteduration_0',['NoteDuration',['../classNoteDuration.html',1,'']]]
 ];

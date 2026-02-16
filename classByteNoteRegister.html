@@ -103,32 +103,49 @@ $(document).ready(function(){initNavTree('classByteNoteRegister.html',''); initR
 </div><!--header-->
 <div class="contents">
 
+<p>Class to simplify storing a byte and manipulating its bits.  
+ <a href="classByteNoteRegister.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="ByteNoteRegister_8h_source.html">ByteNoteRegister.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a15397a97f9474e003d3b9b0f85e3b941"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classByteNoteRegister.html#a15397a97f9474e003d3b9b0f85e3b941">ByteNoteRegister</a> ()</td></tr>
+<tr class="memdesc:a15397a97f9474e003d3b9b0f85e3b941"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <br /></td></tr>
 <tr class="separator:a15397a97f9474e003d3b9b0f85e3b941"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae4352b6959d6583f609207dd45094b3b"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classByteNoteRegister.html#ae4352b6959d6583f609207dd45094b3b">getByteValue</a> ()</td></tr>
+<tr class="memdesc:ae4352b6959d6583f609207dd45094b3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the entire register's value as a byte.  <br /></td></tr>
 <tr class="separator:ae4352b6959d6583f609207dd45094b3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4cc1ab0013941e9bcc48ad8039d7f423"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classByteNoteRegister.html#a4cc1ab0013941e9bcc48ad8039d7f423">setBit</a> (uint8_t i)</td></tr>
-<tr class="separator:a4cc1ab0013941e9bcc48ad8039d7f423"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae3d341c5544b575834fa5e9cf875363c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classByteNoteRegister.html#ae3d341c5544b575834fa5e9cf875363c">getBit</a> (uint8_t i)</td></tr>
+<tr class="memdesc:ae3d341c5544b575834fa5e9cf875363c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets specified bit.  <br /></td></tr>
 <tr class="separator:ae3d341c5544b575834fa5e9cf875363c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a638ed6d831b9a761c5fba57505ff6c80"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classByteNoteRegister.html#a638ed6d831b9a761c5fba57505ff6c80">getBitValue</a> (uint8_t i)</td></tr>
+<tr class="memdesc:a638ed6d831b9a761c5fba57505ff6c80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets specified bit and applies the invert setting.  <br /></td></tr>
 <tr class="separator:a638ed6d831b9a761c5fba57505ff6c80"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe4ea3e15898a0d1b3ba614157e1fbf9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classByteNoteRegister.html#abe4ea3e15898a0d1b3ba614157e1fbf9">isInverted</a> (uint8_t i)</td></tr>
-<tr class="separator:abe4ea3e15898a0d1b3ba614157e1fbf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9de24bae1bce4a0f25827d2817977a7c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classByteNoteRegister.html#a9de24bae1bce4a0f25827d2817977a7c">setInverted</a> (uint8_t i, bool value)</td></tr>
-<tr class="separator:a9de24bae1bce4a0f25827d2817977a7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cc1ab0013941e9bcc48ad8039d7f423"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classByteNoteRegister.html#a4cc1ab0013941e9bcc48ad8039d7f423">setBit</a> (uint8_t i)</td></tr>
+<tr class="memdesc:a4cc1ab0013941e9bcc48ad8039d7f423"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets specified bit to 1.  <br /></td></tr>
+<tr class="separator:a4cc1ab0013941e9bcc48ad8039d7f423"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a37fd00d8716f335d47f5078c7484707c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classByteNoteRegister.html#a37fd00d8716f335d47f5078c7484707c">clearBit</a> (uint8_t i)</td></tr>
+<tr class="memdesc:a37fd00d8716f335d47f5078c7484707c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets specified bit to 0.  <br /></td></tr>
 <tr class="separator:a37fd00d8716f335d47f5078c7484707c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a38a064863d9fafece333971c36952839"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classByteNoteRegister.html#a38a064863d9fafece333971c36952839">setBitValue</a> (uint8_t i, bool value)</td></tr>
+<tr class="memdesc:a38a064863d9fafece333971c36952839"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets specified bit's value.  <br /></td></tr>
 <tr class="separator:a38a064863d9fafece333971c36952839"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7391a6c74909251e5f4998e4b59729b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classByteNoteRegister.html#ae7391a6c74909251e5f4998e4b59729b">toggleBit</a> (uint8_t i)</td></tr>
+<tr class="memdesc:ae7391a6c74909251e5f4998e4b59729b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Toggles specified bit's value.  <br /></td></tr>
 <tr class="separator:ae7391a6c74909251e5f4998e4b59729b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe4ea3e15898a0d1b3ba614157e1fbf9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classByteNoteRegister.html#abe4ea3e15898a0d1b3ba614157e1fbf9">isInverted</a> (uint8_t i)</td></tr>
+<tr class="memdesc:abe4ea3e15898a0d1b3ba614157e1fbf9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets specified bit's inverted setting.  <br /></td></tr>
+<tr class="separator:abe4ea3e15898a0d1b3ba614157e1fbf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9de24bae1bce4a0f25827d2817977a7c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classByteNoteRegister.html#a9de24bae1bce4a0f25827d2817977a7c">setInverted</a> (uint8_t i, bool value)</td></tr>
+<tr class="memdesc:a9de24bae1bce4a0f25827d2817977a7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets specified bit's inverted setting.  <br /></td></tr>
+<tr class="separator:a9de24bae1bce4a0f25827d2817977a7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Class to simplify storing a byte and manipulating its bits. </p>
+<p>Used in various IO devices as storage for output states. <br  />
+ Was originally meant to include more note related information, but that was later refactored out. Should probably be renamed to ByteRegister. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a15397a97f9474e003d3b9b0f85e3b941" name="a15397a97f9474e003d3b9b0f85e3b941"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a15397a97f9474e003d3b9b0f85e3b941">&#9670;&#160;</a></span>ByteNoteRegister()</h2>
 
@@ -151,6 +168,8 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Default constructor. </p>
 
 </div>
 </div>
@@ -179,6 +198,14 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Sets specified bit to 0. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>(Zero) Index of the bit to set </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="ae3d341c5544b575834fa5e9cf875363c" name="ae3d341c5544b575834fa5e9cf875363c"></a>
@@ -204,6 +231,14 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Gets specified bit. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>(Zero) Index of the bit to get </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -231,6 +266,14 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Gets specified bit and applies the invert setting. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>(Zero) Index of the bit to get </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="ae4352b6959d6583f609207dd45094b3b" name="ae4352b6959d6583f609207dd45094b3b"></a>
@@ -255,6 +298,8 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Retrieve the entire register's value as a byte. </p>
 
 </div>
 </div>
@@ -282,6 +327,21 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Gets specified bit's inverted setting. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>(Zero) Index of the bit to get </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>if inverted </td></tr>
+    <tr><td class="paramname">false</td><td>if not inverted </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a4cc1ab0013941e9bcc48ad8039d7f423" name="a4cc1ab0013941e9bcc48ad8039d7f423"></a>
@@ -307,6 +367,14 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Sets specified bit to 1. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>(Zero) Index of the bit to set </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -344,6 +412,14 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Sets specified bit's value. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>(Zero) Index of the bit to set </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a9de24bae1bce4a0f25827d2817977a7c" name="a9de24bae1bce4a0f25827d2817977a7c"></a>
@@ -380,6 +456,14 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Sets specified bit's inverted setting. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>(Zero) Index of the bit to set </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="ae7391a6c74909251e5f4998e4b59729b" name="ae7391a6c74909251e5f4998e4b59729b"></a>
@@ -405,6 +489,14 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Toggles specified bit's value. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>(Zero) Index of the bit to toggle </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

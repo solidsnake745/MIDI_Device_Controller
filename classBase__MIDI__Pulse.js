@@ -12,6 +12,7 @@ var classBase__MIDI__Pulse =
     [ "setOutput", "classBase__MIDI__Pulse.html#a26287dcb388a8c3fc5737c3401124f77", null ],
     [ "stopPulse", "classBase__MIDI__Pulse.html#a47ac019dc4bfb93b70c5964e3ac7d8cf", null ],
     [ "MIDI_Device_Controller", "classBase__MIDI__Pulse.html#ac1d158bb9678be7a19821ed89b096022", null ],
+    [ "_debug", "classBase__MIDI__Pulse.html#ab71418d5d165d747ae5a243ac5f86f51", null ],
     [ "_id", "classBase__MIDI__Pulse.html#ab2a8ea7b1df0152a357c731771245076", null ],
     [ "_outIO", "classBase__MIDI__Pulse.html#a1bc3471e2635edae54e744bf5dcd5c62", null ],
     [ "_outNum", "classBase__MIDI__Pulse.html#a1260b60deeb7662230eddcd60d05e3cb", null ],

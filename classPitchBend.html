@@ -103,16 +103,23 @@ $(document).ready(function(){initNavTree('classPitchBend.html',''); initResizabl
 </div><!--header-->
 <div class="contents">
 
+<p>Shared class for pitch bending.  
+ <a href="classPitchBend.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="PitchBend_8h_source.html">PitchBend.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a4c3655819b9ab5237d2214b19623e54e"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPitchBend.html#a4c3655819b9ab5237d2214b19623e54e">calculateFactor</a> (int16_t bend, bool shiftRange=false)</td></tr>
-<tr class="separator:a4c3655819b9ab5237d2214b19623e54e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a983de6a35f043974666567995fa3d501"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPitchBend.html#a983de6a35f043974666567995fa3d501">calculateFactor</a> (int16_t bend, bool shiftRange=false)</td></tr>
+<tr class="memdesc:a983de6a35f043974666567995fa3d501"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates pitch bend factor based on settings.  <br /></td></tr>
+<tr class="separator:a983de6a35f043974666567995fa3d501"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="a4c3655819b9ab5237d2214b19623e54e" name="a4c3655819b9ab5237d2214b19623e54e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4c3655819b9ab5237d2214b19623e54e">&#9670;&#160;</a></span>calculateFactor()</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Shared class for pitch bending. </p>
+<p>Used to centralize logic and settings </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a983de6a35f043974666567995fa3d501" name="a983de6a35f043974666567995fa3d501"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a983de6a35f043974666567995fa3d501">&#9670;&#160;</a></span>calculateFactor()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -121,7 +128,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static float PitchBend::calculateFactor </td>
+          <td class="memname">float PitchBend::calculateFactor </td>
           <td>(</td>
           <td class="paramtype">int16_t&#160;</td>
           <td class="paramname"><em>bend</em>, </td>
@@ -140,15 +147,25 @@ Static Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p>Calculates pitch bend factor based on settings. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bend</td><td>MIDI pitch bend value to calculate the factor for </td></tr>
+    <tr><td class="paramname">shiftRange</td><td>When true, shifts bend values down from 0 to 16383 to -8192 to 8191 </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>src/Common/<a class="el" href="PitchBend_8h_source.html">PitchBend.h</a></li>
+<li>src/Common/<a class="el" href="PitchBend_8cpp.html">PitchBend.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

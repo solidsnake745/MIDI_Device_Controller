@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['any_5foutput_5fenabled_0',['ANY_OUTPUT_ENABLED',['../SerialDebug_8h.html#ae88b30957ec2f82608df93d6f17ac8c3',1,'SerialDebug.h']]]
+  ['bend_5fmode_0',['BEND_MODE',['../Settings_8h.html#a7858f9c0c9e6e1bb48a8d4fb623706f2',1,'Settings.h']]],
+  ['bend_5fsemitones_1',['BEND_SEMITONES',['../Settings_8h.html#a4f778c2a108ef34f1a46111adff00f38',1,'Settings.h']]]
 ];
