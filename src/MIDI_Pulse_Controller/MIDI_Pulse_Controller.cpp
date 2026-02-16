@@ -26,7 +26,7 @@ void MIDI_Pulse_Controller::deleteMapping(uint8_t note)
 	_debug.println(F("Note %d was unmapped"), note);
 }
 
-Base_MIDI_Pulse* MIDI_Pulse_Controller::getMappedDevice(uint8_t note)
+Base_MIDI_Pulse* const MIDI_Pulse_Controller::getMappedDevice(uint8_t note)
 {
 	if(_noteMap.empty())
 	{

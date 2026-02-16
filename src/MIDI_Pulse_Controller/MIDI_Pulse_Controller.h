@@ -56,7 +56,7 @@
 			/*!
 				\param note MIDI note to retrieve the device for
 			*/
-			Base_MIDI_Pulse* getMappedDevice(uint8_t note);
+			Base_MIDI_Pulse* const getMappedDevice(uint8_t note);
 			
 			void pulseNote(uint8_t note);
 			void stopNote(uint8_t note);

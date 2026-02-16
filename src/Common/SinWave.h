@@ -3,8 +3,9 @@
 	
 	#include "../Settings.h"
 	#include "../Common/SerialDebug.h"
-
-	/// @private
+	
+	/// @brief Shared class for sine wave values
+	/// @details Used to centralize logic and data.
 	class SinWave
 	{
 		inline static SerialDebug _debug = SerialDebug(DEBUG_SINWAVE);
@@ -12,6 +13,10 @@
 		//Constructor(s)
 		SinWave(); //Disallow creating an instance		
 		
+		/// @brief Stores the sine values for the first quadrant
+		/// @details Values are integer approximations by multiplying the original decimal values by 10000.
+		/// Takes up less space than storing entire decimal values and is accurate enough for our purposes.
+		/// Only the first quadrant is stored and then mirrored/inverted to calculate the rest.
 		inline constexpr static uint32_t SIN_INT_APPROX[91] = 
 		{
 			//1		2		3		4		5		6		7		8		9		10
@@ -30,40 +35,14 @@
 		inline static float getFirstQuadValue(uint16_t d) { return SIN_INT_APPROX[d] / 10000.0; };
 		
 		public:
-			inline static float getSinValue(uint16_t d)
-			{
-				//Handle invalid values
-				if(d > 360)
-					d = 360;
+		
+			/// @brief Gets the sine value for the given degree
+			/// @param d Degree to get the value for (0 to 360)
+			///	@details Invalid values (>360) default to 360
+			static float getSinValue(uint16_t d);
 
-				//First quadrant
-				if(d <= 90)
-					return getFirstQuadValue(d);
-
-				//Second quadrant (mirror first quadrant)
-				if(d > 90 && d <= 180)
-				{
-					d = 90 - (d - 90);
-					return getFirstQuadValue(d);
-				}
-
-				//Third quadrant (invert first)
-				if(d > 180 && d <= 270) 
-				{
-					d -= 180;
-					return -getFirstQuadValue(d);
-				}
-
-				//Fourth quadrant (mirror and invert first)
-				//if(d > 270 && d <= 360) { }
-				d = 90 - (d - 270);
-				return -getFirstQuadValue(d);
-			};
-
-			inline static void printSinValues() 
-			{ 
-				for(uint16_t i = 0; i <= 360; i++) 
-					_debug.println(F("Sin for %d: %6f"), i, getSinValue(i));
-			};
+			/// @brief Prints out values of sine for degrees 0 to 360
+			static void printSinValues();
 	};
+	
 #endif

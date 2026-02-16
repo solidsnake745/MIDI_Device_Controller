@@ -99,13 +99,13 @@
 			/*!
 				\param index Index to retrieve the device from
 			*/
-			Base_MIDI_Pitch* getPitchDevice(uint8_t index);
+			Base_MIDI_Pitch* const getPitchDevice(uint8_t index);
 			
 			///Retrieves a Base_MIDI_Pulse device from the controller
 			/*!
 				\param index Index to retrieve the device from
 			*/
-			Base_MIDI_Pulse* getPulseDevice(uint8_t index);
+			Base_MIDI_Pulse* const getPulseDevice(uint8_t index);
 			
 			//A note about deleting devices: I know I haven't thoroughly vetted and built out this functionality and it's very likely that it will lead to memory leaks
 			//But I'm not really worried about it because ideally users shouldn't be changing configuration at all past setup() so the delete functionality is pretty optional

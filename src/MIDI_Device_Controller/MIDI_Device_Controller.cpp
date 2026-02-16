@@ -158,7 +158,7 @@ int8_t MIDI_Device_Controller::addPulseDevice(Base_MIDI_Pulse* d)
 	return -1;
 }
 
-Base_MIDI_Pitch* MIDI_Device_Controller::getPitchDevice(uint8_t index)
+Base_MIDI_Pitch* const MIDI_Device_Controller::getPitchDevice(uint8_t index)
 {
 	if(index > MAX_PITCH_DEVICES - 1)
 	{
@@ -170,7 +170,7 @@ Base_MIDI_Pitch* MIDI_Device_Controller::getPitchDevice(uint8_t index)
 	return _pitchDevices[index];
 }
 
-Base_MIDI_Pulse* MIDI_Device_Controller::getPulseDevice(uint8_t index)
+Base_MIDI_Pulse* const MIDI_Device_Controller::getPulseDevice(uint8_t index)
 {
 	if(index > MAX_PULSE_DEVICES - 1)
 	{

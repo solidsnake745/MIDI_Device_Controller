@@ -12,8 +12,10 @@
 	#elif ARDUINO_ARCH_ESP32
 		#include <pgmspace.h>
 	#endif
-
-	/// @private
+	
+	/// @brief Stores MIDI period information for notes
+	/// @details Used by Base_MIDI_Pitch classes for playing notes
+	/// Stores full sized data in program memory and caches at half size during runtime
 	class MIDI_Periods
 	{
 		//Give MIDI_DeviceController access to all private members
@@ -22,38 +24,20 @@
 		inline static SerialDebug _debug = SerialDebug(DEBUG_MIDIPERIODS);
 		
 		//Constructor(s)
-		MIDI_Periods(); //Disallow creating an instance		
+		MIDI_Periods(); //Disallow creating an instance
 		
-		// Variables:
 		inline static uint32_t _currentResolution;
 		
-		//Used to update and maintain calculatedPeriods with _currentResolution
-		//Sets resolution and computes adjusted resolution to be used for note processing
-		inline static void calculatePeriods(uint16_t resolution)
-		{
-			//Calculate actual periods to be used in operation
-			//There is some inaccuracy in this conversion, but that's OK
-			//We need to change state twice per period so we double the resolution
-			//Some devices do not need to do this, but we just need to double it again if so
-			uint32_t dblResolution = 2 * _currentResolution;
-			
-			for(uint8_t i = 0; i < 128; i++) 
-			{
-				uint32_t basePeriod = getOriginalPeriod(i);	
-				
-				//If our resolution is greater than the period, the note will never play
-				//Disable that note by assigning 0, else calculate the corresponding period
-				calculatedPeriods[i] = basePeriod < dblResolution ? 0 : (basePeriod / dblResolution);
-			}
-		};
+		/// @brief Calculates and populates calculatedPeriods based on the current resolution
+		static void calculatePeriods();
 
 		public:
-			//Calculated microperiods based on the set resolution for each note
-			//The largest value will be ORIGINAL_PERIODS[0]/2 = 61156 which is just under 2^16 (65535)
+			/// @brief Calculated microperiods based on the set resolution for each note
+			/// @details The largest value will be ORIGINAL_PERIODS[0]/2 = 61156 which is just under 2^16 (65535)
 			inline static uint16_t calculatedPeriods[128];
 			
-			//Original microperiods of notes based on the MIDI note system (0 - 127)
-			//Stored in program memory to save flash
+			/// @brief Original microperiods of notes based on the MIDI note system (0 - 127)
+			/// @details Stored in program memory to save flash
 			inline constexpr static uint32_t ORIGINAL_PERIODS[128] PROGMEM = 
 			{
 			//	C		C#		D		D#		E		F		F#		G		G#		A		A#		B
@@ -70,31 +54,32 @@
 				119,	113,	106,	100,	95,		89,		84,		80										//Octave 9
 			};
 			
-			//Used to pull original microperiod values from program memory
-			//Indexed based on MIDI note system (0 - 127)
-			inline static uint32_t getOriginalPeriod(uint16_t index) { return pgm_read_dword(ORIGINAL_PERIODS + index); };
-			
+			/// @brief Gets the current resolution
 			inline static uint32_t getResolution() { return _currentResolution; };
-			inline static void setResolution(uint32_t resolution = DEFAULT_RESOLUTION)
-			{
-				if(resolution < MIN_RESOLUTION || resolution > MAX_RESOLUTION)
-				{
-					_debug.debugln(1, F("Invalid resolution set: %d"), resolution);
-					_debug.println(F("Defaulting to: %d"), DEFAULT_RESOLUTION);
-					_currentResolution = DEFAULT_RESOLUTION;
-				}
-				else
-					_currentResolution = resolution;
-				
-				calculatePeriods(resolution);
-			};
+			
+			/// @brief Sets the current resolution and updates calculated microperiods
+			/// @param resolution Resolution to set in microseconds
+			static void setResolution(uint32_t resolution = DEFAULT_RESOLUTION);
 			
 			/// @private
-			inline static void setDebugResolution() { _currentResolution = 100000; };
+			inline static void setDebugResolution() { _currentResolution = 1000000; }; //1 second interval
 			
-			inline static void printOriginalPeriod(uint8_t note) { _debug.println(F("Original period for %d: %d"), note, getOriginalPeriod(note)); };
-			inline static void printOriginalPeriods() { for(uint8_t i = 0; i < 128; i++) printOriginalPeriod(i); };
-			inline static void printCalculatedPeriod(uint8_t note) { _debug.println(F("Calculated period for %d: %d"), note, calculatedPeriods[note]); };
-			inline static void printCalculatedPeriods() { for(uint8_t i = 0; i < 128; i++) printCalculatedPeriod(i); };
+			/// @brief Gets the original period for the given note from program memory			
+			static uint32_t getOriginalPeriod(uint16_t index);
+			
+			/// @brief Prints the original period for the given note
+			/// @param note MIDI note number to print the period for
+			static void printOriginalPeriod(uint8_t note);
+			
+			/// @brief Prints the original period for notes 0 through 127
+			static void printOriginalPeriods();
+			
+			/// @brief Prints the calculated period for the given note
+			/// @param note MIDI note number to print the period for
+			static void printCalculatedPeriod(uint8_t note);
+			
+			/// @brief Prints the calculated period for notes 0 through 127
+			static void printCalculatedPeriods();
 	};
+	
 #endif

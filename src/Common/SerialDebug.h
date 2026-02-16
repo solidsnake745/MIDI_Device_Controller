@@ -1,40 +1,61 @@
-#ifndef SerialDebug_h
-	#define SerialDebug_h
+/// @cond
+#ifndef SerialDebug_h	
+	#define SerialDebug_h	
+	
+	//Functions utilizing templates and argument packs need to be defined inline here
+	//Technical reason: original definition needs to be available for compiler to interpret types
+	//Additionally: inline usage in this file is acceptable
+	//Previously attempted to split out as much as a possible to a cpp file, but no improvement gained
+	//This header is rarely used anyway and is not a part of this library's functionality
+	//Almost entirely gets compiled out when ANY_OUTPUT_ENABLED == 0 which is the default for releases	
 	
 	//This is a precompiled header therefore these defines must be resolved here
 	#define DEBUG_ENABLED 0
 	#define PRINT_ENABLED 0
 	#define ANY_OUTPUT_ENABLED (DEBUG_ENABLED || PRINT_ENABLED)
+	#define S_PRINTF_EXISTS (defined(CORE_TEENSY) || ARDUINO_ARCH_ESP32)
 	#define FLASH_STRING_BUFFERSIZE 128
 
 	#include <Arduino.h>	
 
+	/// @enum LogLevel
+	/// @brief Levels of logging available
+	/// @details Increasing values equates to more logging and includes previous levels
 	enum LogLevel : uint16_t
 	{
+		/// No logging
 		OFF = 0,
+		/// Just the print statements
 		PRINT = 1,
+		/// Debugging
 		DEBUG = 13106,
+		/// Tracing
 		TRACE = 26213,
+		/// Interrupt debugging
 		ISR = 39320,
+		/// Interrupt tracing
 		ISR_TRACE = 52427,
+		/// All logging
 		ALL = 65535
-	};
-	
-	//Functions utilizing templates and argument packs need to be defined inline here
-	//Technical reason: original definition needs to be available for compiler to interpret types
+	};	
 	
 	inline const __FlashStringHelper* EMPTY_STRING = F("");	
 	inline const __FlashStringHelper* TRUE_STRING = F("true");
 	inline const __FlashStringHelper* FALSE_STRING = F("false");
 	inline const __FlashStringHelper* toString(bool value) { return value ? TRUE_STRING : FALSE_STRING; };
 	
-	/// @private
+	/// @brief Class for outputting logging to serial
+	/// @details Used in conjunction with log levels to facilitate separating, controlling, and formatting serial logging per class
 	class SerialDebug
 	{
+		inline static Stream* _serialOut = &Serial;
+		
 		//Log level related
 		uint16_t _level = 0; //Default off
 		
 		public:
+		inline void setSerial(Stream* stream) { if(stream) _serialOut = stream; };
+		
 		#if DEBUG_ENABLED
 			inline bool shouldDebug(uint16_t level)
 			{
@@ -42,35 +63,51 @@
 				//Serial.println(level <= _level ? "should debug true" : "should debug false");
 				return level <= _level;
 			};
+
 			inline bool shouldDebug(LogLevel level) { return shouldDebug((uint16_t) level); };
 		#else
+			/// @brief Determines whether the given level should be printed or not
+			/// @param level Level to check
+			/// @retval true When the given level is less than or equal to the set level
 			constexpr bool shouldDebug(uint16_t level) { return false; };
+			
+			/// @brief Determines whether the given level should be printed or not
+			/// @param level Level to check
+			/// @retval true When the given level is less than or equal to the set level
 			constexpr bool shouldDebug(LogLevel level) { return false; };
 		#endif
 		#if PRINT_ENABLED
+			/// @brief Determines whether the given level should be printed or not
+			/// @retval true When the given level is less than or equal to the PRINT level
 			inline bool shouldPrint() { return _level >= PRINT; };
 		#else
+			/// @brief Determines whether the given level should be printed or not
+			/// @retval true When the given level is less than or equal to the PRINT level
 			constexpr bool shouldPrint() { return false; };
 		#endif
 		
 		public:
 			SerialDebug() { setup(); };
-			SerialDebug(LogLevel level) : SerialDebug() { _level = (uint16_t) level; };
 			SerialDebug(uint16_t level) : SerialDebug() { _level = level; };
+			SerialDebug(LogLevel level) : SerialDebug((uint16_t) level) { };
 		
-			inline void setDebugLevel(uint16_t level) { _level = level; };
-			inline uint16_t getDebugLevel() { return _level; };
+			/// @brief Gets the log level currently set
+			inline uint16_t getLogLevel() { return _level; };
+			
+			/// @brief Sets the log level
+			/// @param level Level to set
+			inline void setLogLevel(uint16_t level) { _level = level; };
 		
 		//Serial out related
-		private:
-		#if (!defined(CORE_TEENSY) && ANY_OUTPUT_ENABLED)
+		private:		
+		#if (!S_PRINTF_EXISTS && ANY_OUTPUT_ENABLED)
 			inline static FILE serial_out;
-			inline static int writeChar(char c, FILE* f) { return !Serial.write(c); };
+			inline static int writeChar(char c, FILE* f) { return _serialOut ? !_serialOut->write(c) : 1; };
 		#endif
 			
 			inline static void setup()
 			{
-			#if (!defined(CORE_TEENSY) && ANY_OUTPUT_ENABLED)
+			#if (!S_PRINTF_EXISTS && ANY_OUTPUT_ENABLED)
 				fdev_setup_stream(&serial_out, writeChar, NULL, _FDEV_SETUP_WRITE);
 				stdout = &serial_out;
 			#endif
@@ -89,27 +126,28 @@
 					if (c == 0) break;
 				}
 			};
+			
 			//Internal methods for printing
 			inline void internalPrint(const char* string)
 			{
 			#if ANY_OUTPUT_ENABLED
-				Serial.print(string);
+				if(_serialOut) _serialOut->print(string);
 			#endif
 			};
 			
 			inline void internalPrintln(const char* string = "")
 			{
 			#if ANY_OUTPUT_ENABLED
-				Serial.println(string);
+				if(_serialOut) _serialOut->println(string);
 			#endif
 			};
 				
 			template<typename... Args>
 			inline void internalPrint(const char* format, Args... args)
 			{
-			#if ANY_OUTPUT_ENABLED		
-				#ifdef CORE_TEENSY
-					Serial.printf(format, args...);
+			#if ANY_OUTPUT_ENABLED
+				#if S_PRINTF_EXISTS
+					if(_serialOut) _serialOut->printf(format, args...);
 				#else
 					printf(format, args...);
 				#endif
@@ -126,15 +164,15 @@
 			};
 			
 		public:
-			//Print
-			//Regular strings
-			inline void print(const char* string)
-			{
-			#if PRINT_ENABLED
-				if(!shouldPrint()) return;
-				internalPrint(string);
-			#endif
-			};
+			// Print
+			// Regular strings
+			// inline void print(const char* string)
+			// {
+			// #if PRINT_ENABLED
+				// if(!shouldPrint()) return;
+				// internalPrint(string);
+			// #endif
+			// };
 			
 			inline void println(const char* string = "")
 			{
@@ -144,23 +182,23 @@
 			#endif
 			};
 			
-			template<typename... Args>
-			inline void print(const char* format, Args... args)
-			{			
-			#if PRINT_ENABLED
-				if(!shouldPrint()) return;
-				internalPrint(format, args...);
-			#endif
-			};
+			// template<typename... Args>
+			// inline void print(const char* format, Args... args)
+			// {			
+			// #if PRINT_ENABLED
+				// if(!shouldPrint()) return;
+				// internalPrint(format, args...);
+			// #endif
+			// };
 			
-			template<typename... Args>
-			inline void println(const char* format, Args... args)
-			{
-			#if PRINT_ENABLED
-				if(!shouldPrint()) return;
-				internalPrintln(format, args...);
-			#endif
-			};
+			// template<typename... Args>
+			// inline void println(const char* format, Args... args)
+			// {
+			// #if PRINT_ENABLED
+				// if(!shouldPrint()) return;
+				// internalPrintln(format, args...);
+			// #endif
+			// };
 			
 			//Print
 			//Strings from flash
@@ -208,13 +246,13 @@
 
 			//Debug - level = uint16_t
 			//Regular strings
-			inline void debug(uint16_t level, const char* string)
-			{
-			#if DEBUG_ENABLED
-				if(!shouldDebug(level)) return;
-				internalPrint(string);
-			#endif
-			};
+			// inline void debug(uint16_t level, const char* string)
+			// {
+			// #if DEBUG_ENABLED
+				// if(!shouldDebug(level)) return;
+				// internalPrint(string);
+			// #endif
+			// };
 			
 			void debugln(uint16_t level, const char* string = "")
 			{
@@ -224,33 +262,33 @@
 			#endif
 			};
 			
-			template<typename... Args>
-			inline void debug(uint16_t level, const char* format, Args... args)
-			{
-			#if DEBUG_ENABLED
-				if(!shouldDebug(level)) return;
-				internalPrint(format, args...);
-			#endif
-			};
+			// template<typename... Args>
+			// inline void debug(uint16_t level, const char* format, Args... args)
+			// {
+			// #if DEBUG_ENABLED
+				// if(!shouldDebug(level)) return;
+				// internalPrint(format, args...);
+			// #endif
+			// };
 			
-			template<typename... Args>
-			inline void debugln(uint16_t level, const char* format, Args... args)
-			{
-			#if DEBUG_ENABLED
-				if(!shouldDebug(level)) return;
-				internalPrintln(format, args...);
-			#endif
-			};
+			// template<typename... Args>
+			// inline void debugln(uint16_t level, const char* format, Args... args)
+			// {
+			// #if DEBUG_ENABLED
+				// if(!shouldDebug(level)) return;
+				// internalPrintln(format, args...);
+			// #endif
+			// };
 			
 			//Debug - level = LogLevel
 			//Regular strings
-			inline void debug(LogLevel level, const char* string)
-			{
-			#if DEBUG_ENABLED
-				if(!shouldDebug(level)) return;
-				internalPrint(string);
-			#endif
-			};
+			// inline void debug(LogLevel level, const char* string)
+			// {
+			// #if DEBUG_ENABLED
+				// if(!shouldDebug(level)) return;
+				// internalPrint(string);
+			// #endif
+			// };
 			
 			void debugln(LogLevel level, const char* string = "")
 			{
@@ -260,23 +298,23 @@
 			#endif
 			};
 			
-			template<typename... Args>
-			inline void debug(LogLevel level, const char* format, Args... args)
-			{
-			#if DEBUG_ENABLED
-				if(!shouldDebug(level)) return;
-				internalPrint(format, args...);
-			#endif
-			};
+			// template<typename... Args>
+			// inline void debug(LogLevel level, const char* format, Args... args)
+			// {
+			// #if DEBUG_ENABLED
+				// if(!shouldDebug(level)) return;
+				// internalPrint(format, args...);
+			// #endif
+			// };
 			
-			template<typename... Args>
-			inline void debugln(LogLevel level, const char* format, Args... args)
-			{
-			#if DEBUG_ENABLED
-				if(!shouldDebug(level)) return;
-				internalPrintln(format, args...);
-			#endif
-			};
+			// template<typename... Args>
+			// inline void debugln(LogLevel level, const char* format, Args... args)
+			// {
+			// #if DEBUG_ENABLED
+				// if(!shouldDebug(level)) return;
+				// internalPrintln(format, args...);
+			// #endif
+			// };
 			
 			//Debug - level = uint16_t
 			//Strings from flash
@@ -367,7 +405,7 @@
 			};
 			
 			#if INCLUDE_TESTS
-			static void runTest()
+			inline static void runTest()
 			{
 				Serial.print("DEBUG_ENABLED: "); Serial.println(DEBUG_ENABLED);
 				Serial.print("PRINT_ENABLED: "); Serial.println(PRINT_ENABLED);
@@ -426,4 +464,6 @@
 			};
 			#endif
 	};
+	
 #endif
+/// @endcond
