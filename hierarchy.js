@@ -24,8 +24,10 @@ var hierarchy =
       [ "MIDI_Toggle", "classMIDI__Toggle.html", null ]
     ] ],
     [ "ByteNoteRegister", "classByteNoteRegister.html", null ],
-    [ "IO_74HC595", "classIO__74HC595.html", null ],
-    [ "IO_DigitalWrite", "classIO__DigitalWrite.html", null ],
+    [ "IO_Device", "classIO__Device.html", [
+      [ "IO_74HC595", "classIO__74HC595.html", null ],
+      [ "IO_DigitalWrite", "classIO__DigitalWrite.html", null ]
+    ] ],
     [ "IO_Factory", "classIO__Factory.html", null ],
     [ "MIDI_Collection_Controller", "classMIDI__Collection__Controller.html", null ],
     [ "MIDI_Collection_Factory", "classMIDI__Collection__Factory.html", null ],

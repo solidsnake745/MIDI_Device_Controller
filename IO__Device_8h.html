@@ -106,12 +106,19 @@ $(document).ready(function(){initNavTree('IO__Device_8h.html',''); initResizable
 </div>
 <p><a href="IO__Device_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__Device.html">IO_Device</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface that represents an IO device MDC knows how to use.  <a href="classIO__Device.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:a2634dc8f796d724e921dc6a0edb43507"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="IO__Device_8h.html#a2634dc8f796d724e921dc6a0edb43507">IOType</a> { <a class="el" href="IO__Device_8h.html#a2634dc8f796d724e921dc6a0edb43507a2e14b1169ebc7ebdacff0f6950a0c239">NoValue</a> = -1
 , <a class="el" href="IO__Device_8h.html#a2634dc8f796d724e921dc6a0edb43507af8efd430ab9ff08d8c53846ba069ec84">IODigital</a> = 0
 , <a class="el" href="IO__Device_8h.html#a2634dc8f796d724e921dc6a0edb43507a2ffa4caabbb64f0aced4513507a4ff04">IO74HC595</a> = 1
  }</td></tr>
+<tr class="memdesc:a2634dc8f796d724e921dc6a0edb43507"><td class="mdescLeft">&#160;</td><td class="mdescRight">Types of IO devices available.  <a href="IO__Device_8h.html#a2634dc8f796d724e921dc6a0edb43507">More...</a><br /></td></tr>
 <tr class="separator:a2634dc8f796d724e921dc6a0edb43507"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
@@ -126,10 +133,16 @@ Enumerations</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Types of IO devices available. </p>
+<p>Enum values have to begin with a letter, so using IO prefix. Also can't match the class name so underscore is not included. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a2634dc8f796d724e921dc6a0edb43507a2e14b1169ebc7ebdacff0f6950a0c239" name="a2634dc8f796d724e921dc6a0edb43507a2e14b1169ebc7ebdacff0f6950a0c239"></a>NoValue&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2634dc8f796d724e921dc6a0edb43507af8efd430ab9ff08d8c53846ba069ec84" name="a2634dc8f796d724e921dc6a0edb43507af8efd430ab9ff08d8c53846ba069ec84"></a>IODigital&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2634dc8f796d724e921dc6a0edb43507a2ffa4caabbb64f0aced4513507a4ff04" name="a2634dc8f796d724e921dc6a0edb43507a2ffa4caabbb64f0aced4513507a4ff04"></a>IO74HC595&#160;</td><td class="fielddoc"></td></tr>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a2634dc8f796d724e921dc6a0edb43507a2e14b1169ebc7ebdacff0f6950a0c239" name="a2634dc8f796d724e921dc6a0edb43507a2e14b1169ebc7ebdacff0f6950a0c239"></a>NoValue&#160;</td><td class="fielddoc"><p>Default representing invalid/no value. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a2634dc8f796d724e921dc6a0edb43507af8efd430ab9ff08d8c53846ba069ec84" name="a2634dc8f796d724e921dc6a0edb43507af8efd430ab9ff08d8c53846ba069ec84"></a>IODigital&#160;</td><td class="fielddoc"><p><a class="el" href="classIO__DigitalWrite.html" title="Class to manage microcontroller outputs that use Arduino digitalWrite()">IO_DigitalWrite</a>. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a2634dc8f796d724e921dc6a0edb43507a2ffa4caabbb64f0aced4513507a4ff04" name="a2634dc8f796d724e921dc6a0edb43507a2ffa4caabbb64f0aced4513507a4ff04"></a>IO74HC595&#160;</td><td class="fielddoc"><p><a class="el" href="classIO__74HC595.html" title="Class to manage a chain of shift registers outputs.">IO_74HC595</a>. </p>
+</td></tr>
 </table>
 
 </div>

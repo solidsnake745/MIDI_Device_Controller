@@ -105,43 +105,91 @@ $(document).ready(function(){initNavTree('classIO__74HC595.html',''); initResiza
 </div><!--header-->
 <div class="contents">
 
-<p>MIDI device class for pulsing shift register outputs via SPI.  
+<p>Class to manage a chain of shift registers outputs.  
  <a href="classIO__74HC595.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="IO__74HC595_8h_source.html">IO_74HC595.h</a>&gt;</code></p>
-
-<p>Inherits IO_Device.</p>
+<div class="dynheader">
+Inheritance diagram for IO_74HC595:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classIO__74HC595.png" usemap="#IO_5F74HC595_map" alt=""/>
+  <map id="IO_5F74HC595_map" name="IO_5F74HC595_map">
+<area href="classIO__Device.html" title="Interface that represents an IO device MDC knows how to use." alt="IO_Device" shape="rect" coords="0,0,85,24"/>
+  </map>
+</div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a4934b30256209052095e34089e973227"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__74HC595.html#a4934b30256209052095e34089e973227">IO_74HC595</a> (uint8_t numRegisters, uint8_t latchPin)</td></tr>
+<tr class="memdesc:a4934b30256209052095e34089e973227"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <br /></td></tr>
 <tr class="separator:a4934b30256209052095e34089e973227"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e6013f3b1b65ee1fd8011d9da19a7c5"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__74HC595.html#a4e6013f3b1b65ee1fd8011d9da19a7c5">getRegisterCount</a> ()</td></tr>
+<tr class="memdesc:a4e6013f3b1b65ee1fd8011d9da19a7c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the number of registers configured.  <br /></td></tr>
 <tr class="separator:a4e6013f3b1b65ee1fd8011d9da19a7c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8221c285be20d81c3ee2be5ac647f763"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__74HC595.html#a8221c285be20d81c3ee2be5ac647f763">getLatchPin</a> ()</td></tr>
+<tr class="memdesc:a8221c285be20d81c3ee2be5ac647f763"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the pin being used for latching.  <br /></td></tr>
 <tr class="separator:a8221c285be20d81c3ee2be5ac647f763"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f84504ffa89cf2be6c769bf786d50b1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__74HC595.html#a3f84504ffa89cf2be6c769bf786d50b1">setReverseOutput</a> (bool value)</td></tr>
-<tr class="separator:a3f84504ffa89cf2be6c769bf786d50b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73d9dfc158936e7183abf25ff5fea7de"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__74HC595.html#a73d9dfc158936e7183abf25ff5fea7de">isValidMapping</a> (uint8_t out)</td></tr>
-<tr class="separator:a73d9dfc158936e7183abf25ff5fea7de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e68a2d2d2fe2220f1746e45256b35f8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__74HC595.html#a4e68a2d2d2fe2220f1746e45256b35f8">setInverted</a> (uint8_t out, bool value)</td></tr>
-<tr class="separator:a4e68a2d2d2fe2220f1746e45256b35f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a435e51d042005df22d35700ad8bf5f98"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__74HC595.html#a435e51d042005df22d35700ad8bf5f98">setShouldStop</a> (uint8_t out, bool value)</td></tr>
-<tr class="separator:a435e51d042005df22d35700ad8bf5f98"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad66f4869917537a41aacdcb89865342c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__74HC595.html#ad66f4869917537a41aacdcb89865342c">getOutput</a> (uint8_t out)</td></tr>
-<tr class="separator:ad66f4869917537a41aacdcb89865342c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf22215545dab3d10b673a0cb4fc53eb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__74HC595.html#aaf22215545dab3d10b673a0cb4fc53eb">setOutput</a> (uint8_t out, bool value)</td></tr>
-<tr class="separator:aaf22215545dab3d10b673a0cb4fc53eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9bbec3a19e3f2217c38dc4c914d03025"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__74HC595.html#a9bbec3a19e3f2217c38dc4c914d03025">toggleOutput</a> (uint8_t out)</td></tr>
-<tr class="separator:a9bbec3a19e3f2217c38dc4c914d03025"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7cce037eb03df881d41c944c3401159"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__74HC595.html#aa7cce037eb03df881d41c944c3401159">testOutputs</a> ()</td></tr>
-<tr class="separator:aa7cce037eb03df881d41c944c3401159"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2ba8abe5d9b093fb9bb03fd9e014e5d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__74HC595.html#aa2ba8abe5d9b093fb9bb03fd9e014e5d">stopOutputs</a> ()</td></tr>
-<tr class="separator:aa2ba8abe5d9b093fb9bb03fd9e014e5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae230d2c677f3b0508f34860a4cf058aa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__74HC595.html#ae230d2c677f3b0508f34860a4cf058aa">resetOutputs</a> ()</td></tr>
-<tr class="separator:ae230d2c677f3b0508f34860a4cf058aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8005e547e3db7c0b48f54debf449b1df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__74HC595.html#a8005e547e3db7c0b48f54debf449b1df">setLatchPin</a> (uint8_t pin)</td></tr>
+<tr class="memdesc:a8005e547e3db7c0b48f54debf449b1df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the pin being used for latching.  <br /></td></tr>
 <tr class="separator:a8005e547e3db7c0b48f54debf449b1df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f84504ffa89cf2be6c769bf786d50b1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__74HC595.html#a3f84504ffa89cf2be6c769bf786d50b1">setReverseOutput</a> (bool value)</td></tr>
+<tr class="memdesc:a3f84504ffa89cf2be6c769bf786d50b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets whether to reverse the output or not.  <br /></td></tr>
+<tr class="separator:a3f84504ffa89cf2be6c769bf786d50b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae93302db350c0b10cc64abdd355ea5e5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__74HC595.html#ae93302db350c0b10cc64abdd355ea5e5">isValidMapping</a> (uint8_t out) override</td></tr>
+<tr class="memdesc:ae93302db350c0b10cc64abdd355ea5e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if the specified output is a valid mapping.  <br /></td></tr>
+<tr class="separator:ae93302db350c0b10cc64abdd355ea5e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8145eccb3add4d086421d9191fcb49ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__74HC595.html#a8145eccb3add4d086421d9191fcb49ba">setInverted</a> (uint8_t out, bool value) override</td></tr>
+<tr class="memdesc:a8145eccb3add4d086421d9191fcb49ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the specified output's inverted setting.  <br /></td></tr>
+<tr class="separator:a8145eccb3add4d086421d9191fcb49ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29082740bd9cac9882d62249f089c425"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__74HC595.html#a29082740bd9cac9882d62249f089c425">setShouldStop</a> (uint8_t out, bool value) override</td></tr>
+<tr class="memdesc:a29082740bd9cac9882d62249f089c425"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the specified output's inverted setting.  <br /></td></tr>
+<tr class="separator:a29082740bd9cac9882d62249f089c425"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af74c8d285a5a22e4e8ecee40fc8c3013"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__74HC595.html#af74c8d285a5a22e4e8ecee40fc8c3013">getOutput</a> (uint8_t out) override</td></tr>
+<tr class="memdesc:af74c8d285a5a22e4e8ecee40fc8c3013"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the specified output's inverted setting.  <br /></td></tr>
+<tr class="separator:af74c8d285a5a22e4e8ecee40fc8c3013"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3885d18c5c54bc92bf59b93e2fd88196"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__74HC595.html#a3885d18c5c54bc92bf59b93e2fd88196">setOutput</a> (uint8_t out, bool state) override</td></tr>
+<tr class="memdesc:a3885d18c5c54bc92bf59b93e2fd88196"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the specified output's state.  <br /></td></tr>
+<tr class="separator:a3885d18c5c54bc92bf59b93e2fd88196"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64b1b8495b9610871739a3b9e3cbd3b0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__74HC595.html#a64b1b8495b9610871739a3b9e3cbd3b0">toggleOutput</a> (uint8_t out) override</td></tr>
+<tr class="memdesc:a64b1b8495b9610871739a3b9e3cbd3b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Toggles the specified output's state.  <br /></td></tr>
+<tr class="separator:a64b1b8495b9610871739a3b9e3cbd3b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73d75f2b46ca79eff2418538f8a92e4c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__74HC595.html#a73d75f2b46ca79eff2418538f8a92e4c">testOutputs</a> () override</td></tr>
+<tr class="memdesc:a73d75f2b46ca79eff2418538f8a92e4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tests each of the configured outputs on this IO.  <br /></td></tr>
+<tr class="separator:a73d75f2b46ca79eff2418538f8a92e4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a444bb2b7006597c6189e719cd7927c03"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__74HC595.html#a444bb2b7006597c6189e719cd7927c03">stopOutputs</a> () override</td></tr>
+<tr class="memdesc:a444bb2b7006597c6189e719cd7927c03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops each of the configured outputs on this IO.  <br /></td></tr>
+<tr class="separator:a444bb2b7006597c6189e719cd7927c03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9ef0fd0f7ff053565003577db479ac8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__74HC595.html#ac9ef0fd0f7ff053565003577db479ac8">resetOutputs</a> () override</td></tr>
+<tr class="memdesc:ac9ef0fd0f7ff053565003577db479ac8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops each of the configured outputs on this IO.  <br /></td></tr>
+<tr class="separator:ac9ef0fd0f7ff053565003577db479ac8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0904e8525e8430947a9688edff4a58f"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__Device.html#ad0904e8525e8430947a9688edff4a58f">isValidMapping</a> (uint8_t out)=0</td></tr>
+<tr class="memdesc:ad0904e8525e8430947a9688edff4a58f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if the specified output is a valid mapping.  <br /></td></tr>
+<tr class="separator:ad0904e8525e8430947a9688edff4a58f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6722ef2e04aeafeb6847f3e07cc708a5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__Device.html#a6722ef2e04aeafeb6847f3e07cc708a5">setInverted</a> (uint8_t out, bool value)=0</td></tr>
+<tr class="memdesc:a6722ef2e04aeafeb6847f3e07cc708a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the specified output's inverted setting.  <br /></td></tr>
+<tr class="separator:a6722ef2e04aeafeb6847f3e07cc708a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a440ac5c1cb05fe9ba3d601412954b036"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__Device.html#a440ac5c1cb05fe9ba3d601412954b036">setShouldStop</a> (uint8_t out, bool value)=0</td></tr>
+<tr class="memdesc:a440ac5c1cb05fe9ba3d601412954b036"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the specified output's inverted setting.  <br /></td></tr>
+<tr class="separator:a440ac5c1cb05fe9ba3d601412954b036"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d6b4ec4a67ecc8dec8718710baeb02a"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__Device.html#a9d6b4ec4a67ecc8dec8718710baeb02a">getOutput</a> (uint8_t out)=0</td></tr>
+<tr class="memdesc:a9d6b4ec4a67ecc8dec8718710baeb02a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the specified output's inverted setting.  <br /></td></tr>
+<tr class="separator:a9d6b4ec4a67ecc8dec8718710baeb02a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed64b875c4a1288c7e9f7edb86dbc7d5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__Device.html#aed64b875c4a1288c7e9f7edb86dbc7d5">setOutput</a> (uint8_t out, bool state)=0</td></tr>
+<tr class="memdesc:aed64b875c4a1288c7e9f7edb86dbc7d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the specified output's state.  <br /></td></tr>
+<tr class="separator:aed64b875c4a1288c7e9f7edb86dbc7d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8495ccd4b3b555481cf51a27a110ae6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__Device.html#ad8495ccd4b3b555481cf51a27a110ae6">toggleOutput</a> (uint8_t out)=0</td></tr>
+<tr class="memdesc:ad8495ccd4b3b555481cf51a27a110ae6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Toggles the specified output's state.  <br /></td></tr>
+<tr class="separator:ad8495ccd4b3b555481cf51a27a110ae6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30047ec87f90ee568aed67164d989cdd"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__Device.html#a30047ec87f90ee568aed67164d989cdd">testOutputs</a> ()=0</td></tr>
+<tr class="memdesc:a30047ec87f90ee568aed67164d989cdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tests each of the configured outputs on this IO.  <br /></td></tr>
+<tr class="separator:a30047ec87f90ee568aed67164d989cdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a485d7d92371e254459587a1182c20967"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__Device.html#a485d7d92371e254459587a1182c20967">stopOutputs</a> ()=0</td></tr>
+<tr class="memdesc:a485d7d92371e254459587a1182c20967"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops each of the configured outputs on this IO.  <br /></td></tr>
+<tr class="separator:a485d7d92371e254459587a1182c20967"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac430076e7cd5bd004682d13ba8802771"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIO__Device.html#ac430076e7cd5bd004682d13ba8802771">resetOutputs</a> ()=0</td></tr>
+<tr class="memdesc:ac430076e7cd5bd004682d13ba8802771"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops each of the configured outputs on this IO.  <br /></td></tr>
+<tr class="separator:ac430076e7cd5bd004682d13ba8802771"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
 Friends</h2></td></tr>
@@ -149,7 +197,8 @@ Friends</h2></td></tr>
 <tr class="separator:ac1d158bb9678be7a19821ed89b096022"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>MIDI device class for pulsing shift register outputs via SPI. </p>
+<div class="textblock"><p>Class to manage a chain of shift registers outputs. </p>
+<p>Currently utilizes the SPI bus to operate shift registers. Developed using 74HC585 shift registers, but should theoretically work for similar chips. TODO: Update to accept an SPI object so a different bus can be used. TODO: Update to allow straight shiftOut like usage. TODO: Update to allow multiple instances for separate chains of shift registers. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a4934b30256209052095e34089e973227" name="a4934b30256209052095e34089e973227"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4934b30256209052095e34089e973227">&#9670;&#160;</a></span>IO_74HC595()</h2>
@@ -177,6 +226,15 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Default constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">numRegisters</td><td>Number of registers in the chain </td></tr>
+    <tr><td class="paramname">latchPin</td><td>Pin to use for latching </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
@@ -203,13 +261,18 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Gets the pin being used for latching. </p>
+
 </div>
 </div>
-<a id="ad66f4869917537a41aacdcb89865342c" name="ad66f4869917537a41aacdcb89865342c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad66f4869917537a41aacdcb89865342c">&#9670;&#160;</a></span>getOutput()</h2>
+<a id="af74c8d285a5a22e4e8ecee40fc8c3013" name="af74c8d285a5a22e4e8ecee40fc8c3013"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af74c8d285a5a22e4e8ecee40fc8c3013">&#9670;&#160;</a></span>getOutput()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool IO_74HC595::getOutput </td>
@@ -219,7 +282,23 @@ Friends</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Sets the specified output's inverted setting. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">out</td><td>Output to set </td></tr>
+    <tr><td class="paramname">value</td><td>Value to set it to </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="classIO__Device.html#a9d6b4ec4a67ecc8dec8718710baeb02a">IO_Device</a>.</p>
 
 </div>
 </div>
@@ -246,13 +325,18 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Gets the number of registers configured. </p>
+
 </div>
 </div>
-<a id="a73d9dfc158936e7183abf25ff5fea7de" name="a73d9dfc158936e7183abf25ff5fea7de"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a73d9dfc158936e7183abf25ff5fea7de">&#9670;&#160;</a></span>isValidMapping()</h2>
+<a id="ae93302db350c0b10cc64abdd355ea5e5" name="ae93302db350c0b10cc64abdd355ea5e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae93302db350c0b10cc64abdd355ea5e5">&#9670;&#160;</a></span>isValidMapping()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool IO_74HC595::isValidMapping </td>
@@ -262,15 +346,39 @@ Friends</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Determines if the specified output is a valid mapping. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">out</td><td>Output to check </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>if valid </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="classIO__Device.html#ad0904e8525e8430947a9688edff4a58f">IO_Device</a>.</p>
 
 </div>
 </div>
-<a id="ae230d2c677f3b0508f34860a4cf058aa" name="ae230d2c677f3b0508f34860a4cf058aa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae230d2c677f3b0508f34860a4cf058aa">&#9670;&#160;</a></span>resetOutputs()</h2>
+<a id="ac9ef0fd0f7ff053565003577db479ac8" name="ac9ef0fd0f7ff053565003577db479ac8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9ef0fd0f7ff053565003577db479ac8">&#9670;&#160;</a></span>resetOutputs()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void IO_74HC595::resetOutputs </td>
@@ -279,15 +387,28 @@ Friends</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Stops each of the configured outputs on this IO. </p>
+<p>Outputs are reset to their initial state (based on inverted setting) regardless of their shouldStop setting. </p>
+
+<p>Implements <a class="el" href="classIO__Device.html#ac430076e7cd5bd004682d13ba8802771">IO_Device</a>.</p>
 
 </div>
 </div>
-<a id="a4e68a2d2d2fe2220f1746e45256b35f8" name="a4e68a2d2d2fe2220f1746e45256b35f8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4e68a2d2d2fe2220f1746e45256b35f8">&#9670;&#160;</a></span>setInverted()</h2>
+<a id="a8145eccb3add4d086421d9191fcb49ba" name="a8145eccb3add4d086421d9191fcb49ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8145eccb3add4d086421d9191fcb49ba">&#9670;&#160;</a></span>setInverted()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void IO_74HC595::setInverted </td>
@@ -307,7 +428,23 @@ Friends</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Sets the specified output's inverted setting. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">out</td><td>Output to set </td></tr>
+    <tr><td class="paramname">value</td><td>Value to set it to </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="classIO__Device.html#a6722ef2e04aeafeb6847f3e07cc708a5">IO_Device</a>.</p>
 
 </div>
 </div>
@@ -335,13 +472,24 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Sets the pin being used for latching. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pin</td><td>Pin to use </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
-<a id="aaf22215545dab3d10b673a0cb4fc53eb" name="aaf22215545dab3d10b673a0cb4fc53eb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaf22215545dab3d10b673a0cb4fc53eb">&#9670;&#160;</a></span>setOutput()</h2>
+<a id="a3885d18c5c54bc92bf59b93e2fd88196" name="a3885d18c5c54bc92bf59b93e2fd88196"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3885d18c5c54bc92bf59b93e2fd88196">&#9670;&#160;</a></span>setOutput()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void IO_74HC595::setOutput </td>
@@ -353,7 +501,7 @@ Friends</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>value</em>&#160;</td>
+          <td class="paramname"><em>state</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -361,7 +509,23 @@ Friends</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Sets the specified output's state. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">out</td><td>Output to set </td></tr>
+    <tr><td class="paramname">state</td><td>State to set it to </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="classIO__Device.html#aed64b875c4a1288c7e9f7edb86dbc7d5">IO_Device</a>.</p>
 
 </div>
 </div>
@@ -389,13 +553,24 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Sets whether to reverse the output or not. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>Value to set where true will reverse the output </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
-<a id="a435e51d042005df22d35700ad8bf5f98" name="a435e51d042005df22d35700ad8bf5f98"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a435e51d042005df22d35700ad8bf5f98">&#9670;&#160;</a></span>setShouldStop()</h2>
+<a id="a29082740bd9cac9882d62249f089c425" name="a29082740bd9cac9882d62249f089c425"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29082740bd9cac9882d62249f089c425">&#9670;&#160;</a></span>setShouldStop()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void IO_74HC595::setShouldStop </td>
@@ -415,15 +590,34 @@ Friends</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Sets the specified output's inverted setting. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">out</td><td>Output to set </td></tr>
+    <tr><td class="paramname">value</td><td>Value to set it to </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="classIO__Device.html#a440ac5c1cb05fe9ba3d601412954b036">IO_Device</a>.</p>
 
 </div>
 </div>
-<a id="aa2ba8abe5d9b093fb9bb03fd9e014e5d" name="aa2ba8abe5d9b093fb9bb03fd9e014e5d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa2ba8abe5d9b093fb9bb03fd9e014e5d">&#9670;&#160;</a></span>stopOutputs()</h2>
+<a id="a444bb2b7006597c6189e719cd7927c03" name="a444bb2b7006597c6189e719cd7927c03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a444bb2b7006597c6189e719cd7927c03">&#9670;&#160;</a></span>stopOutputs()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void IO_74HC595::stopOutputs </td>
@@ -432,15 +626,28 @@ Friends</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Stops each of the configured outputs on this IO. </p>
+<p>Respects the shouldStop setting of each output. Outputs where shouldStop is true will be reset to their initial state (based on inverted setting). This is automatically called through the framework (see <a class="el" href="classMIDI__Device__Controller.html#a7563178596d986e72b78d098208b8d22">MIDI_Device_Controller::stopPlaying()</a>). </p>
+
+<p>Implements <a class="el" href="classIO__Device.html#a485d7d92371e254459587a1182c20967">IO_Device</a>.</p>
 
 </div>
 </div>
-<a id="aa7cce037eb03df881d41c944c3401159" name="aa7cce037eb03df881d41c944c3401159"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa7cce037eb03df881d41c944c3401159">&#9670;&#160;</a></span>testOutputs()</h2>
+<a id="a73d75f2b46ca79eff2418538f8a92e4c" name="a73d75f2b46ca79eff2418538f8a92e4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73d75f2b46ca79eff2418538f8a92e4c">&#9670;&#160;</a></span>testOutputs()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void IO_74HC595::testOutputs </td>
@@ -449,15 +656,28 @@ Friends</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Tests each of the configured outputs on this IO. </p>
+<p>TODO: check implementations are consistent, describe pattern here </p>
+
+<p>Implements <a class="el" href="classIO__Device.html#a30047ec87f90ee568aed67164d989cdd">IO_Device</a>.</p>
 
 </div>
 </div>
-<a id="a9bbec3a19e3f2217c38dc4c914d03025" name="a9bbec3a19e3f2217c38dc4c914d03025"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9bbec3a19e3f2217c38dc4c914d03025">&#9670;&#160;</a></span>toggleOutput()</h2>
+<a id="a64b1b8495b9610871739a3b9e3cbd3b0" name="a64b1b8495b9610871739a3b9e3cbd3b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64b1b8495b9610871739a3b9e3cbd3b0">&#9670;&#160;</a></span>toggleOutput()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void IO_74HC595::toggleOutput </td>
@@ -467,7 +687,22 @@ Friends</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Toggles the specified output's state. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">out</td><td>Output to toggle </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="classIO__Device.html#ad8495ccd4b3b555481cf51a27a110ae6">IO_Device</a>.</p>
 
 </div>
 </div>

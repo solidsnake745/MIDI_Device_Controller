@@ -9,6 +9,7 @@ var annotated_dup =
     [ "Direct_Collection", "classDirect__Collection.html", "classDirect__Collection" ],
     [ "FirstAvailable_Collection", "classFirstAvailable__Collection.html", "classFirstAvailable__Collection" ],
     [ "IO_74HC595", "classIO__74HC595.html", "classIO__74HC595" ],
+    [ "IO_Device", "classIO__Device.html", "classIO__Device" ],
     [ "IO_DigitalWrite", "classIO__DigitalWrite.html", "classIO__DigitalWrite" ],
     [ "IO_Factory", "classIO__Factory.html", "classIO__Factory" ],
     [ "MIDI_Collection_Controller", "classMIDI__Collection__Controller.html", "classMIDI__Collection__Controller" ],

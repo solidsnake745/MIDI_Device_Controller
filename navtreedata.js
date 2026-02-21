@@ -55,7 +55,7 @@ var NAVTREEINDEX =
 [
 "Base__MIDI__Pitch_8cpp.html",
 "classBase__MIDI__Pulse.html#a26287dcb388a8c3fc5737c3401124f77",
-"classNoteDuration.html#a311258ddd554f5f400c97a7829981f87"
+"classMIDI__Unipolar.html#a43cbb1797851489faa6365058e582d78"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
