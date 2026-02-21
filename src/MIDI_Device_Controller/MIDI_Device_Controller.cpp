@@ -448,7 +448,7 @@ bool MIDI_Device_Controller::startPlaying()
 void MIDI_Device_Controller::stopPlaying()
 {
 	_debug.debugln(TRACE, F("Stopping processing"));
-		
+
 	if(_isPlayingNotes) //To keep stopPlaying re-runnable
 	{
 		//Stop the timer interrupt so it doesn't interfere

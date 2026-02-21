@@ -26,11 +26,11 @@
 				return _invert > 0 ? ((~_data & _invert) + (_data & ~_invert)) : _data;
 			};
 			
-			/// @brief Gets specified bit
+			/// @brief Gets the specified bit
 			/// @param i (Zero) Index of the bit to get
 			inline bool getBit(uint8_t i) { return bitRead(_data, i); };			
 			
-			/// @brief Gets specified bit and applies the invert setting
+			/// @brief Gets the specified bit and applies the invert setting
 			/// @param i (Zero) Index of the bit to get
 			inline bool getBitValue(uint8_t i)
 			{ 
@@ -38,30 +38,31 @@
 				return isInverted(i) ? !value : value;
 			};
 			
-			/// @brief Sets specified bit to 1
+			/// @brief Sets the specified bit to 1
 			/// @param i (Zero) Index of the bit to set
 			inline void setBit(uint8_t i) { bitSet(_data, i); };
 			
-			/// @brief Sets specified bit to 0
+			/// @brief Sets the specified bit to 0
 			/// @param i (Zero) Index of the bit to set
 			inline void clearBit(uint8_t i)	{ bitClear(_data, i); };
 			
-			/// @brief Sets specified bit's value
+			/// @brief Sets the specified bit's value
 			/// @param i (Zero) Index of the bit to set
+			/// @param value Value to set it to
 			inline void setBitValue(uint8_t i, bool value) { value ? setBit(i) : clearBit(i); };		
 			
-			/// @brief Toggles specified bit's value
+			/// @brief Toggles the specified bit's value
 			/// @param i (Zero) Index of the bit to toggle
 			inline void toggleBit(uint8_t i) { setBitValue(i, !bitRead(_data, i)); }
 			
-			/// @brief Gets specified bit's inverted setting
+			/// @brief Gets the specified bit's inverted setting
 			/// @param i (Zero) Index of the bit to get
 			/// @retval true if inverted
-			/// @retval false if not inverted
 			inline bool isInverted(uint8_t i) { return bitRead(_invert, i); };
 			
-			/// @brief Sets specified bit's inverted setting
+			/// @brief Sets the specified bit's inverted setting
 			/// @param i (Zero) Index of the bit to set
+			/// @param value Value to set it to
 			inline void setInverted(uint8_t i, bool value) { value ? bitSet(_invert, i) : bitClear(_invert, i); };
 			
 		#if INCLUDE_TESTS

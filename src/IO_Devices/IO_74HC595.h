@@ -13,7 +13,12 @@
 	//Forward declaration for compiling
 	class MIDI_Device_Controller;
 	
-	///MIDI device class for pulsing shift register outputs via SPI
+	/// @brief Class to manage a chain of shift registers outputs
+	/// @details Currently utilizes the SPI bus to operate shift registers.
+	/// Developed using 74HC585 shift registers, but should theoretically work for similar chips.
+	/// TODO: Update to accept an SPI object so a different bus can be used.
+	/// TODO: Update to allow straight shiftOut like usage.
+	/// TODO: Update to allow multiple instances for separate chains of shift registers.
 	class IO_74HC595 : public IO_Device
 	{
 		//Give MIDI_DeviceController access to all private members
@@ -26,6 +31,7 @@
 		//Example: Reverse of 0001 (1) is 1000 (8) so index 1 has the value 8
 		inline constexpr static uint8_t reverseLookup[16] = {0x0, 0x8, 0x4, 0xc, 0x2, 0xa, 0x6, 0xe, 0x1, 0x9, 0x5, 0xd, 0x3, 0xb, 0x7, 0xf};
 		
+		//Represents individual register outputs (8 per chip)
 		struct regOut
 		{
 			regOut(ByteNoteRegister* r, uint8_t b)
@@ -47,12 +53,15 @@
 		inline static ByteNoteRegister* _registers;
 		inline static regOut** _outputs;
 		
-		//Interface implementations
-		void updateOutputs(); //Operates the SPI bus per desired MIDI output
+		//Interface implementations		
+		
+		/// @brief Operates the SPI bus per desired MIDI output
+		/// @details Want to use inline here as these are called in the ISR, but seem to be working fine without it for now.
+		///	Will cause size bloat when used outside of it: setInverted(), testOutputs(), stopOutputs(), resetOutputs().
+		/// TODO: Think of another solution to reduce calling this method or prevent inline bloat
+		void updateOutputs() override;
 		
 		//Unique methods
-		void update74HC595();
-		
 		inline uint8_t reverseByte(uint8_t n)
 		{ 
 			//Taken from https://stackoverflow.com/a/2603254
@@ -70,30 +79,40 @@
 		};
 		
 		public:
-			//Constructors/properties
+			/// @brief Default constructor
+			/// @param numRegisters Number of registers in the chain
+			/// @param latchPin Pin to use for latching
 			IO_74HC595(uint8_t numRegisters, uint8_t latchPin);
-
+			
+			/// @brief Gets the number of registers configured
 			inline uint8_t getRegisterCount() { return _numRegisters; };
+			
+			/// @brief Gets the pin being used for latching
 			inline uint8_t getLatchPin() { return _latchPin; };
-			inline void setReverseOutput(bool value) { _reverseOutput = value; };
 			
-			//Interface implementations
-			bool isValidMapping(uint8_t out);
-			void setInverted(uint8_t out, bool value);
-			void setShouldStop(uint8_t out, bool value);
-			bool getOutput(uint8_t out);
-			void setOutput(uint8_t out, bool value);
-			void toggleOutput(uint8_t out);
-			void testOutputs();
-			void stopOutputs();
-			void resetOutputs();
-			
-			//Unique methods
-			inline void setLatchPin(uint8_t pin) 
+			/// @brief Sets the pin being used for latching
+			/// @param pin Pin to use
+			inline void setLatchPin(uint8_t pin)
 			{ 
 				_latchPin = pin;
 				pinMode(_latchPin, OUTPUT);
 				digitalWrite(_latchPin, LOW);
 			};
+			
+			/// @brief Sets whether to reverse the output or not
+			/// @param value Value to set where true will reverse the output
+			inline void setReverseOutput(bool value) { _reverseOutput = value; };
+			
+			//Interface implementations
+			bool isValidMapping(uint8_t out) override;
+			void setInverted(uint8_t out, bool value) override;
+			void setShouldStop(uint8_t out, bool value) override;
+			bool getOutput(uint8_t out) override;
+			void setOutput(uint8_t out, bool state) override;
+			void toggleOutput(uint8_t out) override;
+			void testOutputs() override;
+			void stopOutputs() override;
+			void resetOutputs() override;
 	};
+	
 #endif

@@ -27,7 +27,7 @@
 	//Forward declaration for compiling
 	class MIDI_Device_Controller;
 	
-	///MIDI device class for pulsing microcontroller outputs via Arduino digitalWrite()
+	/// @brief Class to manage microcontroller outputs that use Arduino digitalWrite()
 	class IO_DigitalWrite : public IO_Device
 	{
 		//Give MIDI_DeviceController access to all private members
@@ -62,8 +62,8 @@
 		
 		inline static SerialDebug _debug = SerialDebug(DEBUG_DIGITALIO);
 		
-		uint8_t _numRegisters;		
-		bool _outputsChanged = false;		
+		uint8_t _numRegisters;
+		bool _outputsChanged = false;
 		uint16_t _maxOutputs = 0;
 		uint16_t _usedOutputs = 0;
 		inline static ByteNoteRegister* _registers;
@@ -71,32 +71,44 @@
 		static std::map<uint8_t, pinOut*> _pinMap;
 		static std::vector<changedOutput> _changedOutputs;
 		
-		//Interface implementations
-		void updateOutputs(); //Operates the digital IO per desired MIDI output
-		
 		//Unique methods
 		pinOut* findOutput(uint8_t out);
-		void updateIO();
+		
+		//Interface implementations
+		
+		/// @brief Operates the digital IO per desired MIDI output
+		/// @details Want to use inline here as these are called in the ISR, but seem to be working fine without it for now.
+		///	Will cause size bloat when used outside of it: setInverted(), testOutputs(), stopOutputs(), resetOutputs().
+		/// TODO: Think of another solution to reduce calling this method or prevent inline bloat
+		void updateOutputs();
 		
 		public:
 			//Constructors/properties
 			IO_DigitalWrite(uint8_t numOutputs);
-
-			inline uint8_t getRegisterCount() { return _numRegisters; };		
-			
-			//Interface implementations
-			bool isValidMapping(uint8_t out);
-			void setInverted(uint8_t out, bool value);
-			void setShouldStop(uint8_t out, bool value);
-			bool getOutput(uint8_t out);
-			void setOutput(uint8_t out, bool value);
-			void toggleOutput(uint8_t out);
-			void testOutputs();
-			void stopOutputs();
-			void resetOutputs();
 			
 			//Unique methods
+			
+			/// @brief Gets the number of registers configured
+			inline uint8_t getRegisterCount() { return _numRegisters; };
+			
+			/// @brief Adds a pin to be managed
+			/// @param pin Pin to add
 			void addPin(uint8_t pin);
+			
+			/// @brief Removes a pin from being managed
+			/// @param pin Pin to remove
 			void deletePin(uint8_t pin);
+			
+			//Interface implementations
+			bool isValidMapping(uint8_t out) override;
+			void setInverted(uint8_t out, bool value) override;
+			void setShouldStop(uint8_t out, bool value) override;
+			bool getOutput(uint8_t out) override;
+			void setOutput(uint8_t out, bool state) override;
+			void toggleOutput(uint8_t out) override;
+			void testOutputs() override;
+			void stopOutputs() override;
+			void resetOutputs() override;
 	};
+	
 #endif

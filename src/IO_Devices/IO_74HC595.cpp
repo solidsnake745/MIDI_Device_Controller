@@ -35,15 +35,13 @@ IO_74HC595::IO_74HC595(uint8_t numRegisters, uint8_t latchPin)
 	latchRegisters();
 }
 
+//Not really sure if this makes a difference
+//TODO: research and confirm
+#pragma GCC push_options
+#pragma GCC optimize("Ofast")
 void IO_74HC595::updateOutputs()
 {
-	_debug.debugln(ISR_TRACE, F("updateOutputs begin"));
-	update74HC595();
-}
-
-void IO_74HC595::update74HC595()
-{	
-	_debug.debugln(ISR_TRACE, F("update74HC595 begin"));
+	_debug.debugln(ISR_TRACE, F("IO_74HC595::updateOutputs() begin"));
 	
 	if(!_registersChanged)
 	{
@@ -69,6 +67,7 @@ void IO_74HC595::update74HC595()
 
 	_registersChanged = false;
 }
+#pragma GCC pop_options
 
 bool IO_74HC595::isValidMapping(uint8_t out)
 {
@@ -93,7 +92,7 @@ void IO_74HC595::setInverted(uint8_t out, bool value)
 	
 	//Update registers as this changes the output's initial/current value
 	_registersChanged = true;
-	update74HC595();
+	updateOutputs();
 }
 
 void IO_74HC595::setShouldStop(uint8_t out, bool value)
@@ -121,7 +120,7 @@ bool IO_74HC595::getOutput(uint8_t out)
 	return r->reg->getBit(r->bitIndex);
 }
 
-void IO_74HC595::setOutput(uint8_t out, bool value)
+void IO_74HC595::setOutput(uint8_t out, bool state)
 {
 	_debug.debugln(TRACE, F("Attempting to set output %d's state"), out);
 	
@@ -130,13 +129,13 @@ void IO_74HC595::setOutput(uint8_t out, bool value)
 		
 	//Set the output if not already set
 	regOut* r = _outputs[out];
-	if(r->reg->getBit(r->bitIndex) == value)
+	if(r->reg->getBit(r->bitIndex) == state)
 	{
-		_debug.debugln(DEBUG, F("74HC595 output %d is already %d"), out, value);
+		_debug.debugln(DEBUG, F("74HC595 output %d is already %d"), out, state);
 		return;
 	}
 	
-	r->reg->setBitValue(r->bitIndex, value);
+	r->reg->setBitValue(r->bitIndex, state);
 	_registersChanged = true;
 }
 
@@ -164,12 +163,12 @@ void IO_74HC595::testOutputs()
 		
 		r->reg->setBitValue(r->bitIndex, HIGH);
 		_registersChanged = true;
-		update74HC595();
+		updateOutputs();
 		delay(250);
 		
 		r->reg->setBitValue(r->bitIndex, LOW);
 		_registersChanged = true;
-		update74HC595();
+		updateOutputs();
 	}
 }
 
@@ -185,7 +184,7 @@ void IO_74HC595::stopOutputs()
 	}
 	
 	_registersChanged = true;
-	update74HC595();
+	updateOutputs();
 	_debug.println(F("74HC595 outputs stopped"));
 }
 
@@ -200,6 +199,6 @@ void IO_74HC595::resetOutputs()
 	}
 	
 	_registersChanged = true;
-	update74HC595();
+	updateOutputs();
 	_debug.println(F("74HC595 outputs reset"));
 }
