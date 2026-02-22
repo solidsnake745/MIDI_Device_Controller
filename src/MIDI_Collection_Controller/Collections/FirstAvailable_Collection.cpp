@@ -1,5 +1,4 @@
 #include "FirstAvailable_Collection.h"
-#include "../MIDI_Pitch_Node.h"
 
 bool FirstAvailable_Collection::playNote(uint8_t note)
 {
@@ -9,7 +8,7 @@ bool FirstAvailable_Collection::playNote(uint8_t note)
 		if(node->tryPlayNote(note))
 			return true;
 		
-		node = node->next;
+		node = node->getNextNode();
 	}
 	
 	return false;
@@ -23,6 +22,6 @@ void FirstAvailable_Collection::stopNote(uint8_t note)
 		if(node->tryStopNote(note))
 			return;
 		
-		node = node->next;
+		node = node->getNextNode();
 	}
 }

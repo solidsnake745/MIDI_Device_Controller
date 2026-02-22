@@ -13,7 +13,7 @@ IO_Factory& IO_Factory::getInstance()
 	return *_instance;
 }
 
-IO_Device* IO_Factory::getIO(IOType type)
+IO_Device* const IO_Factory::getIO(IOType type)
 {
 	uint8_t i = static_cast<uint8_t>(type);
 	if(_ioDevices[i])
@@ -22,7 +22,7 @@ IO_Device* IO_Factory::getIO(IOType type)
 	return nullptr;
 }
 
-IO_DigitalWrite* IO_Factory::createDigitalIO(uint8_t numOutputs)
+IO_DigitalWrite* const IO_Factory::createDigitalIO(uint8_t numOutputs)
 {
 	uint8_t i = static_cast<uint8_t>(IODigital);
 	if(_ioDevices[i])
@@ -32,7 +32,7 @@ IO_DigitalWrite* IO_Factory::createDigitalIO(uint8_t numOutputs)
 	return (IO_DigitalWrite*) _ioDevices[i];
 }
 
-IO_74HC595* IO_Factory::create74HC595(uint8_t numRegisters, uint8_t latchPin)
+IO_74HC595* const IO_Factory::create74HC595(uint8_t numRegisters, uint8_t latchPin)
 {
 	uint8_t i = static_cast<uint8_t>(IO74HC595);
 	if(_ioDevices[i])

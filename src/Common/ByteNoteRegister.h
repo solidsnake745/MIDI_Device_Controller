@@ -7,8 +7,8 @@
 	#endif
 		
 	/// @brief Class to simplify storing a byte and manipulating its bits
-	/// @details Used in various IO devices as storage for output states.	
-	/// Was originally meant to include more note related information, but that was later refactored out.
+	/// @details Used in various IO devices as storage for output states.<br>
+	/// Was originally meant to include more note related information, but that was later refactored out.<br>
 	/// Should probably be renamed to ByteRegister.
 	class ByteNoteRegister
 	{

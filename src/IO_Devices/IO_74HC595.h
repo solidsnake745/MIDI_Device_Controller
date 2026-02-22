@@ -14,10 +14,10 @@
 	class MIDI_Device_Controller;
 	
 	/// @brief Class to manage a chain of shift registers outputs
-	/// @details Currently utilizes the SPI bus to operate shift registers.
-	/// Developed using 74HC585 shift registers, but should theoretically work for similar chips.
-	/// TODO: Update to accept an SPI object so a different bus can be used.
-	/// TODO: Update to allow straight shiftOut like usage.
+	/// @details Currently utilizes the SPI bus to operate shift registers.<br>
+	/// Developed using 74HC585 shift registers, but should theoretically work for similar chips.<br>
+	/// TODO: Update to accept an SPI object so a different bus can be used.<br>
+	/// TODO: Update to allow straight shiftOut like usage.<br>
 	/// TODO: Update to allow multiple instances for separate chains of shift registers.
 	class IO_74HC595 : public IO_Device
 	{
@@ -79,7 +79,7 @@
 		};
 		
 		public:
-			/// @brief Default constructor
+			/// @brief Main constructor
 			/// @param numRegisters Number of registers in the chain
 			/// @param latchPin Pin to use for latching
 			IO_74HC595(uint8_t numRegisters, uint8_t latchPin);

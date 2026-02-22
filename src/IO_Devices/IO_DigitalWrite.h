@@ -83,7 +83,8 @@
 		void updateOutputs();
 		
 		public:
-			//Constructors/properties
+			/// @brief Main constructor
+			/// @param numOutputs Max number of outputs to control
 			IO_DigitalWrite(uint8_t numOutputs);
 			
 			//Unique methods

@@ -14,8 +14,8 @@
 	#endif
 	
 	/// @brief Stores MIDI period information for notes
-	/// @details Used by Base_MIDI_Pitch classes for playing notes
-	/// Stores full sized data in program memory and caches at half size during runtime
+	/// @details Used by Base_MIDI_Pitch classes for playing notes.<br>
+	/// Stores full sized data in program memory and caches at half size during runtime.
 	class MIDI_Periods
 	{
 		//Give MIDI_DeviceController access to all private members

@@ -1,5 +1,4 @@
 #include "RoundRobin_Collection.h"
-#include "../MIDI_Pitch_Node.h"
 
 void RoundRobin_Collection::reset()
 {
@@ -15,7 +14,7 @@ bool RoundRobin_Collection::playNote(uint8_t note)
 	if(!lastAssign)
 		nextAssign = start;
 	else
-		nextAssign = lastAssign->next;
+		nextAssign = lastAssign->getNextNode();
 	
 	if(!nextAssign) //At the end of the list, go back to the start
 		nextAssign = start;
@@ -23,7 +22,7 @@ bool RoundRobin_Collection::playNote(uint8_t note)
 	while(true)
 	{
 		if(nextAssign->tryPlayNote(note)) break;
-		nextAssign = nextAssign->next;
+		nextAssign = nextAssign->getNextNode();
 	
 		if(!nextAssign) //At the end of the list, go back to the start
 			nextAssign = start;
@@ -56,7 +55,7 @@ void RoundRobin_Collection::stopNote(uint8_t note)
 		return;
 	}
 	
-	MIDI_Pitch_Node* nextClear = lastAssign->prev;
+	MIDI_Pitch_Node* nextClear = lastAssign->getPrevNode();
 	if(!nextClear) //At the start of the list, go back to the end
 		nextClear = end;
 	
@@ -66,7 +65,7 @@ void RoundRobin_Collection::stopNote(uint8_t note)
 	while(true)
 	{		
 		if(nextClear->tryStopNote(note)) break;
-		nextClear = nextClear->prev;
+		nextClear = nextClear->getPrevNode();
 	
 		if(!nextClear) //At the start of the list, go back to the end
 			nextClear = end;

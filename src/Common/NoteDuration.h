@@ -15,8 +15,8 @@
 	#endif
 		
 	/// @brief Class that represents a note's duration
-	/// @details Used to track how long notes have been playing
-	/// Used for max duration functionality in various places
+	/// @details Used to track how long notes have been playing.<br>
+	/// Used for max duration functionality in various places.
 	class NoteDuration
 	{
 		uint16_t _seconds = 0, _millis = 0, _micros = 0;

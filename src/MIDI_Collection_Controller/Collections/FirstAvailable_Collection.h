@@ -3,18 +3,16 @@
 
 	#include "../Base_MIDI_Pitch_Collection.h"
 
-	//Forward declaration for compiling
-	struct MIDI_Pitch_Node;
-
-	///Assigns notes to the first available device in the collection
+	/// @brief Direct assignment to all devices in the collection
+	/// @details Assigns new notes to all devices in the collection.<br>
+	/// Collection essentially acts like a single device.
 	class FirstAvailable_Collection : public Base_MIDI_Pitch_Collection
-	{	
-		private:
-		
-		public:		
-			//Abstract implementations		
-			bool playNote(uint8_t note);
-			void stopNote(uint8_t note);
+	{
+		public:
+			/// @brief Does nothing for this collection type
+			inline void reset() override { Base_MIDI_Pitch_Collection::reset(); }; //Exists for Doxygen documentation
+			bool playNote(uint8_t note) override;
+			void stopNote(uint8_t note) override;
 	};
 	
 #endif

@@ -16,12 +16,12 @@
 			inline constexpr static float BEND_PER_OCTAVE = ((float)BEND_SEMITONES/(float)SEMITONES_PER_OCTAVE);
 		#endif
 		
-		PitchBend(){}; //Disallow creating an instance
+		PitchBend(); //Disallow creating an instance
 		
 		public:			
 			/// @brief Calculates pitch bend factor based on settings
 			/// @param bend MIDI pitch bend value to calculate the factor for
-			/// @param shiftRange When true, shifts bend values down from 0 to 16383 to -8192 to 8191
+			/// @param shiftRange When true, shifts incoming bend values down from 0 to 16383 to -8192 to 8191
 			static float calculateFactor(int16_t bend, bool shiftRange = false);
 			
 			#if INCLUDE_TESTS

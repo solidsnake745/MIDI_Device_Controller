@@ -1,8 +1,12 @@
 #include "MIDI_Collection_Factory.h"
 
-Base_MIDI_Pitch* MIDI_Collection_Factory::getDeviceFromMDC(uint8_t index)
+Base_MIDI_Pitch* const MIDI_Collection_Factory::getDeviceFromMDC(uint8_t index) { return MDC.getPitchDevice(index); }
+
+MIDI_Collection_Factory& MIDI_Collection_Factory::getInstance()
 {
-	return MDC.getPitchDevice(index);
+	//Single instance check, instantiation, and return
+	if (_instance == nullptr) _instance = new MIDI_Collection_Factory();
+	return *_instance;
 }
 
 Base_MIDI_Pitch_Collection* MIDI_Collection_Factory::createCollection(uint8_t index, CollectionType type)

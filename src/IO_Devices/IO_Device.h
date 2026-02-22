@@ -3,19 +3,6 @@
 
 	#include <stdint.h>
 
-	/// @brief Types of IO devices available
-	/// @details Enum values have to begin with a letter, so using IO prefix.
-	/// Also can't match the class name so underscore is not included.
-	enum IOType
-	{
-		/// Default representing invalid/no value
-		NoValue = -1,
-		/// IO_DigitalWrite
-		IODigital = 0,
-		/// IO_74HC595
-		IO74HC595 = 1
-	};
-
 	//Forward declaration for compiling
 	class MIDI_Device_Controller;
 	

@@ -7,10 +7,24 @@
 	
 	#define MAX_IO_DEVICES 2
 	
+	/// @brief Types of IO devices available
+	/// @details Enum values have to begin with a letter, so using IO prefix.<br>
+	/// Also can't match the class name so underscore is not included.
+	enum IOType
+	{
+		/// @brief Default representing invalid/no value
+		NoValue = -1,
+		/// @brief IO_DigitalWrite
+		IODigital = 0,
+		/// @brief IO_74HC595
+		IO74HC595 = 1
+	};
+	
 	//Forward declaration for compiling
 	class MIDI_Device_Controller;
 	
-	///[IOF] Simplifies creating IO device objects and associating them to other objects
+	/// @brief Creates, stores, and provides IO_Device instances
+	/// @details Used to setup which IOs to connect to for operation.
 	class IO_Factory
 	{
 		//Give MIDI_DeviceController access to all private members
@@ -22,26 +36,26 @@
 		inline static IO_Device* _ioDevices[MAX_IO_DEVICES];
 		
 		public:
-			//Used to populate our single instance MDF for consumption
 			/// @private
+			/// @brief Used to populate our single instance IOF for consumption
 			static IO_Factory& getInstance();			
 			
-			IO_Device* getIO(IOType type);
+			/// @brief Gets the specified IO instance if populated
+			/// @return The specified IO_device
+			/// @retval nullptr if not yet created
+			IO_Device* const getIO(IOType type);
 			
-			///Creates a new digital IO device and adds it to the controller
-			/*!
-				\param size Number of digital outputs
-			*/
-			IO_DigitalWrite* createDigitalIO(uint8_t numOutputs);
+			/// @brief Creates a new digital IO device
+			/// @param numOutputs Max number of outputs to control
+			IO_DigitalWrite* const createDigitalIO(uint8_t numOutputs);
 			
-			///Creates a new shift register device and adds it to the controller
-			/*!
-				\param numRegisters Number of shift registers
-				\param latchPin Pin to use for latching the registers
-			*/
-			IO_74HC595* create74HC595(uint8_t numRegisters, uint8_t latchPin);
+			/// @brief Creates a new shift register IO device
+			/// @param numRegisters Number of shift registers in the chain
+			/// @param latchPin Pin to use for latching the registers in this chain
+			IO_74HC595* const create74HC595(uint8_t numRegisters, uint8_t latchPin);
 	};
 	
-	//Defines a global singleton instance of our class for users to consume
-	inline IO_Factory IOF = IO_Factory::getInstance();
+	/// @brief Global singleton instance of IO_Factory
+	inline static IO_Factory IOF = IO_Factory::getInstance();
+	
 #endif
