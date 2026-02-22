@@ -5,12 +5,25 @@ on:
     branches:
       - Development_IO_Refactor
 
+env:
+  branch_touse: gh-pages
+  #folder_touse: docs/html
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      - uses: DenverCoder1/doxygen-github-pages-action@v2.0.0
+      - name: Set branch
+        if: ${{ github.ref != 'refs/heads/master' }}
+        run: echo "branch_touse=gh-pages-dev" >> $GITHUB_ENV
+      
+      - name: Generate and deploy Doxygen docs
+        uses: DenverCoder1/doxygen-github-pages-action@v2.0.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          config_file: Doxyfile
+          doxygen_version: 1.16.1
+          branch: ${{ branch_touse }}
+          #folder: ${{ folder_touse }}
