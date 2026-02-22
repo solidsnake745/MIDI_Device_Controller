@@ -22,7 +22,7 @@ Developed while making <a href='https://www.youtube.com/mrsolidsnake745'>cover v
 	<li>ESP32</li>
 	<li><s>*Arduino AVR boards (Uno/Nano/Mega/Leonardo/etc.)</s> Currently broken TODO: fix it</li>
 </ul>
-<sub><s>*Does work, but performance is very poor for versions 2.0 and above.</s> Version 1.0 works well, but is missing features and has different syntax that is not documented.</sub>
+<sub><s>*Does work, but performance is very poor for versions 2.0 and above.</s> Version 1.0 works well, but is missing features and has different syntax that is not documented.</sub><br>
 
 Should work on other Arduino based boards, but may need slight adaption. TODO: define how to create issues for adding support
 <h3>Supported IOs</h3>
