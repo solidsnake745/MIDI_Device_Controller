@@ -1,12 +1,11 @@
 <h1>MIDI_Device_Controller</h1>
 An Arduino based library for controlling various devices via the MIDI interface
-Developed while making <a href='https://www.youtube.com/mrsolidsnake745'>cover videos here</a>
+Developed while making <a href='https://www.youtube.com/mrsolidsnake745'>cover videos here</a>.
 
 [![Arduino Library](https://www.ardu-badge.com/badge/MIDI%20Device%20Controller.svg)](https://www.ardu-badge.com/MIDI%20Device%20Controller)
 ![GitHub Release](https://img.shields.io/github/v/release/solidsnake745/MIDI_Device_Controller)
 ![GitHub License](https://img.shields.io/github/license/solidsnake745/MIDI_Device_Controller?label=licence)
 ![GitHub issue custom search in repo](https://img.shields.io/github/issues-search/solidsnake745/MIDI_Device_Controller?query=is%3Aopen%20-label%3Aself-inflicted&label=Open%20issues%20by%20users)
-
 <h3>Supported devices (instruments)</h3>
 <ul>
 	<li>Most floppy drives</li>
@@ -17,23 +16,21 @@ Developed while making <a href='https://www.youtube.com/mrsolidsnake745'>cover v
 	<li>Servos</li>
 	<li>More with adaptation</li>
 </ul>
-
 <h3>Supported boards</h3>
 <ul>
 	<li>Teensy 3.2 and above</li>
 	<li>ESP32</li>
 	<li><s>*Arduino AVR boards (Uno/Nano/Mega/Leonardo/etc.)</s> Currently broken TODO: fix it</li>
 </ul>
-<small><s>*Does work, but performance is very poor for versions 2.0 and above.</s> Version 1.0 works well, but is missing features and has different syntax that is not documented.</small>
-<br>Should work on other Arduino based boards, but may need slight adaption. TODO: define how to create issues for adding support
+<sub><s>*Does work, but performance is very poor for versions 2.0 and above.</s> Version 1.0 works well, but is missing features and has different syntax that is not documented.</sub>
 
+Should work on other Arduino based boards, but may need slight adaption. TODO: define how to create issues for adding support
 <h3>Supported IOs</h3>
 <ul>
 	<li>Direct pins (digitalWrite)</li>
 	<li>Shift registers (74HC595, etc.)</li>
 	<li>TODO: various IO expanders</li>
 </ul>
-
 <h3>Global objects added to Arduino sketch</h3>
 <ul>
 	<li>MDC - MIDI Device Controller - For controlling and operating pitch and pulse devices</li>
@@ -42,7 +39,6 @@ Developed while making <a href='https://www.youtube.com/mrsolidsnake745'>cover v
 	<li>MCC - MIDI Collection Controller - For controlling and operating collections of devices</li>
 	<li>MPC - MIDI Pulse Controller - For mapping pulse devices to MIDI notes</li>
 </ul>
-
 <h3>Device classes</h3>
 <ul>
 	<li>Pitch
