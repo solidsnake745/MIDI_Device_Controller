@@ -25,5 +25,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           config_file: Doxyfile
           doxygen_version: 1.16.1
-          branch: ${{ branch_touse }}
+          branch: ${{ env.branch_touse }}
           #folder: ${{ folder_touse }}
