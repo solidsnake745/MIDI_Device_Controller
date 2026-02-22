@@ -99,29 +99,32 @@ $(function(){initNavTree('classIO__Factory.html','','classIO__Factory-members');
 </div><!--header-->
 <div class="contents">
 
-<p>[IOF] Simplifies creating IO device objects and associating them to other objects  
+<p>Creates, stores, and provides <a class="el" href="classIO__Device.html" title="Interface that represents an IO device MDC knows how to use.">IO_Device</a> instances.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="IO__Factory_8h_source.html">IO_Factory.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8c0b098dc95422196c6a395800c47685" id="r_a8c0b098dc95422196c6a395800c47685"><td class="memItemLeft"><a class="el" href="classIO__DigitalWrite.html">IO_DigitalWrite</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a8c0b098dc95422196c6a395800c47685">createDigitalIO</a> (uint8_t numOutputs)</td></tr>
-<tr class="memdesc:a8c0b098dc95422196c6a395800c47685"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new digital IO device and adds it to the controller.  <br /></td></tr>
-<tr class="memitem:a704cfa8ef2766eb54b6de1d115dd282e" id="r_a704cfa8ef2766eb54b6de1d115dd282e"><td class="memItemLeft"><a class="el" href="classIO__74HC595.html">IO_74HC595</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a704cfa8ef2766eb54b6de1d115dd282e">create74HC595</a> (uint8_t numRegisters, uint8_t latchPin)</td></tr>
-<tr class="memdesc:a704cfa8ef2766eb54b6de1d115dd282e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new shift register device and adds it to the controller.  <br /></td></tr>
+<tr class="memitem:a704c6525f3aace2dd3fd053c54091ca6" id="r_a704c6525f3aace2dd3fd053c54091ca6"><td class="memItemLeft"><a class="el" href="classIO__Device.html">IO_Device</a> *const&#160;</td><td class="memItemRight"><a class="el" href="#a704c6525f3aace2dd3fd053c54091ca6">getIO</a> (IOType type)</td></tr>
+<tr class="memdesc:a704c6525f3aace2dd3fd053c54091ca6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the specified IO instance if populated.  <br /></td></tr>
+<tr class="memitem:a83bcdb065f63c5f60ac6afec8357ab67" id="r_a83bcdb065f63c5f60ac6afec8357ab67"><td class="memItemLeft"><a class="el" href="classIO__DigitalWrite.html">IO_DigitalWrite</a> *const&#160;</td><td class="memItemRight"><a class="el" href="#a83bcdb065f63c5f60ac6afec8357ab67">createDigitalIO</a> (uint8_t numOutputs)</td></tr>
+<tr class="memdesc:a83bcdb065f63c5f60ac6afec8357ab67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new digital IO device.  <br /></td></tr>
+<tr class="memitem:a36adaa264576c297ebe34dc38f8d8ea7" id="r_a36adaa264576c297ebe34dc38f8d8ea7"><td class="memItemLeft"><a class="el" href="classIO__74HC595.html">IO_74HC595</a> *const&#160;</td><td class="memItemRight"><a class="el" href="#a36adaa264576c297ebe34dc38f8d8ea7">create74HC595</a> (uint8_t numRegisters, uint8_t latchPin)</td></tr>
+<tr class="memdesc:a36adaa264576c297ebe34dc38f8d8ea7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new shift register IO device.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>[IOF] Simplifies creating IO device objects and associating them to other objects </p>
+<div class="textblock"><p>Creates, stores, and provides <a class="el" href="classIO__Device.html" title="Interface that represents an IO device MDC knows how to use.">IO_Device</a> instances. </p>
+<p>Used to setup which IOs to connect to for operation. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="a704cfa8ef2766eb54b6de1d115dd282e" name="a704cfa8ef2766eb54b6de1d115dd282e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a704cfa8ef2766eb54b6de1d115dd282e">&#9670;&#160;</a></span>create74HC595()</h2>
+<a id="a36adaa264576c297ebe34dc38f8d8ea7" name="a36adaa264576c297ebe34dc38f8d8ea7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36adaa264576c297ebe34dc38f8d8ea7">&#9670;&#160;</a></span>create74HC595()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classIO__74HC595.html">IO_74HC595</a> * IO_Factory::create74HC595 </td>
+          <td class="memname"><a class="el" href="classIO__74HC595.html">IO_74HC595</a> *const IO_Factory::create74HC595 </td>
           <td>(</td>
           <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>numRegisters</em></span>, </td>
         </tr>
@@ -133,25 +136,25 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Creates a new shift register device and adds it to the controller. </p>
+<p>Creates a new shift register IO device. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">numRegisters</td><td>Number of shift registers </td></tr>
-    <tr><td class="paramname">latchPin</td><td>Pin to use for latching the registers </td></tr>
+    <tr><td class="paramname">numRegisters</td><td>Number of shift registers in the chain </td></tr>
+    <tr><td class="paramname">latchPin</td><td>Pin to use for latching the registers in this chain </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="a8c0b098dc95422196c6a395800c47685" name="a8c0b098dc95422196c6a395800c47685"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8c0b098dc95422196c6a395800c47685">&#9670;&#160;</a></span>createDigitalIO()</h2>
+<a id="a83bcdb065f63c5f60ac6afec8357ab67" name="a83bcdb065f63c5f60ac6afec8357ab67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83bcdb065f63c5f60ac6afec8357ab67">&#9670;&#160;</a></span>createDigitalIO()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classIO__DigitalWrite.html">IO_DigitalWrite</a> * IO_Factory::createDigitalIO </td>
+          <td class="memname"><a class="el" href="classIO__DigitalWrite.html">IO_DigitalWrite</a> *const IO_Factory::createDigitalIO </td>
           <td>(</td>
           <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>numOutputs</em></span></td><td>)</td>
           <td></td>
@@ -159,10 +162,36 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Creates a new digital IO device and adds it to the controller. </p>
+<p>Creates a new digital IO device. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">size</td><td>Number of digital outputs </td></tr>
+    <tr><td class="paramname">numOutputs</td><td>Max number of outputs to control </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a704c6525f3aace2dd3fd053c54091ca6" name="a704c6525f3aace2dd3fd053c54091ca6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a704c6525f3aace2dd3fd053c54091ca6">&#9670;&#160;</a></span>getIO()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classIO__Device.html">IO_Device</a> *const IO_Factory::getIO </td>
+          <td>(</td>
+          <td class="paramtype">IOType</td>          <td class="paramname"><span class="paramname"><em>type</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the specified IO instance if populated. </p>
+<dl class="section return"><dt>Returns</dt><dd>The specified IO_device </dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">nullptr</td><td>if not yet created </td></tr>
   </table>
   </dd>
 </dl>

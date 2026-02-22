@@ -1,5 +1,6 @@
 var classIO__DigitalWrite =
 [
+    [ "IO_DigitalWrite", "classIO__DigitalWrite.html#afeb7eaca54390c4a21f688dd6555d471", null ],
     [ "addPin", "classIO__DigitalWrite.html#aae5779876f6e3cd177f2f955df23802b", null ],
     [ "deletePin", "classIO__DigitalWrite.html#ae4191b891ec594ab70ea6ed39ef94385", null ],
     [ "getOutput", "classIO__DigitalWrite.html#ad33c679f3aad983f25e2fb408a2567e3", null ],

@@ -34,6 +34,7 @@ var hierarchy =
     [ "MIDI_Device_Controller", "classMIDI__Device__Controller.html", null ],
     [ "MIDI_Handler", "classMIDI__Handler.html", null ],
     [ "MIDI_Periods", "classMIDI__Periods.html", null ],
+    [ "MIDI_Pitch_Node", "structMIDI__Pitch__Node.html", null ],
     [ "MIDI_Pulse_Controller", "classMIDI__Pulse__Controller.html", null ],
     [ "NoteDuration", "classNoteDuration.html", null ],
     [ "PitchBend", "classPitchBend.html", null ],

@@ -99,22 +99,56 @@ $(function(){initNavTree('classMIDI__Collection__Factory.html','','classMIDI__Co
 </div><!--header-->
 <div class="contents">
 
-<p>[MCF] Simplifies creating MIDI Pitch collections and associating them to the collection controller  
+<p>Creates, stores, and provides <a class="el" href="classBase__MIDI__Pitch__Collection.html" title="Base definition/implementation of a collection of MIDI Pitch devices for distributing notes.">Base_MIDI_Pitch_Collection</a> instances.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="MIDI__Collection__Factory_8h_source.html">MIDI_Collection_Factory.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a5c43a48cbbae9edffedcc82d142938bb" id="r_a5c43a48cbbae9edffedcc82d142938bb"><td class="memItemLeft"><a class="el" href="classBase__MIDI__Pitch__Collection.html">Base_MIDI_Pitch_Collection</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a5c43a48cbbae9edffedcc82d142938bb">createCollection</a> (uint8_t index, CollectionType type)</td></tr>
+<tr class="memdesc:a5c43a48cbbae9edffedcc82d142938bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new empty collection and adds it to MCC.  <br /></td></tr>
 <tr class="memitem:ad67e36d84b58fd3235b9f810dae1fed3" id="r_ad67e36d84b58fd3235b9f810dae1fed3"><td class="memTemplParams" colspan="2">template&lt;typename... IDs&gt; </td></tr>
 <tr class="memitem:ad67e36d84b58fd3235b9f810dae1fed3 template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ad67e36d84b58fd3235b9f810dae1fed3">createCollection</a> (uint8_t index, CollectionType type, uint8_t firstId, IDs... ids)</td></tr>
-<tr class="memdesc:ad67e36d84b58fd3235b9f810dae1fed3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new collection with devices from MDC and adds it to the controller (MCC).  <br /></td></tr>
+<tr class="memdesc:ad67e36d84b58fd3235b9f810dae1fed3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new collection with devices from MDC and adds it to MCC.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>[MCF] Simplifies creating MIDI Pitch collections and associating them to the collection controller </p>
+<div class="textblock"><p>Creates, stores, and provides <a class="el" href="classBase__MIDI__Pitch__Collection.html" title="Base definition/implementation of a collection of MIDI Pitch devices for distributing notes.">Base_MIDI_Pitch_Collection</a> instances. </p>
+<p>Used to setup device collections for distributing notes across them.<br  />
+ TODO: Refactor and consolidate this into <a class="el" href="classMIDI__Collection__Controller.html" title="Stores and provides Base_MIDI_Pitch_Collection instances.">MIDI_Collection_Controller</a>? </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="a5c43a48cbbae9edffedcc82d142938bb" name="a5c43a48cbbae9edffedcc82d142938bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c43a48cbbae9edffedcc82d142938bb">&#9670;&#160;</a></span>createCollection() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classBase__MIDI__Pitch__Collection.html">Base_MIDI_Pitch_Collection</a> * MIDI_Collection_Factory::createCollection </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CollectionType</td>          <td class="paramname"><span class="paramname"><em>type</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a new empty collection and adds it to MCC. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Index to assign the collection to </td></tr>
+    <tr><td class="paramname">type</td><td>Type of collection to create </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ad67e36d84b58fd3235b9f810dae1fed3" name="ad67e36d84b58fd3235b9f810dae1fed3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad67e36d84b58fd3235b9f810dae1fed3">&#9670;&#160;</a></span>createCollection()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad67e36d84b58fd3235b9f810dae1fed3">&#9670;&#160;</a></span>createCollection() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -152,7 +186,7 @@ template&lt;typename... IDs&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Creates a new collection with devices from MDC and adds it to the controller (MCC). </p>
+<p>Creates a new collection with devices from MDC and adds it to MCC. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">index</td><td>Index to assign the collection to </td></tr>

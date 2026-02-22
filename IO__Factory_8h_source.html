@@ -107,43 +107,48 @@ $(function(){initNavTree('IO__Factory_8h_source.html','',''); });
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>    </div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">    #define MAX_IO_DEVICES 2</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    <span class="comment">//Forward declaration for compiling</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    <span class="keyword">class </span><a class="code hl_class" href="classMIDI__Device__Controller.html">MIDI_Device_Controller</a>;</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    </div>
-<div class="foldopen" id="foldopen00014" data-start="{" data-end="};">
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="classIO__Factory.html">   14</a></span>    <span class="keyword">class </span>IO_Factory</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    {</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <span class="comment">//Give MIDI_DeviceController access to all private members</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        <span class="keyword">friend</span> <span class="keyword">class </span>MIDI_Device_Controller;</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        <span class="comment">//Constructor(s)</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        IO_Factory(); <span class="comment">//Disallow creating an instance</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="keyword">inline</span> <span class="keyword">static</span> IO_Factory* _instance = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="keyword">inline</span> <span class="keyword">static</span> <a class="code hl_class" href="classIO__Device.html">IO_Device</a>* _ioDevices[MAX_IO_DEVICES];</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>            <span class="comment">//Used to populate our single instance MDF for consumption</span></div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>            <span class="keyword">static</span> IO_Factory&amp; getInstance();           </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>            </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>            <a class="code hl_class" href="classIO__Device.html">IO_Device</a>* getIO(IOType type);</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>            </div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>            <a class="code hl_class" href="classIO__DigitalWrite.html">IO_DigitalWrite</a>* <a class="code hl_function" href="classIO__Factory.html#a8c0b098dc95422196c6a395800c47685">createDigitalIO</a>(uint8_t numOutputs);</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>            </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span></div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            <a class="code hl_class" href="classIO__74HC595.html">IO_74HC595</a>* <a class="code hl_function" href="classIO__Factory.html#a704cfa8ef2766eb54b6de1d115dd282e">create74HC595</a>(uint8_t numRegisters, uint8_t latchPin);</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    };</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    <span class="keyword">enum</span> IOType</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    {</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        NoValue = -1,</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        IODigital = 0,</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        IO74HC595 = 1</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    };</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="comment">//Forward declaration for compiling</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keyword">class </span><a class="code hl_class" href="classMIDI__Device__Controller.html">MIDI_Device_Controller</a>;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    </div>
+<div class="foldopen" id="foldopen00028" data-start="{" data-end="};">
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="classIO__Factory.html">   28</a></span>    <span class="keyword">class </span>IO_Factory</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    {</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <span class="comment">//Give MIDI_DeviceController access to all private members</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="keyword">friend</span> <span class="keyword">class </span>MIDI_Device_Controller;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <span class="comment">//Constructor(s)</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        IO_Factory(); <span class="comment">//Disallow creating an instance</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <span class="keyword">inline</span> <span class="keyword">static</span> IO_Factory* _instance = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        <span class="keyword">inline</span> <span class="keyword">static</span> <a class="code hl_class" href="classIO__Device.html">IO_Device</a>* _ioDevices[MAX_IO_DEVICES];</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>            <span class="keyword">static</span> IO_Factory&amp; getInstance();           </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>            <a class="code hl_class" href="classIO__Device.html">IO_Device</a>* <span class="keyword">const</span> <a class="code hl_function" href="classIO__Factory.html#a704c6525f3aace2dd3fd053c54091ca6">getIO</a>(IOType type);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>            </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>            <a class="code hl_class" href="classIO__DigitalWrite.html">IO_DigitalWrite</a>* <span class="keyword">const</span> <a class="code hl_function" href="classIO__Factory.html#a83bcdb065f63c5f60ac6afec8357ab67">createDigitalIO</a>(uint8_t numOutputs);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>            </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>            <a class="code hl_class" href="classIO__74HC595.html">IO_74HC595</a>* <span class="keyword">const</span> <a class="code hl_function" href="classIO__Factory.html#a36adaa264576c297ebe34dc38f8d8ea7">create74HC595</a>(uint8_t numRegisters, uint8_t latchPin);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    };</div>
 </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="comment">//Defines a global singleton instance of our class for users to consume</span></div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keyword">inline</span> <a class="code hl_class" href="classIO__Factory.html">IO_Factory</a> IOF = IO_Factory::getInstance();</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keyword">inline</span> <span class="keyword">static</span> <a class="code hl_class" href="classIO__Factory.html">IO_Factory</a> IOF = IO_Factory::getInstance();</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aclassIO__74HC595_html"><div class="ttname"><a href="classIO__74HC595.html">IO_74HC595</a></div><div class="ttdoc">Class to manage a chain of shift registers outputs.</div><div class="ttdef"><b>Definition</b> IO_74HC595.h:23</div></div>
-<div class="ttc" id="aclassIO__Device_html"><div class="ttname"><a href="classIO__Device.html">IO_Device</a></div><div class="ttdoc">Interface that represents an IO device MDC knows how to use.</div><div class="ttdef"><b>Definition</b> IO_Device.h:24</div></div>
+<div class="ttc" id="aclassIO__Device_html"><div class="ttname"><a href="classIO__Device.html">IO_Device</a></div><div class="ttdoc">Interface that represents an IO device MDC knows how to use.</div><div class="ttdef"><b>Definition</b> IO_Device.h:11</div></div>
 <div class="ttc" id="aclassIO__DigitalWrite_html"><div class="ttname"><a href="classIO__DigitalWrite.html">IO_DigitalWrite</a></div><div class="ttdoc">Class to manage microcontroller outputs that use Arduino digitalWrite().</div><div class="ttdef"><b>Definition</b> IO_DigitalWrite.h:32</div></div>
-<div class="ttc" id="aclassIO__Factory_html"><div class="ttname"><a href="classIO__Factory.html">IO_Factory</a></div><div class="ttdoc">[IOF] Simplifies creating IO device objects and associating them to other objects</div><div class="ttdef"><b>Definition</b> IO_Factory.h:15</div></div>
-<div class="ttc" id="aclassIO__Factory_html_a704cfa8ef2766eb54b6de1d115dd282e"><div class="ttname"><a href="classIO__Factory.html#a704cfa8ef2766eb54b6de1d115dd282e">IO_Factory::create74HC595</a></div><div class="ttdeci">IO_74HC595 * create74HC595(uint8_t numRegisters, uint8_t latchPin)</div><div class="ttdoc">Creates a new shift register device and adds it to the controller.</div><div class="ttdef"><b>Definition</b> IO_Factory.cpp:35</div></div>
-<div class="ttc" id="aclassIO__Factory_html_a8c0b098dc95422196c6a395800c47685"><div class="ttname"><a href="classIO__Factory.html#a8c0b098dc95422196c6a395800c47685">IO_Factory::createDigitalIO</a></div><div class="ttdeci">IO_DigitalWrite * createDigitalIO(uint8_t numOutputs)</div><div class="ttdoc">Creates a new digital IO device and adds it to the controller.</div><div class="ttdef"><b>Definition</b> IO_Factory.cpp:25</div></div>
+<div class="ttc" id="aclassIO__Factory_html"><div class="ttname"><a href="classIO__Factory.html">IO_Factory</a></div><div class="ttdoc">Creates, stores, and provides IO_Device instances.</div><div class="ttdef"><b>Definition</b> IO_Factory.h:29</div></div>
+<div class="ttc" id="aclassIO__Factory_html_a36adaa264576c297ebe34dc38f8d8ea7"><div class="ttname"><a href="classIO__Factory.html#a36adaa264576c297ebe34dc38f8d8ea7">IO_Factory::create74HC595</a></div><div class="ttdeci">IO_74HC595 *const create74HC595(uint8_t numRegisters, uint8_t latchPin)</div><div class="ttdoc">Creates a new shift register IO device.</div><div class="ttdef"><b>Definition</b> IO_Factory.cpp:35</div></div>
+<div class="ttc" id="aclassIO__Factory_html_a704c6525f3aace2dd3fd053c54091ca6"><div class="ttname"><a href="classIO__Factory.html#a704c6525f3aace2dd3fd053c54091ca6">IO_Factory::getIO</a></div><div class="ttdeci">IO_Device *const getIO(IOType type)</div><div class="ttdoc">Gets the specified IO instance if populated.</div><div class="ttdef"><b>Definition</b> IO_Factory.cpp:16</div></div>
+<div class="ttc" id="aclassIO__Factory_html_a83bcdb065f63c5f60ac6afec8357ab67"><div class="ttname"><a href="classIO__Factory.html#a83bcdb065f63c5f60ac6afec8357ab67">IO_Factory::createDigitalIO</a></div><div class="ttdeci">IO_DigitalWrite *const createDigitalIO(uint8_t numOutputs)</div><div class="ttdoc">Creates a new digital IO device.</div><div class="ttdef"><b>Definition</b> IO_Factory.cpp:25</div></div>
 <div class="ttc" id="aclassMIDI__Device__Controller_html"><div class="ttname"><a href="classMIDI__Device__Controller.html">MIDI_Device_Controller</a></div><div class="ttdoc">[MDC] Controls and manages various MIDI device objects</div><div class="ttdef"><b>Definition</b> MIDI_Device_Controller.h:33</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

@@ -115,7 +115,7 @@ $(function(){initNavTree('PitchBend_8h_source.html','',''); });
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>            <span class="keyword">inline</span> <span class="keyword">constexpr</span> <span class="keyword">static</span> <span class="keywordtype">float</span> BEND_PER_OCTAVE = ((float)BEND_SEMITONES/(float)SEMITONES_PER_OCTAVE);</div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">        #endif</span></div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        PitchBend(){}; <span class="comment">//Disallow creating an instance</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        PitchBend(); <span class="comment">//Disallow creating an instance</span></div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        </div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="keyword">public</span>:         </div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>            <span class="keyword">static</span> <span class="keywordtype">float</span> <a class="code hl_function" href="classPitchBend.html#a983de6a35f043974666567995fa3d501">calculateFactor</a>(int16_t bend, <span class="keywordtype">bool</span> shiftRange = <span class="keyword">false</span>);</div>

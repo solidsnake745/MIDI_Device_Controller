@@ -116,7 +116,7 @@ Inheritance diagram for IO_74HC595:</div>
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a4934b30256209052095e34089e973227" id="r_a4934b30256209052095e34089e973227"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a4934b30256209052095e34089e973227">IO_74HC595</a> (uint8_t numRegisters, uint8_t latchPin)</td></tr>
-<tr class="memdesc:a4934b30256209052095e34089e973227"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <br /></td></tr>
+<tr class="memdesc:a4934b30256209052095e34089e973227"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main constructor.  <br /></td></tr>
 <tr class="memitem:a4e6013f3b1b65ee1fd8011d9da19a7c5" id="r_a4e6013f3b1b65ee1fd8011d9da19a7c5"><td class="memItemLeft"><a id="a4e6013f3b1b65ee1fd8011d9da19a7c5" name="a4e6013f3b1b65ee1fd8011d9da19a7c5"></a>
 uint8_t&#160;</td><td class="memItemRight"><b>getRegisterCount</b> ()</td></tr>
 <tr class="memdesc:a4e6013f3b1b65ee1fd8011d9da19a7c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the number of registers configured. <br /></td></tr>
@@ -148,7 +148,11 @@ uint8_t&#160;</td><td class="memItemRight"><b>getLatchPin</b> ()</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class to manage a chain of shift registers outputs. </p>
-<p>Currently utilizes the SPI bus to operate shift registers. Developed using 74HC585 shift registers, but should theoretically work for similar chips. TODO: Update to accept an SPI object so a different bus can be used. TODO: Update to allow straight shiftOut like usage. TODO: Update to allow multiple instances for separate chains of shift registers. </p>
+<p>Currently utilizes the SPI bus to operate shift registers.<br  />
+ Developed using 74HC585 shift registers, but should theoretically work for similar chips.<br  />
+ TODO: Update to accept an SPI object so a different bus can be used.<br  />
+ TODO: Update to allow straight shiftOut like usage.<br  />
+ TODO: Update to allow multiple instances for separate chains of shift registers. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a4934b30256209052095e34089e973227" name="a4934b30256209052095e34089e973227"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4934b30256209052095e34089e973227">&#9670;&#160;</a></span>IO_74HC595()</h2>
@@ -169,7 +173,7 @@ uint8_t&#160;</td><td class="memItemRight"><b>getLatchPin</b> ()</td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Default constructor. </p>
+<p>Main constructor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">numRegisters</td><td>Number of registers in the chain </td></tr>

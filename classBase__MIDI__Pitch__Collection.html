@@ -99,7 +99,7 @@ $(function(){initNavTree('classBase__MIDI__Pitch__Collection.html','','classBase
 </div><!--header-->
 <div class="contents">
 
-<p>Base implementation of a collection of MIDI Pitch devices for distributing notes.  
+<p>Base definition/implementation of a collection of MIDI Pitch devices for distributing notes.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="Base__MIDI__Pitch__Collection_8h_source.html">Base_MIDI_Pitch_Collection.h</a>&gt;</code></p>
@@ -110,44 +110,42 @@ Inheritance diagram for Base_MIDI_Pitch_Collection:</div>
   <img src="classBase__MIDI__Pitch__Collection.png" usemap="#Base_5FMIDI_5FPitch_5FCollection_map" alt=""/>
   <map id="Base_5FMIDI_5FPitch_5FCollection_map" name="Base_5FMIDI_5FPitch_5FCollection_map">
 <area href="classDirect__Collection.html" title="Assigns notes to all available devices in the collection." alt="Direct_Collection" shape="rect" coords="0,56,171,80"/>
-<area href="classFirstAvailable__Collection.html" title="Assigns notes to the first available device in the collection." alt="FirstAvailable_Collection" shape="rect" coords="181,56,352,80"/>
-<area href="classRoundRobin__Collection.html" title="Assigns notes to the next available device in the collection." alt="RoundRobin_Collection" shape="rect" coords="362,56,533,80"/>
+<area href="classFirstAvailable__Collection.html" title="Direct assignment to all devices in the collection." alt="FirstAvailable_Collection" shape="rect" coords="181,56,352,80"/>
+<area href="classRoundRobin__Collection.html" title="Round robin assignment to all devices in the collection." alt="RoundRobin_Collection" shape="rect" coords="362,56,533,80"/>
   </map>
 </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aed178bbded1d4053b097cf40c115aae6" id="r_aed178bbded1d4053b097cf40c115aae6"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aed178bbded1d4053b097cf40c115aae6">addDevice</a> (<a class="el" href="classBase__MIDI__Pitch.html">Base_MIDI_Pitch</a> *d)</td></tr>
-<tr class="memdesc:aed178bbded1d4053b097cf40c115aae6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a given MIDI_Pitch device to this collection.  <br /></td></tr>
+<tr class="memdesc:aed178bbded1d4053b097cf40c115aae6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds the specified <a class="el" href="classBase__MIDI__Pitch.html" title="MIDI device class for anything needing a pitch signal (FDD, HDD, Stepper motors, etc....">Base_MIDI_Pitch</a> device to this collection.  <br /></td></tr>
 <tr class="memitem:a2acb8fc6a2f120d9c58a3e974db6f58d" id="r_a2acb8fc6a2f120d9c58a3e974db6f58d"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a2acb8fc6a2f120d9c58a3e974db6f58d">removeDevice</a> (uint8_t id)</td></tr>
-<tr class="memdesc:a2acb8fc6a2f120d9c58a3e974db6f58d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a given MIDI_Pitch device by ID from this collection.  <br /></td></tr>
-<tr class="memitem:ad08b34dbe45d6aeea609d1dd25739ce3" id="r_ad08b34dbe45d6aeea609d1dd25739ce3"><td class="memItemLeft"><a id="ad08b34dbe45d6aeea609d1dd25739ce3" name="ad08b34dbe45d6aeea609d1dd25739ce3"></a>
+<tr class="memdesc:a2acb8fc6a2f120d9c58a3e974db6f58d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a given <a class="el" href="classBase__MIDI__Pitch.html" title="MIDI device class for anything needing a pitch signal (FDD, HDD, Stepper motors, etc....">Base_MIDI_Pitch</a> device by ID from this collection.  <br /></td></tr>
+<tr class="memitem:acc54793955b74e27185ea762278f83be" id="r_acc54793955b74e27185ea762278f83be"><td class="memItemLeft"><a id="acc54793955b74e27185ea762278f83be" name="acc54793955b74e27185ea762278f83be"></a>
+virtual void&#160;</td><td class="memItemRight"><b>reset</b> ()</td></tr>
+<tr class="memdesc:acc54793955b74e27185ea762278f83be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets the collection if applicable. <br /></td></tr>
+<tr class="memitem:af1da2a06dc18dba89afe37c7b567ee40" id="r_af1da2a06dc18dba89afe37c7b567ee40"><td class="memItemLeft"><a id="af1da2a06dc18dba89afe37c7b567ee40" name="af1da2a06dc18dba89afe37c7b567ee40"></a>
 virtual void&#160;</td><td class="memItemRight"><b>printStatus</b> ()</td></tr>
-<tr class="memdesc:ad08b34dbe45d6aeea609d1dd25739ce3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints status information about this collection to Serial. <br /></td></tr>
-<tr class="memitem:ae9825ad6697fd9bd12685524348d2ea8" id="r_ae9825ad6697fd9bd12685524348d2ea8"><td class="memItemLeft"><a id="ae9825ad6697fd9bd12685524348d2ea8" name="ae9825ad6697fd9bd12685524348d2ea8"></a>
-virtual bool&#160;</td><td class="memItemRight"><b>playNote</b> (uint8_t note)</td></tr>
-<tr class="memdesc:ae9825ad6697fd9bd12685524348d2ea8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plays the given note. <br /></td></tr>
-<tr class="memitem:a8734942b9e6093cc3f41bccb6d968876" id="r_a8734942b9e6093cc3f41bccb6d968876"><td class="memItemLeft"><a id="a8734942b9e6093cc3f41bccb6d968876" name="a8734942b9e6093cc3f41bccb6d968876"></a>
-virtual void&#160;</td><td class="memItemRight"><b>bendNote</b> (int16_t bend, bool shiftRange=false)</td></tr>
-<tr class="memdesc:a8734942b9e6093cc3f41bccb6d968876"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pitch bend all active notes in the collection. <br /></td></tr>
-<tr class="memitem:aa280bec838854ab644412a9823c0abd4" id="r_aa280bec838854ab644412a9823c0abd4"><td class="memItemLeft"><a id="aa280bec838854ab644412a9823c0abd4" name="aa280bec838854ab644412a9823c0abd4"></a>
-virtual void&#160;</td><td class="memItemRight"><b>stopNote</b> (uint8_t note)</td></tr>
-<tr class="memdesc:aa280bec838854ab644412a9823c0abd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops the given note. <br /></td></tr>
+<tr class="memdesc:af1da2a06dc18dba89afe37c7b567ee40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints status information about this collection to Serial. <br /></td></tr>
+<tr class="memitem:a2e8ae2cfaa88ca6351ad1f329b17955f" id="r_a2e8ae2cfaa88ca6351ad1f329b17955f"><td class="memItemLeft">virtual bool&#160;</td><td class="memItemRight"><a class="el" href="#a2e8ae2cfaa88ca6351ad1f329b17955f">playNote</a> (uint8_t note)</td></tr>
+<tr class="memdesc:a2e8ae2cfaa88ca6351ad1f329b17955f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempts to play the given note based on the collection type.  <br /></td></tr>
+<tr class="memitem:ad25ecd8149feb37b03b2b07873e38e29" id="r_ad25ecd8149feb37b03b2b07873e38e29"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#ad25ecd8149feb37b03b2b07873e38e29">bendNote</a> (int16_t bend, bool shiftRange=false)</td></tr>
+<tr class="memdesc:ad25ecd8149feb37b03b2b07873e38e29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pitch bend all active notes in the collection.  <br /></td></tr>
+<tr class="memitem:a11378d1e352bac0c9dc555173038a722" id="r_a11378d1e352bac0c9dc555173038a722"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a11378d1e352bac0c9dc555173038a722">stopNote</a> (uint8_t note)</td></tr>
+<tr class="memdesc:a11378d1e352bac0c9dc555173038a722"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops the given note.  <br /></td></tr>
 <tr class="memitem:a5198febd187f883fd272a9de597a6c51" id="r_a5198febd187f883fd272a9de597a6c51"><td class="memItemLeft"><a id="a5198febd187f883fd272a9de597a6c51" name="a5198febd187f883fd272a9de597a6c51"></a>
 void&#160;</td><td class="memItemRight"><b>testPitchBend</b> ()</td></tr>
 <tr class="memdesc:a5198febd187f883fd272a9de597a6c51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tests pitch bending all devices in the collection. <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Base implementation of a collection of MIDI Pitch devices for distributing notes. </p>
+<div class="textblock"><p>Base definition/implementation of a collection of MIDI Pitch devices for distributing notes. </p>
+<p>Current implementations can be found in CollectionType. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="aed178bbded1d4053b097cf40c115aae6" name="aed178bbded1d4053b097cf40c115aae6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aed178bbded1d4053b097cf40c115aae6">&#9670;&#160;</a></span>addDevice()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void Base_MIDI_Pitch_Collection::addDevice </td>
@@ -156,25 +154,20 @@ void&#160;</td><td class="memItemRight"><b>testPitchBend</b> ()</td></tr>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Adds a given MIDI_Pitch device to this collection. </p>
+<p>Adds the specified <a class="el" href="classBase__MIDI__Pitch.html" title="MIDI device class for anything needing a pitch signal (FDD, HDD, Stepper motors, etc....">Base_MIDI_Pitch</a> device to this collection. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">d</td><td>Pitch device to be added </td></tr>
+    <tr><td class="paramname">d</td><td>Device to add </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="a2acb8fc6a2f120d9c58a3e974db6f58d" name="a2acb8fc6a2f120d9c58a3e974db6f58d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2acb8fc6a2f120d9c58a3e974db6f58d">&#9670;&#160;</a></span>removeDevice()</h2>
+<a id="ad25ecd8149feb37b03b2b07873e38e29" name="ad25ecd8149feb37b03b2b07873e38e29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad25ecd8149feb37b03b2b07873e38e29">&#9670;&#160;</a></span>bendNote()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -183,26 +176,132 @@ void&#160;</td><td class="memItemRight"><b>testPitchBend</b> ()</td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
+          <td class="memname">void Base_MIDI_Pitch_Collection::bendNote </td>
+          <td>(</td>
+          <td class="paramtype">int16_t</td>          <td class="paramname"><span class="paramname"><em>bend</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>shiftRange</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Pitch bend all active notes in the collection. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bend</td><td>MIDI pitch bend value to bend by </td></tr>
+    <tr><td class="paramname">shiftRange</td><td>When true, shifts incoming bend values down from 0 to 16383 to -8192 to 8191 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a2e8ae2cfaa88ca6351ad1f329b17955f" name="a2e8ae2cfaa88ca6351ad1f329b17955f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e8ae2cfaa88ca6351ad1f329b17955f">&#9670;&#160;</a></span>playNote()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Base_MIDI_Pitch_Collection::playNote </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>note</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Attempts to play the given note based on the collection type. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">note</td><td>MIDI note to play </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>if assignment was successful </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Reimplemented in <a class="el" href="classDirect__Collection.html#af46f2f16ac7f6f1518168cd521ba464b">Direct_Collection</a>, <a class="el" href="classFirstAvailable__Collection.html#ac75a0d208d4a8e3b38d79791c5746966">FirstAvailable_Collection</a>, and <a class="el" href="classRoundRobin__Collection.html#ad841327f6df19b3912174b28a27518fa">RoundRobin_Collection</a>.</p>
+
+</div>
+</div>
+<a id="a2acb8fc6a2f120d9c58a3e974db6f58d" name="a2acb8fc6a2f120d9c58a3e974db6f58d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2acb8fc6a2f120d9c58a3e974db6f58d">&#9670;&#160;</a></span>removeDevice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
           <td class="memname">void Base_MIDI_Pitch_Collection::removeDevice </td>
           <td>(</td>
           <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>id</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
+</div><div class="memdoc">
+
+<p>Removes a given <a class="el" href="classBase__MIDI__Pitch.html" title="MIDI device class for anything needing a pitch signal (FDD, HDD, Stepper motors, etc....">Base_MIDI_Pitch</a> device by ID from this collection. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>The ID of the <a class="el" href="classBase__MIDI__Pitch.html" title="MIDI device class for anything needing a pitch signal (FDD, HDD, Stepper motors, etc....">Base_MIDI_Pitch</a> to attempt removing </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a11378d1e352bac0c9dc555173038a722" name="a11378d1e352bac0c9dc555173038a722"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11378d1e352bac0c9dc555173038a722">&#9670;&#160;</a></span>stopNote()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Base_MIDI_Pitch_Collection::stopNote </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>note</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel virtual">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Removes a given MIDI_Pitch device by ID from this collection. </p>
+<p>Stops the given note. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">id</td><td>The ID of the MIDI_Pitch to attempt removing </td></tr>
+    <tr><td class="paramname">note</td><td>MIDI note to stop </td></tr>
   </table>
   </dd>
 </dl>
+
+<p>Reimplemented in <a class="el" href="classDirect__Collection.html#ac5ea6e98478fd7d9eebb4b1f291b041e">Direct_Collection</a>, <a class="el" href="classFirstAvailable__Collection.html#aa380d3a452c9318343846fab4577f656">FirstAvailable_Collection</a>, and <a class="el" href="classRoundRobin__Collection.html#a6c485d9063243dc9c2c16e58e6816687">RoundRobin_Collection</a>.</p>
 
 </div>
 </div>

@@ -17,6 +17,7 @@ var annotated_dup =
     [ "MIDI_Device_Controller", "classMIDI__Device__Controller.html", "classMIDI__Device__Controller" ],
     [ "MIDI_Handler", "classMIDI__Handler.html", null ],
     [ "MIDI_Periods", "classMIDI__Periods.html", "classMIDI__Periods" ],
+    [ "MIDI_Pitch_Node", "structMIDI__Pitch__Node.html", "structMIDI__Pitch__Node" ],
     [ "MIDI_Pulse", "classMIDI__Pulse.html", null ],
     [ "MIDI_Pulse_Controller", "classMIDI__Pulse__Controller.html", "classMIDI__Pulse__Controller" ],
     [ "MIDI_Servo", "classMIDI__Servo.html", null ],
