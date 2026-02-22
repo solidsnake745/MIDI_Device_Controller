@@ -117,10 +117,12 @@ Inheritance diagram for IO_74HC595:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a4934b30256209052095e34089e973227" id="r_a4934b30256209052095e34089e973227"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a4934b30256209052095e34089e973227">IO_74HC595</a> (uint8_t numRegisters, uint8_t latchPin)</td></tr>
 <tr class="memdesc:a4934b30256209052095e34089e973227"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <br /></td></tr>
-<tr class="memitem:a4e6013f3b1b65ee1fd8011d9da19a7c5" id="r_a4e6013f3b1b65ee1fd8011d9da19a7c5"><td class="memItemLeft">uint8_t&#160;</td><td class="memItemRight"><a class="el" href="#a4e6013f3b1b65ee1fd8011d9da19a7c5">getRegisterCount</a> ()</td></tr>
-<tr class="memdesc:a4e6013f3b1b65ee1fd8011d9da19a7c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the number of registers configured.  <br /></td></tr>
-<tr class="memitem:a8221c285be20d81c3ee2be5ac647f763" id="r_a8221c285be20d81c3ee2be5ac647f763"><td class="memItemLeft">uint8_t&#160;</td><td class="memItemRight"><a class="el" href="#a8221c285be20d81c3ee2be5ac647f763">getLatchPin</a> ()</td></tr>
-<tr class="memdesc:a8221c285be20d81c3ee2be5ac647f763"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the pin being used for latching.  <br /></td></tr>
+<tr class="memitem:a4e6013f3b1b65ee1fd8011d9da19a7c5" id="r_a4e6013f3b1b65ee1fd8011d9da19a7c5"><td class="memItemLeft"><a id="a4e6013f3b1b65ee1fd8011d9da19a7c5" name="a4e6013f3b1b65ee1fd8011d9da19a7c5"></a>
+uint8_t&#160;</td><td class="memItemRight"><b>getRegisterCount</b> ()</td></tr>
+<tr class="memdesc:a4e6013f3b1b65ee1fd8011d9da19a7c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the number of registers configured. <br /></td></tr>
+<tr class="memitem:a8221c285be20d81c3ee2be5ac647f763" id="r_a8221c285be20d81c3ee2be5ac647f763"><td class="memItemLeft"><a id="a8221c285be20d81c3ee2be5ac647f763" name="a8221c285be20d81c3ee2be5ac647f763"></a>
+uint8_t&#160;</td><td class="memItemRight"><b>getLatchPin</b> ()</td></tr>
+<tr class="memdesc:a8221c285be20d81c3ee2be5ac647f763"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the pin being used for latching. <br /></td></tr>
 <tr class="memitem:a8005e547e3db7c0b48f54debf449b1df" id="r_a8005e547e3db7c0b48f54debf449b1df"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a8005e547e3db7c0b48f54debf449b1df">setLatchPin</a> (uint8_t pin)</td></tr>
 <tr class="memdesc:a8005e547e3db7c0b48f54debf449b1df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the pin being used for latching.  <br /></td></tr>
 <tr class="memitem:a3f84504ffa89cf2be6c769bf786d50b1" id="r_a3f84504ffa89cf2be6c769bf786d50b1"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3f84504ffa89cf2be6c769bf786d50b1">setReverseOutput</a> (bool value)</td></tr>
@@ -143,10 +145,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a444bb2b7006597c6189e719cd7927c03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops each of the configured outputs on this IO.  <br /></td></tr>
 <tr class="memitem:ac9ef0fd0f7ff053565003577db479ac8" id="r_ac9ef0fd0f7ff053565003577db479ac8"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ac9ef0fd0f7ff053565003577db479ac8">resetOutputs</a> () override</td></tr>
 <tr class="memdesc:ac9ef0fd0f7ff053565003577db479ac8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops each of the configured outputs on this IO.  <br /></td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-friends" class="groupheader"><a id="friends" name="friends"></a>
-Friends</h2></td></tr>
-<tr class="memitem:ac1d158bb9678be7a19821ed89b096022" id="r_ac1d158bb9678be7a19821ed89b096022"><td class="memItemLeft">class&#160;</td><td class="memItemRight"><a class="el" href="#ac1d158bb9678be7a19821ed89b096022">MIDI_Device_Controller</a></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class to manage a chain of shift registers outputs. </p>
@@ -183,33 +181,6 @@ Friends</h2></td></tr>
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="a8221c285be20d81c3ee2be5ac647f763" name="a8221c285be20d81c3ee2be5ac647f763"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8221c285be20d81c3ee2be5ac647f763">&#9670;&#160;</a></span>getLatchPin()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t IO_74HC595::getLatchPin </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Gets the pin being used for latching. </p>
-
-</div>
-</div>
 <a id="af74c8d285a5a22e4e8ecee40fc8c3013" name="af74c8d285a5a22e4e8ecee40fc8c3013"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af74c8d285a5a22e4e8ecee40fc8c3013">&#9670;&#160;</a></span>getOutput()</h2>
 
@@ -243,33 +214,6 @@ Friends</h2></td></tr>
 </dl>
 
 <p>Implements <a class="el" href="classIO__Device.html#a9d6b4ec4a67ecc8dec8718710baeb02a">IO_Device</a>.</p>
-
-</div>
-</div>
-<a id="a4e6013f3b1b65ee1fd8011d9da19a7c5" name="a4e6013f3b1b65ee1fd8011d9da19a7c5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4e6013f3b1b65ee1fd8011d9da19a7c5">&#9670;&#160;</a></span>getRegisterCount()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t IO_74HC595::getRegisterCount </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Gets the number of registers configured. </p>
 
 </div>
 </div>
@@ -554,7 +498,7 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Stops each of the configured outputs on this IO. </p>
-<p>Respects the shouldStop setting of each output. Outputs where shouldStop is true will be reset to their initial state (based on inverted setting). This is automatically called through the framework (see <a class="el" href="classMIDI__Device__Controller.html#a7563178596d986e72b78d098208b8d22">MIDI_Device_Controller::stopPlaying()</a>). </p>
+<p>Respects the shouldStop setting of each output. Outputs where shouldStop is true will be reset to their initial state (based on inverted setting). This is automatically called through the framework (see MIDI_Device_Controller::stopPlaying()). </p>
 
 <p>Implements <a class="el" href="classIO__Device.html#a485d7d92371e254459587a1182c20967">IO_Device</a>.</p>
 
@@ -625,32 +569,9 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a name="doc-related-members" id="doc-related-members"></a><h2 id="header-doc-related-members" class="groupheader">Friends And Related Symbol Documentation</h2>
-<a id="ac1d158bb9678be7a19821ed89b096022" name="ac1d158bb9678be7a19821ed89b096022"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac1d158bb9678be7a19821ed89b096022">&#9670;&#160;</a></span>MIDI_Device_Controller</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">friend class <a class="el" href="classMIDI__Device__Controller.html">MIDI_Device_Controller</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel friend">friend</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>src/IO_Devices/<a class="el" href="IO__74HC595_8h_source.html">IO_74HC595.h</a></li>
-<li>src/IO_Devices/<a class="el" href="IO__74HC595_8cpp.html">IO_74HC595.cpp</a></li>
+<li>src/IO_Devices/<b>IO_74HC595.cpp</b></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

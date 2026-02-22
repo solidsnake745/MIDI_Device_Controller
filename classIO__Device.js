@@ -8,8 +8,5 @@ var classIO__Device =
     [ "setShouldStop", "classIO__Device.html#a440ac5c1cb05fe9ba3d601412954b036", null ],
     [ "stopOutputs", "classIO__Device.html#a485d7d92371e254459587a1182c20967", null ],
     [ "testOutputs", "classIO__Device.html#a30047ec87f90ee568aed67164d989cdd", null ],
-    [ "toggleOutput", "classIO__Device.html#ad8495ccd4b3b555481cf51a27a110ae6", null ],
-    [ "Base_MIDI_Pitch", "classIO__Device.html#a57fd9f486417c0cafbc77088426bac9f", null ],
-    [ "Base_MIDI_Pulse", "classIO__Device.html#ac5149eb1a0ff870e846d2f9750042fbf", null ],
-    [ "MIDI_Device_Controller", "classIO__Device.html#ac1d158bb9678be7a19821ed89b096022", null ]
+    [ "toggleOutput", "classIO__Device.html#ad8495ccd4b3b555481cf51a27a110ae6", null ]
 ];

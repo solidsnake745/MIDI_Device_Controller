@@ -1,6 +1,5 @@
 var classIO__DigitalWrite =
 [
-    [ "IO_DigitalWrite", "classIO__DigitalWrite.html#afeb7eaca54390c4a21f688dd6555d471", null ],
     [ "addPin", "classIO__DigitalWrite.html#aae5779876f6e3cd177f2f955df23802b", null ],
     [ "deletePin", "classIO__DigitalWrite.html#ae4191b891ec594ab70ea6ed39ef94385", null ],
     [ "getOutput", "classIO__DigitalWrite.html#ad33c679f3aad983f25e2fb408a2567e3", null ],
@@ -12,6 +11,5 @@ var classIO__DigitalWrite =
     [ "setShouldStop", "classIO__DigitalWrite.html#a8dbe53df06a4ad154925045506ccfded", null ],
     [ "stopOutputs", "classIO__DigitalWrite.html#ad9cddee81fde994e84cee14b3a81c73c", null ],
     [ "testOutputs", "classIO__DigitalWrite.html#a107c09eb81380a704ade8cba56432b4f", null ],
-    [ "toggleOutput", "classIO__DigitalWrite.html#af684d41719731b011b900d92e1aab4dd", null ],
-    [ "MIDI_Device_Controller", "classIO__DigitalWrite.html#ac1d158bb9678be7a19821ed89b096022", null ]
+    [ "toggleOutput", "classIO__DigitalWrite.html#af684d41719731b011b900d92e1aab4dd", null ]
 ];

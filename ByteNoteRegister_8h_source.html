@@ -98,12 +98,12 @@ $(function(){initNavTree('ByteNoteRegister_8h_source.html','',''); });
   <div class="headertitle"><div class="title">ByteNoteRegister.h</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="ByteNoteRegister_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef ByteNoteRegister_h</span></div>
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef ByteNoteRegister_h</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">    #define ByteNoteRegister_h</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">    #if INCLUDE_TESTS</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">        #include &quot;<a class="code" href="Settings_8h.html">../Settings.h</a>&quot;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">        #include &quot;<a class="code" href="SerialDebug_8h.html">SerialDebug.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">        #include &quot;../Settings.h&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">        #include &quot;SerialDebug.h&quot;</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">    #endif</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>        </div>
 <div class="foldopen" id="foldopen00013" data-start="{" data-end="};">
@@ -147,7 +147,7 @@ $(function(){initNavTree('ByteNoteRegister_8h_source.html','',''); });
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>            </div>
 <div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="preprocessor">        #if INCLUDE_TESTS</span></div>
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        <span class="keyword">private</span>:            </div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>            <span class="keyword">inline</span> <span class="keyword">static</span> SerialDebug _debug = SerialDebug(<a class="code hl_define" href="Settings_8h.html#ab888f4523f7adcaf5eedcba9784b97a3">DEBUG_BYTENOTEREGISTER</a>);</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>            <span class="keyword">inline</span> <span class="keyword">static</span> SerialDebug _debug = SerialDebug(DEBUG_BYTENOTEREGISTER);</div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>            </div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>            <span class="keyword">inline</span> <span class="keyword">static</span> <span class="keywordtype">void</span> printBits(uint8_t value)</div>
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>            {</div>
@@ -256,9 +256,6 @@ $(function(){initNavTree('ByteNoteRegister_8h_source.html','',''); });
 </div>
 <div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>    </div>
 <div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="aSerialDebug_8h_html"><div class="ttname"><a href="SerialDebug_8h.html">SerialDebug.h</a></div></div>
-<div class="ttc" id="aSettings_8h_html"><div class="ttname"><a href="Settings_8h.html">Settings.h</a></div></div>
-<div class="ttc" id="aSettings_8h_html_ab888f4523f7adcaf5eedcba9784b97a3"><div class="ttname"><a href="Settings_8h.html#ab888f4523f7adcaf5eedcba9784b97a3">DEBUG_BYTENOTEREGISTER</a></div><div class="ttdeci">#define DEBUG_BYTENOTEREGISTER</div><div class="ttdef"><b>Definition</b> Settings.h:128</div></div>
 <div class="ttc" id="aclassByteNoteRegister_html_a15397a97f9474e003d3b9b0f85e3b941"><div class="ttname"><a href="classByteNoteRegister.html#a15397a97f9474e003d3b9b0f85e3b941">ByteNoteRegister::ByteNoteRegister</a></div><div class="ttdeci">ByteNoteRegister()</div><div class="ttdoc">Default constructor.</div><div class="ttdef"><b>Definition</b> ByteNoteRegister.h:20</div></div>
 <div class="ttc" id="aclassByteNoteRegister_html_a37fd00d8716f335d47f5078c7484707c"><div class="ttname"><a href="classByteNoteRegister.html#a37fd00d8716f335d47f5078c7484707c">ByteNoteRegister::clearBit</a></div><div class="ttdeci">void clearBit(uint8_t i)</div><div class="ttdoc">Sets the specified bit to 0.</div><div class="ttdef"><b>Definition</b> ByteNoteRegister.h:47</div></div>
 <div class="ttc" id="aclassByteNoteRegister_html_a38a064863d9fafece333971c36952839"><div class="ttname"><a href="classByteNoteRegister.html#a38a064863d9fafece333971c36952839">ByteNoteRegister::setBitValue</a></div><div class="ttdeci">void setBitValue(uint8_t i, bool value)</div><div class="ttdoc">Sets the specified bit&#39;s value.</div><div class="ttdef"><b>Definition</b> ByteNoteRegister.h:52</div></div>
@@ -275,7 +272,7 @@ $(function(){initNavTree('ByteNoteRegister_8h_source.html','',''); });
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a href="dir_ba210d1fa67db7bee1bb22e0a3c11d9f.html">Common</a></li><li class="navelem"><a href="ByteNoteRegister_8h.html">ByteNoteRegister.h</a></li>
+    <li class="navelem"><b>src</b></li><li class="navelem"><b>Common</b></li><li class="navelem"><b>ByteNoteRegister.h</b></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>

@@ -98,11 +98,11 @@ $(function(){initNavTree('MIDI__Periods_8h_source.html','',''); });
   <div class="headertitle"><div class="title">MIDI_Periods.h</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="MIDI__Periods_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef MIDI_Periods_h</span></div>
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef MIDI_Periods_h</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">    #define MIDI_Periods_h</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span>    </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">    #include &quot;<a class="code" href="Settings_8h.html">../Settings.h</a>&quot;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">    #include &quot;<a class="code" href="SerialDebug_8h.html">../Common/SerialDebug.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">    #include &quot;../Settings.h&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">    #include &quot;../Common/SerialDebug.h&quot;</span></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>    </div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>    <span class="comment">//Resolve pgmspace dependency</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">    #if ARDUINO_ARCH_AVR</span></div>
@@ -117,9 +117,9 @@ $(function(){initNavTree('MIDI__Periods_8h_source.html','',''); });
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="classMIDI__Periods.html">   19</a></span>    <span class="keyword">class </span>MIDI_Periods</div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    {</div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="comment">//Give MIDI_DeviceController access to all private members</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="classMIDI__Periods.html#a113dc9669a6f768f21f9a10789d3f8ba">   22</a></span>        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code hl_friend" href="classMIDI__Periods.html#a113dc9669a6f768f21f9a10789d3f8ba">MIDI_DeviceController</a>;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="keyword">friend</span> <span class="keyword">class </span>MIDI_DeviceController;</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <span class="keyword">inline</span> <span class="keyword">static</span> SerialDebug _debug = SerialDebug(<a class="code hl_define" href="Settings_8h.html#aa3af1e173b5c415059001cf31652a853">DEBUG_MIDIPERIODS</a>);</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <span class="keyword">inline</span> <span class="keyword">static</span> SerialDebug _debug = SerialDebug(DEBUG_MIDIPERIODS);</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        </div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <span class="comment">//Constructor(s)</span></div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        MIDI_Periods(); <span class="comment">//Disallow creating an instance</span></div>
@@ -151,7 +151,7 @@ $(function(){initNavTree('MIDI__Periods_8h_source.html','',''); });
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            </div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="classMIDI__Periods.html#a641333d6caba968febe0f30f0cced7db">   58</a></span>            <span class="keyword">inline</span> <span class="keyword">static</span> uint32_t <a class="code hl_function" href="classMIDI__Periods.html#a641333d6caba968febe0f30f0cced7db">getResolution</a>() { <span class="keywordflow">return</span> _currentResolution; };</div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>            </div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>            <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classMIDI__Periods.html#adc018287a7a96d34bcdadff769ecd823">setResolution</a>(uint32_t resolution = <a class="code hl_define" href="Settings_8h.html#a2674041fcb6b33ea03b7441c5bf07da1">DEFAULT_RESOLUTION</a>);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>            <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classMIDI__Periods.html#adc018287a7a96d34bcdadff769ecd823">setResolution</a>(uint32_t resolution = DEFAULT_RESOLUTION);</div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>            </div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>            <span class="keyword">inline</span> <span class="keyword">static</span> <span class="keywordtype">void</span> setDebugResolution() { _currentResolution = 1000000; }; <span class="comment">//1 second interval</span></div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>            </div>
@@ -168,12 +168,7 @@ $(function(){initNavTree('MIDI__Periods_8h_source.html','',''); });
 </div>
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    </div>
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="aSerialDebug_8h_html"><div class="ttname"><a href="SerialDebug_8h.html">SerialDebug.h</a></div></div>
-<div class="ttc" id="aSettings_8h_html"><div class="ttname"><a href="Settings_8h.html">Settings.h</a></div></div>
-<div class="ttc" id="aSettings_8h_html_a2674041fcb6b33ea03b7441c5bf07da1"><div class="ttname"><a href="Settings_8h.html#a2674041fcb6b33ea03b7441c5bf07da1">DEFAULT_RESOLUTION</a></div><div class="ttdeci">#define DEFAULT_RESOLUTION</div><div class="ttdef"><b>Definition</b> Settings.h:44</div></div>
-<div class="ttc" id="aSettings_8h_html_aa3af1e173b5c415059001cf31652a853"><div class="ttname"><a href="Settings_8h.html#aa3af1e173b5c415059001cf31652a853">DEBUG_MIDIPERIODS</a></div><div class="ttdeci">#define DEBUG_MIDIPERIODS</div><div class="ttdef"><b>Definition</b> Settings.h:102</div></div>
 <div class="ttc" id="aclassMIDI__Periods_html_a09b1f9c8ce871b035d35ba220efb69d2"><div class="ttname"><a href="classMIDI__Periods.html#a09b1f9c8ce871b035d35ba220efb69d2">MIDI_Periods::calculatedPeriods</a></div><div class="ttdeci">static uint16_t calculatedPeriods[128]</div><div class="ttdoc">Calculated microperiods based on the set resolution for each note.</div><div class="ttdef"><b>Definition</b> MIDI_Periods.h:37</div></div>
-<div class="ttc" id="aclassMIDI__Periods_html_a113dc9669a6f768f21f9a10789d3f8ba"><div class="ttname"><a href="classMIDI__Periods.html#a113dc9669a6f768f21f9a10789d3f8ba">MIDI_Periods::MIDI_DeviceController</a></div><div class="ttdeci">friend class MIDI_DeviceController</div><div class="ttdef"><b>Definition</b> MIDI_Periods.h:22</div></div>
 <div class="ttc" id="aclassMIDI__Periods_html_a641333d6caba968febe0f30f0cced7db"><div class="ttname"><a href="classMIDI__Periods.html#a641333d6caba968febe0f30f0cced7db">MIDI_Periods::getResolution</a></div><div class="ttdeci">static uint32_t getResolution()</div><div class="ttdoc">Gets the current resolution.</div><div class="ttdef"><b>Definition</b> MIDI_Periods.h:58</div></div>
 <div class="ttc" id="aclassMIDI__Periods_html_a7abdba4333dc08e1ae92941b2f0cfe9b"><div class="ttname"><a href="classMIDI__Periods.html#a7abdba4333dc08e1ae92941b2f0cfe9b">MIDI_Periods::printCalculatedPeriod</a></div><div class="ttdeci">static void printCalculatedPeriod(uint8_t note)</div><div class="ttdoc">Prints the calculated period for the given note.</div><div class="ttdef"><b>Definition</b> MIDI_Periods.cpp:37</div></div>
 <div class="ttc" id="aclassMIDI__Periods_html_ab4dc8df1e54a7145d561165cb9ac6ac6"><div class="ttname"><a href="classMIDI__Periods.html#ab4dc8df1e54a7145d561165cb9ac6ac6">MIDI_Periods::printOriginalPeriods</a></div><div class="ttdeci">static void printOriginalPeriods()</div><div class="ttdoc">Prints the original period for notes 0 through 127.</div><div class="ttdef"><b>Definition</b> MIDI_Periods.cpp:36</div></div>
@@ -188,7 +183,7 @@ $(function(){initNavTree('MIDI__Periods_8h_source.html','',''); });
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a href="dir_ba210d1fa67db7bee1bb22e0a3c11d9f.html">Common</a></li><li class="navelem"><a href="MIDI__Periods_8h.html">MIDI_Periods.h</a></li>
+    <li class="navelem"><b>src</b></li><li class="navelem"><b>Common</b></li><li class="navelem"><b>MIDI_Periods.h</b></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>

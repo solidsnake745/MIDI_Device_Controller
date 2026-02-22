@@ -98,13 +98,13 @@ $(function(){initNavTree('MIDI__Pulse__Controller_8h_source.html','',''); });
   <div class="headertitle"><div class="title">MIDI_Pulse_Controller.h</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="MIDI__Pulse__Controller_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef MIDI_Pulse_Controller_h</span></div>
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef MIDI_Pulse_Controller_h</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">    #define MIDI_Pulse_Controller_h</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span>    </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">    #include &quot;<a class="code" href="MIDI__Device__Controller_8h.html">../MIDI_Device_Controller.h</a>&quot;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">    #include &quot;<a class="code" href="Settings_8h.html">../Settings.h</a>&quot;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">    #include &quot;<a class="code" href="SerialDebug_8h.html">../Common/SerialDebug.h</a>&quot;</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">    #include &quot;<a class="code" href="Base__MIDI__Pulse_8h.html">../MIDI_Pulse/Base_MIDI_Pulse.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">    #include &quot;../MIDI_Device_Controller.h&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">    #include &quot;../Settings.h&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">    #include &quot;../Common/SerialDebug.h&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">    #include &quot;../MIDI_Pulse/Base_MIDI_Pulse.h&quot;</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>    </div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    <span class="comment">//Resolve map dependency</span></div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">    #if ARDUINO_ARCH_AVR</span></div>
@@ -118,7 +118,7 @@ $(function(){initNavTree('MIDI__Pulse__Controller_8h_source.html','',''); });
 <div class="foldopen" id="foldopen00019" data-start="{" data-end="};">
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="classMIDI__Pulse__Controller.html">   19</a></span>    <span class="keyword">class </span>MIDI_Pulse_Controller</div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    {</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="keyword">inline</span> <span class="keyword">static</span> SerialDebug _debug = SerialDebug(<a class="code hl_define" href="Settings_8h.html#ab4fa38b11bd53b0346a4e7b4d7db33b4">DEBUG_PULSECONTROLLER</a>);</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="keyword">inline</span> <span class="keyword">static</span> SerialDebug _debug = SerialDebug(DEBUG_PULSECONTROLLER);</div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        </div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <span class="comment">//Constructor(s)</span></div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        MIDI_Pulse_Controller(); <span class="comment">//Disallow creating an instance</span></div>
@@ -146,26 +146,17 @@ $(function(){initNavTree('MIDI__Pulse__Controller_8h_source.html','',''); });
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span></div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>            <a class="code hl_class" href="classBase__MIDI__Pulse.html">Base_MIDI_Pulse</a>* <span class="keyword">const</span> <a class="code hl_function" href="classMIDI__Pulse__Controller.html#ae574d03dbe5515bdfbce68640395fffc">getMappedDevice</a>(uint8_t note);</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>            </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>            <span class="keywordtype">void</span> <a class="code hl_function" href="classMIDI__Pulse__Controller.html#a23faa94d4edc30161cdad529cb841523">pulseNote</a>(uint8_t note);</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>            <span class="keywordtype">void</span> <a class="code hl_function" href="classMIDI__Pulse__Controller.html#a0e0abe0365598f28d900295f088be0f9">stopNote</a>(uint8_t note);</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>            <span class="keywordtype">void</span> <a class="code hl_function" href="classMIDI__Pulse__Controller.html#a3c8ea2be756812c7b6735ae505e767a6">stopNotes</a>();</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>            <span class="keywordtype">void</span> pulseNote(uint8_t note);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>            <span class="keywordtype">void</span> stopNote(uint8_t note);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>            <span class="keywordtype">void</span> stopNotes();</div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    };</div>
 </div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    </div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="comment">//Defines a global instance of our class for users to consume</span></div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="MIDI__Pulse__Controller_8h.html#a287019ac015c8ff883ae6225a2c4685f">   67</a></span>    <span class="keyword">inline</span> <a class="code hl_class" href="classMIDI__Pulse__Controller.html">MIDI_Pulse_Controller</a> <a class="code hl_variable" href="MIDI__Pulse__Controller_8h.html#a287019ac015c8ff883ae6225a2c4685f">MPC</a> = MIDI_Pulse_Controller::getInstance();</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <span class="keyword">inline</span> <a class="code hl_class" href="classMIDI__Pulse__Controller.html">MIDI_Pulse_Controller</a> MPC = MIDI_Pulse_Controller::getInstance();</div>
 <div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="aBase__MIDI__Pulse_8h_html"><div class="ttname"><a href="Base__MIDI__Pulse_8h.html">Base_MIDI_Pulse.h</a></div></div>
-<div class="ttc" id="aMIDI__Device__Controller_8h_html"><div class="ttname"><a href="MIDI__Device__Controller_8h.html">MIDI_Device_Controller.h</a></div></div>
-<div class="ttc" id="aMIDI__Pulse__Controller_8h_html_a287019ac015c8ff883ae6225a2c4685f"><div class="ttname"><a href="MIDI__Pulse__Controller_8h.html#a287019ac015c8ff883ae6225a2c4685f">MPC</a></div><div class="ttdeci">MIDI_Pulse_Controller MPC</div><div class="ttdef"><b>Definition</b> MIDI_Pulse_Controller.h:67</div></div>
-<div class="ttc" id="aSerialDebug_8h_html"><div class="ttname"><a href="SerialDebug_8h.html">SerialDebug.h</a></div></div>
-<div class="ttc" id="aSettings_8h_html"><div class="ttname"><a href="Settings_8h.html">Settings.h</a></div></div>
-<div class="ttc" id="aSettings_8h_html_ab4fa38b11bd53b0346a4e7b4d7db33b4"><div class="ttname"><a href="Settings_8h.html#ab4fa38b11bd53b0346a4e7b4d7db33b4">DEBUG_PULSECONTROLLER</a></div><div class="ttdeci">#define DEBUG_PULSECONTROLLER</div><div class="ttdef"><b>Definition</b> Settings.h:125</div></div>
 <div class="ttc" id="aclassBase__MIDI__Pulse_html"><div class="ttname"><a href="classBase__MIDI__Pulse.html">Base_MIDI_Pulse</a></div><div class="ttdef"><b>Definition</b> Base_MIDI_Pulse.h:13</div></div>
 <div class="ttc" id="aclassMIDI__Pulse__Controller_html"><div class="ttname"><a href="classMIDI__Pulse__Controller.html">MIDI_Pulse_Controller</a></div><div class="ttdoc">[MPC] Manages mapping MIDI notes to pulse devices</div><div class="ttdef"><b>Definition</b> MIDI_Pulse_Controller.h:20</div></div>
-<div class="ttc" id="aclassMIDI__Pulse__Controller_html_a0e0abe0365598f28d900295f088be0f9"><div class="ttname"><a href="classMIDI__Pulse__Controller.html#a0e0abe0365598f28d900295f088be0f9">MIDI_Pulse_Controller::stopNote</a></div><div class="ttdeci">void stopNote(uint8_t note)</div><div class="ttdef"><b>Definition</b> MIDI_Pulse_Controller.cpp:53</div></div>
-<div class="ttc" id="aclassMIDI__Pulse__Controller_html_a23faa94d4edc30161cdad529cb841523"><div class="ttname"><a href="classMIDI__Pulse__Controller.html#a23faa94d4edc30161cdad529cb841523">MIDI_Pulse_Controller::pulseNote</a></div><div class="ttdeci">void pulseNote(uint8_t note)</div><div class="ttdef"><b>Definition</b> MIDI_Pulse_Controller.cpp:47</div></div>
-<div class="ttc" id="aclassMIDI__Pulse__Controller_html_a3c8ea2be756812c7b6735ae505e767a6"><div class="ttname"><a href="classMIDI__Pulse__Controller.html#a3c8ea2be756812c7b6735ae505e767a6">MIDI_Pulse_Controller::stopNotes</a></div><div class="ttdeci">void stopNotes()</div><div class="ttdef"><b>Definition</b> MIDI_Pulse_Controller.cpp:59</div></div>
 <div class="ttc" id="aclassMIDI__Pulse__Controller_html_a5460db6f8f465e427dd608709cbf517b"><div class="ttname"><a href="classMIDI__Pulse__Controller.html#a5460db6f8f465e427dd608709cbf517b">MIDI_Pulse_Controller::addMapping</a></div><div class="ttdeci">void addMapping(uint8_t note, Base_MIDI_Pulse *d)</div><div class="ttdoc">Adds a mapping between note and pulse device output.</div><div class="ttdef"><b>Definition</b> MIDI_Pulse_Controller.cpp:8</div></div>
 <div class="ttc" id="aclassMIDI__Pulse__Controller_html_ae574d03dbe5515bdfbce68640395fffc"><div class="ttname"><a href="classMIDI__Pulse__Controller.html#ae574d03dbe5515bdfbce68640395fffc">MIDI_Pulse_Controller::getMappedDevice</a></div><div class="ttdeci">Base_MIDI_Pulse *const getMappedDevice(uint8_t note)</div><div class="ttdoc">Retrieves the device mapped to the given note if there is one.</div><div class="ttdef"><b>Definition</b> MIDI_Pulse_Controller.cpp:29</div></div>
 <div class="ttc" id="aclassMIDI__Pulse__Controller_html_aee7bccc7a508cc80dcf447f7cdb32ff3"><div class="ttname"><a href="classMIDI__Pulse__Controller.html#aee7bccc7a508cc80dcf447f7cdb32ff3">MIDI_Pulse_Controller::deleteMapping</a></div><div class="ttdeci">void deleteMapping(uint8_t note)</div><div class="ttdoc">Removes an existing mapping for the given note.</div><div class="ttdef"><b>Definition</b> MIDI_Pulse_Controller.cpp:21</div></div>
@@ -175,7 +166,7 @@ $(function(){initNavTree('MIDI__Pulse__Controller_8h_source.html','',''); });
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a href="dir_3ffd7d2d02b15e93c6b721121227aca6.html">MIDI_Pulse_Controller</a></li><li class="navelem"><a href="MIDI__Pulse__Controller_8h.html">MIDI_Pulse_Controller.h</a></li>
+    <li class="navelem"><b>src</b></li><li class="navelem"><b>MIDI_Pulse_Controller</b></li><li class="navelem"><b>MIDI_Pulse_Controller.h</b></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>

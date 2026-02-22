@@ -10,7 +10,7 @@ var dir_68267d1309a1af8e8297ef4c3efbcdba =
     [ "MIDI_Pitch", "dir_06ac0a37aaf76b239c0db4f9b08cb5da.html", "dir_06ac0a37aaf76b239c0db4f9b08cb5da" ],
     [ "MIDI_Pulse", "dir_42871d551cd6eb9bcd1fe3a146b0c657.html", "dir_42871d551cd6eb9bcd1fe3a146b0c657" ],
     [ "MIDI_Pulse_Controller", "dir_3ffd7d2d02b15e93c6b721121227aca6.html", "dir_3ffd7d2d02b15e93c6b721121227aca6" ],
-    [ "MDC_Extras.h", "MDC__Extras_8h.html", null ],
-    [ "MIDI_Device_Controller.h", "MIDI__Device__Controller_8h.html", "MIDI__Device__Controller_8h" ],
-    [ "Settings.h", "Settings_8h.html", "Settings_8h" ]
+    [ "MDC_Extras.h", "MDC__Extras_8h_source.html", null ],
+    [ "MIDI_Device_Controller.h", "MIDI__Device__Controller_8h_source.html", null ],
+    [ "Settings.h", "Settings_8h_source.html", null ]
 ];

@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['handlemidi_0',['handleMIDI',['../classMIDI__Handler.html#a614622c3fe5aea192bcf1633e6c7d70b',1,'MIDI_Handler']]],
-  ['hasdirection_1',['hasDirection',['../classBase__MIDI__Pitch.html#a4451e85f334d7961515fab7ea321f8cc',1,'Base_MIDI_Pitch::hasDirection()'],['../classMIDI__SquareWave__Direction.html#a81597fc0685bf97b515c70f44093787d',1,'MIDI_SquareWave_Direction::hasDirection()'],['../classMIDI__Unipolar.html#a718ec0a20a10fd6732d593c79f83db54',1,'MIDI_Unipolar::hasDirection()']]]
+  ['io_5f74hc595_0',['IO_74HC595',['../classIO__74HC595.html#a4934b30256209052095e34089e973227',1,'IO_74HC595']]],
+  ['isinverted_1',['isInverted',['../classByteNoteRegister.html#abe4ea3e15898a0d1b3ba614157e1fbf9',1,'ByteNoteRegister']]],
+  ['isvalidmapping_2',['isValidMapping',['../classIO__74HC595.html#ae93302db350c0b10cc64abdd355ea5e5',1,'IO_74HC595::isValidMapping()'],['../classIO__Device.html#ad0904e8525e8430947a9688edff4a58f',1,'IO_Device::isValidMapping()'],['../classIO__DigitalWrite.html#ac1c3d205b88787fa6bfa0db526eeaf29',1,'IO_DigitalWrite::isValidMapping()']]],
+  ['iszero_3',['isZero',['../classNoteDuration.html#aa9925fbeac3b0ac760dbf6f6478e57c7',1,'NoteDuration']]]
 ];

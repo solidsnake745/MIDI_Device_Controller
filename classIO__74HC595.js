@@ -13,6 +13,5 @@ var classIO__74HC595 =
     [ "setShouldStop", "classIO__74HC595.html#a29082740bd9cac9882d62249f089c425", null ],
     [ "stopOutputs", "classIO__74HC595.html#a444bb2b7006597c6189e719cd7927c03", null ],
     [ "testOutputs", "classIO__74HC595.html#a73d75f2b46ca79eff2418538f8a92e4c", null ],
-    [ "toggleOutput", "classIO__74HC595.html#a64b1b8495b9610871739a3b9e3cbd3b0", null ],
-    [ "MIDI_Device_Controller", "classIO__74HC595.html#ac1d158bb9678be7a19821ed89b096022", null ]
+    [ "toggleOutput", "classIO__74HC595.html#a64b1b8495b9610871739a3b9e3cbd3b0", null ]
 ];

@@ -115,9 +115,9 @@ Inheritance diagram for IO_DigitalWrite:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:afeb7eaca54390c4a21f688dd6555d471" id="r_afeb7eaca54390c4a21f688dd6555d471"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#afeb7eaca54390c4a21f688dd6555d471">IO_DigitalWrite</a> (uint8_t numOutputs)</td></tr>
-<tr class="memitem:ad86678c1302288fd25289471aad22d28" id="r_ad86678c1302288fd25289471aad22d28"><td class="memItemLeft">uint8_t&#160;</td><td class="memItemRight"><a class="el" href="#ad86678c1302288fd25289471aad22d28">getRegisterCount</a> ()</td></tr>
-<tr class="memdesc:ad86678c1302288fd25289471aad22d28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the number of registers configured.  <br /></td></tr>
+<tr class="memitem:ad86678c1302288fd25289471aad22d28" id="r_ad86678c1302288fd25289471aad22d28"><td class="memItemLeft"><a id="ad86678c1302288fd25289471aad22d28" name="ad86678c1302288fd25289471aad22d28"></a>
+uint8_t&#160;</td><td class="memItemRight"><b>getRegisterCount</b> ()</td></tr>
+<tr class="memdesc:ad86678c1302288fd25289471aad22d28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the number of registers configured. <br /></td></tr>
 <tr class="memitem:aae5779876f6e3cd177f2f955df23802b" id="r_aae5779876f6e3cd177f2f955df23802b"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aae5779876f6e3cd177f2f955df23802b">addPin</a> (uint8_t pin)</td></tr>
 <tr class="memdesc:aae5779876f6e3cd177f2f955df23802b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a pin to be managed.  <br /></td></tr>
 <tr class="memitem:ae4191b891ec594ab70ea6ed39ef94385" id="r_ae4191b891ec594ab70ea6ed39ef94385"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae4191b891ec594ab70ea6ed39ef94385">deletePin</a> (uint8_t pin)</td></tr>
@@ -140,32 +140,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ad9cddee81fde994e84cee14b3a81c73c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops each of the configured outputs on this IO.  <br /></td></tr>
 <tr class="memitem:a46dffe38e61853b33c51b9663ff9bbe9" id="r_a46dffe38e61853b33c51b9663ff9bbe9"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a46dffe38e61853b33c51b9663ff9bbe9">resetOutputs</a> () override</td></tr>
 <tr class="memdesc:a46dffe38e61853b33c51b9663ff9bbe9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops each of the configured outputs on this IO.  <br /></td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-friends" class="groupheader"><a id="friends" name="friends"></a>
-Friends</h2></td></tr>
-<tr class="memitem:ac1d158bb9678be7a19821ed89b096022" id="r_ac1d158bb9678be7a19821ed89b096022"><td class="memItemLeft">class&#160;</td><td class="memItemRight"><a class="el" href="#ac1d158bb9678be7a19821ed89b096022">MIDI_Device_Controller</a></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class to manage microcontroller outputs that use Arduino digitalWrite(). </p>
-</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="afeb7eaca54390c4a21f688dd6555d471" name="afeb7eaca54390c4a21f688dd6555d471"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afeb7eaca54390c4a21f688dd6555d471">&#9670;&#160;</a></span>IO_DigitalWrite()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">IO_DigitalWrite::IO_DigitalWrite </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>numOutputs</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="aae5779876f6e3cd177f2f955df23802b" name="aae5779876f6e3cd177f2f955df23802b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aae5779876f6e3cd177f2f955df23802b">&#9670;&#160;</a></span>addPin()</h2>
 
@@ -249,33 +227,6 @@ Friends</h2></td></tr>
 </dl>
 
 <p>Implements <a class="el" href="classIO__Device.html#a9d6b4ec4a67ecc8dec8718710baeb02a">IO_Device</a>.</p>
-
-</div>
-</div>
-<a id="ad86678c1302288fd25289471aad22d28" name="ad86678c1302288fd25289471aad22d28"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad86678c1302288fd25289471aad22d28">&#9670;&#160;</a></span>getRegisterCount()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t IO_DigitalWrite::getRegisterCount </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Gets the number of registers configured. </p>
 
 </div>
 </div>
@@ -494,7 +445,7 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Stops each of the configured outputs on this IO. </p>
-<p>Respects the shouldStop setting of each output. Outputs where shouldStop is true will be reset to their initial state (based on inverted setting). This is automatically called through the framework (see <a class="el" href="classMIDI__Device__Controller.html#a7563178596d986e72b78d098208b8d22">MIDI_Device_Controller::stopPlaying()</a>). </p>
+<p>Respects the shouldStop setting of each output. Outputs where shouldStop is true will be reset to their initial state (based on inverted setting). This is automatically called through the framework (see MIDI_Device_Controller::stopPlaying()). </p>
 
 <p>Implements <a class="el" href="classIO__Device.html#a485d7d92371e254459587a1182c20967">IO_Device</a>.</p>
 
@@ -565,32 +516,9 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a name="doc-related-members" id="doc-related-members"></a><h2 id="header-doc-related-members" class="groupheader">Friends And Related Symbol Documentation</h2>
-<a id="ac1d158bb9678be7a19821ed89b096022" name="ac1d158bb9678be7a19821ed89b096022"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac1d158bb9678be7a19821ed89b096022">&#9670;&#160;</a></span>MIDI_Device_Controller</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">friend class <a class="el" href="classMIDI__Device__Controller.html">MIDI_Device_Controller</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel friend">friend</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>src/IO_Devices/<a class="el" href="IO__DigitalWrite_8h_source.html">IO_DigitalWrite.h</a></li>
-<li>src/IO_Devices/<a class="el" href="IO__DigitalWrite_8cpp.html">IO_DigitalWrite.cpp</a></li>
+<li>src/IO_Devices/<b>IO_DigitalWrite.cpp</b></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

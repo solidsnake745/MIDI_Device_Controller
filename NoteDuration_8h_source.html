@@ -98,12 +98,12 @@ $(function(){initNavTree('NoteDuration_8h_source.html','',''); });
   <div class="headertitle"><div class="title">NoteDuration.h</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="NoteDuration_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef NoteDuration_h</span></div>
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef NoteDuration_h</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">    #define NoteDuration_h</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span>    </div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">    #include &lt;stdint.h&gt;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">    #include &quot;<a class="code" href="Settings_8h.html">../Settings.h</a>&quot;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">    #include &quot;<a class="code" href="SerialDebug_8h.html">../Common/SerialDebug.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">    #include &quot;../Settings.h&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">    #include &quot;../Common/SerialDebug.h&quot;</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>    <span class="comment">//Resolve STL dependency</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">    #if ARDUINO_ARCH_AVR</span></div>
@@ -145,7 +145,7 @@ $(function(){initNavTree('NoteDuration_8h_source.html','',''); });
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            <span class="comment">//This works but is horrifically inefficient</span></div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            <span class="comment">// bool operator &lt;(NoteDuration&amp; nd) { return convertToSeconds() &lt; nd.convertToSeconds(); };</span></div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>            </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>            <span class="keywordtype">bool</span> <a class="code hl_function" href="classNoteDuration.html#a8f9fd643ac8050c867030f873ff5a199">operator &lt;=</a>(<a class="code hl_class" href="classNoteDuration.html">NoteDuration</a>&amp; nd);</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>            <span class="keywordtype">bool</span> operator &lt;=(<a class="code hl_class" href="classNoteDuration.html">NoteDuration</a>&amp; nd);</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span></div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>            <span class="keywordtype">void</span> <a class="code hl_function" href="classNoteDuration.html#a619f03a70c6bde4de734d2a7809a6f35">addSeconds</a>(uint16_t s);</div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>            </div>
@@ -204,15 +204,12 @@ $(function(){initNavTree('NoteDuration_8h_source.html','',''); });
 </div>
 <div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
 <div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="aSerialDebug_8h_html"><div class="ttname"><a href="SerialDebug_8h.html">SerialDebug.h</a></div></div>
-<div class="ttc" id="aSettings_8h_html"><div class="ttname"><a href="Settings_8h.html">Settings.h</a></div></div>
 <div class="ttc" id="aclassNoteDuration_html"><div class="ttname"><a href="classNoteDuration.html">NoteDuration</a></div><div class="ttdoc">Class that represents a note&#39;s duration.</div><div class="ttdef"><b>Definition</b> NoteDuration.h:21</div></div>
 <div class="ttc" id="aclassNoteDuration_html_a311258ddd554f5f400c97a7829981f87"><div class="ttname"><a href="classNoteDuration.html#a311258ddd554f5f400c97a7829981f87">NoteDuration::addMillis</a></div><div class="ttdeci">void addMillis(uint32_t ms)</div><div class="ttdoc">Adds milliseconds to duration.</div><div class="ttdef"><b>Definition</b> NoteDuration.cpp:22</div></div>
 <div class="ttc" id="aclassNoteDuration_html_a3e25b95adb03ffb950d26a5f78e1914c"><div class="ttname"><a href="classNoteDuration.html#a3e25b95adb03ffb950d26a5f78e1914c">NoteDuration::addMicros</a></div><div class="ttdeci">void addMicros(uint32_t us)</div><div class="ttdoc">Adds microseconds to duration.</div><div class="ttdef"><b>Definition</b> NoteDuration.cpp:24</div></div>
 <div class="ttc" id="aclassNoteDuration_html_a58b7a5f2408114ab2e617099469e21dd"><div class="ttname"><a href="classNoteDuration.html#a58b7a5f2408114ab2e617099469e21dd">NoteDuration::getMicros</a></div><div class="ttdeci">uint16_t getMicros()</div><div class="ttdoc">Gets the microsecond component of duration.</div><div class="ttdef"><b>Definition</b> NoteDuration.h:38</div></div>
 <div class="ttc" id="aclassNoteDuration_html_a619f03a70c6bde4de734d2a7809a6f35"><div class="ttname"><a href="classNoteDuration.html#a619f03a70c6bde4de734d2a7809a6f35">NoteDuration::addSeconds</a></div><div class="ttdeci">void addSeconds(uint16_t s)</div><div class="ttdoc">Adds seconds to duration.</div><div class="ttdef"><b>Definition</b> NoteDuration.cpp:21</div></div>
 <div class="ttc" id="aclassNoteDuration_html_a78159db2cc34eb6a2129d9322df394ec"><div class="ttname"><a href="classNoteDuration.html#a78159db2cc34eb6a2129d9322df394ec">NoteDuration::reset</a></div><div class="ttdeci">void reset()</div><div class="ttdoc">Resets duration to 0.</div><div class="ttdef"><b>Definition</b> NoteDuration.h:41</div></div>
-<div class="ttc" id="aclassNoteDuration_html_a8f9fd643ac8050c867030f873ff5a199"><div class="ttname"><a href="classNoteDuration.html#a8f9fd643ac8050c867030f873ff5a199">NoteDuration::operator&lt;=</a></div><div class="ttdeci">bool operator&lt;=(NoteDuration &amp;nd)</div><div class="ttdef"><b>Definition</b> NoteDuration.cpp:10</div></div>
 <div class="ttc" id="aclassNoteDuration_html_a9b95178a566ff3b5cc0bba13db2ff46b"><div class="ttname"><a href="classNoteDuration.html#a9b95178a566ff3b5cc0bba13db2ff46b">NoteDuration::NoteDuration</a></div><div class="ttdeci">NoteDuration()</div><div class="ttdoc">Default constructor.</div><div class="ttdef"><b>Definition</b> NoteDuration.h:26</div></div>
 <div class="ttc" id="aclassNoteDuration_html_aa9925fbeac3b0ac760dbf6f6478e57c7"><div class="ttname"><a href="classNoteDuration.html#aa9925fbeac3b0ac760dbf6f6478e57c7">NoteDuration::isZero</a></div><div class="ttdeci">bool isZero()</div><div class="ttdoc">Indicates if duration is 0.</div><div class="ttdef"><b>Definition</b> NoteDuration.h:46</div></div>
 <div class="ttc" id="aclassNoteDuration_html_ac7b685a8043025fec6ffa415421556f9"><div class="ttname"><a href="classNoteDuration.html#ac7b685a8043025fec6ffa415421556f9">NoteDuration::getMillis</a></div><div class="ttdeci">uint16_t getMillis()</div><div class="ttdoc">Gets the millisecond component of duration.</div><div class="ttdef"><b>Definition</b> NoteDuration.h:35</div></div>
@@ -223,7 +220,7 @@ $(function(){initNavTree('NoteDuration_8h_source.html','',''); });
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a href="dir_ba210d1fa67db7bee1bb22e0a3c11d9f.html">Common</a></li><li class="navelem"><a href="NoteDuration_8h.html">NoteDuration.h</a></li>
+    <li class="navelem"><b>src</b></li><li class="navelem"><b>Common</b></li><li class="navelem"><b>NoteDuration.h</b></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>

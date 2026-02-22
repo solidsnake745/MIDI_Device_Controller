@@ -106,10 +106,12 @@ $(function(){initNavTree('classByteNoteRegister.html','','classByteNoteRegister-
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a15397a97f9474e003d3b9b0f85e3b941" id="r_a15397a97f9474e003d3b9b0f85e3b941"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a15397a97f9474e003d3b9b0f85e3b941">ByteNoteRegister</a> ()</td></tr>
-<tr class="memdesc:a15397a97f9474e003d3b9b0f85e3b941"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <br /></td></tr>
-<tr class="memitem:ae4352b6959d6583f609207dd45094b3b" id="r_ae4352b6959d6583f609207dd45094b3b"><td class="memItemLeft">uint8_t&#160;</td><td class="memItemRight"><a class="el" href="#ae4352b6959d6583f609207dd45094b3b">getByteValue</a> ()</td></tr>
-<tr class="memdesc:ae4352b6959d6583f609207dd45094b3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the entire register's value as a byte.  <br /></td></tr>
+<tr class="memitem:a15397a97f9474e003d3b9b0f85e3b941" id="r_a15397a97f9474e003d3b9b0f85e3b941"><td class="memItemLeft"><a id="a15397a97f9474e003d3b9b0f85e3b941" name="a15397a97f9474e003d3b9b0f85e3b941"></a>
+&#160;</td><td class="memItemRight"><b>ByteNoteRegister</b> ()</td></tr>
+<tr class="memdesc:a15397a97f9474e003d3b9b0f85e3b941"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. <br /></td></tr>
+<tr class="memitem:ae4352b6959d6583f609207dd45094b3b" id="r_ae4352b6959d6583f609207dd45094b3b"><td class="memItemLeft"><a id="ae4352b6959d6583f609207dd45094b3b" name="ae4352b6959d6583f609207dd45094b3b"></a>
+uint8_t&#160;</td><td class="memItemRight"><b>getByteValue</b> ()</td></tr>
+<tr class="memdesc:ae4352b6959d6583f609207dd45094b3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the entire register's value as a byte. <br /></td></tr>
 <tr class="memitem:ae3d341c5544b575834fa5e9cf875363c" id="r_ae3d341c5544b575834fa5e9cf875363c"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ae3d341c5544b575834fa5e9cf875363c">getBit</a> (uint8_t i)</td></tr>
 <tr class="memdesc:ae3d341c5544b575834fa5e9cf875363c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the specified bit.  <br /></td></tr>
 <tr class="memitem:a638ed6d831b9a761c5fba57505ff6c80" id="r_a638ed6d831b9a761c5fba57505ff6c80"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a638ed6d831b9a761c5fba57505ff6c80">getBitValue</a> (uint8_t i)</td></tr>
@@ -131,35 +133,7 @@ Public Member Functions</h2></td></tr>
 <div class="textblock"><p>Class to simplify storing a byte and manipulating its bits. </p>
 <p>Used in various IO devices as storage for output states. <br  />
  Was originally meant to include more note related information, but that was later refactored out. Should probably be renamed to ByteRegister. </p>
-</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a15397a97f9474e003d3b9b0f85e3b941" name="a15397a97f9474e003d3b9b0f85e3b941"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a15397a97f9474e003d3b9b0f85e3b941">&#9670;&#160;</a></span>ByteNoteRegister()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">ByteNoteRegister::ByteNoteRegister </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Default constructor. </p>
-
-</div>
-</div>
-<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="a37fd00d8716f335d47f5078c7484707c" name="a37fd00d8716f335d47f5078c7484707c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a37fd00d8716f335d47f5078c7484707c">&#9670;&#160;</a></span>clearBit()</h2>
 
@@ -256,33 +230,6 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-
-</div>
-</div>
-<a id="ae4352b6959d6583f609207dd45094b3b" name="ae4352b6959d6583f609207dd45094b3b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae4352b6959d6583f609207dd45094b3b">&#9670;&#160;</a></span>getByteValue()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t ByteNoteRegister::getByteValue </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Retrieve the entire register's value as a byte. </p>
 
 </div>
 </div>

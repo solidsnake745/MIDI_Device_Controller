@@ -8,6 +8,5 @@ var searchData=
   ['addpin_5',['addPin',['../classIO__DigitalWrite.html#aae5779876f6e3cd177f2f955df23802b',1,'IO_DigitalWrite']]],
   ['addpitchdevice_6',['addPitchDevice',['../classMIDI__Device__Controller.html#aca8d480387bbcb336c3dbdc312e73999',1,'MIDI_Device_Controller::addPitchDevice(uint8_t index, Base_MIDI_Pitch *d)'],['../classMIDI__Device__Controller.html#ab04ce578c47af21a7c751d033606a79c',1,'MIDI_Device_Controller::addPitchDevice(Base_MIDI_Pitch *d)']]],
   ['addpulsedevice_7',['addPulseDevice',['../classMIDI__Device__Controller.html#a87fc78bab50b7297466d1f1454a2eafc',1,'MIDI_Device_Controller::addPulseDevice(uint8_t index, Base_MIDI_Pulse *d)'],['../classMIDI__Device__Controller.html#ad74525c47583644eecdc527160d370d4',1,'MIDI_Device_Controller::addPulseDevice(Base_MIDI_Pulse *d)']]],
-  ['addseconds_8',['addSeconds',['../classNoteDuration.html#a619f03a70c6bde4de734d2a7809a6f35',1,'NoteDuration']]],
-  ['asdir_9',['asDir',['../classBase__MIDI__Pitch.html#a700175446fc0ed5f3de387b986b0f070',1,'Base_MIDI_Pitch::asDir()'],['../classMIDI__SquareWave__Direction.html#ad826ccfbf3f02e71750317849640f905',1,'MIDI_SquareWave_Direction::asDir()'],['../classMIDI__Unipolar.html#a478079961f7351ee455e399d8e05552a',1,'MIDI_Unipolar::asDir()']]]
+  ['addseconds_8',['addSeconds',['../classNoteDuration.html#a619f03a70c6bde4de734d2a7809a6f35',1,'NoteDuration']]]
 ];

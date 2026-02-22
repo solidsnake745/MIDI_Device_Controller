@@ -98,35 +98,25 @@ $(function(){initNavTree('MIDI__Enums_8h_source.html','',''); });
   <div class="headertitle"><div class="title">MIDI_Enums.h</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="MIDI__Enums_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef MIDI_Enums_h</span></div>
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef MIDI_Enums_h</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">    #define MIDI_Enums_h</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span>    </div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span>    <span class="comment">//Standard MIDI message types</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span>    <span class="comment">//Message types range between 0-15 (not all values currently in use)</span></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>    <span class="comment">//Limited to 4 bit values though stored in 8 bit field</span></div>
-<div class="foldopen" id="foldopen00007" data-start="{" data-end="};">
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="MIDI__Enums_8h.html#a2ea0bb09adcce7f655e8f8ee8d30561b">    7</a></span>    <span class="keyword">enum</span> <a class="code hl_enumeration" href="MIDI__Enums_8h.html#a2ea0bb09adcce7f655e8f8ee8d30561b">MsgType</a></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>    <span class="keyword">enum</span> MsgType</div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>    {</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="MIDI__Enums_8h.html#a2ea0bb09adcce7f655e8f8ee8d30561ba18f893264a00711081b62de694f99db4">    9</a></span>        <a class="code hl_enumvalue" href="MIDI__Enums_8h.html#a2ea0bb09adcce7f655e8f8ee8d30561ba18f893264a00711081b62de694f99db4">Undefined</a> = 0,</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="MIDI__Enums_8h.html#a2ea0bb09adcce7f655e8f8ee8d30561bad37718bd43a7976d5e89e8ee7819e5fd">   10</a></span>        <a class="code hl_enumvalue" href="MIDI__Enums_8h.html#a2ea0bb09adcce7f655e8f8ee8d30561bad37718bd43a7976d5e89e8ee7819e5fd">NoteOff</a> = 8,</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="MIDI__Enums_8h.html#a2ea0bb09adcce7f655e8f8ee8d30561baffc541f2571710265776574dd39fc319">   11</a></span>        <a class="code hl_enumvalue" href="MIDI__Enums_8h.html#a2ea0bb09adcce7f655e8f8ee8d30561baffc541f2571710265776574dd39fc319">NoteOn</a> = 9,</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="MIDI__Enums_8h.html#a2ea0bb09adcce7f655e8f8ee8d30561ba71965815c23a570a30238422289ba8ec">   12</a></span>        <a class="code hl_enumvalue" href="MIDI__Enums_8h.html#a2ea0bb09adcce7f655e8f8ee8d30561ba71965815c23a570a30238422289ba8ec">PolyPressure</a> = 10,</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="MIDI__Enums_8h.html#a2ea0bb09adcce7f655e8f8ee8d30561bac150258f2e69ec1e535cee9df3f5bb1e">   13</a></span>        <a class="code hl_enumvalue" href="MIDI__Enums_8h.html#a2ea0bb09adcce7f655e8f8ee8d30561bac150258f2e69ec1e535cee9df3f5bb1e">ControlChange</a> = 11,</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="MIDI__Enums_8h.html#a2ea0bb09adcce7f655e8f8ee8d30561ba1b28117f91e20a90f91f6a6886023186">   14</a></span>        <a class="code hl_enumvalue" href="MIDI__Enums_8h.html#a2ea0bb09adcce7f655e8f8ee8d30561ba1b28117f91e20a90f91f6a6886023186">ProgramChange</a> = 12,</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="MIDI__Enums_8h.html#a2ea0bb09adcce7f655e8f8ee8d30561ba3711a2ce088455b63a78f9f8f5cfdb3e">   15</a></span>        <a class="code hl_enumvalue" href="MIDI__Enums_8h.html#a2ea0bb09adcce7f655e8f8ee8d30561ba3711a2ce088455b63a78f9f8f5cfdb3e">ChannelPressure</a> = 13,</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="MIDI__Enums_8h.html#a2ea0bb09adcce7f655e8f8ee8d30561bad0eed86b1606c722a91a0cb9e71305e6">   16</a></span>        <a class="code hl_class" href="classPitchBend.html">PitchBend</a> = 14</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>        Undefined = 0,</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>        NoteOff = 8,</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        NoteOn = 9,</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>        PolyPressure = 10,</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        ControlChange = 11,</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        ProgramChange = 12,</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        ChannelPressure = 13,</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <a class="code hl_class" href="classPitchBend.html">PitchBend</a> = 14</div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    };</div>
-</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    </div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="aMIDI__Enums_8h_html_a2ea0bb09adcce7f655e8f8ee8d30561b"><div class="ttname"><a href="MIDI__Enums_8h.html#a2ea0bb09adcce7f655e8f8ee8d30561b">MsgType</a></div><div class="ttdeci">MsgType</div><div class="ttdef"><b>Definition</b> MIDI_Enums.h:8</div></div>
-<div class="ttc" id="aMIDI__Enums_8h_html_a2ea0bb09adcce7f655e8f8ee8d30561ba18f893264a00711081b62de694f99db4"><div class="ttname"><a href="MIDI__Enums_8h.html#a2ea0bb09adcce7f655e8f8ee8d30561ba18f893264a00711081b62de694f99db4">Undefined</a></div><div class="ttdeci">@ Undefined</div><div class="ttdef"><b>Definition</b> MIDI_Enums.h:9</div></div>
-<div class="ttc" id="aMIDI__Enums_8h_html_a2ea0bb09adcce7f655e8f8ee8d30561ba1b28117f91e20a90f91f6a6886023186"><div class="ttname"><a href="MIDI__Enums_8h.html#a2ea0bb09adcce7f655e8f8ee8d30561ba1b28117f91e20a90f91f6a6886023186">ProgramChange</a></div><div class="ttdeci">@ ProgramChange</div><div class="ttdef"><b>Definition</b> MIDI_Enums.h:14</div></div>
-<div class="ttc" id="aMIDI__Enums_8h_html_a2ea0bb09adcce7f655e8f8ee8d30561ba3711a2ce088455b63a78f9f8f5cfdb3e"><div class="ttname"><a href="MIDI__Enums_8h.html#a2ea0bb09adcce7f655e8f8ee8d30561ba3711a2ce088455b63a78f9f8f5cfdb3e">ChannelPressure</a></div><div class="ttdeci">@ ChannelPressure</div><div class="ttdef"><b>Definition</b> MIDI_Enums.h:15</div></div>
-<div class="ttc" id="aMIDI__Enums_8h_html_a2ea0bb09adcce7f655e8f8ee8d30561ba71965815c23a570a30238422289ba8ec"><div class="ttname"><a href="MIDI__Enums_8h.html#a2ea0bb09adcce7f655e8f8ee8d30561ba71965815c23a570a30238422289ba8ec">PolyPressure</a></div><div class="ttdeci">@ PolyPressure</div><div class="ttdef"><b>Definition</b> MIDI_Enums.h:12</div></div>
-<div class="ttc" id="aMIDI__Enums_8h_html_a2ea0bb09adcce7f655e8f8ee8d30561bac150258f2e69ec1e535cee9df3f5bb1e"><div class="ttname"><a href="MIDI__Enums_8h.html#a2ea0bb09adcce7f655e8f8ee8d30561bac150258f2e69ec1e535cee9df3f5bb1e">ControlChange</a></div><div class="ttdeci">@ ControlChange</div><div class="ttdef"><b>Definition</b> MIDI_Enums.h:13</div></div>
-<div class="ttc" id="aMIDI__Enums_8h_html_a2ea0bb09adcce7f655e8f8ee8d30561bad37718bd43a7976d5e89e8ee7819e5fd"><div class="ttname"><a href="MIDI__Enums_8h.html#a2ea0bb09adcce7f655e8f8ee8d30561bad37718bd43a7976d5e89e8ee7819e5fd">NoteOff</a></div><div class="ttdeci">@ NoteOff</div><div class="ttdef"><b>Definition</b> MIDI_Enums.h:10</div></div>
-<div class="ttc" id="aMIDI__Enums_8h_html_a2ea0bb09adcce7f655e8f8ee8d30561baffc541f2571710265776574dd39fc319"><div class="ttname"><a href="MIDI__Enums_8h.html#a2ea0bb09adcce7f655e8f8ee8d30561baffc541f2571710265776574dd39fc319">NoteOn</a></div><div class="ttdeci">@ NoteOn</div><div class="ttdef"><b>Definition</b> MIDI_Enums.h:11</div></div>
 <div class="ttc" id="aclassPitchBend_html"><div class="ttname"><a href="classPitchBend.html">PitchBend</a></div><div class="ttdoc">Shared class for pitch bending.</div><div class="ttdef"><b>Definition</b> PitchBend.h:14</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
@@ -134,7 +124,7 @@ $(function(){initNavTree('MIDI__Enums_8h_source.html','',''); });
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a href="dir_d3326aa60402a05b0770210b7a18b781.html">MIDI_Handler</a></li><li class="navelem"><a href="MIDI__Enums_8h.html">MIDI_Enums.h</a></li>
+    <li class="navelem"><b>src</b></li><li class="navelem"><b>MIDI_Handler</b></li><li class="navelem"><b>MIDI_Enums.h</b></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>

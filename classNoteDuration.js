@@ -9,6 +9,5 @@ var classNoteDuration =
     [ "getMillis", "classNoteDuration.html#ac7b685a8043025fec6ffa415421556f9", null ],
     [ "getSeconds", "classNoteDuration.html#ada6e60ebf5b3b7d70d28edb6c42523cd", null ],
     [ "isZero", "classNoteDuration.html#aa9925fbeac3b0ac760dbf6f6478e57c7", null ],
-    [ "operator<=", "classNoteDuration.html#a8f9fd643ac8050c867030f873ff5a199", null ],
     [ "reset", "classNoteDuration.html#a78159db2cc34eb6a2129d9322df394ec", null ]
 ];
