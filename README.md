@@ -9,28 +9,32 @@ Developed while making <a href='https://www.youtube.com/mrsolidsnake745'>cover v
 ![GitHub issue custom search in repo](https://img.shields.io/github/issues-search/solidsnake745/MIDI_Device_Controller?query=is%3Aopen%20-label%3Aself-inflicted&label=Open%20issues%20by%20users)
 
 <h3>Supported devices (instruments)</h3>
- - Most floppy drives
- - Stepper motors
- - Hard drives
- - Piezo buzzers
- - Solenoids
- - Servos
- - More with adaptation
+<ul>
+	<li>Most floppy drives</li>
+	<li>Stepper motors</li>
+	<li>Hard drives</li>
+	<li>Piezo buzzers</li>
+	<li>Solenoids</li>
+	<li>Servos</li>
+	<li>More with adaptation</li>
+</ul>
 
 <h3>Supported boards</h3>
 Tested on:
- - Teensy 3.0 and above
- - ESP32
- - *Arduino AVR boards (Uno/Nano/Mega/Leonardo/etc.)
+<ul>
+	<li>Teensy 3.2 and above</li>
+	<li>ESP32</li>
+	<li><s>*Arduino AVR boards (Uno/Nano/Mega/Leonardo/etc.)</s> Currently broken TODO: fix it</li>
+</ul>
 
-<small>*Does work, but performance is very poor for versions 2.0 and above. Version 1.0 works well, but is missing features and has different syntax that is not documented.</small>
+<small>~~*Does work, but performance is very poor for versions 2.0 and above.~~ Version 1.0 works well, but is missing features and has different syntax that is not documented.</small>
 
-Should work on other Arduino based boards, but may need slight adaption.
+Should work on other Arduino based boards, but may need slight adaption. TODO: define how to create issues for adding support
 
 <h3>Supported IOs</h3>
  - Direct pins (digitalWrite)
  - Shift registers (74HC595, etc.)
- - (TODO) various IO expanders
+ - TODO: various IO expanders
 
 <h3>Global objects added to Arduino sketch</h3>
  - MDC - MIDI Device Controller - For controlling and operating pitch and pulse devices
@@ -51,4 +55,4 @@ Pulse
  - MIDI_SoftPWM
  - MIDI_Toggle
  
-TODO (2/14/26): Document how to use
+TODO: (2/14/26): Document how to use
