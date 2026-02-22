@@ -2,7 +2,10 @@
 An Arduino based library for controlling various devices via the MIDI interface
 Developed while making <a href='https://www.youtube.com/mrsolidsnake745'>cover videos here</a>
 
-[![Arduino Library](https://www.ardu-badge.com/badge/MIDI%20Device%20Controller.svg)](https://www.ardu-badge.com/MIDI%20Device%20Controller) ![GitHub Release](https://img.shields.io/github/v/release/solidsnake745/MIDI_Device_Controller) ![GitHub License](https://img.shields.io/github/license/solidsnake745/MIDI_Device_Controller?label=licence) ![GitHub issue custom search in repo](https://img.shields.io/github/issues-search/solidsnake745/MIDI_Device_Controller?query=is%3Aopen%20-label%3Aself-inflicted&label=Open%20issues%20by%20users)
+[![Arduino Library](https://www.ardu-badge.com/badge/MIDI%20Device%20Controller.svg)](https://www.ardu-badge.com/MIDI%20Device%20Controller)
+![GitHub Release](https://img.shields.io/github/v/release/solidsnake745/MIDI_Device_Controller)
+![GitHub License](https://img.shields.io/github/license/solidsnake745/MIDI_Device_Controller?label=licence)
+![GitHub issue custom search in repo](https://img.shields.io/github/issues-search/solidsnake745/MIDI_Device_Controller?query=is%3Aopen%20-label%3Aself-inflicted&label=Open%20issues%20by%20users)
 
 <h3>Supported devices (instruments)</h3>
 <ul>
