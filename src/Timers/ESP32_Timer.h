@@ -1,17 +1,26 @@
-#ifndef TimerOne_Timer_h
-	#define TimerOne_Timer_h
+/// @file ESP32_Timer.h
+/// @brief Timer interrupt meant for ESP32 boards using hw_timer_t
+/// @details Inline usage in this file is acceptable - see file comment in Timer.h.
+#ifndef ESP32_Timer_h
+	#define ESP32_Timer_h
 	
-	#include "ITimer.h"
+	#include "Timer.h"
 	#include <Arduino.h>
 	
-	/// @private
-	class ESP32_Timer : public ITimer
+	//Break on unimplemented versions
+	#if ARDUINO_ARCH_ESP32 && ESP_ARDUINO_VERSION_MAJOR != 2 && ESP_ARDUINO_VERSION_MAJOR != 3
+		#error Unrecognized ESP Arduino version!
+	#endif
+	
+	/// @brief Timer interrupt meant for ESP32 boards using hw_timer_t
+	/// @details Currently supports ESP Arduino major versions 2 and 3 only.
+	class ESP32_Timer : public Timer
 	{
 		private:
 			hw_timer_t* _timer;
 			
 		public:
-			inline void setupOnce(uint16_t interval, void (*action)())
+			inline void setupOnce(uint16_t interval, void (*action)()) override
 			{
 				_debug.debugln(TRACE, F("Starting setupOnce()"));
 				if(_isSetup)
@@ -49,7 +58,7 @@
 				_debug.debugln(TRACE, F("Finished setupOnce()"));
 			};
 			
-			inline void start()
+			inline void start() override
 			{
 				_debug.debugln(TRACE, F("Starting timer"));
 				#if ESP_ARDUINO_VERSION_MAJOR == 2
@@ -60,7 +69,7 @@
 				_debug.debugln(TRACE, F("Timer started"));
 			};
 			
-			inline void stop()
+			inline void stop() override
 			{
 				_debug.debugln(TRACE, F("Stopping timer"));
 				#if ESP_ARDUINO_VERSION_MAJOR == 2

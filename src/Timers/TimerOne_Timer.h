@@ -1,14 +1,20 @@
+/// @file TimerOne_Timer.h
+/// @brief Timer interrupt using the <TimerOne.h> library
+/// @details Inline usage in this file is acceptable - see file comment in Timer.h.
 #ifndef TimerOne_Timer_h
 	#define TimerOne_Timer_h
 	
-	#include "ITimer.h"
-	#include <TimerOne.h>
+	#include "Timer.h"
+	#include <TimerOne.h>	
 	
-	/// @private
-	class TimerOne_Timer : public ITimer
+	/// @brief Timer interrupt using the <TimerOne.h> library
+	/// @details Compatible with Arduino AVR and Teensy boards.<br>
+	/// Side note: The <TimerOne.h> library for AVR versus Teensy are actually two different versions.<br>
+	/// One of which is included through Teensyduino and is prioritized in those cases.
+	class TimerOne_Timer : public Timer
 	{
 		public:
-			inline void setupOnce(uint16_t interval, void (*action)())
+			void setupOnce(uint16_t interval, void (*action)()) override
 			{
 				_debug.debugln(TRACE, F("Starting setupOnce()"));
 				if(_isSetup)
@@ -33,14 +39,14 @@
 				_debug.debugln(TRACE, F("Finished setupOnce()"));
 			};
 			
-			inline void start()
+			void start() override
 			{
 				_debug.debugln(TRACE, F("Starting timer"));
 				Timer1.start();
 				_debug.debugln(TRACE, F("Timer started"));
 			};
 			
-			inline void stop()
+			inline void stop() override
 			{
 				_debug.debugln(TRACE, F("Stopping timer"));
 				Timer1.stop();

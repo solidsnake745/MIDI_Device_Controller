@@ -7,11 +7,15 @@
 	//Additionally: inline usage in this file is acceptable
 	//Previously attempted to split out as much as a possible to a cpp file, but no improvement gained
 	//This header is rarely used anyway and is not a part of this library's functionality
-	//Almost entirely gets compiled out when ANY_OUTPUT_ENABLED == 0 which is the default for releases	
+	//Almost entirely gets compiled out when ANY_OUTPUT_ENABLED == 0 which is the default for releases
 	
-	//This is a precompiled header therefore these defines must be resolved here
-	#define DEBUG_ENABLED 0
-	#define PRINT_ENABLED 0
+	#if !defined(DEBUG_ENABLED)
+		#define DEBUG_ENABLED 0
+	#endif
+	#if !defined(PRINT_ENABLED)
+		#define PRINT_ENABLED 0
+	#endif
+	
 	#define ANY_OUTPUT_ENABLED (DEBUG_ENABLED || PRINT_ENABLED)
 	#define S_PRINTF_EXISTS (defined(CORE_TEENSY) || ARDUINO_ARCH_ESP32)
 	#define FLASH_STRING_BUFFERSIZE 128

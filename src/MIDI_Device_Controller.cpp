@@ -1,4 +1,4 @@
-#include "../MIDI_Device_Controller.h"
+#include "MIDI_Device_Controller.h"
 
 //Constructors and instance management
 //_______________________________________________________________________________________________________
@@ -436,8 +436,8 @@ bool MIDI_Device_Controller::startPlaying()
 		_enabledPitchDevices[i++]->startPlaying();
 	
 	_debug.debugln(DEBUG, F("Starting interrupt process"));
-	_timer->setupOnce(MIDI_Periods::getResolution(), MIDI_Device_Controller::lawl);
-	_timer->start();
+	_timer.setupOnce(MIDI_Periods::getResolution(), MIDI_Device_Controller::lawl);
+	_timer.start();
 	
 	_clockCount = 0; //Reset counter for MIDI clock events
 	LEDOn();
@@ -452,7 +452,7 @@ void MIDI_Device_Controller::stopPlaying()
 	if(_isPlayingNotes) //To keep stopPlaying re-runnable
 	{
 		//Stop the timer interrupt so it doesn't interfere
-		_timer->stop();
+		_timer.stop();
 	}
 	
 	//Calling this outside of note processing will just stop devices

@@ -3,21 +3,21 @@
 
 	#include <Arduino.h>
 	#include "Settings.h"
-	#include "Common/SerialDebug.h" //Also includes <Arduino.h> in case it's used separately
 	#include "MDC_Extras.h"
+	#include "Common/SerialDebug.h" //Also includes <Arduino.h> in case it's used separately	
 	#include "Common/MIDI_Periods.h"
 	#include "MIDI_Pitch/Base_MIDI_Pitch.h"
-	#include "MIDI_Pulse/Base_MIDI_Pulse.h"	
-	
+	#include "MIDI_Pulse/Base_MIDI_Pulse.h"
 	#include "IO_Factory/IO_Factory.h"
 	#include "IO_Devices/IO_Device.h"
-
-	#include "MIDI_Device_Controller/ITimer/ITimer.h"
+	
 	//Resolve timer interrupt implementation
 	#if ARDUINO_ARCH_AVR || defined(CORE_TEENSY)
-		#include "MIDI_Device_Controller/ITimer/TimerOne_Timer.h"
+		#include "Timers/TimerOne_Timer.h"
+		typedef TimerOne_Timer TimerType;
 	#elif ARDUINO_ARCH_ESP32
-		#include "MIDI_Device_Controller/ITimer/ESP32_Timer.h"
+		#include "Timers/ESP32_Timer.h"
+		typedef ESP32_Timer TimerType;
 	#endif
 
 	//0 - Off
@@ -140,16 +140,14 @@
 		private:
 			bool _isPlayingNotes = false;
 			bool _autoPlayNotes = true;
-
-			//Resolve timer interrupt implementation
+			
+			TimerType _timer;
+			
+			//Static method for our interrupt to attach to as required by the platform
+			//Named on a whim, it's inconsequential and not visible to end users
 			#if ARDUINO_ARCH_AVR || defined(CORE_TEENSY)
-				ITimer* _timer = new TimerOne_Timer();
-				
-				//Named on a whim, it's inconsequential and not visible to end users
-				//Static method for interrupt to attach to
 				inline static void lawl() { _instance->processNotes(); };
 			#elif ARDUINO_ARCH_ESP32
-				ITimer* _timer = new ESP32_Timer();
 				static void lawl();
 			#endif
 		
