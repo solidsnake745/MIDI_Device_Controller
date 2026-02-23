@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['sinwave_0',['SinWave',['../classSinWave.html',1,'']]]
+  ['roundrobin_5fcollection_0',['RoundRobin_Collection',['../classRoundRobin__Collection.html',1,'']]]
 ];

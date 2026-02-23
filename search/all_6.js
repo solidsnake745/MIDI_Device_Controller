@@ -1,10 +1,22 @@
 var searchData=
 [
-  ['io_5f74hc595_0',['IO_74HC595',['../classIO__74HC595.html',1,'IO_74HC595'],['../classIO__74HC595.html#a4934b30256209052095e34089e973227',1,'IO_74HC595::IO_74HC595()']]],
-  ['io_5fdevice_1',['IO_Device',['../classIO__Device.html',1,'']]],
-  ['io_5fdigitalwrite_2',['IO_DigitalWrite',['../classIO__DigitalWrite.html',1,'IO_DigitalWrite'],['../classIO__DigitalWrite.html#afeb7eaca54390c4a21f688dd6555d471',1,'IO_DigitalWrite::IO_DigitalWrite()']]],
-  ['io_5ffactory_3',['IO_Factory',['../classIO__Factory.html',1,'']]],
-  ['isinverted_4',['isInverted',['../classByteNoteRegister.html#abe4ea3e15898a0d1b3ba614157e1fbf9',1,'ByteNoteRegister']]],
-  ['isvalidmapping_5',['isValidMapping',['../classIO__74HC595.html#ae93302db350c0b10cc64abdd355ea5e5',1,'IO_74HC595::isValidMapping()'],['../classIO__Device.html#ad0904e8525e8430947a9688edff4a58f',1,'IO_Device::isValidMapping()'],['../classIO__DigitalWrite.html#ac1c3d205b88787fa6bfa0db526eeaf29',1,'IO_DigitalWrite::isValidMapping()']]],
-  ['iszero_6',['isZero',['../classNoteDuration.html#aa9925fbeac3b0ac760dbf6f6478e57c7',1,'NoteDuration']]]
+  ['getbit_0',['getBit',['../classByteNoteRegister.html#ae3d341c5544b575834fa5e9cf875363c',1,'ByteNoteRegister']]],
+  ['getbitvalue_1',['getBitValue',['../classByteNoteRegister.html#a638ed6d831b9a761c5fba57505ff6c80',1,'ByteNoteRegister']]],
+  ['getbytevalue_2',['getByteValue',['../classByteNoteRegister.html#ae4352b6959d6583f609207dd45094b3b',1,'ByteNoteRegister']]],
+  ['getcollection_3',['getCollection',['../classMIDI__Collection__Controller.html#ac4c5bf78082883445ad942fdcbbdba33',1,'MIDI_Collection_Controller']]],
+  ['getio_4',['getIO',['../classIO__Factory.html#a704c6525f3aace2dd3fd053c54091ca6',1,'IO_Factory']]],
+  ['getlatchpin_5',['getLatchPin',['../classIO__74HC595.html#a8221c285be20d81c3ee2be5ac647f763',1,'IO_74HC595']]],
+  ['getmappeddevice_6',['getMappedDevice',['../classMIDI__Pulse__Controller.html#ae574d03dbe5515bdfbce68640395fffc',1,'MIDI_Pulse_Controller']]],
+  ['getmicros_7',['getMicros',['../classNoteDuration.html#a58b7a5f2408114ab2e617099469e21dd',1,'NoteDuration']]],
+  ['getmillis_8',['getMillis',['../classNoteDuration.html#ac7b685a8043025fec6ffa415421556f9',1,'NoteDuration']]],
+  ['getnextnode_9',['getNextNode',['../structMIDI__Pitch__Node.html#ade4ee5126d442dbed85621dd6e75899e',1,'MIDI_Pitch_Node']]],
+  ['getoriginalperiod_10',['getOriginalPeriod',['../classMIDI__Periods.html#aba1b69febfd3ef885929c04d202c73dc',1,'MIDI_Periods']]],
+  ['getoutput_11',['getOutput',['../classIO__74HC595.html#af74c8d285a5a22e4e8ecee40fc8c3013',1,'IO_74HC595::getOutput()'],['../classIO__Device.html#a9d6b4ec4a67ecc8dec8718710baeb02a',1,'IO_Device::getOutput()'],['../classIO__DigitalWrite.html#ad33c679f3aad983f25e2fb408a2567e3',1,'IO_DigitalWrite::getOutput()']]],
+  ['getpitchdevice_12',['getPitchDevice',['../classMIDI__Device__Controller.html#a4efbf15496bdb2dbef805c776d962adb',1,'MIDI_Device_Controller']]],
+  ['getprevnode_13',['getPrevNode',['../structMIDI__Pitch__Node.html#a27735f5d2061a505624d83649830379e',1,'MIDI_Pitch_Node']]],
+  ['getpulsedevice_14',['getPulseDevice',['../classMIDI__Device__Controller.html#ad4e89d1955eb817f0505ba06eb65eca3',1,'MIDI_Device_Controller']]],
+  ['getregistercount_15',['getRegisterCount',['../classIO__74HC595.html#a4e6013f3b1b65ee1fd8011d9da19a7c5',1,'IO_74HC595::getRegisterCount()'],['../classIO__DigitalWrite.html#ad86678c1302288fd25289471aad22d28',1,'IO_DigitalWrite::getRegisterCount()']]],
+  ['getresolution_16',['getResolution',['../classMIDI__Periods.html#a641333d6caba968febe0f30f0cced7db',1,'MIDI_Periods']]],
+  ['getseconds_17',['getSeconds',['../classNoteDuration.html#ada6e60ebf5b3b7d70d28edb6c42523cd',1,'NoteDuration']]],
+  ['getsinvalue_18',['getSinValue',['../classSinWave.html#aa05cd7da8a8751f013fef2e7373f9627',1,'SinWave']]]
 ];

@@ -38,5 +38,9 @@ var hierarchy =
     [ "MIDI_Pulse_Controller", "classMIDI__Pulse__Controller.html", null ],
     [ "NoteDuration", "classNoteDuration.html", null ],
     [ "PitchBend", "classPitchBend.html", null ],
-    [ "SinWave", "classSinWave.html", null ]
+    [ "SinWave", "classSinWave.html", null ],
+    [ "Timer", "classTimer.html", [
+      [ "ESP32_Timer", "classESP32__Timer.html", null ],
+      [ "TimerOne_Timer", "classTimerOne__Timer.html", null ]
+    ] ]
 ];

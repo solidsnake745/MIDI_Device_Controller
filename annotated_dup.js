@@ -7,6 +7,7 @@ var annotated_dup =
     [ "Base_MIDI_SoftPWM", "classBase__MIDI__SoftPWM.html", null ],
     [ "ByteNoteRegister", "classByteNoteRegister.html", "classByteNoteRegister" ],
     [ "Direct_Collection", "classDirect__Collection.html", "classDirect__Collection" ],
+    [ "ESP32_Timer", "classESP32__Timer.html", "classESP32__Timer" ],
     [ "FirstAvailable_Collection", "classFirstAvailable__Collection.html", "classFirstAvailable__Collection" ],
     [ "IO_74HC595", "classIO__74HC595.html", "classIO__74HC595" ],
     [ "IO_Device", "classIO__Device.html", "classIO__Device" ],
@@ -29,5 +30,7 @@ var annotated_dup =
     [ "NoteDuration", "classNoteDuration.html", "classNoteDuration" ],
     [ "PitchBend", "classPitchBend.html", "classPitchBend" ],
     [ "RoundRobin_Collection", "classRoundRobin__Collection.html", "classRoundRobin__Collection" ],
-    [ "SinWave", "classSinWave.html", "classSinWave" ]
+    [ "SinWave", "classSinWave.html", "classSinWave" ],
+    [ "Timer", "classTimer.html", "classTimer" ],
+    [ "TimerOne_Timer", "classTimerOne__Timer.html", "classTimerOne__Timer" ]
 ];

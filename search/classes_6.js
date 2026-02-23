@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['pitchbend_0',['PitchBend',['../classPitchBend.html',1,'']]]
+  ['noteduration_0',['NoteDuration',['../classNoteDuration.html',1,'']]]
 ];
