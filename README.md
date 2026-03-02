@@ -37,7 +37,7 @@ Should work on other Arduino based boards, but may need slight adaption. TODO: d
 	<li>IOF - I/O Factory - For creating and managing I/O devices</li>
 	<li>MCF - MIDI Collection Factory - For creating device collection objects</li>
 	<li>MCC - MIDI Collection Controller - For controlling and operating collections of devices</li>
-	<li>MPC - MIDI Pulse Controller - For mapping pulse devices to MIDI notes</li>
+	<li>MPM - MIDI Pulse Mapper - For mapping pulse devices to MIDI notes</li>
 </ul>
 <h3>Device classes</h3>
 <ul>

@@ -40,8 +40,8 @@
 		//Constructors
 		//_____________________________________________________________________________________________
 		public:
-			inline Base_MIDI_Pitch() {};
-			virtual ~Base_MIDI_Pitch() {};
+			Base_MIDI_Pitch() {};
+			virtual ~Base_MIDI_Pitch() = default;
 		
 		//Configuration
 		//_____________________________________________________________________________________________

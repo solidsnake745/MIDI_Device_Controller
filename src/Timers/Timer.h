@@ -4,6 +4,7 @@
 ///	Each method is only called once in MDC - no code size benefit.<br>
 ///	Splitting to a cpp causes the header to always be compiled even when not in use.<br>
 ///	Leaving as header only allows for easy dependency resolution.
+
 #ifndef Timer_h
 	#define Timer_h
 	

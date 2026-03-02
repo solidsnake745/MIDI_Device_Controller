@@ -1,11 +1,11 @@
-#include "MIDI_Pulse_Controller.h"
+#include "MIDI_Pulse_Mapper.h"
 #include "../MIDI_Device_Controller.h" //Need the definition of noteAssigned()
 
-std::map<uint8_t, Base_MIDI_Pulse*> MIDI_Pulse_Controller::_noteMap;
+std::map<uint8_t, Base_MIDI_Pulse*> MIDI_Pulse_Mapper::_noteMap;
 
-MIDI_Pulse_Controller::MIDI_Pulse_Controller() {}
+MIDI_Pulse_Mapper::MIDI_Pulse_Mapper() {}
 
-void MIDI_Pulse_Controller::addMapping(uint8_t note, Base_MIDI_Pulse* d)
+void MIDI_Pulse_Mapper::addMapping(uint8_t note, Base_MIDI_Pulse* d)
 {
 	//Check note is not already mapped
 	if(_noteMap.count(note) > 0)
@@ -18,7 +18,7 @@ void MIDI_Pulse_Controller::addMapping(uint8_t note, Base_MIDI_Pulse* d)
 	_noteMap[note] = d;
 }
 
-void MIDI_Pulse_Controller::deleteMapping(uint8_t note)
+void MIDI_Pulse_Mapper::deleteMapping(uint8_t note)
 {	
 	if(getMappedDevice(note))
 		_noteMap.erase(_noteMap.find(note));
@@ -26,7 +26,7 @@ void MIDI_Pulse_Controller::deleteMapping(uint8_t note)
 	_debug.println(F("Note %d was unmapped"), note);
 }
 
-Base_MIDI_Pulse* const MIDI_Pulse_Controller::getMappedDevice(uint8_t note)
+Base_MIDI_Pulse* const MIDI_Pulse_Mapper::getMappedDevice(uint8_t note)
 {
 	if(_noteMap.empty())
 	{
@@ -44,19 +44,19 @@ Base_MIDI_Pulse* const MIDI_Pulse_Controller::getMappedDevice(uint8_t note)
 	return find->second;
 }
 
-void MIDI_Pulse_Controller::pulseNote(uint8_t note)
+void MIDI_Pulse_Mapper::pulseNote(uint8_t note)
 {
 	Base_MIDI_Pulse* d = getMappedDevice(note);
 	if(d) d->pulse();
 }
 
-void MIDI_Pulse_Controller::stopNote(uint8_t note)
+void MIDI_Pulse_Mapper::stopNote(uint8_t note)
 {
 	Base_MIDI_Pulse* d = getMappedDevice(note);
 	if(d) d->stopPulse();
 }
 
-void MIDI_Pulse_Controller::stopNotes()
+void MIDI_Pulse_Mapper::stopNotes()
 {
 	if(_noteMap.empty())
 	{
@@ -64,6 +64,8 @@ void MIDI_Pulse_Controller::stopNotes()
 		return;
 	}
 	
+	//This needs to be updated to find unique devices and then stop them so they're only stopped once
+	//TODO: Use MDC to stop all Base_MIDI_Pulse devices
 	auto i = _noteMap.begin();
 	while(i != _noteMap.end())
 	{

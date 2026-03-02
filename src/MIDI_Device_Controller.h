@@ -14,10 +14,10 @@
 	//Resolve timer interrupt implementation
 	#if ARDUINO_ARCH_AVR || defined(CORE_TEENSY)
 		#include "Timers/TimerOne_Timer.h"
-		typedef TimerOne_Timer TimerType;
+		using TimerType = TimerOne_Timer;
 	#elif ARDUINO_ARCH_ESP32
 		#include "Timers/ESP32_Timer.h"
-		typedef ESP32_Timer TimerType;
+		using TimerType = ESP32_Timer;
 	#endif
 
 	//0 - Off
