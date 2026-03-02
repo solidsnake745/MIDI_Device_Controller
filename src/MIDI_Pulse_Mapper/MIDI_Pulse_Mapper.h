@@ -37,13 +37,13 @@
 				return *_instance;
 			};
 			
-			/// @brief Adds a mapping between note and Base_MIDI_Pulse output
+			/// @brief Adds a mapping between a MIDI note and Base_MIDI_Pulse output
 			/// @param note MIDI note to map
 			/// @param note Base_MIDI_Pulse instance to associate
 			void addMapping(uint8_t note, Base_MIDI_Pulse* d);
 			
-			/// @brief Removes an existing mapping for the given note if it exists
-			/// @param note MIDI note to remove the mapping from
+			/// @brief Deletes an existing mapping for the given note if it exists
+			/// @param note MIDI note to delete the mapping from
 			void deleteMapping(uint8_t note);
 			
 			/// @brief Gets the device mapped to the given note if there is one
