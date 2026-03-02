@@ -98,8 +98,383 @@ $(function(){initNavTree('classMIDI__Handler.html','','classMIDI__Handler-member
   <div class="headertitle"><div class="title">MIDI_Handler Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<hr/>The documentation for this class was generated from the following file:<ul>
+
+<p>A class to represent a MIDI message handler.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="MIDI__Handler_8h_source.html">MIDI_Handler.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a614622c3fe5aea192bcf1633e6c7d70b" id="r_a614622c3fe5aea192bcf1633e6c7d70b"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a614622c3fe5aea192bcf1633e6c7d70b">handleMIDI</a> (<a class="el" href="structMIDI__Message.html">MIDI_Message</a> msg)</td></tr>
+<tr class="memdesc:a614622c3fe5aea192bcf1633e6c7d70b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Central method for handling MIDI messages.  <br /></td></tr>
+<tr class="memitem:afa4aff368c5fb43f61397db730ced99e" id="r_afa4aff368c5fb43f61397db730ced99e"><td class="memItemLeft"><a id="afa4aff368c5fb43f61397db730ced99e" name="afa4aff368c5fb43f61397db730ced99e"></a>
+void&#160;</td><td class="memItemRight"><b>setNoteOffHandle</b> (<a class="el" href="MIDI__Handler_8h.html#a36c3937593ad54ba047ee117793b5d50">NoteOffHandle</a> handle)</td></tr>
+<tr class="memdesc:afa4aff368c5fb43f61397db730ced99e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the handler for Note Off events. <br /></td></tr>
+<tr class="memitem:a5af378a6dc8917a9fda91382179838ca" id="r_a5af378a6dc8917a9fda91382179838ca"><td class="memItemLeft"><a id="a5af378a6dc8917a9fda91382179838ca" name="a5af378a6dc8917a9fda91382179838ca"></a>
+void&#160;</td><td class="memItemRight"><b>setNoteOnHandle</b> (<a class="el" href="MIDI__Handler_8h.html#abfa895ef781350c934349406695e411c">NoteOnHandle</a> handle)</td></tr>
+<tr class="memdesc:a5af378a6dc8917a9fda91382179838ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the handler for Note On events. <br /></td></tr>
+<tr class="memitem:a4e8887877a2e300c6ea27557c67a5376" id="r_a4e8887877a2e300c6ea27557c67a5376"><td class="memItemLeft"><a id="a4e8887877a2e300c6ea27557c67a5376" name="a4e8887877a2e300c6ea27557c67a5376"></a>
+void&#160;</td><td class="memItemRight"><b>setPolyPressureHandle</b> (<a class="el" href="MIDI__Handler_8h.html#a4b09e14f6cc72908443e95adc24ffdfc">PolyPressureHandle</a> handle)</td></tr>
+<tr class="memdesc:a4e8887877a2e300c6ea27557c67a5376"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the handler for Poly Pressure events. <br /></td></tr>
+<tr class="memitem:a245b553d5a2067c229a878e91b13000a" id="r_a245b553d5a2067c229a878e91b13000a"><td class="memItemLeft"><a id="a245b553d5a2067c229a878e91b13000a" name="a245b553d5a2067c229a878e91b13000a"></a>
+void&#160;</td><td class="memItemRight"><b>setControlChangeHandle</b> (<a class="el" href="MIDI__Handler_8h.html#a374446f520d6e65ac2e1aac8624ef2bd">ControlChangeHandle</a> handle)</td></tr>
+<tr class="memdesc:a245b553d5a2067c229a878e91b13000a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the handler for Control Change events. <br /></td></tr>
+<tr class="memitem:a8ef5c8f794b560435cdb014909c48b46" id="r_a8ef5c8f794b560435cdb014909c48b46"><td class="memItemLeft"><a id="a8ef5c8f794b560435cdb014909c48b46" name="a8ef5c8f794b560435cdb014909c48b46"></a>
+void&#160;</td><td class="memItemRight"><b>setProgramChangeHandle</b> (<a class="el" href="MIDI__Handler_8h.html#a728235ef95afbfbcdac1fcb209ffff6d">ProgramChangeHandle</a> handle)</td></tr>
+<tr class="memdesc:a8ef5c8f794b560435cdb014909c48b46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the handler for Program Change events. <br /></td></tr>
+<tr class="memitem:a319ff58600322dcfd38c49c6ef97054f" id="r_a319ff58600322dcfd38c49c6ef97054f"><td class="memItemLeft"><a id="a319ff58600322dcfd38c49c6ef97054f" name="a319ff58600322dcfd38c49c6ef97054f"></a>
+void&#160;</td><td class="memItemRight"><b>setChannelPressureHandle</b> (<a class="el" href="MIDI__Handler_8h.html#abfc8cb21cb285b1d7dc88868b49f978e">ChannelPressureHandle</a> handle)</td></tr>
+<tr class="memdesc:a319ff58600322dcfd38c49c6ef97054f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the handler for Channel Pressure events. <br /></td></tr>
+<tr class="memitem:a92d631b79802d43fda881e470086e56d" id="r_a92d631b79802d43fda881e470086e56d"><td class="memItemLeft"><a id="a92d631b79802d43fda881e470086e56d" name="a92d631b79802d43fda881e470086e56d"></a>
+void&#160;</td><td class="memItemRight"><b>setPitchBendHandle</b> (<a class="el" href="MIDI__Handler_8h.html#a895e3ad3b174c8a6f4783571c729213a">PitchBendHandle</a> handle)</td></tr>
+<tr class="memdesc:a92d631b79802d43fda881e470086e56d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the handler for Pitch Bend events. <br /></td></tr>
+<tr class="memitem:a9cd92101ec6477bce1a8d6e573bf7cff" id="r_a9cd92101ec6477bce1a8d6e573bf7cff"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a9cd92101ec6477bce1a8d6e573bf7cff">noteOff</a> (uint8_t ch, uint8_t n, uint8_t v)</td></tr>
+<tr class="memdesc:a9cd92101ec6477bce1a8d6e573bf7cff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls the handler for Note Off events if it's set.  <br /></td></tr>
+<tr class="memitem:a1c3ea7a8f5a1e5f3a40369d61fac6689" id="r_a1c3ea7a8f5a1e5f3a40369d61fac6689"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a1c3ea7a8f5a1e5f3a40369d61fac6689">noteOn</a> (uint8_t ch, uint8_t n, uint8_t v)</td></tr>
+<tr class="memdesc:a1c3ea7a8f5a1e5f3a40369d61fac6689"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls the handler for Note On events if it's set.  <br /></td></tr>
+<tr class="memitem:a0f8f0801ba7ba87dd8c5b42ba1649473" id="r_a0f8f0801ba7ba87dd8c5b42ba1649473"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a0f8f0801ba7ba87dd8c5b42ba1649473">polyPressure</a> (uint8_t ch, uint8_t n, uint8_t p)</td></tr>
+<tr class="memdesc:a0f8f0801ba7ba87dd8c5b42ba1649473"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls the handler for Poly Pressure events if it's set.  <br /></td></tr>
+<tr class="memitem:a6b106d51102f8b431bca9354549a9097" id="r_a6b106d51102f8b431bca9354549a9097"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a6b106d51102f8b431bca9354549a9097">controlChange</a> (uint8_t ch, uint8_t cn, uint8_t d)</td></tr>
+<tr class="memdesc:a6b106d51102f8b431bca9354549a9097"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls the handler for Control Change events if it's set.  <br /></td></tr>
+<tr class="memitem:a559a6cf85dc8a764a9f1c195066c5ebd" id="r_a559a6cf85dc8a764a9f1c195066c5ebd"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a559a6cf85dc8a764a9f1c195066c5ebd">programChange</a> (uint8_t ch, uint8_t pn, uint8_t u)</td></tr>
+<tr class="memdesc:a559a6cf85dc8a764a9f1c195066c5ebd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls the handler for Program Change events if it's set.  <br /></td></tr>
+<tr class="memitem:a5169ffd138f1a997bd5e1fb95da0f888" id="r_a5169ffd138f1a997bd5e1fb95da0f888"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a5169ffd138f1a997bd5e1fb95da0f888">channelPressure</a> (uint8_t ch, uint8_t p, uint8_t u)</td></tr>
+<tr class="memdesc:a5169ffd138f1a997bd5e1fb95da0f888"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls the handler for Channel Pressure events if it's set.  <br /></td></tr>
+<tr class="memitem:a98b3ceeda3da4305329ea0d891a0669d" id="r_a98b3ceeda3da4305329ea0d891a0669d"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a98b3ceeda3da4305329ea0d891a0669d">pitchBend</a> (uint8_t ch, int16_t b)</td></tr>
+<tr class="memdesc:a98b3ceeda3da4305329ea0d891a0669d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls the handler for Pitch Bend events if it's set.  <br /></td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>A class to represent a MIDI message handler. </p>
+<p>Used to simplify calling associated methods for handling MIDI events.<br  />
+ See example sketch for Hairless MIDI to see example usage. </p>
+</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="a5169ffd138f1a997bd5e1fb95da0f888" name="a5169ffd138f1a997bd5e1fb95da0f888"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5169ffd138f1a997bd5e1fb95da0f888">&#9670;&#160;</a></span>channelPressure()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MIDI_Handler::channelPressure </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>ch</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>p</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>u</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Calls the handler for Channel Pressure events if it's set. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ch</td><td>Channel (0-16) </td></tr>
+    <tr><td class="paramname">p</td><td>Pressure (0-127) </td></tr>
+    <tr><td class="paramname">u</td><td>Unused </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a6b106d51102f8b431bca9354549a9097" name="a6b106d51102f8b431bca9354549a9097"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b106d51102f8b431bca9354549a9097">&#9670;&#160;</a></span>controlChange()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MIDI_Handler::controlChange </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>ch</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>cn</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>d</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Calls the handler for Control Change events if it's set. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ch</td><td>Channel (0-16) </td></tr>
+    <tr><td class="paramname">cn</td><td>Controller Number (0-127?) </td></tr>
+    <tr><td class="paramname">d</td><td>Data (0-127) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a614622c3fe5aea192bcf1633e6c7d70b" name="a614622c3fe5aea192bcf1633e6c7d70b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a614622c3fe5aea192bcf1633e6c7d70b">&#9670;&#160;</a></span>handleMIDI()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MIDI_Handler::handleMIDI </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structMIDI__Message.html">MIDI_Message</a></td>          <td class="paramname"><span class="paramname"><em>msg</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Central method for handling MIDI messages. </p>
+<p>Used to call the corresponding handler based on MIDI message type.<br  />
+ Be sure to have set relevant handlers before using this method. </p>
+
+</div>
+</div>
+<a id="a9cd92101ec6477bce1a8d6e573bf7cff" name="a9cd92101ec6477bce1a8d6e573bf7cff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9cd92101ec6477bce1a8d6e573bf7cff">&#9670;&#160;</a></span>noteOff()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MIDI_Handler::noteOff </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>ch</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>v</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Calls the handler for Note Off events if it's set. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ch</td><td>Channel (0-16) </td></tr>
+    <tr><td class="paramname">n</td><td>Note (0-127) </td></tr>
+    <tr><td class="paramname">v</td><td>Velocity (0-127) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a1c3ea7a8f5a1e5f3a40369d61fac6689" name="a1c3ea7a8f5a1e5f3a40369d61fac6689"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c3ea7a8f5a1e5f3a40369d61fac6689">&#9670;&#160;</a></span>noteOn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MIDI_Handler::noteOn </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>ch</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>v</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Calls the handler for Note On events if it's set. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ch</td><td>Channel (0-16) </td></tr>
+    <tr><td class="paramname">n</td><td>Note (0-127) </td></tr>
+    <tr><td class="paramname">v</td><td>Velocity (0-127) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a98b3ceeda3da4305329ea0d891a0669d" name="a98b3ceeda3da4305329ea0d891a0669d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98b3ceeda3da4305329ea0d891a0669d">&#9670;&#160;</a></span>pitchBend()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MIDI_Handler::pitchBend </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>ch</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int16_t</td>          <td class="paramname"><span class="paramname"><em>b</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Calls the handler for Pitch Bend events if it's set. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ch</td><td>Channel (0-16) </td></tr>
+    <tr><td class="paramname">b</td><td>Pitch Bend value (0-16838) OR (-8192-8191) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0f8f0801ba7ba87dd8c5b42ba1649473" name="a0f8f0801ba7ba87dd8c5b42ba1649473"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f8f0801ba7ba87dd8c5b42ba1649473">&#9670;&#160;</a></span>polyPressure()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MIDI_Handler::polyPressure </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>ch</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>p</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Calls the handler for Poly Pressure events if it's set. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ch</td><td>Channel (0-16) </td></tr>
+    <tr><td class="paramname">n</td><td>Note (0-127) </td></tr>
+    <tr><td class="paramname">p</td><td>Pressure (0-127) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a559a6cf85dc8a764a9f1c195066c5ebd" name="a559a6cf85dc8a764a9f1c195066c5ebd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a559a6cf85dc8a764a9f1c195066c5ebd">&#9670;&#160;</a></span>programChange()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MIDI_Handler::programChange </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>ch</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>pn</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>u</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Calls the handler for Program Change events if it's set. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ch</td><td>Channel (0-16) </td></tr>
+    <tr><td class="paramname">pn</td><td>Program Number (0-127?) </td></tr>
+    <tr><td class="paramname">u</td><td>Unused </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>src/MIDI_Handler/<a class="el" href="MIDI__Handler_8h_source.html">MIDI_Handler.h</a></li>
+<li>src/MIDI_Handler/<b>MIDI_Handler.cpp</b></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

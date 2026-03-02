@@ -2,7 +2,7 @@ var searchData=
 [
   ['addcollection_0',['addCollection',['../classMIDI__Collection__Controller.html#a9718bbffe5fbc1f2cc7efa7e70622c6f',1,'MIDI_Collection_Controller']]],
   ['adddevice_1',['addDevice',['../classBase__MIDI__Pitch__Collection.html#aed178bbded1d4053b097cf40c115aae6',1,'Base_MIDI_Pitch_Collection']]],
-  ['addmapping_2',['addMapping',['../classMIDI__Pulse__Controller.html#a5460db6f8f465e427dd608709cbf517b',1,'MIDI_Pulse_Controller']]],
+  ['addmapping_2',['addMapping',['../classMIDI__Pulse__Mapper.html#a2fcb05524982ac9feb7f286302a5669b',1,'MIDI_Pulse_Mapper']]],
   ['addmicros_3',['addMicros',['../classNoteDuration.html#a3e25b95adb03ffb950d26a5f78e1914c',1,'NoteDuration']]],
   ['addmillis_4',['addMillis',['../classNoteDuration.html#a311258ddd554f5f400c97a7829981f87',1,'NoteDuration']]],
   ['addpin_5',['addPin',['../classIO__DigitalWrite.html#aae5779876f6e3cd177f2f955df23802b',1,'IO_DigitalWrite']]],

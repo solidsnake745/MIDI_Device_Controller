@@ -1,9 +1,21 @@
 var searchData=
 [
-  ['removedevice_0',['removeDevice',['../classBase__MIDI__Pitch__Collection.html#a2acb8fc6a2f120d9c58a3e974db6f58d',1,'Base_MIDI_Pitch_Collection']]],
-  ['reset_1',['reset',['../classNoteDuration.html#a78159db2cc34eb6a2129d9322df394ec',1,'NoteDuration::reset()'],['../classBase__MIDI__Pitch__Collection.html#acc54793955b74e27185ea762278f83be',1,'Base_MIDI_Pitch_Collection::reset()'],['../classDirect__Collection.html#ae44349da81dd27ceeb9c92f9a77e6d3b',1,'Direct_Collection::reset()'],['../classFirstAvailable__Collection.html#a59bb97f0fda5ee4c386390d28ffcd916',1,'FirstAvailable_Collection::reset()'],['../classRoundRobin__Collection.html#a62527a62bed695bec6d94395c2b7c2b4',1,'RoundRobin_Collection::reset()'],['../classMIDI__Collection__Controller.html#a162607bc915c5ae638665af42a77406a',1,'MIDI_Collection_Controller::reset(uint8_t index)']]],
-  ['resetall_2',['resetAll',['../classMIDI__Collection__Controller.html#a72f693c97c4c1d6f86aad2a208b50792',1,'MIDI_Collection_Controller']]],
-  ['resetdevicepositions_3',['resetDevicePositions',['../classMIDI__Device__Controller.html#a964476d01d39c2960096339529cf3997',1,'MIDI_Device_Controller']]],
-  ['resetoutputs_4',['resetOutputs',['../classIO__74HC595.html#ac9ef0fd0f7ff053565003577db479ac8',1,'IO_74HC595::resetOutputs()'],['../classIO__Device.html#ac430076e7cd5bd004682d13ba8802771',1,'IO_Device::resetOutputs()'],['../classIO__DigitalWrite.html#a46dffe38e61853b33c51b9663ff9bbe9',1,'IO_DigitalWrite::resetOutputs()']]],
-  ['roundrobin_5fcollection_5',['RoundRobin_Collection',['../classRoundRobin__Collection.html',1,'']]]
+  ['pitchbend_0',['PitchBend',['../classPitchBend.html',1,'PitchBend'],['../MIDI__Message_8h.html#ad91df072e7cb55cd43e38cb9a0e727f0ad0eed86b1606c722a91a0cb9e71305e6',1,'PitchBend:&#160;MIDI_Message.h']]],
+  ['pitchbend_1',['pitchBend',['../classMIDI__Handler.html#a98b3ceeda3da4305329ea0d891a0669d',1,'MIDI_Handler']]],
+  ['pitchbendhandle_2',['PitchBendHandle',['../MIDI__Handler_8h.html#a895e3ad3b174c8a6f4783571c729213a',1,'MIDI_Handler.h']]],
+  ['playnote_3',['playNote',['../classBase__MIDI__Pitch__Collection.html#a2e8ae2cfaa88ca6351ad1f329b17955f',1,'Base_MIDI_Pitch_Collection::playNote()'],['../classDirect__Collection.html#af46f2f16ac7f6f1518168cd521ba464b',1,'Direct_Collection::playNote()'],['../classFirstAvailable__Collection.html#ac75a0d208d4a8e3b38d79791c5746966',1,'FirstAvailable_Collection::playNote()'],['../classRoundRobin__Collection.html#ad841327f6df19b3912174b28a27518fa',1,'RoundRobin_Collection::playNote()'],['../classMIDI__Collection__Controller.html#a3ccca8bfc91695ba4c5de826ecda5389',1,'MIDI_Collection_Controller::playNote()'],['../structMIDI__Pitch__Node.html#a60b695cf779cbfccb469e26a842aa712',1,'MIDI_Pitch_Node::playNote()']]],
+  ['polypressure_4',['PolyPressure',['../MIDI__Message_8h.html#ad91df072e7cb55cd43e38cb9a0e727f0a71965815c23a570a30238422289ba8ec',1,'MIDI_Message.h']]],
+  ['polypressure_5',['polyPressure',['../classMIDI__Handler.html#a0f8f0801ba7ba87dd8c5b42ba1649473',1,'MIDI_Handler']]],
+  ['polypressurehandle_6',['PolyPressureHandle',['../MIDI__Handler_8h.html#a4b09e14f6cc72908443e95adc24ffdfc',1,'MIDI_Handler.h']]],
+  ['printcalculatedperiod_7',['printCalculatedPeriod',['../classMIDI__Periods.html#a7abdba4333dc08e1ae92941b2f0cfe9b',1,'MIDI_Periods']]],
+  ['printcalculatedperiods_8',['printCalculatedPeriods',['../classMIDI__Periods.html#ae1a394fce2124cfb406d273b412cafbc',1,'MIDI_Periods']]],
+  ['printoriginalperiod_9',['printOriginalPeriod',['../classMIDI__Periods.html#af1cb17b1ba3d3986174e666afa5edfb9',1,'MIDI_Periods']]],
+  ['printoriginalperiods_10',['printOriginalPeriods',['../classMIDI__Periods.html#ab4dc8df1e54a7145d561165cb9ac6ac6',1,'MIDI_Periods']]],
+  ['printsinvalues_11',['printSinValues',['../classSinWave.html#aa5bad73ed5a2f7062db628cc1ff791e5',1,'SinWave']]],
+  ['printstatus_12',['printStatus',['../classBase__MIDI__Pitch__Collection.html#af1da2a06dc18dba89afe37c7b567ee40',1,'Base_MIDI_Pitch_Collection::printStatus()'],['../classMIDI__Collection__Controller.html#a7cb4773f82fd24c91900098e273b4652',1,'MIDI_Collection_Controller::printStatus()'],['../classMIDI__Device__Controller.html#a306ddc4e3f8a467512a6c2bea57c552a',1,'MIDI_Device_Controller::printStatus()']]],
+  ['progmem_13',['PROGMEM',['../classMIDI__Periods.html#ad1924802f96046cdd60b5860c8a1c8e1',1,'MIDI_Periods']]],
+  ['programchange_14',['ProgramChange',['../MIDI__Message_8h.html#ad91df072e7cb55cd43e38cb9a0e727f0a1b28117f91e20a90f91f6a6886023186',1,'MIDI_Message.h']]],
+  ['programchange_15',['programChange',['../classMIDI__Handler.html#a559a6cf85dc8a764a9f1c195066c5ebd',1,'MIDI_Handler']]],
+  ['programchangehandle_16',['ProgramChangeHandle',['../MIDI__Handler_8h.html#a728235ef95afbfbcdac1fcb209ffff6d',1,'MIDI_Handler.h']]],
+  ['pulsenote_17',['pulseNote',['../classMIDI__Pulse__Mapper.html#a48d7b93b328ab7f332c31036f543eac8',1,'MIDI_Pulse_Mapper']]]
 ];

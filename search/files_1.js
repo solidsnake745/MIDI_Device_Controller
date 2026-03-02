@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['timer_2eh_0',['Timer.h',['../Timer_8h.html',1,'']]],
-  ['timerone_5ftimer_2eh_1',['TimerOne_Timer.h',['../TimerOne__Timer_8h.html',1,'']]]
+  ['midi_5fhandler_2eh_0',['MIDI_Handler.h',['../MIDI__Handler_8h.html',1,'']]],
+  ['midi_5fmessage_2eh_1',['MIDI_Message.h',['../MIDI__Message_8h.html',1,'']]]
 ];

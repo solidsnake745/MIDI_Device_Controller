@@ -1,9 +1,8 @@
 var searchData=
 [
-  ['testoutputs_0',['testOutputs',['../classIO__74HC595.html#a73d75f2b46ca79eff2418538f8a92e4c',1,'IO_74HC595::testOutputs()'],['../classIO__Device.html#a30047ec87f90ee568aed67164d989cdd',1,'IO_Device::testOutputs()'],['../classIO__DigitalWrite.html#a107c09eb81380a704ade8cba56432b4f',1,'IO_DigitalWrite::testOutputs()']]],
-  ['testpitchbend_1',['testPitchBend',['../classBase__MIDI__Pitch__Collection.html#a5198febd187f883fd272a9de597a6c51',1,'Base_MIDI_Pitch_Collection']]],
-  ['togglebit_2',['toggleBit',['../classByteNoteRegister.html#ae7391a6c74909251e5f4998e4b59729b',1,'ByteNoteRegister']]],
-  ['toggleoutput_3',['toggleOutput',['../classIO__74HC595.html#a64b1b8495b9610871739a3b9e3cbd3b0',1,'IO_74HC595::toggleOutput()'],['../classIO__Device.html#ad8495ccd4b3b555481cf51a27a110ae6',1,'IO_Device::toggleOutput()'],['../classIO__DigitalWrite.html#af684d41719731b011b900d92e1aab4dd',1,'IO_DigitalWrite::toggleOutput()']]],
-  ['tryplaynote_4',['tryPlayNote',['../structMIDI__Pitch__Node.html#af970d136f00b58f3ca596512a58a87d4',1,'MIDI_Pitch_Node']]],
-  ['trystopnote_5',['tryStopNote',['../structMIDI__Pitch__Node.html#ae85e344528609c9a947173fed7c1164a',1,'MIDI_Pitch_Node']]]
+  ['removedevice_0',['removeDevice',['../classBase__MIDI__Pitch__Collection.html#a2acb8fc6a2f120d9c58a3e974db6f58d',1,'Base_MIDI_Pitch_Collection']]],
+  ['reset_1',['reset',['../classNoteDuration.html#a78159db2cc34eb6a2129d9322df394ec',1,'NoteDuration::reset()'],['../classBase__MIDI__Pitch__Collection.html#acc54793955b74e27185ea762278f83be',1,'Base_MIDI_Pitch_Collection::reset()'],['../classDirect__Collection.html#ae44349da81dd27ceeb9c92f9a77e6d3b',1,'Direct_Collection::reset()'],['../classFirstAvailable__Collection.html#a59bb97f0fda5ee4c386390d28ffcd916',1,'FirstAvailable_Collection::reset()'],['../classRoundRobin__Collection.html#a62527a62bed695bec6d94395c2b7c2b4',1,'RoundRobin_Collection::reset()'],['../classMIDI__Collection__Controller.html#a162607bc915c5ae638665af42a77406a',1,'MIDI_Collection_Controller::reset(uint8_t index)']]],
+  ['resetall_2',['resetAll',['../classMIDI__Collection__Controller.html#a72f693c97c4c1d6f86aad2a208b50792',1,'MIDI_Collection_Controller']]],
+  ['resetdevicepositions_3',['resetDevicePositions',['../classMIDI__Device__Controller.html#a964476d01d39c2960096339529cf3997',1,'MIDI_Device_Controller']]],
+  ['resetoutputs_4',['resetOutputs',['../classIO__74HC595.html#ac9ef0fd0f7ff053565003577db479ac8',1,'IO_74HC595::resetOutputs()'],['../classIO__Device.html#ac430076e7cd5bd004682d13ba8802771',1,'IO_Device::resetOutputs()'],['../classIO__DigitalWrite.html#a46dffe38e61853b33c51b9663ff9bbe9',1,'IO_DigitalWrite::resetOutputs()']]]
 ];
